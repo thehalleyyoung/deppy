@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: deppy
+Version: 0.1.0
+Summary: Dependent type architecture for Python derived from TensorGuard
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: z3-solver>=4.12

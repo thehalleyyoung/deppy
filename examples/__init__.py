@@ -1,0 +1,1 @@
+"""Curated DepPy example corpus."""

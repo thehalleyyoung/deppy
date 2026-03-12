@@ -1,0 +1,1518 @@
+\contentsline {section}{\numberline {0.1}Problem statement, target behavior, and acceptance criteria}{1}{section.0.1}%
+\contentsline {section}{\numberline {0.2}Design stance: native Python first, rich semantics second, silence never}{1}{section.0.2}%
+\contentsline {section}{\numberline {0.3}Running examples and the target shape of answers}{2}{section.0.3}%
+\contentsline {section}{\numberline {0.4}Semantic kernel: site categories, presheaves, boundaries, and errors}{3}{section.0.4}%
+\contentsline {section}{\numberline {0.5}The information order and the optimization objective}{4}{section.0.5}%
+\contentsline {section}{\numberline {0.6}From native Python source to site covers}{4}{section.0.6}%
+\contentsline {section}{\numberline {0.7}Local stalk theories and decidable kernels}{5}{section.0.7}%
+\contentsline {section}{\numberline {0.8}Bidirectional synthesis: safe input requirements, rich local sections, and maximal output guarantees}{6}{section.0.8}%
+\contentsline {section}{\numberline {0.9}Runtime errors as first-class semantic sites}{6}{section.0.9}%
+\contentsline {section}{\numberline {0.10}Interprocedural transport, wrappers, and local transparency}{7}{section.0.10}%
+\contentsline {section}{\numberline {0.11}Proof-oriented capabilities in native Python: an F*-like surface without leaving Python}{8}{section.0.11}%
+\contentsline {section}{\numberline {0.12}Torch as the flagship library theory}{8}{section.0.12}%
+\contentsline {section}{\numberline {0.13}General Python, protocols, heaps, classes, and exceptions}{9}{section.0.13}%
+\contentsline {section}{\numberline {0.14}Trust boundary, solver boundary, and explicit residuals}{9}{section.0.14}%
+\contentsline {section}{\numberline {0.15}Precise implementation blueprint and migration from the current code base}{10}{section.0.15}%
+\contentsline {section}{\numberline {0.16}Package-by-package implementation blueprint}{10}{section.0.16}%
+\contentsline {subsection}{\numberline {0.16.1}Package \py {src/deppy/assist}}{10}{subsection.0.16.1}%
+\contentsline {paragraph}{Current and continuing responsibility.}{10}{section*.2}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{11}{section*.3}%
+\contentsline {paragraph}{Required additions.}{11}{section*.4}%
+\contentsline {paragraph}{Acceptance criteria.}{11}{section*.5}%
+\contentsline {subsection}{\numberline {0.16.2}Package \py {src/deppy/contracts}}{11}{subsection.0.16.2}%
+\contentsline {paragraph}{Current and continuing responsibility.}{11}{section*.6}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{11}{section*.7}%
+\contentsline {paragraph}{Required additions.}{11}{section*.8}%
+\contentsline {paragraph}{Acceptance criteria.}{11}{section*.9}%
+\contentsline {subsection}{\numberline {0.16.3}Package \py {src/deppy/core}}{11}{subsection.0.16.3}%
+\contentsline {paragraph}{Current and continuing responsibility.}{11}{section*.10}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{11}{section*.11}%
+\contentsline {paragraph}{Required additions.}{12}{section*.12}%
+\contentsline {paragraph}{Acceptance criteria.}{12}{section*.13}%
+\contentsline {subsection}{\numberline {0.16.4}Package \py {src/deppy/frontend}}{12}{subsection.0.16.4}%
+\contentsline {paragraph}{Current and continuing responsibility.}{12}{section*.14}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{12}{section*.15}%
+\contentsline {paragraph}{Required additions.}{12}{section*.16}%
+\contentsline {paragraph}{Acceptance criteria.}{12}{section*.17}%
+\contentsline {subsection}{\numberline {0.16.5}Package \py {src/deppy/generate}}{12}{subsection.0.16.5}%
+\contentsline {paragraph}{Current and continuing responsibility.}{12}{section*.18}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{12}{section*.19}%
+\contentsline {paragraph}{Required additions.}{12}{section*.20}%
+\contentsline {paragraph}{Acceptance criteria.}{12}{section*.21}%
+\contentsline {subsection}{\numberline {0.16.6}Package \py {src/deppy/harvest}}{13}{subsection.0.16.6}%
+\contentsline {paragraph}{Current and continuing responsibility.}{13}{section*.22}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{13}{section*.23}%
+\contentsline {paragraph}{Required additions.}{13}{section*.24}%
+\contentsline {paragraph}{Acceptance criteria.}{13}{section*.25}%
+\contentsline {subsection}{\numberline {0.16.7}Package \py {src/deppy/interprocedural}}{13}{subsection.0.16.7}%
+\contentsline {paragraph}{Current and continuing responsibility.}{13}{section*.26}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{13}{section*.27}%
+\contentsline {paragraph}{Required additions.}{13}{section*.28}%
+\contentsline {paragraph}{Acceptance criteria.}{13}{section*.29}%
+\contentsline {subsection}{\numberline {0.16.8}Package \py {src/deppy/kernel}}{13}{subsection.0.16.8}%
+\contentsline {paragraph}{Current and continuing responsibility.}{13}{section*.30}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{14}{section*.31}%
+\contentsline {paragraph}{Required additions.}{14}{section*.32}%
+\contentsline {paragraph}{Acceptance criteria.}{14}{section*.33}%
+\contentsline {subsection}{\numberline {0.16.9}Package \py {src/deppy/library_theories}}{14}{subsection.0.16.9}%
+\contentsline {paragraph}{Current and continuing responsibility.}{14}{section*.34}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{14}{section*.35}%
+\contentsline {paragraph}{Required additions.}{14}{section*.36}%
+\contentsline {paragraph}{Acceptance criteria.}{14}{section*.37}%
+\contentsline {subsection}{\numberline {0.16.10}Package \py {src/deppy/native_python}}{14}{subsection.0.16.10}%
+\contentsline {paragraph}{Current and continuing responsibility.}{14}{section*.38}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{14}{section*.39}%
+\contentsline {paragraph}{Required additions.}{14}{section*.40}%
+\contentsline {paragraph}{Acceptance criteria.}{15}{section*.41}%
+\contentsline {subsection}{\numberline {0.16.11}Package \py {src/deppy/normalize}}{15}{subsection.0.16.11}%
+\contentsline {paragraph}{Current and continuing responsibility.}{15}{section*.42}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{15}{section*.43}%
+\contentsline {paragraph}{Required additions.}{15}{section*.44}%
+\contentsline {paragraph}{Acceptance criteria.}{15}{section*.45}%
+\contentsline {subsection}{\numberline {0.16.12}Package \py {src/deppy/observe}}{15}{subsection.0.16.12}%
+\contentsline {paragraph}{Current and continuing responsibility.}{15}{section*.46}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{15}{section*.47}%
+\contentsline {paragraph}{Required additions.}{15}{section*.48}%
+\contentsline {paragraph}{Acceptance criteria.}{15}{section*.49}%
+\contentsline {subsection}{\numberline {0.16.13}Package \py {src/deppy/optimize}}{16}{subsection.0.16.13}%
+\contentsline {paragraph}{Current and continuing responsibility.}{16}{section*.50}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{16}{section*.51}%
+\contentsline {paragraph}{Required additions.}{16}{section*.52}%
+\contentsline {paragraph}{Acceptance criteria.}{16}{section*.53}%
+\contentsline {subsection}{\numberline {0.16.14}Package \py {src/deppy/predicates}}{16}{subsection.0.16.14}%
+\contentsline {paragraph}{Current and continuing responsibility.}{16}{section*.54}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{16}{section*.55}%
+\contentsline {paragraph}{Required additions.}{16}{section*.56}%
+\contentsline {paragraph}{Acceptance criteria.}{16}{section*.57}%
+\contentsline {subsection}{\numberline {0.16.15}Package \py {src/deppy/proof}}{16}{subsection.0.16.15}%
+\contentsline {paragraph}{Current and continuing responsibility.}{16}{section*.58}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{17}{section*.59}%
+\contentsline {paragraph}{Required additions.}{17}{section*.60}%
+\contentsline {paragraph}{Acceptance criteria.}{17}{section*.61}%
+\contentsline {subsection}{\numberline {0.16.16}Package \py {src/deppy/render}}{17}{subsection.0.16.16}%
+\contentsline {paragraph}{Current and continuing responsibility.}{17}{section*.62}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{17}{section*.63}%
+\contentsline {paragraph}{Required additions.}{17}{section*.64}%
+\contentsline {paragraph}{Acceptance criteria.}{17}{section*.65}%
+\contentsline {subsection}{\numberline {0.16.17}Package \py {src/deppy/solver}}{17}{subsection.0.16.17}%
+\contentsline {paragraph}{Current and continuing responsibility.}{17}{section*.66}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{17}{section*.67}%
+\contentsline {paragraph}{Required additions.}{17}{section*.68}%
+\contentsline {paragraph}{Acceptance criteria.}{18}{section*.69}%
+\contentsline {subsection}{\numberline {0.16.18}Package \py {src/deppy/static_analysis}}{18}{subsection.0.16.18}%
+\contentsline {paragraph}{Current and continuing responsibility.}{18}{section*.70}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{18}{section*.71}%
+\contentsline {paragraph}{Required additions.}{18}{section*.72}%
+\contentsline {paragraph}{Acceptance criteria.}{18}{section*.73}%
+\contentsline {subsection}{\numberline {0.16.19}Package \py {src/deppy/surface}}{18}{subsection.0.16.19}%
+\contentsline {paragraph}{Current and continuing responsibility.}{18}{section*.74}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{18}{section*.75}%
+\contentsline {paragraph}{Required additions.}{18}{section*.76}%
+\contentsline {paragraph}{Acceptance criteria.}{18}{section*.77}%
+\contentsline {subsection}{\numberline {0.16.20}Package \py {src/deppy/types}}{19}{subsection.0.16.20}%
+\contentsline {paragraph}{Current and continuing responsibility.}{19}{section*.78}%
+\contentsline {paragraph}{Role under sheaf-descent semantics.}{19}{section*.79}%
+\contentsline {paragraph}{Required additions.}{19}{section*.80}%
+\contentsline {paragraph}{Acceptance criteria.}{19}{section*.81}%
+\contentsline {section}{\numberline {0.17}Site-family catalogue}{19}{section.0.17}%
+\contentsline {subsection}{\numberline {0.17.1}Argument-boundary sites}{19}{subsection.0.17.1}%
+\contentsline {paragraph}{Program fragment represented.}{19}{section*.82}%
+\contentsline {paragraph}{Primary semantic purpose.}{19}{section*.83}%
+\contentsline {paragraph}{Concrete representation.}{19}{section*.84}%
+\contentsline {paragraph}{Backward and forward behavior.}{19}{section*.85}%
+\contentsline {subsection}{\numberline {0.17.2}Return and output-boundary sites}{20}{subsection.0.17.2}%
+\contentsline {paragraph}{Program fragment represented.}{20}{section*.86}%
+\contentsline {paragraph}{Primary semantic purpose.}{20}{section*.87}%
+\contentsline {paragraph}{Concrete representation.}{20}{section*.88}%
+\contentsline {paragraph}{Backward and forward behavior.}{20}{section*.89}%
+\contentsline {subsection}{\numberline {0.17.3}SSA-value sites}{20}{subsection.0.17.3}%
+\contentsline {paragraph}{Program fragment represented.}{20}{section*.90}%
+\contentsline {paragraph}{Primary semantic purpose.}{20}{section*.91}%
+\contentsline {paragraph}{Concrete representation.}{20}{section*.92}%
+\contentsline {paragraph}{Backward and forward behavior.}{20}{section*.93}%
+\contentsline {subsection}{\numberline {0.17.4}Branch-guard sites}{20}{subsection.0.17.4}%
+\contentsline {paragraph}{Program fragment represented.}{20}{section*.94}%
+\contentsline {paragraph}{Primary semantic purpose.}{20}{section*.95}%
+\contentsline {paragraph}{Concrete representation.}{21}{section*.96}%
+\contentsline {paragraph}{Backward and forward behavior.}{21}{section*.97}%
+\contentsline {subsection}{\numberline {0.17.5}Call-result sites}{21}{subsection.0.17.5}%
+\contentsline {paragraph}{Program fragment represented.}{21}{section*.98}%
+\contentsline {paragraph}{Primary semantic purpose.}{21}{section*.99}%
+\contentsline {paragraph}{Concrete representation.}{21}{section*.100}%
+\contentsline {paragraph}{Backward and forward behavior.}{21}{section*.101}%
+\contentsline {subsection}{\numberline {0.17.6}Tensor-shape sites}{21}{subsection.0.17.6}%
+\contentsline {paragraph}{Program fragment represented.}{21}{section*.102}%
+\contentsline {paragraph}{Primary semantic purpose.}{21}{section*.103}%
+\contentsline {paragraph}{Concrete representation.}{21}{section*.104}%
+\contentsline {paragraph}{Backward and forward behavior.}{21}{section*.105}%
+\contentsline {subsection}{\numberline {0.17.7}Tensor-order sites}{22}{subsection.0.17.7}%
+\contentsline {paragraph}{Program fragment represented.}{22}{section*.106}%
+\contentsline {paragraph}{Primary semantic purpose.}{22}{section*.107}%
+\contentsline {paragraph}{Concrete representation.}{22}{section*.108}%
+\contentsline {paragraph}{Backward and forward behavior.}{22}{section*.109}%
+\contentsline {subsection}{\numberline {0.17.8}Tensor-indexing sites}{22}{subsection.0.17.8}%
+\contentsline {paragraph}{Program fragment represented.}{22}{section*.110}%
+\contentsline {paragraph}{Primary semantic purpose.}{22}{section*.111}%
+\contentsline {paragraph}{Concrete representation.}{22}{section*.112}%
+\contentsline {paragraph}{Backward and forward behavior.}{22}{section*.113}%
+\contentsline {subsection}{\numberline {0.17.9}Heap/protocol sites}{22}{subsection.0.17.9}%
+\contentsline {paragraph}{Program fragment represented.}{22}{section*.114}%
+\contentsline {paragraph}{Primary semantic purpose.}{22}{section*.115}%
+\contentsline {paragraph}{Concrete representation.}{23}{section*.116}%
+\contentsline {paragraph}{Backward and forward behavior.}{23}{section*.117}%
+\contentsline {subsection}{\numberline {0.17.10}Proof sites}{23}{subsection.0.17.10}%
+\contentsline {paragraph}{Program fragment represented.}{23}{section*.118}%
+\contentsline {paragraph}{Primary semantic purpose.}{23}{section*.119}%
+\contentsline {paragraph}{Concrete representation.}{23}{section*.120}%
+\contentsline {paragraph}{Backward and forward behavior.}{23}{section*.121}%
+\contentsline {subsection}{\numberline {0.17.11}Trace sites}{23}{subsection.0.17.11}%
+\contentsline {paragraph}{Program fragment represented.}{23}{section*.122}%
+\contentsline {paragraph}{Primary semantic purpose.}{23}{section*.123}%
+\contentsline {paragraph}{Concrete representation.}{23}{section*.124}%
+\contentsline {paragraph}{Backward and forward behavior.}{23}{section*.125}%
+\contentsline {subsection}{\numberline {0.17.12}Error sites}{24}{subsection.0.17.12}%
+\contentsline {paragraph}{Program fragment represented.}{24}{section*.126}%
+\contentsline {paragraph}{Primary semantic purpose.}{24}{section*.127}%
+\contentsline {paragraph}{Concrete representation.}{24}{section*.128}%
+\contentsline {paragraph}{Backward and forward behavior.}{24}{section*.129}%
+\contentsline {subsection}{\numberline {0.17.13}Loop-header and invariant sites}{24}{subsection.0.17.13}%
+\contentsline {paragraph}{Program fragment represented.}{24}{section*.130}%
+\contentsline {paragraph}{Primary semantic purpose.}{24}{section*.131}%
+\contentsline {paragraph}{Concrete representation.}{24}{section*.132}%
+\contentsline {paragraph}{Backward and forward behavior.}{24}{section*.133}%
+\contentsline {subsection}{\numberline {0.17.14}Module-summary sites}{24}{subsection.0.17.14}%
+\contentsline {paragraph}{Program fragment represented.}{24}{section*.134}%
+\contentsline {paragraph}{Primary semantic purpose.}{24}{section*.135}%
+\contentsline {paragraph}{Concrete representation.}{25}{section*.136}%
+\contentsline {paragraph}{Backward and forward behavior.}{25}{section*.137}%
+\contentsline {section}{\numberline {0.18}Theory-family catalogue}{25}{section.0.18}%
+\contentsline {subsection}{\numberline {0.18.1}Linear arithmetic and intervals}{25}{subsection.0.18.1}%
+\contentsline {paragraph}{Logical vocabulary.}{25}{section*.138}%
+\contentsline {paragraph}{Program evidence source.}{25}{section*.139}%
+\contentsline {paragraph}{Local solving discipline.}{25}{section*.140}%
+\contentsline {paragraph}{Why it belongs in the core story.}{25}{section*.141}%
+\contentsline {subsection}{\numberline {0.18.2}Boolean guard theory}{25}{subsection.0.18.2}%
+\contentsline {paragraph}{Logical vocabulary.}{25}{section*.142}%
+\contentsline {paragraph}{Program evidence source.}{25}{section*.143}%
+\contentsline {paragraph}{Local solving discipline.}{25}{section*.144}%
+\contentsline {paragraph}{Why it belongs in the core story.}{26}{section*.145}%
+\contentsline {subsection}{\numberline {0.18.3}Nullability and optionality}{26}{subsection.0.18.3}%
+\contentsline {paragraph}{Logical vocabulary.}{26}{section*.146}%
+\contentsline {paragraph}{Program evidence source.}{26}{section*.147}%
+\contentsline {paragraph}{Local solving discipline.}{26}{section*.148}%
+\contentsline {paragraph}{Why it belongs in the core story.}{26}{section*.149}%
+\contentsline {subsection}{\numberline {0.18.4}Heap and protocol theory}{26}{subsection.0.18.4}%
+\contentsline {paragraph}{Logical vocabulary.}{26}{section*.150}%
+\contentsline {paragraph}{Program evidence source.}{26}{section*.151}%
+\contentsline {paragraph}{Local solving discipline.}{26}{section*.152}%
+\contentsline {paragraph}{Why it belongs in the core story.}{26}{section*.153}%
+\contentsline {subsection}{\numberline {0.18.5}Tensor shape theory}{26}{subsection.0.18.5}%
+\contentsline {paragraph}{Logical vocabulary.}{26}{section*.154}%
+\contentsline {paragraph}{Program evidence source.}{27}{section*.155}%
+\contentsline {paragraph}{Local solving discipline.}{27}{section*.156}%
+\contentsline {paragraph}{Why it belongs in the core story.}{27}{section*.157}%
+\contentsline {subsection}{\numberline {0.18.6}Tensor order theory}{27}{subsection.0.18.6}%
+\contentsline {paragraph}{Logical vocabulary.}{27}{section*.158}%
+\contentsline {paragraph}{Program evidence source.}{27}{section*.159}%
+\contentsline {paragraph}{Local solving discipline.}{27}{section*.160}%
+\contentsline {paragraph}{Why it belongs in the core story.}{27}{section*.161}%
+\contentsline {subsection}{\numberline {0.18.7}Tensor indexing theory}{27}{subsection.0.18.7}%
+\contentsline {paragraph}{Logical vocabulary.}{27}{section*.162}%
+\contentsline {paragraph}{Program evidence source.}{27}{section*.163}%
+\contentsline {paragraph}{Local solving discipline.}{27}{section*.164}%
+\contentsline {paragraph}{Why it belongs in the core story.}{28}{section*.165}%
+\contentsline {subsection}{\numberline {0.18.8}Device and dtype compatibility theory}{28}{subsection.0.18.8}%
+\contentsline {paragraph}{Logical vocabulary.}{28}{section*.166}%
+\contentsline {paragraph}{Program evidence source.}{28}{section*.167}%
+\contentsline {paragraph}{Local solving discipline.}{28}{section*.168}%
+\contentsline {paragraph}{Why it belongs in the core story.}{28}{section*.169}%
+\contentsline {subsection}{\numberline {0.18.9}Sequence and collection theory}{28}{subsection.0.18.9}%
+\contentsline {paragraph}{Logical vocabulary.}{28}{section*.170}%
+\contentsline {paragraph}{Program evidence source.}{28}{section*.171}%
+\contentsline {paragraph}{Local solving discipline.}{28}{section*.172}%
+\contentsline {paragraph}{Why it belongs in the core story.}{28}{section*.173}%
+\contentsline {subsection}{\numberline {0.18.10}Exception theory}{28}{subsection.0.18.10}%
+\contentsline {paragraph}{Logical vocabulary.}{28}{section*.174}%
+\contentsline {paragraph}{Program evidence source.}{29}{section*.175}%
+\contentsline {paragraph}{Local solving discipline.}{29}{section*.176}%
+\contentsline {paragraph}{Why it belongs in the core story.}{29}{section*.177}%
+\contentsline {subsection}{\numberline {0.18.11}Witness and equality transport theory}{29}{subsection.0.18.11}%
+\contentsline {paragraph}{Logical vocabulary.}{29}{section*.178}%
+\contentsline {paragraph}{Program evidence source.}{29}{section*.179}%
+\contentsline {paragraph}{Local solving discipline.}{29}{section*.180}%
+\contentsline {paragraph}{Why it belongs in the core story.}{29}{section*.181}%
+\contentsline {subsection}{\numberline {0.18.12}Loop invariant and decreases theory}{29}{subsection.0.18.12}%
+\contentsline {paragraph}{Logical vocabulary.}{29}{section*.182}%
+\contentsline {paragraph}{Program evidence source.}{29}{section*.183}%
+\contentsline {paragraph}{Local solving discipline.}{29}{section*.184}%
+\contentsline {paragraph}{Why it belongs in the core story.}{30}{section*.185}%
+\contentsline {section}{\numberline {0.19}Algorithmic realization}{30}{section.0.19}%
+\contentsline {subsection}{\numberline {0.19.1}Cover synthesis}{30}{subsection.0.19.1}%
+\contentsline {paragraph}{Implementation note.}{30}{section*.186}%
+\contentsline {subsection}{\numberline {0.19.2}Local solving}{30}{subsection.0.19.2}%
+\contentsline {paragraph}{Implementation note.}{30}{section*.187}%
+\contentsline {subsection}{\numberline {0.19.3}Backward safe-input synthesis}{31}{subsection.0.19.3}%
+\contentsline {paragraph}{Implementation note.}{31}{section*.188}%
+\contentsline {subsection}{\numberline {0.19.4}Forward output synthesis}{31}{subsection.0.19.4}%
+\contentsline {paragraph}{Implementation note.}{31}{section*.189}%
+\contentsline {subsection}{\numberline {0.19.5}Obstruction extraction}{31}{subsection.0.19.5}%
+\contentsline {paragraph}{Implementation note.}{31}{section*.190}%
+\contentsline {subsection}{\numberline {0.19.6}Interprocedural section transport}{32}{subsection.0.19.6}%
+\contentsline {paragraph}{Implementation note.}{32}{section*.191}%
+\contentsline {section}{\numberline {0.20}Native-Python contract and proof surface}{32}{section.0.20}%
+\contentsline {section}{\numberline {0.21}Example corpus and benchmark expectations}{33}{section.0.21}%
+\contentsline {subsection}{\numberline {0.21.1}\py {examples/protocol_mismatch.py}}{33}{subsection.0.21.1}%
+\contentsline {paragraph}{Primary focus.}{33}{section*.192}%
+\contentsline {paragraph}{Desired success condition.}{33}{section*.193}%
+\contentsline {subsection}{\numberline {0.21.2}\py {examples/heap_field_mismatch.py}}{33}{subsection.0.21.2}%
+\contentsline {paragraph}{Primary focus.}{33}{section*.194}%
+\contentsline {paragraph}{Desired success condition.}{33}{section*.195}%
+\contentsline {subsection}{\numberline {0.21.3}\py {examples/safe_guarded_head.py}}{33}{subsection.0.21.3}%
+\contentsline {paragraph}{Primary focus.}{33}{section*.196}%
+\contentsline {paragraph}{Desired success condition.}{33}{section*.197}%
+\contentsline {subsection}{\numberline {0.21.4}\py {examples/pytorch_shape_bug_from_tensorguard.py}}{33}{subsection.0.21.4}%
+\contentsline {paragraph}{Primary focus.}{33}{section*.198}%
+\contentsline {paragraph}{Desired success condition.}{33}{section*.199}%
+\contentsline {subsection}{\numberline {0.21.5}\py {examples/pytorch_sort_bad_return.py}}{34}{subsection.0.21.5}%
+\contentsline {paragraph}{Primary focus.}{34}{section*.200}%
+\contentsline {paragraph}{Desired success condition.}{34}{section*.201}%
+\contentsline {subsection}{\numberline {0.21.6}\py {examples/pytorch_semantic_showcase.py}}{34}{subsection.0.21.6}%
+\contentsline {paragraph}{Primary focus.}{34}{section*.202}%
+\contentsline {paragraph}{Desired success condition.}{34}{section*.203}%
+\contentsline {subsection}{\numberline {0.21.7}\py {examples/pytorch_long_capability_audit.py}}{34}{subsection.0.21.7}%
+\contentsline {paragraph}{Primary focus.}{34}{section*.204}%
+\contentsline {paragraph}{Desired success condition.}{34}{section*.205}%
+\contentsline {subsection}{\numberline {0.21.8}\py {examples/dependent_sigma_witness.py}}{34}{subsection.0.21.8}%
+\contentsline {paragraph}{Primary focus.}{34}{section*.206}%
+\contentsline {paragraph}{Desired success condition.}{34}{section*.207}%
+\contentsline {subsection}{\numberline {0.21.9}\py {examples/constructor_usage_bug.py}}{34}{subsection.0.21.9}%
+\contentsline {paragraph}{Primary focus.}{34}{section*.208}%
+\contentsline {paragraph}{Desired success condition.}{34}{section*.209}%
+\contentsline {subsection}{\numberline {0.21.10}\py {examples/heap_protocol_branch_bug.py}}{35}{subsection.0.21.10}%
+\contentsline {paragraph}{Primary focus.}{35}{section*.210}%
+\contentsline {paragraph}{Desired success condition.}{35}{section*.211}%
+\contentsline {subsection}{\numberline {0.21.11}\py {examples/mixed_mode_sort_equivalence.py}}{35}{subsection.0.21.11}%
+\contentsline {paragraph}{Primary focus.}{35}{section*.212}%
+\contentsline {paragraph}{Desired success condition.}{35}{section*.213}%
+\contentsline {subsection}{\numberline {0.21.12}\py {examples/theorem_carrying_benchmark.proof}}{35}{subsection.0.21.12}%
+\contentsline {paragraph}{Primary focus.}{35}{section*.214}%
+\contentsline {paragraph}{Desired success condition.}{35}{section*.215}%
+\contentsline {section}{\numberline {0.22}Runtime-error catalogue and safety synthesis}{35}{section.0.22}%
+\contentsline {subsection}{\numberline {0.22.1}IndexError on standard sequences}{35}{subsection.0.22.1}%
+\contentsline {paragraph}{Local cause.}{35}{section*.216}%
+\contentsline {paragraph}{Backward viability strategy.}{35}{section*.217}%
+\contentsline {paragraph}{Expected rendered outcome.}{35}{section*.218}%
+\contentsline {subsection}{\numberline {0.22.2}KeyError on mappings}{36}{subsection.0.22.2}%
+\contentsline {paragraph}{Local cause.}{36}{section*.219}%
+\contentsline {paragraph}{Backward viability strategy.}{36}{section*.220}%
+\contentsline {paragraph}{Expected rendered outcome.}{36}{section*.221}%
+\contentsline {subsection}{\numberline {0.22.3}AttributeError}{36}{subsection.0.22.3}%
+\contentsline {paragraph}{Local cause.}{36}{section*.222}%
+\contentsline {paragraph}{Backward viability strategy.}{36}{section*.223}%
+\contentsline {paragraph}{Expected rendered outcome.}{36}{section*.224}%
+\contentsline {subsection}{\numberline {0.22.4}TypeError from wrong callable or wrong operand}{36}{subsection.0.22.4}%
+\contentsline {paragraph}{Local cause.}{36}{section*.225}%
+\contentsline {paragraph}{Backward viability strategy.}{36}{section*.226}%
+\contentsline {paragraph}{Expected rendered outcome.}{36}{section*.227}%
+\contentsline {subsection}{\numberline {0.22.5}ValueError from invalid reshape or view}{36}{subsection.0.22.5}%
+\contentsline {paragraph}{Local cause.}{36}{section*.228}%
+\contentsline {paragraph}{Backward viability strategy.}{37}{section*.229}%
+\contentsline {paragraph}{Expected rendered outcome.}{37}{section*.230}%
+\contentsline {subsection}{\numberline {0.22.6}RuntimeError from broadcast mismatch}{37}{subsection.0.22.6}%
+\contentsline {paragraph}{Local cause.}{37}{section*.231}%
+\contentsline {paragraph}{Backward viability strategy.}{37}{section*.232}%
+\contentsline {paragraph}{Expected rendered outcome.}{37}{section*.233}%
+\contentsline {subsection}{\numberline {0.22.7}Out-of-range gather/index-select}{37}{subsection.0.22.7}%
+\contentsline {paragraph}{Local cause.}{37}{section*.234}%
+\contentsline {paragraph}{Backward viability strategy.}{37}{section*.235}%
+\contentsline {paragraph}{Expected rendered outcome.}{37}{section*.236}%
+\contentsline {subsection}{\numberline {0.22.8}Reduction on an empty dimension}{37}{subsection.0.22.8}%
+\contentsline {paragraph}{Local cause.}{37}{section*.237}%
+\contentsline {paragraph}{Backward viability strategy.}{37}{section*.238}%
+\contentsline {paragraph}{Expected rendered outcome.}{37}{section*.239}%
+\contentsline {subsection}{\numberline {0.22.9}Device mismatch}{38}{subsection.0.22.9}%
+\contentsline {paragraph}{Local cause.}{38}{section*.240}%
+\contentsline {paragraph}{Backward viability strategy.}{38}{section*.241}%
+\contentsline {paragraph}{Expected rendered outcome.}{38}{section*.242}%
+\contentsline {subsection}{\numberline {0.22.10}Unsupported dtype/operator combination}{38}{subsection.0.22.10}%
+\contentsline {paragraph}{Local cause.}{38}{section*.243}%
+\contentsline {paragraph}{Backward viability strategy.}{38}{section*.244}%
+\contentsline {paragraph}{Expected rendered outcome.}{38}{section*.245}%
+\contentsline {subsection}{\numberline {0.22.11}ZeroDivisionError}{38}{subsection.0.22.11}%
+\contentsline {paragraph}{Local cause.}{38}{section*.246}%
+\contentsline {paragraph}{Backward viability strategy.}{38}{section*.247}%
+\contentsline {paragraph}{Expected rendered outcome.}{38}{section*.248}%
+\contentsline {subsection}{\numberline {0.22.12}Assertion failure}{38}{subsection.0.22.12}%
+\contentsline {paragraph}{Local cause.}{38}{section*.249}%
+\contentsline {paragraph}{Backward viability strategy.}{38}{section*.250}%
+\contentsline {paragraph}{Expected rendered outcome.}{39}{section*.251}%
+\contentsline {subsection}{\numberline {0.22.13}Constructor invariant failure}{39}{subsection.0.22.13}%
+\contentsline {paragraph}{Local cause.}{39}{section*.252}%
+\contentsline {paragraph}{Backward viability strategy.}{39}{section*.253}%
+\contentsline {paragraph}{Expected rendered outcome.}{39}{section*.254}%
+\contentsline {subsection}{\numberline {0.22.14}Protocol misuse in method dispatch}{39}{subsection.0.22.14}%
+\contentsline {paragraph}{Local cause.}{39}{section*.255}%
+\contentsline {paragraph}{Backward viability strategy.}{39}{section*.256}%
+\contentsline {paragraph}{Expected rendered outcome.}{39}{section*.257}%
+\contentsline {subsection}{\numberline {0.22.15}Proof transport failure}{39}{subsection.0.22.15}%
+\contentsline {paragraph}{Local cause.}{39}{section*.258}%
+\contentsline {paragraph}{Backward viability strategy.}{39}{section*.259}%
+\contentsline {paragraph}{Expected rendered outcome.}{39}{section*.260}%
+\contentsline {subsection}{\numberline {0.22.16}Decreases or invariant failure}{40}{subsection.0.22.16}%
+\contentsline {paragraph}{Local cause.}{40}{section*.261}%
+\contentsline {paragraph}{Backward viability strategy.}{40}{section*.262}%
+\contentsline {paragraph}{Expected rendered outcome.}{40}{section*.263}%
+\contentsline {section}{\numberline {0.23}Cross-component interaction profiles}{40}{section.0.23}%
+\contentsline {subsection}{\numberline {0.23.1}Interaction: Argument-boundary sites with Linear arithmetic and intervals}{40}{subsection.0.23.1}%
+\contentsline {paragraph}{Why the interaction matters.}{40}{section*.264}%
+\contentsline {paragraph}{Concrete implementation rule.}{40}{section*.265}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{40}{section*.266}%
+\contentsline {paragraph}{Suggested test shape.}{40}{section*.267}%
+\contentsline {subsection}{\numberline {0.23.2}Interaction: Argument-boundary sites with Boolean guard theory}{40}{subsection.0.23.2}%
+\contentsline {paragraph}{Why the interaction matters.}{40}{section*.268}%
+\contentsline {paragraph}{Concrete implementation rule.}{41}{section*.269}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{41}{section*.270}%
+\contentsline {paragraph}{Suggested test shape.}{41}{section*.271}%
+\contentsline {subsection}{\numberline {0.23.3}Interaction: Argument-boundary sites with Nullability and optionality}{41}{subsection.0.23.3}%
+\contentsline {paragraph}{Why the interaction matters.}{41}{section*.272}%
+\contentsline {paragraph}{Concrete implementation rule.}{41}{section*.273}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{41}{section*.274}%
+\contentsline {paragraph}{Suggested test shape.}{41}{section*.275}%
+\contentsline {subsection}{\numberline {0.23.4}Interaction: Argument-boundary sites with Heap and protocol theory}{41}{subsection.0.23.4}%
+\contentsline {paragraph}{Why the interaction matters.}{41}{section*.276}%
+\contentsline {paragraph}{Concrete implementation rule.}{41}{section*.277}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{42}{section*.278}%
+\contentsline {paragraph}{Suggested test shape.}{42}{section*.279}%
+\contentsline {subsection}{\numberline {0.23.5}Interaction: Argument-boundary sites with Tensor shape theory}{42}{subsection.0.23.5}%
+\contentsline {paragraph}{Why the interaction matters.}{42}{section*.280}%
+\contentsline {paragraph}{Concrete implementation rule.}{42}{section*.281}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{42}{section*.282}%
+\contentsline {paragraph}{Suggested test shape.}{42}{section*.283}%
+\contentsline {subsection}{\numberline {0.23.6}Interaction: Argument-boundary sites with Tensor order theory}{42}{subsection.0.23.6}%
+\contentsline {paragraph}{Why the interaction matters.}{42}{section*.284}%
+\contentsline {paragraph}{Concrete implementation rule.}{42}{section*.285}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{42}{section*.286}%
+\contentsline {paragraph}{Suggested test shape.}{43}{section*.287}%
+\contentsline {subsection}{\numberline {0.23.7}Interaction: Argument-boundary sites with Tensor indexing theory}{43}{subsection.0.23.7}%
+\contentsline {paragraph}{Why the interaction matters.}{43}{section*.288}%
+\contentsline {paragraph}{Concrete implementation rule.}{43}{section*.289}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{43}{section*.290}%
+\contentsline {paragraph}{Suggested test shape.}{43}{section*.291}%
+\contentsline {subsection}{\numberline {0.23.8}Interaction: Argument-boundary sites with Device and dtype compatibility theory}{43}{subsection.0.23.8}%
+\contentsline {paragraph}{Why the interaction matters.}{43}{section*.292}%
+\contentsline {paragraph}{Concrete implementation rule.}{43}{section*.293}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{43}{section*.294}%
+\contentsline {paragraph}{Suggested test shape.}{43}{section*.295}%
+\contentsline {subsection}{\numberline {0.23.9}Interaction: Argument-boundary sites with Sequence and collection theory}{44}{subsection.0.23.9}%
+\contentsline {paragraph}{Why the interaction matters.}{44}{section*.296}%
+\contentsline {paragraph}{Concrete implementation rule.}{44}{section*.297}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{44}{section*.298}%
+\contentsline {paragraph}{Suggested test shape.}{44}{section*.299}%
+\contentsline {subsection}{\numberline {0.23.10}Interaction: Argument-boundary sites with Exception theory}{44}{subsection.0.23.10}%
+\contentsline {paragraph}{Why the interaction matters.}{44}{section*.300}%
+\contentsline {paragraph}{Concrete implementation rule.}{44}{section*.301}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{44}{section*.302}%
+\contentsline {paragraph}{Suggested test shape.}{44}{section*.303}%
+\contentsline {subsection}{\numberline {0.23.11}Interaction: Argument-boundary sites with Witness and equality transport theory}{44}{subsection.0.23.11}%
+\contentsline {paragraph}{Why the interaction matters.}{44}{section*.304}%
+\contentsline {paragraph}{Concrete implementation rule.}{45}{section*.305}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{45}{section*.306}%
+\contentsline {paragraph}{Suggested test shape.}{45}{section*.307}%
+\contentsline {subsection}{\numberline {0.23.12}Interaction: Argument-boundary sites with Loop invariant and decreases theory}{45}{subsection.0.23.12}%
+\contentsline {paragraph}{Why the interaction matters.}{45}{section*.308}%
+\contentsline {paragraph}{Concrete implementation rule.}{45}{section*.309}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{45}{section*.310}%
+\contentsline {paragraph}{Suggested test shape.}{45}{section*.311}%
+\contentsline {subsection}{\numberline {0.23.13}Interaction: Return and output-boundary sites with Linear arithmetic and intervals}{45}{subsection.0.23.13}%
+\contentsline {paragraph}{Why the interaction matters.}{45}{section*.312}%
+\contentsline {paragraph}{Concrete implementation rule.}{46}{section*.313}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{46}{section*.314}%
+\contentsline {paragraph}{Suggested test shape.}{46}{section*.315}%
+\contentsline {subsection}{\numberline {0.23.14}Interaction: Return and output-boundary sites with Boolean guard theory}{46}{subsection.0.23.14}%
+\contentsline {paragraph}{Why the interaction matters.}{46}{section*.316}%
+\contentsline {paragraph}{Concrete implementation rule.}{46}{section*.317}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{46}{section*.318}%
+\contentsline {paragraph}{Suggested test shape.}{46}{section*.319}%
+\contentsline {subsection}{\numberline {0.23.15}Interaction: Return and output-boundary sites with Nullability and optionality}{46}{subsection.0.23.15}%
+\contentsline {paragraph}{Why the interaction matters.}{46}{section*.320}%
+\contentsline {paragraph}{Concrete implementation rule.}{47}{section*.321}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{47}{section*.322}%
+\contentsline {paragraph}{Suggested test shape.}{47}{section*.323}%
+\contentsline {subsection}{\numberline {0.23.16}Interaction: Return and output-boundary sites with Heap and protocol theory}{47}{subsection.0.23.16}%
+\contentsline {paragraph}{Why the interaction matters.}{47}{section*.324}%
+\contentsline {paragraph}{Concrete implementation rule.}{47}{section*.325}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{47}{section*.326}%
+\contentsline {paragraph}{Suggested test shape.}{47}{section*.327}%
+\contentsline {subsection}{\numberline {0.23.17}Interaction: Return and output-boundary sites with Tensor shape theory}{47}{subsection.0.23.17}%
+\contentsline {paragraph}{Why the interaction matters.}{47}{section*.328}%
+\contentsline {paragraph}{Concrete implementation rule.}{48}{section*.329}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{48}{section*.330}%
+\contentsline {paragraph}{Suggested test shape.}{48}{section*.331}%
+\contentsline {subsection}{\numberline {0.23.18}Interaction: Return and output-boundary sites with Tensor order theory}{48}{subsection.0.23.18}%
+\contentsline {paragraph}{Why the interaction matters.}{48}{section*.332}%
+\contentsline {paragraph}{Concrete implementation rule.}{48}{section*.333}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{48}{section*.334}%
+\contentsline {paragraph}{Suggested test shape.}{48}{section*.335}%
+\contentsline {subsection}{\numberline {0.23.19}Interaction: Return and output-boundary sites with Tensor indexing theory}{48}{subsection.0.23.19}%
+\contentsline {paragraph}{Why the interaction matters.}{48}{section*.336}%
+\contentsline {paragraph}{Concrete implementation rule.}{48}{section*.337}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{49}{section*.338}%
+\contentsline {paragraph}{Suggested test shape.}{49}{section*.339}%
+\contentsline {subsection}{\numberline {0.23.20}Interaction: Return and output-boundary sites with Device and dtype compatibility theory}{49}{subsection.0.23.20}%
+\contentsline {paragraph}{Why the interaction matters.}{49}{section*.340}%
+\contentsline {paragraph}{Concrete implementation rule.}{49}{section*.341}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{49}{section*.342}%
+\contentsline {paragraph}{Suggested test shape.}{49}{section*.343}%
+\contentsline {subsection}{\numberline {0.23.21}Interaction: Return and output-boundary sites with Sequence and collection theory}{49}{subsection.0.23.21}%
+\contentsline {paragraph}{Why the interaction matters.}{49}{section*.344}%
+\contentsline {paragraph}{Concrete implementation rule.}{49}{section*.345}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{50}{section*.346}%
+\contentsline {paragraph}{Suggested test shape.}{50}{section*.347}%
+\contentsline {subsection}{\numberline {0.23.22}Interaction: Return and output-boundary sites with Exception theory}{50}{subsection.0.23.22}%
+\contentsline {paragraph}{Why the interaction matters.}{50}{section*.348}%
+\contentsline {paragraph}{Concrete implementation rule.}{50}{section*.349}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{50}{section*.350}%
+\contentsline {paragraph}{Suggested test shape.}{50}{section*.351}%
+\contentsline {subsection}{\numberline {0.23.23}Interaction: Return and output-boundary sites with Witness and equality transport theory}{50}{subsection.0.23.23}%
+\contentsline {paragraph}{Why the interaction matters.}{50}{section*.352}%
+\contentsline {paragraph}{Concrete implementation rule.}{50}{section*.353}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{50}{section*.354}%
+\contentsline {paragraph}{Suggested test shape.}{51}{section*.355}%
+\contentsline {subsection}{\numberline {0.23.24}Interaction: Return and output-boundary sites with Loop invariant and decreases theory}{51}{subsection.0.23.24}%
+\contentsline {paragraph}{Why the interaction matters.}{51}{section*.356}%
+\contentsline {paragraph}{Concrete implementation rule.}{51}{section*.357}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{51}{section*.358}%
+\contentsline {paragraph}{Suggested test shape.}{51}{section*.359}%
+\contentsline {subsection}{\numberline {0.23.25}Interaction: SSA-value sites with Linear arithmetic and intervals}{51}{subsection.0.23.25}%
+\contentsline {paragraph}{Why the interaction matters.}{51}{section*.360}%
+\contentsline {paragraph}{Concrete implementation rule.}{51}{section*.361}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{51}{section*.362}%
+\contentsline {paragraph}{Suggested test shape.}{51}{section*.363}%
+\contentsline {subsection}{\numberline {0.23.26}Interaction: SSA-value sites with Boolean guard theory}{52}{subsection.0.23.26}%
+\contentsline {paragraph}{Why the interaction matters.}{52}{section*.364}%
+\contentsline {paragraph}{Concrete implementation rule.}{52}{section*.365}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{52}{section*.366}%
+\contentsline {paragraph}{Suggested test shape.}{52}{section*.367}%
+\contentsline {subsection}{\numberline {0.23.27}Interaction: SSA-value sites with Nullability and optionality}{52}{subsection.0.23.27}%
+\contentsline {paragraph}{Why the interaction matters.}{52}{section*.368}%
+\contentsline {paragraph}{Concrete implementation rule.}{52}{section*.369}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{52}{section*.370}%
+\contentsline {paragraph}{Suggested test shape.}{52}{section*.371}%
+\contentsline {subsection}{\numberline {0.23.28}Interaction: SSA-value sites with Heap and protocol theory}{52}{subsection.0.23.28}%
+\contentsline {paragraph}{Why the interaction matters.}{52}{section*.372}%
+\contentsline {paragraph}{Concrete implementation rule.}{53}{section*.373}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{53}{section*.374}%
+\contentsline {paragraph}{Suggested test shape.}{53}{section*.375}%
+\contentsline {subsection}{\numberline {0.23.29}Interaction: SSA-value sites with Tensor shape theory}{53}{subsection.0.23.29}%
+\contentsline {paragraph}{Why the interaction matters.}{53}{section*.376}%
+\contentsline {paragraph}{Concrete implementation rule.}{53}{section*.377}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{53}{section*.378}%
+\contentsline {paragraph}{Suggested test shape.}{53}{section*.379}%
+\contentsline {subsection}{\numberline {0.23.30}Interaction: SSA-value sites with Tensor order theory}{53}{subsection.0.23.30}%
+\contentsline {paragraph}{Why the interaction matters.}{53}{section*.380}%
+\contentsline {paragraph}{Concrete implementation rule.}{53}{section*.381}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{54}{section*.382}%
+\contentsline {paragraph}{Suggested test shape.}{54}{section*.383}%
+\contentsline {subsection}{\numberline {0.23.31}Interaction: SSA-value sites with Tensor indexing theory}{54}{subsection.0.23.31}%
+\contentsline {paragraph}{Why the interaction matters.}{54}{section*.384}%
+\contentsline {paragraph}{Concrete implementation rule.}{54}{section*.385}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{54}{section*.386}%
+\contentsline {paragraph}{Suggested test shape.}{54}{section*.387}%
+\contentsline {subsection}{\numberline {0.23.32}Interaction: SSA-value sites with Device and dtype compatibility theory}{54}{subsection.0.23.32}%
+\contentsline {paragraph}{Why the interaction matters.}{54}{section*.388}%
+\contentsline {paragraph}{Concrete implementation rule.}{54}{section*.389}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{54}{section*.390}%
+\contentsline {paragraph}{Suggested test shape.}{54}{section*.391}%
+\contentsline {subsection}{\numberline {0.23.33}Interaction: SSA-value sites with Sequence and collection theory}{55}{subsection.0.23.33}%
+\contentsline {paragraph}{Why the interaction matters.}{55}{section*.392}%
+\contentsline {paragraph}{Concrete implementation rule.}{55}{section*.393}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{55}{section*.394}%
+\contentsline {paragraph}{Suggested test shape.}{55}{section*.395}%
+\contentsline {subsection}{\numberline {0.23.34}Interaction: SSA-value sites with Exception theory}{55}{subsection.0.23.34}%
+\contentsline {paragraph}{Why the interaction matters.}{55}{section*.396}%
+\contentsline {paragraph}{Concrete implementation rule.}{55}{section*.397}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{55}{section*.398}%
+\contentsline {paragraph}{Suggested test shape.}{55}{section*.399}%
+\contentsline {subsection}{\numberline {0.23.35}Interaction: SSA-value sites with Witness and equality transport theory}{55}{subsection.0.23.35}%
+\contentsline {paragraph}{Why the interaction matters.}{55}{section*.400}%
+\contentsline {paragraph}{Concrete implementation rule.}{56}{section*.401}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{56}{section*.402}%
+\contentsline {paragraph}{Suggested test shape.}{56}{section*.403}%
+\contentsline {subsection}{\numberline {0.23.36}Interaction: SSA-value sites with Loop invariant and decreases theory}{56}{subsection.0.23.36}%
+\contentsline {paragraph}{Why the interaction matters.}{56}{section*.404}%
+\contentsline {paragraph}{Concrete implementation rule.}{56}{section*.405}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{56}{section*.406}%
+\contentsline {paragraph}{Suggested test shape.}{56}{section*.407}%
+\contentsline {subsection}{\numberline {0.23.37}Interaction: Branch-guard sites with Linear arithmetic and intervals}{56}{subsection.0.23.37}%
+\contentsline {paragraph}{Why the interaction matters.}{56}{section*.408}%
+\contentsline {paragraph}{Concrete implementation rule.}{56}{section*.409}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{57}{section*.410}%
+\contentsline {paragraph}{Suggested test shape.}{57}{section*.411}%
+\contentsline {subsection}{\numberline {0.23.38}Interaction: Branch-guard sites with Boolean guard theory}{57}{subsection.0.23.38}%
+\contentsline {paragraph}{Why the interaction matters.}{57}{section*.412}%
+\contentsline {paragraph}{Concrete implementation rule.}{57}{section*.413}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{57}{section*.414}%
+\contentsline {paragraph}{Suggested test shape.}{57}{section*.415}%
+\contentsline {subsection}{\numberline {0.23.39}Interaction: Branch-guard sites with Nullability and optionality}{57}{subsection.0.23.39}%
+\contentsline {paragraph}{Why the interaction matters.}{57}{section*.416}%
+\contentsline {paragraph}{Concrete implementation rule.}{57}{section*.417}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{57}{section*.418}%
+\contentsline {paragraph}{Suggested test shape.}{57}{section*.419}%
+\contentsline {subsection}{\numberline {0.23.40}Interaction: Branch-guard sites with Heap and protocol theory}{58}{subsection.0.23.40}%
+\contentsline {paragraph}{Why the interaction matters.}{58}{section*.420}%
+\contentsline {paragraph}{Concrete implementation rule.}{58}{section*.421}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{58}{section*.422}%
+\contentsline {paragraph}{Suggested test shape.}{58}{section*.423}%
+\contentsline {subsection}{\numberline {0.23.41}Interaction: Branch-guard sites with Tensor shape theory}{58}{subsection.0.23.41}%
+\contentsline {paragraph}{Why the interaction matters.}{58}{section*.424}%
+\contentsline {paragraph}{Concrete implementation rule.}{58}{section*.425}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{58}{section*.426}%
+\contentsline {paragraph}{Suggested test shape.}{58}{section*.427}%
+\contentsline {subsection}{\numberline {0.23.42}Interaction: Branch-guard sites with Tensor order theory}{58}{subsection.0.23.42}%
+\contentsline {paragraph}{Why the interaction matters.}{58}{section*.428}%
+\contentsline {paragraph}{Concrete implementation rule.}{59}{section*.429}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{59}{section*.430}%
+\contentsline {paragraph}{Suggested test shape.}{59}{section*.431}%
+\contentsline {subsection}{\numberline {0.23.43}Interaction: Branch-guard sites with Tensor indexing theory}{59}{subsection.0.23.43}%
+\contentsline {paragraph}{Why the interaction matters.}{59}{section*.432}%
+\contentsline {paragraph}{Concrete implementation rule.}{59}{section*.433}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{59}{section*.434}%
+\contentsline {paragraph}{Suggested test shape.}{59}{section*.435}%
+\contentsline {subsection}{\numberline {0.23.44}Interaction: Branch-guard sites with Device and dtype compatibility theory}{59}{subsection.0.23.44}%
+\contentsline {paragraph}{Why the interaction matters.}{59}{section*.436}%
+\contentsline {paragraph}{Concrete implementation rule.}{59}{section*.437}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{60}{section*.438}%
+\contentsline {paragraph}{Suggested test shape.}{60}{section*.439}%
+\contentsline {subsection}{\numberline {0.23.45}Interaction: Branch-guard sites with Sequence and collection theory}{60}{subsection.0.23.45}%
+\contentsline {paragraph}{Why the interaction matters.}{60}{section*.440}%
+\contentsline {paragraph}{Concrete implementation rule.}{60}{section*.441}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{60}{section*.442}%
+\contentsline {paragraph}{Suggested test shape.}{60}{section*.443}%
+\contentsline {subsection}{\numberline {0.23.46}Interaction: Branch-guard sites with Exception theory}{60}{subsection.0.23.46}%
+\contentsline {paragraph}{Why the interaction matters.}{60}{section*.444}%
+\contentsline {paragraph}{Concrete implementation rule.}{60}{section*.445}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{60}{section*.446}%
+\contentsline {paragraph}{Suggested test shape.}{60}{section*.447}%
+\contentsline {subsection}{\numberline {0.23.47}Interaction: Branch-guard sites with Witness and equality transport theory}{61}{subsection.0.23.47}%
+\contentsline {paragraph}{Why the interaction matters.}{61}{section*.448}%
+\contentsline {paragraph}{Concrete implementation rule.}{61}{section*.449}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{61}{section*.450}%
+\contentsline {paragraph}{Suggested test shape.}{61}{section*.451}%
+\contentsline {subsection}{\numberline {0.23.48}Interaction: Branch-guard sites with Loop invariant and decreases theory}{61}{subsection.0.23.48}%
+\contentsline {paragraph}{Why the interaction matters.}{61}{section*.452}%
+\contentsline {paragraph}{Concrete implementation rule.}{61}{section*.453}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{61}{section*.454}%
+\contentsline {paragraph}{Suggested test shape.}{61}{section*.455}%
+\contentsline {subsection}{\numberline {0.23.49}Interaction: Call-result sites with Linear arithmetic and intervals}{62}{subsection.0.23.49}%
+\contentsline {paragraph}{Why the interaction matters.}{62}{section*.456}%
+\contentsline {paragraph}{Concrete implementation rule.}{62}{section*.457}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{62}{section*.458}%
+\contentsline {paragraph}{Suggested test shape.}{62}{section*.459}%
+\contentsline {subsection}{\numberline {0.23.50}Interaction: Call-result sites with Boolean guard theory}{62}{subsection.0.23.50}%
+\contentsline {paragraph}{Why the interaction matters.}{62}{section*.460}%
+\contentsline {paragraph}{Concrete implementation rule.}{62}{section*.461}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{62}{section*.462}%
+\contentsline {paragraph}{Suggested test shape.}{62}{section*.463}%
+\contentsline {subsection}{\numberline {0.23.51}Interaction: Call-result sites with Nullability and optionality}{62}{subsection.0.23.51}%
+\contentsline {paragraph}{Why the interaction matters.}{62}{section*.464}%
+\contentsline {paragraph}{Concrete implementation rule.}{63}{section*.465}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{63}{section*.466}%
+\contentsline {paragraph}{Suggested test shape.}{63}{section*.467}%
+\contentsline {subsection}{\numberline {0.23.52}Interaction: Call-result sites with Heap and protocol theory}{63}{subsection.0.23.52}%
+\contentsline {paragraph}{Why the interaction matters.}{63}{section*.468}%
+\contentsline {paragraph}{Concrete implementation rule.}{63}{section*.469}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{63}{section*.470}%
+\contentsline {paragraph}{Suggested test shape.}{63}{section*.471}%
+\contentsline {subsection}{\numberline {0.23.53}Interaction: Call-result sites with Tensor shape theory}{63}{subsection.0.23.53}%
+\contentsline {paragraph}{Why the interaction matters.}{63}{section*.472}%
+\contentsline {paragraph}{Concrete implementation rule.}{63}{section*.473}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{64}{section*.474}%
+\contentsline {paragraph}{Suggested test shape.}{64}{section*.475}%
+\contentsline {subsection}{\numberline {0.23.54}Interaction: Call-result sites with Tensor order theory}{64}{subsection.0.23.54}%
+\contentsline {paragraph}{Why the interaction matters.}{64}{section*.476}%
+\contentsline {paragraph}{Concrete implementation rule.}{64}{section*.477}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{64}{section*.478}%
+\contentsline {paragraph}{Suggested test shape.}{64}{section*.479}%
+\contentsline {subsection}{\numberline {0.23.55}Interaction: Call-result sites with Tensor indexing theory}{64}{subsection.0.23.55}%
+\contentsline {paragraph}{Why the interaction matters.}{64}{section*.480}%
+\contentsline {paragraph}{Concrete implementation rule.}{64}{section*.481}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{64}{section*.482}%
+\contentsline {paragraph}{Suggested test shape.}{64}{section*.483}%
+\contentsline {subsection}{\numberline {0.23.56}Interaction: Call-result sites with Device and dtype compatibility theory}{65}{subsection.0.23.56}%
+\contentsline {paragraph}{Why the interaction matters.}{65}{section*.484}%
+\contentsline {paragraph}{Concrete implementation rule.}{65}{section*.485}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{65}{section*.486}%
+\contentsline {paragraph}{Suggested test shape.}{65}{section*.487}%
+\contentsline {subsection}{\numberline {0.23.57}Interaction: Call-result sites with Sequence and collection theory}{65}{subsection.0.23.57}%
+\contentsline {paragraph}{Why the interaction matters.}{65}{section*.488}%
+\contentsline {paragraph}{Concrete implementation rule.}{65}{section*.489}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{65}{section*.490}%
+\contentsline {paragraph}{Suggested test shape.}{65}{section*.491}%
+\contentsline {subsection}{\numberline {0.23.58}Interaction: Call-result sites with Exception theory}{65}{subsection.0.23.58}%
+\contentsline {paragraph}{Why the interaction matters.}{65}{section*.492}%
+\contentsline {paragraph}{Concrete implementation rule.}{66}{section*.493}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{66}{section*.494}%
+\contentsline {paragraph}{Suggested test shape.}{66}{section*.495}%
+\contentsline {subsection}{\numberline {0.23.59}Interaction: Call-result sites with Witness and equality transport theory}{66}{subsection.0.23.59}%
+\contentsline {paragraph}{Why the interaction matters.}{66}{section*.496}%
+\contentsline {paragraph}{Concrete implementation rule.}{66}{section*.497}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{66}{section*.498}%
+\contentsline {paragraph}{Suggested test shape.}{66}{section*.499}%
+\contentsline {subsection}{\numberline {0.23.60}Interaction: Call-result sites with Loop invariant and decreases theory}{66}{subsection.0.23.60}%
+\contentsline {paragraph}{Why the interaction matters.}{66}{section*.500}%
+\contentsline {paragraph}{Concrete implementation rule.}{66}{section*.501}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{67}{section*.502}%
+\contentsline {paragraph}{Suggested test shape.}{67}{section*.503}%
+\contentsline {subsection}{\numberline {0.23.61}Interaction: Tensor-shape sites with Linear arithmetic and intervals}{67}{subsection.0.23.61}%
+\contentsline {paragraph}{Why the interaction matters.}{67}{section*.504}%
+\contentsline {paragraph}{Concrete implementation rule.}{67}{section*.505}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{67}{section*.506}%
+\contentsline {paragraph}{Suggested test shape.}{67}{section*.507}%
+\contentsline {subsection}{\numberline {0.23.62}Interaction: Tensor-shape sites with Boolean guard theory}{67}{subsection.0.23.62}%
+\contentsline {paragraph}{Why the interaction matters.}{67}{section*.508}%
+\contentsline {paragraph}{Concrete implementation rule.}{67}{section*.509}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{67}{section*.510}%
+\contentsline {paragraph}{Suggested test shape.}{67}{section*.511}%
+\contentsline {subsection}{\numberline {0.23.63}Interaction: Tensor-shape sites with Nullability and optionality}{68}{subsection.0.23.63}%
+\contentsline {paragraph}{Why the interaction matters.}{68}{section*.512}%
+\contentsline {paragraph}{Concrete implementation rule.}{68}{section*.513}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{68}{section*.514}%
+\contentsline {paragraph}{Suggested test shape.}{68}{section*.515}%
+\contentsline {subsection}{\numberline {0.23.64}Interaction: Tensor-shape sites with Heap and protocol theory}{68}{subsection.0.23.64}%
+\contentsline {paragraph}{Why the interaction matters.}{68}{section*.516}%
+\contentsline {paragraph}{Concrete implementation rule.}{68}{section*.517}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{68}{section*.518}%
+\contentsline {paragraph}{Suggested test shape.}{68}{section*.519}%
+\contentsline {subsection}{\numberline {0.23.65}Interaction: Tensor-shape sites with Tensor shape theory}{68}{subsection.0.23.65}%
+\contentsline {paragraph}{Why the interaction matters.}{68}{section*.520}%
+\contentsline {paragraph}{Concrete implementation rule.}{69}{section*.521}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{69}{section*.522}%
+\contentsline {paragraph}{Suggested test shape.}{69}{section*.523}%
+\contentsline {subsection}{\numberline {0.23.66}Interaction: Tensor-shape sites with Tensor order theory}{69}{subsection.0.23.66}%
+\contentsline {paragraph}{Why the interaction matters.}{69}{section*.524}%
+\contentsline {paragraph}{Concrete implementation rule.}{69}{section*.525}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{69}{section*.526}%
+\contentsline {paragraph}{Suggested test shape.}{69}{section*.527}%
+\contentsline {subsection}{\numberline {0.23.67}Interaction: Tensor-shape sites with Tensor indexing theory}{69}{subsection.0.23.67}%
+\contentsline {paragraph}{Why the interaction matters.}{69}{section*.528}%
+\contentsline {paragraph}{Concrete implementation rule.}{69}{section*.529}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{70}{section*.530}%
+\contentsline {paragraph}{Suggested test shape.}{70}{section*.531}%
+\contentsline {subsection}{\numberline {0.23.68}Interaction: Tensor-shape sites with Device and dtype compatibility theory}{70}{subsection.0.23.68}%
+\contentsline {paragraph}{Why the interaction matters.}{70}{section*.532}%
+\contentsline {paragraph}{Concrete implementation rule.}{70}{section*.533}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{70}{section*.534}%
+\contentsline {paragraph}{Suggested test shape.}{70}{section*.535}%
+\contentsline {subsection}{\numberline {0.23.69}Interaction: Tensor-shape sites with Sequence and collection theory}{70}{subsection.0.23.69}%
+\contentsline {paragraph}{Why the interaction matters.}{70}{section*.536}%
+\contentsline {paragraph}{Concrete implementation rule.}{70}{section*.537}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{70}{section*.538}%
+\contentsline {paragraph}{Suggested test shape.}{71}{section*.539}%
+\contentsline {subsection}{\numberline {0.23.70}Interaction: Tensor-shape sites with Exception theory}{71}{subsection.0.23.70}%
+\contentsline {paragraph}{Why the interaction matters.}{71}{section*.540}%
+\contentsline {paragraph}{Concrete implementation rule.}{71}{section*.541}%
+\contentsline {paragraph}{Typical failure mode if omitted.}{71}{section*.542}%
+\contentsline {paragraph}{Suggested test shape.}{71}{section*.543}%
+\contentsline {section}{\numberline {0.24}Evaluation, benchmarks, and success criteria}{71}{section.0.24}%
+\contentsline {section}{\numberline {0.25}Staged migration plan}{72}{section.0.25}%
+\contentsline {section}{\numberline {0.26}Extended implementation profiles}{72}{section.0.26}%
+\contentsline {subsection}{\numberline {0.26.1}Package \py {src/deppy/assist} with Linear arithmetic and intervals}{72}{subsection.0.26.1}%
+\contentsline {paragraph}{Integration objective.}{72}{section*.544}%
+\contentsline {paragraph}{Required interface.}{73}{section*.545}%
+\contentsline {paragraph}{Typical evidence source.}{73}{section*.546}%
+\contentsline {paragraph}{Expected user-facing payoff.}{73}{section*.547}%
+\contentsline {subsection}{\numberline {0.26.2}Package \py {src/deppy/assist} with Boolean guard theory}{73}{subsection.0.26.2}%
+\contentsline {paragraph}{Integration objective.}{73}{section*.548}%
+\contentsline {paragraph}{Required interface.}{73}{section*.549}%
+\contentsline {paragraph}{Typical evidence source.}{73}{section*.550}%
+\contentsline {paragraph}{Expected user-facing payoff.}{73}{section*.551}%
+\contentsline {subsection}{\numberline {0.26.3}Package \py {src/deppy/assist} with Nullability and optionality}{73}{subsection.0.26.3}%
+\contentsline {paragraph}{Integration objective.}{73}{section*.552}%
+\contentsline {paragraph}{Required interface.}{73}{section*.553}%
+\contentsline {paragraph}{Typical evidence source.}{73}{section*.554}%
+\contentsline {paragraph}{Expected user-facing payoff.}{74}{section*.555}%
+\contentsline {subsection}{\numberline {0.26.4}Package \py {src/deppy/assist} with Heap and protocol theory}{74}{subsection.0.26.4}%
+\contentsline {paragraph}{Integration objective.}{74}{section*.556}%
+\contentsline {paragraph}{Required interface.}{74}{section*.557}%
+\contentsline {paragraph}{Typical evidence source.}{74}{section*.558}%
+\contentsline {paragraph}{Expected user-facing payoff.}{74}{section*.559}%
+\contentsline {subsection}{\numberline {0.26.5}Package \py {src/deppy/assist} with Tensor shape theory}{74}{subsection.0.26.5}%
+\contentsline {paragraph}{Integration objective.}{74}{section*.560}%
+\contentsline {paragraph}{Required interface.}{74}{section*.561}%
+\contentsline {paragraph}{Typical evidence source.}{74}{section*.562}%
+\contentsline {paragraph}{Expected user-facing payoff.}{74}{section*.563}%
+\contentsline {subsection}{\numberline {0.26.6}Package \py {src/deppy/assist} with Tensor order theory}{74}{subsection.0.26.6}%
+\contentsline {paragraph}{Integration objective.}{74}{section*.564}%
+\contentsline {paragraph}{Required interface.}{75}{section*.565}%
+\contentsline {paragraph}{Typical evidence source.}{75}{section*.566}%
+\contentsline {paragraph}{Expected user-facing payoff.}{75}{section*.567}%
+\contentsline {subsection}{\numberline {0.26.7}Package \py {src/deppy/assist} with Tensor indexing theory}{75}{subsection.0.26.7}%
+\contentsline {paragraph}{Integration objective.}{75}{section*.568}%
+\contentsline {paragraph}{Required interface.}{75}{section*.569}%
+\contentsline {paragraph}{Typical evidence source.}{75}{section*.570}%
+\contentsline {paragraph}{Expected user-facing payoff.}{75}{section*.571}%
+\contentsline {subsection}{\numberline {0.26.8}Package \py {src/deppy/assist} with Device and dtype compatibility theory}{75}{subsection.0.26.8}%
+\contentsline {paragraph}{Integration objective.}{75}{section*.572}%
+\contentsline {paragraph}{Required interface.}{75}{section*.573}%
+\contentsline {paragraph}{Typical evidence source.}{76}{section*.574}%
+\contentsline {paragraph}{Expected user-facing payoff.}{76}{section*.575}%
+\contentsline {subsection}{\numberline {0.26.9}Package \py {src/deppy/assist} with Sequence and collection theory}{76}{subsection.0.26.9}%
+\contentsline {paragraph}{Integration objective.}{76}{section*.576}%
+\contentsline {paragraph}{Required interface.}{76}{section*.577}%
+\contentsline {paragraph}{Typical evidence source.}{76}{section*.578}%
+\contentsline {paragraph}{Expected user-facing payoff.}{76}{section*.579}%
+\contentsline {subsection}{\numberline {0.26.10}Package \py {src/deppy/assist} with Exception theory}{76}{subsection.0.26.10}%
+\contentsline {paragraph}{Integration objective.}{76}{section*.580}%
+\contentsline {paragraph}{Required interface.}{76}{section*.581}%
+\contentsline {paragraph}{Typical evidence source.}{76}{section*.582}%
+\contentsline {paragraph}{Expected user-facing payoff.}{76}{section*.583}%
+\contentsline {subsection}{\numberline {0.26.11}Package \py {src/deppy/assist} with Witness and equality transport theory}{77}{subsection.0.26.11}%
+\contentsline {paragraph}{Integration objective.}{77}{section*.584}%
+\contentsline {paragraph}{Required interface.}{77}{section*.585}%
+\contentsline {paragraph}{Typical evidence source.}{77}{section*.586}%
+\contentsline {paragraph}{Expected user-facing payoff.}{77}{section*.587}%
+\contentsline {subsection}{\numberline {0.26.12}Package \py {src/deppy/assist} with Loop invariant and decreases theory}{77}{subsection.0.26.12}%
+\contentsline {paragraph}{Integration objective.}{77}{section*.588}%
+\contentsline {paragraph}{Required interface.}{77}{section*.589}%
+\contentsline {paragraph}{Typical evidence source.}{77}{section*.590}%
+\contentsline {paragraph}{Expected user-facing payoff.}{77}{section*.591}%
+\contentsline {subsection}{\numberline {0.26.13}Package \py {src/deppy/contracts} with Linear arithmetic and intervals}{77}{subsection.0.26.13}%
+\contentsline {paragraph}{Integration objective.}{77}{section*.592}%
+\contentsline {paragraph}{Required interface.}{77}{section*.593}%
+\contentsline {paragraph}{Typical evidence source.}{78}{section*.594}%
+\contentsline {paragraph}{Expected user-facing payoff.}{78}{section*.595}%
+\contentsline {subsection}{\numberline {0.26.14}Package \py {src/deppy/contracts} with Boolean guard theory}{78}{subsection.0.26.14}%
+\contentsline {paragraph}{Integration objective.}{78}{section*.596}%
+\contentsline {paragraph}{Required interface.}{78}{section*.597}%
+\contentsline {paragraph}{Typical evidence source.}{78}{section*.598}%
+\contentsline {paragraph}{Expected user-facing payoff.}{78}{section*.599}%
+\contentsline {subsection}{\numberline {0.26.15}Package \py {src/deppy/contracts} with Nullability and optionality}{78}{subsection.0.26.15}%
+\contentsline {paragraph}{Integration objective.}{78}{section*.600}%
+\contentsline {paragraph}{Required interface.}{78}{section*.601}%
+\contentsline {paragraph}{Typical evidence source.}{78}{section*.602}%
+\contentsline {paragraph}{Expected user-facing payoff.}{78}{section*.603}%
+\contentsline {subsection}{\numberline {0.26.16}Package \py {src/deppy/contracts} with Heap and protocol theory}{79}{subsection.0.26.16}%
+\contentsline {paragraph}{Integration objective.}{79}{section*.604}%
+\contentsline {paragraph}{Required interface.}{79}{section*.605}%
+\contentsline {paragraph}{Typical evidence source.}{79}{section*.606}%
+\contentsline {paragraph}{Expected user-facing payoff.}{79}{section*.607}%
+\contentsline {subsection}{\numberline {0.26.17}Package \py {src/deppy/contracts} with Tensor shape theory}{79}{subsection.0.26.17}%
+\contentsline {paragraph}{Integration objective.}{79}{section*.608}%
+\contentsline {paragraph}{Required interface.}{79}{section*.609}%
+\contentsline {paragraph}{Typical evidence source.}{79}{section*.610}%
+\contentsline {paragraph}{Expected user-facing payoff.}{79}{section*.611}%
+\contentsline {subsection}{\numberline {0.26.18}Package \py {src/deppy/contracts} with Tensor order theory}{79}{subsection.0.26.18}%
+\contentsline {paragraph}{Integration objective.}{79}{section*.612}%
+\contentsline {paragraph}{Required interface.}{80}{section*.613}%
+\contentsline {paragraph}{Typical evidence source.}{80}{section*.614}%
+\contentsline {paragraph}{Expected user-facing payoff.}{80}{section*.615}%
+\contentsline {subsection}{\numberline {0.26.19}Package \py {src/deppy/contracts} with Tensor indexing theory}{80}{subsection.0.26.19}%
+\contentsline {paragraph}{Integration objective.}{80}{section*.616}%
+\contentsline {paragraph}{Required interface.}{80}{section*.617}%
+\contentsline {paragraph}{Typical evidence source.}{80}{section*.618}%
+\contentsline {paragraph}{Expected user-facing payoff.}{80}{section*.619}%
+\contentsline {subsection}{\numberline {0.26.20}Package \py {src/deppy/contracts} with Device and dtype compatibility theory}{80}{subsection.0.26.20}%
+\contentsline {paragraph}{Integration objective.}{80}{section*.620}%
+\contentsline {paragraph}{Required interface.}{80}{section*.621}%
+\contentsline {paragraph}{Typical evidence source.}{80}{section*.622}%
+\contentsline {paragraph}{Expected user-facing payoff.}{81}{section*.623}%
+\contentsline {subsection}{\numberline {0.26.21}Package \py {src/deppy/contracts} with Sequence and collection theory}{81}{subsection.0.26.21}%
+\contentsline {paragraph}{Integration objective.}{81}{section*.624}%
+\contentsline {paragraph}{Required interface.}{81}{section*.625}%
+\contentsline {paragraph}{Typical evidence source.}{81}{section*.626}%
+\contentsline {paragraph}{Expected user-facing payoff.}{81}{section*.627}%
+\contentsline {subsection}{\numberline {0.26.22}Package \py {src/deppy/contracts} with Exception theory}{81}{subsection.0.26.22}%
+\contentsline {paragraph}{Integration objective.}{81}{section*.628}%
+\contentsline {paragraph}{Required interface.}{81}{section*.629}%
+\contentsline {paragraph}{Typical evidence source.}{81}{section*.630}%
+\contentsline {paragraph}{Expected user-facing payoff.}{81}{section*.631}%
+\contentsline {subsection}{\numberline {0.26.23}Package \py {src/deppy/contracts} with Witness and equality transport theory}{81}{subsection.0.26.23}%
+\contentsline {paragraph}{Integration objective.}{81}{section*.632}%
+\contentsline {paragraph}{Required interface.}{82}{section*.633}%
+\contentsline {paragraph}{Typical evidence source.}{82}{section*.634}%
+\contentsline {paragraph}{Expected user-facing payoff.}{82}{section*.635}%
+\contentsline {subsection}{\numberline {0.26.24}Package \py {src/deppy/contracts} with Loop invariant and decreases theory}{82}{subsection.0.26.24}%
+\contentsline {paragraph}{Integration objective.}{82}{section*.636}%
+\contentsline {paragraph}{Required interface.}{82}{section*.637}%
+\contentsline {paragraph}{Typical evidence source.}{82}{section*.638}%
+\contentsline {paragraph}{Expected user-facing payoff.}{82}{section*.639}%
+\contentsline {subsection}{\numberline {0.26.25}Package \py {src/deppy/core} with Linear arithmetic and intervals}{82}{subsection.0.26.25}%
+\contentsline {paragraph}{Integration objective.}{82}{section*.640}%
+\contentsline {paragraph}{Required interface.}{82}{section*.641}%
+\contentsline {paragraph}{Typical evidence source.}{83}{section*.642}%
+\contentsline {paragraph}{Expected user-facing payoff.}{83}{section*.643}%
+\contentsline {subsection}{\numberline {0.26.26}Package \py {src/deppy/core} with Boolean guard theory}{83}{subsection.0.26.26}%
+\contentsline {paragraph}{Integration objective.}{83}{section*.644}%
+\contentsline {paragraph}{Required interface.}{83}{section*.645}%
+\contentsline {paragraph}{Typical evidence source.}{83}{section*.646}%
+\contentsline {paragraph}{Expected user-facing payoff.}{83}{section*.647}%
+\contentsline {subsection}{\numberline {0.26.27}Package \py {src/deppy/core} with Nullability and optionality}{83}{subsection.0.26.27}%
+\contentsline {paragraph}{Integration objective.}{83}{section*.648}%
+\contentsline {paragraph}{Required interface.}{83}{section*.649}%
+\contentsline {paragraph}{Typical evidence source.}{83}{section*.650}%
+\contentsline {paragraph}{Expected user-facing payoff.}{83}{section*.651}%
+\contentsline {subsection}{\numberline {0.26.28}Package \py {src/deppy/core} with Heap and protocol theory}{84}{subsection.0.26.28}%
+\contentsline {paragraph}{Integration objective.}{84}{section*.652}%
+\contentsline {paragraph}{Required interface.}{84}{section*.653}%
+\contentsline {paragraph}{Typical evidence source.}{84}{section*.654}%
+\contentsline {paragraph}{Expected user-facing payoff.}{84}{section*.655}%
+\contentsline {subsection}{\numberline {0.26.29}Package \py {src/deppy/core} with Tensor shape theory}{84}{subsection.0.26.29}%
+\contentsline {paragraph}{Integration objective.}{84}{section*.656}%
+\contentsline {paragraph}{Required interface.}{84}{section*.657}%
+\contentsline {paragraph}{Typical evidence source.}{84}{section*.658}%
+\contentsline {paragraph}{Expected user-facing payoff.}{84}{section*.659}%
+\contentsline {subsection}{\numberline {0.26.30}Package \py {src/deppy/core} with Tensor order theory}{84}{subsection.0.26.30}%
+\contentsline {paragraph}{Integration objective.}{84}{section*.660}%
+\contentsline {paragraph}{Required interface.}{85}{section*.661}%
+\contentsline {paragraph}{Typical evidence source.}{85}{section*.662}%
+\contentsline {paragraph}{Expected user-facing payoff.}{85}{section*.663}%
+\contentsline {subsection}{\numberline {0.26.31}Package \py {src/deppy/core} with Tensor indexing theory}{85}{subsection.0.26.31}%
+\contentsline {paragraph}{Integration objective.}{85}{section*.664}%
+\contentsline {paragraph}{Required interface.}{85}{section*.665}%
+\contentsline {paragraph}{Typical evidence source.}{85}{section*.666}%
+\contentsline {paragraph}{Expected user-facing payoff.}{85}{section*.667}%
+\contentsline {subsection}{\numberline {0.26.32}Package \py {src/deppy/core} with Device and dtype compatibility theory}{85}{subsection.0.26.32}%
+\contentsline {paragraph}{Integration objective.}{85}{section*.668}%
+\contentsline {paragraph}{Required interface.}{85}{section*.669}%
+\contentsline {paragraph}{Typical evidence source.}{85}{section*.670}%
+\contentsline {paragraph}{Expected user-facing payoff.}{86}{section*.671}%
+\contentsline {subsection}{\numberline {0.26.33}Package \py {src/deppy/core} with Sequence and collection theory}{86}{subsection.0.26.33}%
+\contentsline {paragraph}{Integration objective.}{86}{section*.672}%
+\contentsline {paragraph}{Required interface.}{86}{section*.673}%
+\contentsline {paragraph}{Typical evidence source.}{86}{section*.674}%
+\contentsline {paragraph}{Expected user-facing payoff.}{86}{section*.675}%
+\contentsline {subsection}{\numberline {0.26.34}Package \py {src/deppy/core} with Exception theory}{86}{subsection.0.26.34}%
+\contentsline {paragraph}{Integration objective.}{86}{section*.676}%
+\contentsline {paragraph}{Required interface.}{86}{section*.677}%
+\contentsline {paragraph}{Typical evidence source.}{86}{section*.678}%
+\contentsline {paragraph}{Expected user-facing payoff.}{86}{section*.679}%
+\contentsline {subsection}{\numberline {0.26.35}Package \py {src/deppy/core} with Witness and equality transport theory}{86}{subsection.0.26.35}%
+\contentsline {paragraph}{Integration objective.}{86}{section*.680}%
+\contentsline {paragraph}{Required interface.}{87}{section*.681}%
+\contentsline {paragraph}{Typical evidence source.}{87}{section*.682}%
+\contentsline {paragraph}{Expected user-facing payoff.}{87}{section*.683}%
+\contentsline {subsection}{\numberline {0.26.36}Package \py {src/deppy/core} with Loop invariant and decreases theory}{87}{subsection.0.26.36}%
+\contentsline {paragraph}{Integration objective.}{87}{section*.684}%
+\contentsline {paragraph}{Required interface.}{87}{section*.685}%
+\contentsline {paragraph}{Typical evidence source.}{87}{section*.686}%
+\contentsline {paragraph}{Expected user-facing payoff.}{87}{section*.687}%
+\contentsline {subsection}{\numberline {0.26.37}Package \py {src/deppy/frontend} with Linear arithmetic and intervals}{87}{subsection.0.26.37}%
+\contentsline {paragraph}{Integration objective.}{87}{section*.688}%
+\contentsline {paragraph}{Required interface.}{87}{section*.689}%
+\contentsline {paragraph}{Typical evidence source.}{88}{section*.690}%
+\contentsline {paragraph}{Expected user-facing payoff.}{88}{section*.691}%
+\contentsline {subsection}{\numberline {0.26.38}Package \py {src/deppy/frontend} with Boolean guard theory}{88}{subsection.0.26.38}%
+\contentsline {paragraph}{Integration objective.}{88}{section*.692}%
+\contentsline {paragraph}{Required interface.}{88}{section*.693}%
+\contentsline {paragraph}{Typical evidence source.}{88}{section*.694}%
+\contentsline {paragraph}{Expected user-facing payoff.}{88}{section*.695}%
+\contentsline {subsection}{\numberline {0.26.39}Package \py {src/deppy/frontend} with Nullability and optionality}{88}{subsection.0.26.39}%
+\contentsline {paragraph}{Integration objective.}{88}{section*.696}%
+\contentsline {paragraph}{Required interface.}{88}{section*.697}%
+\contentsline {paragraph}{Typical evidence source.}{88}{section*.698}%
+\contentsline {paragraph}{Expected user-facing payoff.}{88}{section*.699}%
+\contentsline {subsection}{\numberline {0.26.40}Package \py {src/deppy/frontend} with Heap and protocol theory}{89}{subsection.0.26.40}%
+\contentsline {paragraph}{Integration objective.}{89}{section*.700}%
+\contentsline {paragraph}{Required interface.}{89}{section*.701}%
+\contentsline {paragraph}{Typical evidence source.}{89}{section*.702}%
+\contentsline {paragraph}{Expected user-facing payoff.}{89}{section*.703}%
+\contentsline {subsection}{\numberline {0.26.41}Package \py {src/deppy/frontend} with Tensor shape theory}{89}{subsection.0.26.41}%
+\contentsline {paragraph}{Integration objective.}{89}{section*.704}%
+\contentsline {paragraph}{Required interface.}{89}{section*.705}%
+\contentsline {paragraph}{Typical evidence source.}{89}{section*.706}%
+\contentsline {paragraph}{Expected user-facing payoff.}{89}{section*.707}%
+\contentsline {subsection}{\numberline {0.26.42}Package \py {src/deppy/frontend} with Tensor order theory}{89}{subsection.0.26.42}%
+\contentsline {paragraph}{Integration objective.}{89}{section*.708}%
+\contentsline {paragraph}{Required interface.}{90}{section*.709}%
+\contentsline {paragraph}{Typical evidence source.}{90}{section*.710}%
+\contentsline {paragraph}{Expected user-facing payoff.}{90}{section*.711}%
+\contentsline {subsection}{\numberline {0.26.43}Package \py {src/deppy/frontend} with Tensor indexing theory}{90}{subsection.0.26.43}%
+\contentsline {paragraph}{Integration objective.}{90}{section*.712}%
+\contentsline {paragraph}{Required interface.}{90}{section*.713}%
+\contentsline {paragraph}{Typical evidence source.}{90}{section*.714}%
+\contentsline {paragraph}{Expected user-facing payoff.}{90}{section*.715}%
+\contentsline {subsection}{\numberline {0.26.44}Package \py {src/deppy/frontend} with Device and dtype compatibility theory}{90}{subsection.0.26.44}%
+\contentsline {paragraph}{Integration objective.}{90}{section*.716}%
+\contentsline {paragraph}{Required interface.}{90}{section*.717}%
+\contentsline {paragraph}{Typical evidence source.}{90}{section*.718}%
+\contentsline {paragraph}{Expected user-facing payoff.}{91}{section*.719}%
+\contentsline {subsection}{\numberline {0.26.45}Package \py {src/deppy/frontend} with Sequence and collection theory}{91}{subsection.0.26.45}%
+\contentsline {paragraph}{Integration objective.}{91}{section*.720}%
+\contentsline {paragraph}{Required interface.}{91}{section*.721}%
+\contentsline {paragraph}{Typical evidence source.}{91}{section*.722}%
+\contentsline {paragraph}{Expected user-facing payoff.}{91}{section*.723}%
+\contentsline {subsection}{\numberline {0.26.46}Package \py {src/deppy/frontend} with Exception theory}{91}{subsection.0.26.46}%
+\contentsline {paragraph}{Integration objective.}{91}{section*.724}%
+\contentsline {paragraph}{Required interface.}{91}{section*.725}%
+\contentsline {paragraph}{Typical evidence source.}{91}{section*.726}%
+\contentsline {paragraph}{Expected user-facing payoff.}{91}{section*.727}%
+\contentsline {subsection}{\numberline {0.26.47}Package \py {src/deppy/frontend} with Witness and equality transport theory}{91}{subsection.0.26.47}%
+\contentsline {paragraph}{Integration objective.}{91}{section*.728}%
+\contentsline {paragraph}{Required interface.}{92}{section*.729}%
+\contentsline {paragraph}{Typical evidence source.}{92}{section*.730}%
+\contentsline {paragraph}{Expected user-facing payoff.}{92}{section*.731}%
+\contentsline {subsection}{\numberline {0.26.48}Package \py {src/deppy/frontend} with Loop invariant and decreases theory}{92}{subsection.0.26.48}%
+\contentsline {paragraph}{Integration objective.}{92}{section*.732}%
+\contentsline {paragraph}{Required interface.}{92}{section*.733}%
+\contentsline {paragraph}{Typical evidence source.}{92}{section*.734}%
+\contentsline {paragraph}{Expected user-facing payoff.}{92}{section*.735}%
+\contentsline {subsection}{\numberline {0.26.49}Package \py {src/deppy/generate} with Linear arithmetic and intervals}{92}{subsection.0.26.49}%
+\contentsline {paragraph}{Integration objective.}{92}{section*.736}%
+\contentsline {paragraph}{Required interface.}{92}{section*.737}%
+\contentsline {paragraph}{Typical evidence source.}{93}{section*.738}%
+\contentsline {paragraph}{Expected user-facing payoff.}{93}{section*.739}%
+\contentsline {subsection}{\numberline {0.26.50}Package \py {src/deppy/generate} with Boolean guard theory}{93}{subsection.0.26.50}%
+\contentsline {paragraph}{Integration objective.}{93}{section*.740}%
+\contentsline {paragraph}{Required interface.}{93}{section*.741}%
+\contentsline {paragraph}{Typical evidence source.}{93}{section*.742}%
+\contentsline {paragraph}{Expected user-facing payoff.}{93}{section*.743}%
+\contentsline {subsection}{\numberline {0.26.51}Package \py {src/deppy/generate} with Nullability and optionality}{93}{subsection.0.26.51}%
+\contentsline {paragraph}{Integration objective.}{93}{section*.744}%
+\contentsline {paragraph}{Required interface.}{93}{section*.745}%
+\contentsline {paragraph}{Typical evidence source.}{93}{section*.746}%
+\contentsline {paragraph}{Expected user-facing payoff.}{93}{section*.747}%
+\contentsline {subsection}{\numberline {0.26.52}Package \py {src/deppy/generate} with Heap and protocol theory}{94}{subsection.0.26.52}%
+\contentsline {paragraph}{Integration objective.}{94}{section*.748}%
+\contentsline {paragraph}{Required interface.}{94}{section*.749}%
+\contentsline {paragraph}{Typical evidence source.}{94}{section*.750}%
+\contentsline {paragraph}{Expected user-facing payoff.}{94}{section*.751}%
+\contentsline {subsection}{\numberline {0.26.53}Package \py {src/deppy/generate} with Tensor shape theory}{94}{subsection.0.26.53}%
+\contentsline {paragraph}{Integration objective.}{94}{section*.752}%
+\contentsline {paragraph}{Required interface.}{94}{section*.753}%
+\contentsline {paragraph}{Typical evidence source.}{94}{section*.754}%
+\contentsline {paragraph}{Expected user-facing payoff.}{94}{section*.755}%
+\contentsline {subsection}{\numberline {0.26.54}Package \py {src/deppy/generate} with Tensor order theory}{94}{subsection.0.26.54}%
+\contentsline {paragraph}{Integration objective.}{94}{section*.756}%
+\contentsline {paragraph}{Required interface.}{95}{section*.757}%
+\contentsline {paragraph}{Typical evidence source.}{95}{section*.758}%
+\contentsline {paragraph}{Expected user-facing payoff.}{95}{section*.759}%
+\contentsline {subsection}{\numberline {0.26.55}Package \py {src/deppy/generate} with Tensor indexing theory}{95}{subsection.0.26.55}%
+\contentsline {paragraph}{Integration objective.}{95}{section*.760}%
+\contentsline {paragraph}{Required interface.}{95}{section*.761}%
+\contentsline {paragraph}{Typical evidence source.}{95}{section*.762}%
+\contentsline {paragraph}{Expected user-facing payoff.}{95}{section*.763}%
+\contentsline {subsection}{\numberline {0.26.56}Package \py {src/deppy/generate} with Device and dtype compatibility theory}{95}{subsection.0.26.56}%
+\contentsline {paragraph}{Integration objective.}{95}{section*.764}%
+\contentsline {paragraph}{Required interface.}{95}{section*.765}%
+\contentsline {paragraph}{Typical evidence source.}{95}{section*.766}%
+\contentsline {paragraph}{Expected user-facing payoff.}{96}{section*.767}%
+\contentsline {subsection}{\numberline {0.26.57}Package \py {src/deppy/generate} with Sequence and collection theory}{96}{subsection.0.26.57}%
+\contentsline {paragraph}{Integration objective.}{96}{section*.768}%
+\contentsline {paragraph}{Required interface.}{96}{section*.769}%
+\contentsline {paragraph}{Typical evidence source.}{96}{section*.770}%
+\contentsline {paragraph}{Expected user-facing payoff.}{96}{section*.771}%
+\contentsline {subsection}{\numberline {0.26.58}Package \py {src/deppy/generate} with Exception theory}{96}{subsection.0.26.58}%
+\contentsline {paragraph}{Integration objective.}{96}{section*.772}%
+\contentsline {paragraph}{Required interface.}{96}{section*.773}%
+\contentsline {paragraph}{Typical evidence source.}{96}{section*.774}%
+\contentsline {paragraph}{Expected user-facing payoff.}{96}{section*.775}%
+\contentsline {subsection}{\numberline {0.26.59}Package \py {src/deppy/generate} with Witness and equality transport theory}{96}{subsection.0.26.59}%
+\contentsline {paragraph}{Integration objective.}{96}{section*.776}%
+\contentsline {paragraph}{Required interface.}{97}{section*.777}%
+\contentsline {paragraph}{Typical evidence source.}{97}{section*.778}%
+\contentsline {paragraph}{Expected user-facing payoff.}{97}{section*.779}%
+\contentsline {subsection}{\numberline {0.26.60}Package \py {src/deppy/generate} with Loop invariant and decreases theory}{97}{subsection.0.26.60}%
+\contentsline {paragraph}{Integration objective.}{97}{section*.780}%
+\contentsline {paragraph}{Required interface.}{97}{section*.781}%
+\contentsline {paragraph}{Typical evidence source.}{97}{section*.782}%
+\contentsline {paragraph}{Expected user-facing payoff.}{97}{section*.783}%
+\contentsline {section}{\numberline {0.27}Deep dive: list semantics, bounds safety, and length-dependent contracts}{97}{section.0.27}%
+\contentsline {subsection}{\numberline {0.27.1}Length as a first-class refinement coordinate}{97}{subsection.0.27.1}%
+\contentsline {paragraph}{Guard harvesting for length.}{98}{section*.784}%
+\contentsline {paragraph}{Backward synthesis of length requirements.}{98}{section*.785}%
+\contentsline {paragraph}{Forward synthesis of length guarantees.}{98}{section*.786}%
+\contentsline {subsection}{\numberline {0.27.2}Element-type refinement and homogeneity}{98}{subsection.0.27.2}%
+\contentsline {subsection}{\numberline {0.27.3}Mutation, aliasing, and frame conditions for lists}{98}{subsection.0.27.3}%
+\contentsline {subsection}{\numberline {0.27.4}Sorting, searching, and order-sensitive list operations}{99}{subsection.0.27.4}%
+\contentsline {subsection}{\numberline {0.27.5}List-specific error sites}{99}{subsection.0.27.5}%
+\contentsline {subsection}{\numberline {0.27.6}Interaction with the broader sheaf architecture}{99}{subsection.0.27.6}%
+\contentsline {section}{\numberline {0.28}Deep dive: dict semantics, key safety, and structural contracts}{99}{section.0.28}%
+\contentsline {subsection}{\numberline {0.28.1}Key domain as a refinement coordinate}{100}{subsection.0.28.1}%
+\contentsline {paragraph}{Guard harvesting for key membership.}{100}{section*.787}%
+\contentsline {subsection}{\numberline {0.28.2}Value-type refinement per key}{100}{subsection.0.28.2}%
+\contentsline {subsection}{\numberline {0.28.3}Dict-specific error sites}{100}{subsection.0.28.3}%
+\contentsline {paragraph}{Backward synthesis of key requirements.}{100}{section*.788}%
+\contentsline {paragraph}{Forward synthesis of structural guarantees.}{101}{section*.789}%
+\contentsline {subsection}{\numberline {0.28.4}TypedDict and structural dict contracts}{101}{subsection.0.28.4}%
+\contentsline {subsection}{\numberline {0.28.5}Dict comprehensions and transformations}{101}{subsection.0.28.5}%
+\contentsline {subsection}{\numberline {0.28.6}Interaction with JSON, serialization, and API boundaries}{101}{subsection.0.28.6}%
+\contentsline {section}{\numberline {0.29}Deep dive: heap semantics, object state, and mutation tracking}{101}{section.0.29}%
+\contentsline {subsection}{\numberline {0.29.1}Object state as a local section}{101}{subsection.0.29.1}%
+\contentsline {paragraph}{Field initialization tracking.}{102}{section*.790}%
+\contentsline {paragraph}{Field read safety.}{102}{section*.791}%
+\contentsline {paragraph}{Example: conditional initialization bug.}{102}{section*.792}%
+\contentsline {subsection}{\numberline {0.29.2}Mutation frames and aliasing}{102}{subsection.0.29.2}%
+\contentsline {subsection}{\numberline {0.29.3}Ownership and resource semantics}{102}{subsection.0.29.3}%
+\contentsline {subsection}{\numberline {0.29.4}Class hierarchies and method resolution}{102}{subsection.0.29.4}%
+\contentsline {subsection}{\numberline {0.29.5}Dataclasses, named tuples, and structured constructors}{103}{subsection.0.29.5}%
+\contentsline {subsection}{\numberline {0.29.6}Heap-related error sites}{103}{subsection.0.29.6}%
+\contentsline {section}{\numberline {0.30}Deep dive: protocols, structural typing, and duck typing}{103}{section.0.30}%
+\contentsline {subsection}{\numberline {0.30.1}Protocol conformance as a local section}{103}{subsection.0.30.1}%
+\contentsline {paragraph}{Example: synthesized protocol requirement.}{103}{section*.793}%
+\contentsline {subsection}{\numberline {0.30.2}Explicit Protocol annotations as boundary seeds}{104}{subsection.0.30.2}%
+\contentsline {subsection}{\numberline {0.30.3}Protocol subtyping and refinement}{104}{subsection.0.30.3}%
+\contentsline {subsection}{\numberline {0.30.4}Duck typing without annotations}{104}{subsection.0.30.4}%
+\contentsline {subsection}{\numberline {0.30.5}Protocol-related error sites}{104}{subsection.0.30.5}%
+\contentsline {subsection}{\numberline {0.30.6}Iterable, iterator, and sequence protocols}{104}{subsection.0.30.6}%
+\contentsline {subsection}{\numberline {0.30.7}Callable protocols and higher-order functions}{105}{subsection.0.30.7}%
+\contentsline {section}{\numberline {0.31}Deep dive: decorators, metaprogramming, and dynamic class construction}{105}{section.0.31}%
+\contentsline {subsection}{\numberline {0.31.1}Decorators as semantic transformers}{105}{subsection.0.31.1}%
+\contentsline {paragraph}{Identity-preserving decorators.}{105}{section*.794}%
+\contentsline {paragraph}{Signature-changing decorators.}{105}{section*.795}%
+\contentsline {paragraph}{Validation decorators.}{106}{section*.796}%
+\contentsline {paragraph}{DepPy's own decorators.}{106}{section*.797}%
+\contentsline {subsection}{\numberline {0.31.2}Metaclasses and dynamic class construction}{106}{subsection.0.31.2}%
+\contentsline {subsection}{\numberline {0.31.3}Dynamic attribute assignment and \py {__getattr__}}{106}{subsection.0.31.3}%
+\contentsline {subsection}{\numberline {0.31.4}Monkey-patching and module-level mutation}{106}{subsection.0.31.4}%
+\contentsline {subsection}{\numberline {0.31.5}Decorator stacking and composition}{107}{subsection.0.31.5}%
+\contentsline {section}{\numberline {0.32}Deep dive: the optional annotation system and annotation economy}{107}{section.0.32}%
+\contentsline {subsection}{\numberline {0.32.1}Zero-annotation mode}{107}{subsection.0.32.1}%
+\contentsline {subsection}{\numberline {0.32.2}Lightweight annotation: type hints}{107}{subsection.0.32.2}%
+\contentsline {subsection}{\numberline {0.32.3}Medium annotation: deppy decorators}{108}{subsection.0.32.3}%
+\contentsline {subsection}{\numberline {0.32.4}Heavy annotation: theorem decorators and proof modules}{108}{subsection.0.32.4}%
+\contentsline {subsection}{\numberline {0.32.5}Annotation economy: measuring the value of each annotation}{108}{subsection.0.32.5}%
+\contentsline {subsection}{\numberline {0.32.6}LLM-authored annotations}{109}{subsection.0.32.6}%
+\contentsline {subsection}{\numberline {0.32.7}Gradual adoption path}{109}{subsection.0.32.7}%
+\contentsline {section}{\numberline {0.33}Deep dive: PyTorch shape theory and symbolic shape inference}{109}{section.0.33}%
+\contentsline {subsection}{\numberline {0.33.1}Shape representation}{109}{subsection.0.33.1}%
+\contentsline {subsection}{\numberline {0.33.2}Shape rules for core operations}{110}{subsection.0.33.2}%
+\contentsline {paragraph}{Element-wise operations.}{110}{section*.798}%
+\contentsline {paragraph}{Matrix multiplication.}{110}{section*.799}%
+\contentsline {paragraph}{Reshape and view.}{110}{section*.800}%
+\contentsline {paragraph}{Transpose and permute.}{110}{section*.801}%
+\contentsline {paragraph}{Reduction operations.}{110}{section*.802}%
+\contentsline {paragraph}{Concatenation and stacking.}{110}{section*.803}%
+\contentsline {paragraph}{Indexing and gathering.}{110}{section*.804}%
+\contentsline {paragraph}{Convolution.}{111}{section*.805}%
+\contentsline {subsection}{\numberline {0.33.3}Symbolic shape propagation through a module}{111}{subsection.0.33.3}%
+\contentsline {subsection}{\numberline {0.33.4}Output shape as a refinement type}{111}{subsection.0.33.4}%
+\contentsline {subsection}{\numberline {0.33.5}Shape error sites and diagnostics}{111}{subsection.0.33.5}%
+\contentsline {subsection}{\numberline {0.33.6}Broadcasting rules and their subtleties}{112}{subsection.0.33.6}%
+\contentsline {subsection}{\numberline {0.33.7}Device and dtype as secondary shape coordinates}{112}{subsection.0.33.7}%
+\contentsline {section}{\numberline {0.34}Deep dive: library-specific theories beyond PyTorch}{112}{section.0.34}%
+\contentsline {subsection}{\numberline {0.34.1}NumPy shape and broadcasting theory}{112}{subsection.0.34.1}%
+\contentsline {subsection}{\numberline {0.34.2}Pandas DataFrame and Series theory}{113}{subsection.0.34.2}%
+\contentsline {paragraph}{Column-presence theory.}{113}{section*.806}%
+\contentsline {paragraph}{Index alignment theory.}{113}{section*.807}%
+\contentsline {paragraph}{GroupBy and aggregation theory.}{113}{section*.808}%
+\contentsline {paragraph}{Dtype-sensitive operations.}{113}{section*.809}%
+\contentsline {subsection}{\numberline {0.34.3}Standard library: pathlib, os, and file I/O}{113}{subsection.0.34.3}%
+\contentsline {subsection}{\numberline {0.34.4}Standard library: collections}{113}{subsection.0.34.4}%
+\contentsline {subsection}{\numberline {0.34.5}Standard library: itertools and functools}{114}{subsection.0.34.5}%
+\contentsline {subsection}{\numberline {0.34.6}SQLAlchemy and database ORM theory}{114}{subsection.0.34.6}%
+\contentsline {subsection}{\numberline {0.34.7}Requests and HTTP client theory}{114}{subsection.0.34.7}%
+\contentsline {subsection}{\numberline {0.34.8}Theory-pack extensibility and composition}{115}{subsection.0.34.8}%
+\contentsline {section}{\numberline {0.35}Deep dive: exception handling, control flow, and the Optional/None theory}{115}{section.0.35}%
+\contentsline {subsection}{\numberline {0.35.1}Exceptional control flow as site structure}{115}{subsection.0.35.1}%
+\contentsline {subsection}{\numberline {0.35.2}Exception type hierarchies}{115}{subsection.0.35.2}%
+\contentsline {paragraph}{Bare except and broad handlers.}{115}{section*.810}%
+\contentsline {subsection}{\numberline {0.35.3}Exception-raising operations as error sites}{116}{subsection.0.35.3}%
+\contentsline {subsection}{\numberline {0.35.4}The Optional/None theory}{116}{subsection.0.35.4}%
+\contentsline {paragraph}{Sources of None.}{116}{section*.811}%
+\contentsline {paragraph}{None guards and narrowing.}{116}{section*.812}%
+\contentsline {paragraph}{None-related error sites.}{116}{section*.813}%
+\contentsline {paragraph}{Optional chaining and safe navigation.}{116}{section*.814}%
+\contentsline {subsection}{\numberline {0.35.5}Control-flow refinement across branches}{117}{subsection.0.35.5}%
+\contentsline {subsection}{\numberline {0.35.6}Match statements (Python 3.10+)}{117}{subsection.0.35.6}%
+\contentsline {subsection}{\numberline {0.35.7}Generators, yield, and async/await}{117}{subsection.0.35.7}%
+\contentsline {section}{\numberline {0.36}Deep dive: numeric safety---overflow, NaN, division by zero, and floating-point contracts}{117}{section.0.36}%
+\contentsline {subsection}{\numberline {0.36.1}The numeric-safety site family}{118}{subsection.0.36.1}%
+\contentsline {subsection}{\numberline {0.36.2}NaN propagation theory}{118}{subsection.0.36.2}%
+\contentsline {paragraph}{NaN sources.}{118}{section*.815}%
+\contentsline {paragraph}{NaN-freedom as a refinement.}{118}{section*.816}%
+\contentsline {paragraph}{NaN checks as guards.}{118}{section*.817}%
+\contentsline {subsection}{\numberline {0.36.3}Infinity tracking}{118}{subsection.0.36.3}%
+\contentsline {subsection}{\numberline {0.36.4}Division-by-zero analysis}{119}{subsection.0.36.4}%
+\contentsline {paragraph}{Backward synthesis for division safety.}{119}{section*.818}%
+\contentsline {subsection}{\numberline {0.36.5}Overflow and underflow in fixed-width arithmetic}{119}{subsection.0.36.5}%
+\contentsline {subsection}{\numberline {0.36.6}Numeric-safety contracts for machine learning}{119}{subsection.0.36.6}%
+\contentsline {subsection}{\numberline {0.36.7}Interaction with the solver boundary}{119}{subsection.0.36.7}%
+\contentsline {section}{\numberline {0.37}Deep dive: comprehensions, iteration semantics, and string safety}{120}{section.0.37}%
+\contentsline {subsection}{\numberline {0.37.1}List, dict, set, and generator comprehensions}{120}{subsection.0.37.1}%
+\contentsline {paragraph}{Iterable sites.}{120}{section*.819}%
+\contentsline {paragraph}{Filter sites.}{120}{section*.820}%
+\contentsline {paragraph}{Output length reasoning.}{120}{section*.821}%
+\contentsline {paragraph}{Nested comprehensions.}{120}{section*.822}%
+\contentsline {paragraph}{Dict comprehensions.}{120}{section*.823}%
+\contentsline {subsection}{\numberline {0.37.2}For-loop semantics and loop-carried invariants}{120}{subsection.0.37.2}%
+\contentsline {paragraph}{Loop bounds.}{120}{section*.824}%
+\contentsline {paragraph}{Loop-carried accumulation.}{121}{section*.825}%
+\contentsline {paragraph}{Loop-carried list construction.}{121}{lstlisting.0.-11}%
+\contentsline {paragraph}{While-loop invariants.}{121}{section*.827}%
+\contentsline {subsection}{\numberline {0.37.3}Iterator protocol and lazy evaluation}{121}{subsection.0.37.3}%
+\contentsline {subsection}{\numberline {0.37.4}String operations and encoding safety}{121}{subsection.0.37.4}%
+\contentsline {paragraph}{String indexing and slicing.}{121}{section*.828}%
+\contentsline {paragraph}{String formatting.}{121}{section*.829}%
+\contentsline {paragraph}{Encoding and decoding.}{122}{section*.830}%
+\contentsline {paragraph}{String methods with semantic guarantees.}{122}{section*.831}%
+\contentsline {paragraph}{Regular expressions.}{122}{section*.832}%
+\contentsline {subsection}{\numberline {0.37.5}Zip, enumerate, and iteration combinators}{122}{subsection.0.37.5}%
+\contentsline {paragraph}{zip.}{122}{section*.833}%
+\contentsline {paragraph}{enumerate.}{122}{section*.834}%
+\contentsline {paragraph}{map and filter.}{122}{section*.835}%
+\contentsline {section}{\numberline {0.38}Deep dive: module-level state, imports, closures, and the class/object theory}{122}{section.0.38}%
+\contentsline {subsection}{\numberline {0.38.1}Module-level state and import semantics}{122}{subsection.0.38.1}%
+\contentsline {paragraph}{Module-level configuration.}{122}{section*.836}%
+\contentsline {paragraph}{Import graph and dependency ordering.}{123}{section*.837}%
+\contentsline {paragraph}{Module attributes and monkey-patching.}{123}{section*.838}%
+\contentsline {subsection}{\numberline {0.38.2}Class definitions and instance semantics}{123}{subsection.0.38.2}%
+\contentsline {paragraph}{Class body as a namespace.}{123}{section*.839}%
+\contentsline {paragraph}{Constructor analysis.}{123}{section*.840}%
+\contentsline {paragraph}{Method semantics.}{123}{section*.841}%
+\contentsline {paragraph}{Inheritance.}{124}{section*.842}%
+\contentsline {paragraph}{Multiple inheritance and MRO.}{124}{section*.843}%
+\contentsline {subsection}{\numberline {0.38.3}Closures and nested functions}{124}{subsection.0.38.3}%
+\contentsline {paragraph}{Mutable closures.}{124}{section*.844}%
+\contentsline {paragraph}{Closures as callbacks.}{124}{section*.845}%
+\contentsline {subsection}{\numberline {0.38.4}Dataclasses and attrs}{124}{subsection.0.38.4}%
+\contentsline {subsection}{\numberline {0.38.5}Metaclasses and dynamic class creation}{125}{subsection.0.38.5}%
+\contentsline {subsection}{\numberline {0.38.6}Global state and singleton patterns}{125}{subsection.0.38.6}%
+\contentsline {section}{\numberline {0.39}Deep dive: union types, type narrowing, pattern matching, and the complete type algebra}{125}{section.0.39}%
+\contentsline {subsection}{\numberline {0.39.1}Union types as disjunctive sections}{125}{subsection.0.39.1}%
+\contentsline {paragraph}{Narrowing via isinstance.}{125}{lstlisting.0.-16}%
+\contentsline {paragraph}{Narrowing via type guards (PEP 647).}{126}{lstlisting.0.-17}%
+\contentsline {paragraph}{Discriminated unions.}{126}{section*.848}%
+\contentsline {subsection}{\numberline {0.39.2}Literal types and constant propagation}{126}{subsection.0.39.2}%
+\contentsline {subsection}{\numberline {0.39.3}TypeVar, Generic, and parametric polymorphism}{126}{subsection.0.39.3}%
+\contentsline {paragraph}{ParamSpec and Callable types.}{126}{section*.849}%
+\contentsline {subsection}{\numberline {0.39.4}Overloaded functions}{127}{subsection.0.39.4}%
+\contentsline {subsection}{\numberline {0.39.5}NewType, TypeAlias, and nominal distinctions}{127}{subsection.0.39.5}%
+\contentsline {subsection}{\numberline {0.39.6}Final, ClassVar, and read-only refinements}{127}{subsection.0.39.6}%
+\contentsline {subsection}{\numberline {0.39.7}TypedDict and structural record types}{127}{subsection.0.39.7}%
+\contentsline {subsection}{\numberline {0.39.8}Self type and recursive types}{128}{subsection.0.39.8}%
+\contentsline {subsection}{\numberline {0.39.9}Intersection types and protocol conjunction}{128}{subsection.0.39.9}%
+\contentsline {subsection}{\numberline {0.39.10}Type algebra summary}{128}{subsection.0.39.10}%
+\contentsline {section}{\numberline {0.40}Deep dive: end-to-end worked example of sheaf-descent analysis}{128}{section.0.40}%
+\contentsline {subsection}{\numberline {0.40.1}The target program}{129}{subsection.0.40.1}%
+\contentsline {subsection}{\numberline {0.40.2}Site cover construction}{130}{subsection.0.40.2}%
+\contentsline {paragraph}{Guard sites from assertions.}{130}{section*.850}%
+\contentsline {paragraph}{None-narrowing site.}{130}{section*.851}%
+\contentsline {paragraph}{Shape sites.}{130}{section*.852}%
+\contentsline {paragraph}{PyTorch theory sites.}{130}{section*.853}%
+\contentsline {paragraph}{Numeric safety sites.}{130}{section*.854}%
+\contentsline {subsection}{\numberline {0.40.3}Backward synthesis: input requirements}{131}{subsection.0.40.3}%
+\contentsline {subsection}{\numberline {0.40.4}Forward synthesis: output guarantees}{131}{subsection.0.40.4}%
+\contentsline {subsection}{\numberline {0.40.5}Runtime-error freedom certificate}{131}{subsection.0.40.5}%
+\contentsline {subsection}{\numberline {0.40.6}Residual obligations}{131}{subsection.0.40.6}%
+\contentsline {subsection}{\numberline {0.40.7}Interprocedural context}{132}{subsection.0.40.7}%
+\contentsline {part}{I\hspace {1em}Full Dependent Typing and Proof Mode}{133}{part.1}%
+\contentsline {chapter}{\numberline {1}The Proof-Mode Philosophy: From Inference to Verification}{134}{chapter.1}%
+\contentsline {section}{\numberline {1.1}The annotation economy: cherry-picking depth}{134}{section.1.1}%
+\contentsline {paragraph}{Level 0: Zero annotation.}{134}{section*.855}%
+\contentsline {paragraph}{Level 1: Lightweight contracts.}{135}{section*.856}%
+\contentsline {paragraph}{Level 2: Invariant annotations.}{135}{section*.857}%
+\contentsline {paragraph}{Level 3: Lemma statements.}{135}{section*.858}%
+\contentsline {paragraph}{Level 4: Proof sketches.}{135}{section*.859}%
+\contentsline {paragraph}{Level 5: Full proofs.}{135}{section*.860}%
+\contentsline {section}{\numberline {1.2}Why this is not a separate system}{135}{section.1.2}%
+\contentsline {section}{\numberline {1.3}The annotation surface: Python-native proof syntax}{135}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Preconditions and postconditions}{136}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Dependent function types}{136}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Quantified properties}{136}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Proof blocks}{137}{subsection.1.3.4}%
+\contentsline {section}{\numberline {1.4}The trust gradient: how annotations flow through inference}{137}{section.1.4}%
+\contentsline {paragraph}{Forward propagation.}{137}{section*.861}%
+\contentsline {paragraph}{Backward propagation.}{137}{section*.862}%
+\contentsline {paragraph}{Lateral propagation.}{137}{section*.863}%
+\contentsline {chapter}{\numberline {2}Dependent Types in Python: The Full Theory}{139}{chapter.2}%
+\contentsline {section}{\numberline {2.1}The type universe}{139}{section.2.1}%
+\contentsline {paragraph}{Refinement types.}{139}{section*.864}%
+\contentsline {paragraph}{Dependent function types.}{139}{section*.865}%
+\contentsline {paragraph}{Dependent pair types.}{140}{section*.866}%
+\contentsline {section}{\numberline {2.2}Propositions as types, proofs as programs}{140}{section.2.2}%
+\contentsline {paragraph}{The proposition type.}{140}{section*.867}%
+\contentsline {paragraph}{Proof terms.}{140}{section*.868}%
+\contentsline {paragraph}{The proof is erased at runtime.}{140}{section*.869}%
+\contentsline {section}{\numberline {2.3}The decidable core and the proof frontier}{140}{section.2.3}%
+\contentsline {paragraph}{The decidable core.}{140}{section*.870}%
+\contentsline {paragraph}{The proof frontier.}{141}{section*.871}%
+\contentsline {section}{\numberline {2.4}Inductive types and recursive proofs}{141}{section.2.4}%
+\contentsline {paragraph}{Natural number induction.}{141}{section*.872}%
+\contentsline {paragraph}{Structural induction on lists.}{141}{section*.873}%
+\contentsline {paragraph}{Well-founded induction.}{141}{section*.874}%
+\contentsline {chapter}{\numberline {3}Cherry-Picked Annotation: The Selective Verification Workflow}{143}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Identifying verification targets}{143}{section.3.1}%
+\contentsline {section}{\numberline {3.2}The annotation workflow}{143}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Step 1: Run inference on unannotated code}{143}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Step 2: Triage residuals}{143}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Step 3: Add targeted annotations}{144}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Step 4: Iterate}{144}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Example: selective verification of a binary search}{144}{section.3.3}%
+\contentsline {paragraph}{Level 0 inference.}{144}{section*.875}%
+\contentsline {paragraph}{Level 1: add contracts.}{144}{section*.876}%
+\contentsline {paragraph}{Level 2: add the loop invariant.}{145}{section*.877}%
+\contentsline {section}{\numberline {3.4}Cost-benefit analysis of annotation depth}{145}{section.3.4}%
+\contentsline {chapter}{\numberline {4}The Proof Term Language: Agda-Style Reasoning in Python}{146}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Proof terms as Python expressions}{146}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Tactic-style proofs}{147}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proof by calculation}{147}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Lemma libraries and reuse}{148}{section.4.4}%
+\contentsline {paragraph}{Library lemma bundles.}{148}{section*.878}%
+\contentsline {section}{\numberline {4.5}Proof automation levels}{148}{section.4.5}%
+\contentsline {paragraph}{Level A: Full automation (\py {auto()}).}{149}{section*.879}%
+\contentsline {paragraph}{Level B: Simplification (\py {simp()}).}{149}{section*.880}%
+\contentsline {paragraph}{Level C: Heuristic search (\py {search()}).}{149}{section*.881}%
+\contentsline {paragraph}{Level D: Interactive (\py {sorry()}).}{149}{section*.882}%
+\contentsline {section}{\numberline {4.6}Proof-carrying code: embedding proofs in functions}{149}{section.4.6}%
+\contentsline {section}{\numberline {4.7}The interaction between proof terms and inference}{150}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Class Invariants and Object-Oriented Proofs}{151}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Class invariants as persistent sections}{151}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The \py {old()} function for state change reasoning}{152}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Inheritance and invariant strengthening}{152}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Protocol proofs: verifying structural contracts}{152}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Proving Properties of Data Structures}{154}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Sorted lists and binary search trees}{154}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Proving sortedness preservation}{154}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Binary search tree invariant}{155}{subsection.6.1.2}%
+\contentsline {section}{\numberline {6.2}Hash maps and amortized complexity}{156}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Proving Properties of Algorithms}{157}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Sorting algorithms: from specification to proof}{157}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}The sorting specification}{157}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Merge sort with full proof}{157}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}The merge function}{158}{subsection.7.1.3}%
+\contentsline {section}{\numberline {7.2}Graph algorithms}{159}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Breadth-first search: reachability proof}{159}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Topological sort: acyclicity and ordering}{160}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Numeric algorithms}{161}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Newton's method: convergence and precision}{161}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Matrix multiplication: shape correctness with value proof}{162}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}String and parsing algorithms}{162}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Balanced parentheses checker}{162}{subsection.7.4.1}%
+\contentsline {section}{\numberline {7.5}Annotation cost summary}{163}{section.7.5}%
+\contentsline {chapter}{\numberline {8}The Proof Engine: How Proofs Flow Through the Sheaf Machinery}{164}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Proof obligations as section constraints}{164}{section.8.1}%
+\contentsline {section}{\numberline {8.2}The obligation lifecycle}{164}{section.8.2}%
+\contentsline {paragraph}{Generation.}{164}{section*.883}%
+\contentsline {paragraph}{Simplification.}{165}{section*.884}%
+\contentsline {paragraph}{Discharge.}{165}{section*.885}%
+\contentsline {paragraph}{Escalation.}{165}{section*.886}%
+\contentsline {section}{\numberline {8.3}Obligation propagation through the site cover}{165}{section.8.3}%
+\contentsline {paragraph}{Backward propagation of postconditions.}{165}{section*.887}%
+\contentsline {paragraph}{Forward propagation of preconditions.}{165}{section*.888}%
+\contentsline {paragraph}{Loop invariant verification.}{165}{section*.889}%
+\contentsline {paragraph}{Cross-function propagation.}{166}{section*.890}%
+\contentsline {section}{\numberline {8.4}The proof context stack}{166}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Interaction with the inference engine}{166}{section.8.5}%
+\contentsline {paragraph}{Pass 1: Inference.}{166}{section*.891}%
+\contentsline {paragraph}{Pass 2: Annotation integration.}{166}{section*.892}%
+\contentsline {paragraph}{Pass 3: Obligation discharge.}{166}{section*.893}%
+\contentsline {paragraph}{Pass 4: Section enrichment.}{166}{section*.894}%
+\contentsline {paragraph}{Pass 5: Re-inference.}{166}{section*.895}%
+\contentsline {section}{\numberline {8.6}The solver interface}{167}{section.8.6}%
+\contentsline {paragraph}{Section to SMT-LIB translation.}{167}{section*.896}%
+\contentsline {paragraph}{Solver result interpretation.}{167}{section*.897}%
+\contentsline {paragraph}{Incremental solving.}{167}{section*.898}%
+\contentsline {section}{\numberline {8.7}Proof caching and incrementality}{167}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Error reporting and diagnostics}{167}{section.8.8}%
+\contentsline {chapter}{\numberline {9}Proving Properties of PyTorch Programs}{169}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Shape-correct neural network architectures}{169}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}Proving shape compatibility of a multi-layer model}{169}{subsection.9.1.1}%
+\contentsline {subsection}{\numberline {9.1.2}Attention mechanism shape proof}{170}{subsection.9.1.2}%
+\contentsline {section}{\numberline {9.2}Gradient correctness}{171}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Proving that gradients are well-defined}{171}{subsection.9.2.1}%
+\contentsline {section}{\numberline {9.3}Training loop correctness}{172}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Proving that a training loop maintains model invariants}{172}{subsection.9.3.1}%
+\contentsline {section}{\numberline {9.4}Model architecture validation}{173}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}Proving that a ResNet skip connection is shape-compatible}{173}{subsection.9.4.1}%
+\contentsline {chapter}{\numberline {10}Proof Mode for Real-World Python: Effects, I/O, and the Trusted Computing Base}{175}{chapter.10}%
+\contentsline {section}{\numberline {10.1}The effect discipline}{175}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Resource tracking and linear types}{176}{section.10.2}%
+\contentsline {paragraph}{Context managers as ownership boundaries.}{176}{section*.899}%
+\contentsline {section}{\numberline {10.3}State-dependent types for mutable objects}{176}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Proving properties across module boundaries}{177}{section.10.4}%
+\contentsline {section}{\numberline {10.5}The trusted computing base}{178}{section.10.5}%
+\contentsline {section}{\numberline {10.6}Soundness and the escape hatches}{178}{section.10.6}%
+\contentsline {paragraph}{\py {@assume(P)}.}{178}{section*.900}%
+\contentsline {paragraph}{\py {sorry()}.}{178}{section*.901}%
+\contentsline {paragraph}{\py {@unchecked}.}{178}{section*.902}%
+\contentsline {paragraph}{\py {cast(T, x)}.}{178}{section*.903}%
+\contentsline {chapter}{\numberline {11}Advanced Proof Techniques: Abstraction, Refinement, and Parametricity}{180}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Data abstraction and representation invariants}{180}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Simulation and refinement proofs}{182}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Parametricity and generic proofs}{182}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Proof by refinement: stepwise development}{183}{section.11.4}%
+\contentsline {paragraph}{Step 1: Specification.}{183}{lstlisting.11.-73}%
+\contentsline {paragraph}{Step 2: Algorithm choice.}{183}{lstlisting.11.-74}%
+\contentsline {paragraph}{Step 3: Implementation details.}{183}{lstlisting.11.-75}%
+\contentsline {section}{\numberline {11.5}Proof composition and modular verification}{183}{section.11.5}%
+\contentsline {subsection}{\numberline {11.5.1}Assume-guarantee reasoning}{183}{subsection.11.5.1}%
+\contentsline {section}{\numberline {11.6}Proof of absence of common vulnerability patterns}{184}{section.11.6}%
+\contentsline {paragraph}{SQL injection.}{184}{lstlisting.11.-77}%
+\contentsline {paragraph}{Path traversal.}{184}{lstlisting.11.-78}%
+\contentsline {paragraph}{Integer overflow in serialization.}{184}{lstlisting.11.-79}%
+\contentsline {chapter}{\numberline {12}The Annotation Economy: Maximizing Proof Value with Minimal Effort}{185}{chapter.12}%
+\contentsline {section}{\numberline {12.1}The information-theoretic view}{185}{section.12.1}%
+\contentsline {paragraph}{High-value annotations.}{185}{section*.910}%
+\contentsline {paragraph}{Low-value annotations.}{185}{section*.911}%
+\contentsline {section}{\numberline {12.2}The annotation advisor}{185}{section.12.2}%
+\contentsline {section}{\numberline {12.3}Progressive verification: a worked example}{186}{section.12.3}%
+\contentsline {paragraph}{Phase 1: Zero-annotation baseline.}{186}{section*.912}%
+\contentsline {paragraph}{Phase 2: Add contracts to the core utility module (8 functions).}{186}{section*.913}%
+\contentsline {paragraph}{Phase 3: Add loop invariants to the main algorithm (2 loops).}{186}{section*.914}%
+\contentsline {paragraph}{Phase 4: Add a class invariant to the central data structure.}{186}{section*.915}%
+\contentsline {paragraph}{Phase 5: Add 2 key lemmas.}{187}{section*.916}%
+\contentsline {paragraph}{Phase 6: Accept remaining residuals.}{187}{section*.917}%
+\contentsline {paragraph}{Summary.}{187}{section*.918}%
+\contentsline {section}{\numberline {12.4}When not to prove}{187}{section.12.4}%
+\contentsline {part}{II\hspace {1em}Advanced Sheaf Theory, Optimization, and the Relevance Problem}{188}{part.2}%
+\contentsline {chapter}{\numberline {13}The Full Sheaf-Theoretic Framework for Type Inference}{189}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Sites, covers, and the Grothendieck topology}{189}{section.13.1}%
+\contentsline {section}{\numberline {13.2}The type presheaf and the sheaf condition}{189}{section.13.2}%
+\contentsline {paragraph}{Interpretation.}{190}{section*.919}%
+\contentsline {section}{\numberline {13.3}Cohomology of the type sheaf}{190}{section.13.3}%
+\contentsline {paragraph}{$H^0$: Global sections = valid type assignments.}{190}{section*.920}%
+\contentsline {paragraph}{$H^1$: Obstructions = type errors.}{190}{section*.921}%
+\contentsline {paragraph}{$H^2$: Higher obstructions = structural type incompatibilities.}{190}{section*.922}%
+\contentsline {section}{\numberline {13.4}Descent data and effective descent}{191}{section.13.4}%
+\contentsline {paragraph}{Type inference as effective descent.}{191}{section*.923}%
+\contentsline {section}{\numberline {13.5}Stalks and the local-to-global principle}{191}{section.13.5}%
+\contentsline {section}{\numberline {13.6}Sheaf morphisms and type transformations}{192}{section.13.6}%
+\contentsline {chapter}{\numberline {14}The Optimization Problem: Maximizing Type Information}{193}{chapter.14}%
+\contentsline {section}{\numberline {14.1}The information lattice}{193}{section.14.1}%
+\contentsline {section}{\numberline {14.2}The global optimization objective}{193}{section.14.2}%
+\contentsline {paragraph}{Why maximize?}{194}{section*.924}%
+\contentsline {paragraph}{Why weighted?}{194}{section*.925}%
+\contentsline {section}{\numberline {14.3}Reformulation as a constraint satisfaction problem}{194}{section.14.3}%
+\contentsline {paragraph}{Hard constraints (must be satisfied).}{194}{section*.926}%
+\contentsline {paragraph}{Soft constraints (maximize satisfaction).}{194}{section*.927}%
+\contentsline {section}{\numberline {14.4}The lattice structure of solutions}{194}{section.14.4}%
+\contentsline {paragraph}{The principal type.}{194}{section*.928}%
+\contentsline {section}{\numberline {14.5}Approximation algorithms}{194}{section.14.5}%
+\contentsline {paragraph}{Fixpoint iteration.}{195}{section*.929}%
+\contentsline {paragraph}{Widening.}{195}{section*.930}%
+\contentsline {paragraph}{Stratified solving.}{195}{section*.931}%
+\contentsline {paragraph}{Demand-driven inference.}{195}{section*.932}%
+\contentsline {section}{\numberline {14.6}Duality: the backward optimization problem}{195}{section.14.6}%
+\contentsline {chapter}{\numberline {15}The Relevance Problem: Which Propositions Matter for Bug Detection?}{196}{chapter.15}%
+\contentsline {section}{\numberline {15.1}The relevance criterion}{196}{section.15.1}%
+\contentsline {paragraph}{The relevance filter.}{196}{section*.933}%
+\contentsline {section}{\numberline {15.2}Computing relevance: the backward slice}{196}{section.15.2}%
+\contentsline {section}{\numberline {15.3}The predicate abstraction framework}{197}{section.15.3}%
+\contentsline {section}{\numberline {15.4}Automatic predicate discovery}{197}{section.15.4}%
+\contentsline {paragraph}{Error-site-driven discovery.}{197}{section*.934}%
+\contentsline {paragraph}{Guard-derived predicates.}{197}{section*.935}%
+\contentsline {paragraph}{Annotation-derived predicates.}{198}{section*.936}%
+\contentsline {paragraph}{Theory-derived predicates.}{198}{section*.937}%
+\contentsline {section}{\numberline {15.5}Predicate domain refinement}{198}{section.15.5}%
+\contentsline {paragraph}{Step 1: Solve with current domain.}{198}{section*.938}%
+\contentsline {paragraph}{Step 2: Check residuals.}{198}{section*.939}%
+\contentsline {paragraph}{Step 3: Refine.}{198}{section*.940}%
+\contentsline {paragraph}{Step 4: Coarsen.}{198}{section*.941}%
+\contentsline {section}{\numberline {15.6}Relevance scoring}{198}{section.15.6}%
+\contentsline {paragraph}{Importance weighting of error sites.}{198}{section*.942}%
+\contentsline {chapter}{\numberline {16}User-Guided Relevance and the Interactive Query Interface}{199}{chapter.16}%
+\contentsline {section}{\numberline {16.1}The \py {@track} annotation: user-declared relevance}{199}{section.16.1}%
+\contentsline {section}{\numberline {16.2}Property queries: asking the system what it knows}{200}{section.16.2}%
+\contentsline {section}{\numberline {16.3}The exploration mode: discovering unknown properties}{200}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Relevance propagation across module boundaries}{201}{section.16.4}%
+\contentsline {paragraph}{Demand-driven cross-module analysis.}{201}{section*.943}%
+\contentsline {section}{\numberline {16.5}The relevance graph}{201}{section.16.5}%
+\contentsline {section}{\numberline {16.6}Relevance under uncertainty: probabilistic relevance}{202}{section.16.6}%
+\contentsline {chapter}{\numberline {17}Formal Verification Integration: Connecting to External Provers}{203}{chapter.17}%
+\contentsline {section}{\numberline {17.1}The verification backend interface}{203}{section.17.1}%
+\contentsline {section}{\numberline {17.2}Obligation routing}{204}{section.17.2}%
+\contentsline {section}{\numberline {17.3}Translation to Lean 4}{204}{section.17.3}%
+\contentsline {section}{\numberline {17.4}Proof portability and the semantic bridge}{204}{section.17.4}%
+\contentsline {section}{\numberline {17.5}Hybrid verification workflows}{205}{section.17.5}%
+\contentsline {chapter}{\numberline {18}Information-Theoretic Optimization of Type Inference}{206}{chapter.18}%
+\contentsline {section}{\numberline {18.1}Types as probability distributions}{206}{section.18.1}%
+\contentsline {paragraph}{Type inference as entropy minimization.}{206}{section*.944}%
+\contentsline {section}{\numberline {18.2}Mutual information between sites}{207}{section.18.2}%
+\contentsline {section}{\numberline {18.3}Rate-distortion theory for type precision}{207}{section.18.3}%
+\contentsline {section}{\numberline {18.4}The predicate selection problem}{208}{section.18.4}%
+\contentsline {paragraph}{Greedy approximation.}{208}{section*.945}%
+\contentsline {section}{\numberline {18.5}Pareto-optimal type assignments}{208}{section.18.5}%
+\contentsline {section}{\numberline {18.6}Online optimization: incremental type inference}{209}{section.18.6}%
+\contentsline {section}{\numberline {18.7}The Lagrangian relaxation of the combined problem}{209}{section.18.7}%
+\contentsline {chapter}{\numberline {19}Obstruction Theory for Type Errors}{210}{chapter.19}%
+\contentsline {section}{\numberline {19.1}Obstructions as cohomology classes}{210}{section.19.1}%
+\contentsline {paragraph}{Interpretation.}{210}{section*.946}%
+\contentsline {section}{\numberline {19.2}Minimal obstruction representatives}{210}{section.19.2}%
+\contentsline {section}{\numberline {19.3}Error classification by obstruction type}{211}{section.19.3}%
+\contentsline {paragraph}{$H^1$ errors: pairwise inconsistencies.}{211}{section*.947}%
+\contentsline {paragraph}{$H^2$ errors: three-way inconsistencies.}{211}{section*.948}%
+\contentsline {paragraph}{Torsion errors: periodic inconsistencies.}{211}{section*.949}%
+\contentsline {section}{\numberline {19.4}Obstruction-guided repair}{211}{section.19.4}%
+\contentsline {paragraph}{Repair ranking.}{211}{section*.950}%
+\contentsline {section}{\numberline {19.5}Spectral sequences for complex type errors}{212}{section.19.5}%
+\contentsline {paragraph}{Differential diagnosis.}{212}{section*.951}%
+\contentsline {chapter}{\numberline {20}Topos-Theoretic Semantics: The Internal Logic of the Type Topos}{213}{chapter.20}%
+\contentsline {section}{\numberline {20.1}The type topos}{213}{section.20.1}%
+\contentsline {section}{\numberline {20.2}The subobject classifier and propositions}{213}{section.20.2}%
+\contentsline {paragraph}{Interpretation.}{213}{section*.952}%
+\contentsline {section}{\numberline {20.3}Propositions as subobjects of the type sheaf}{214}{section.20.3}%
+\contentsline {section}{\numberline {20.4}The internal logic for type reasoning}{214}{section.20.4}%
+\contentsline {paragraph}{Why intuitionistic?}{214}{section*.953}%
+\contentsline {paragraph}{Recovering classical reasoning.}{214}{section*.954}%
+\contentsline {section}{\numberline {20.5}The forcing semantics: what is ``true at a site''?}{215}{section.20.5}%
+\contentsline {paragraph}{Interpretation for type inference.}{215}{section*.955}%
+\contentsline {section}{\numberline {20.6}Relevance in the internal logic}{215}{section.20.6}%
+\contentsline {section}{\numberline {20.7}The Lawvere-Tierney topology for decidable propositions}{215}{section.20.7}%
+\contentsline {paragraph}{The decidable subtoposes.}{216}{section*.956}%
+\contentsline {section}{\numberline {20.8}Modalities for annotation levels}{216}{section.20.8}%
+\contentsline {chapter}{\numberline {21}Automated Deduction Strategies for Richer Dependent Types}{217}{chapter.21}%
+\contentsline {section}{\numberline {21.1}Abductive inference: hypothesizing missing predicates}{217}{section.21.1}%
+\contentsline {paragraph}{Algorithm.}{217}{section*.957}%
+\contentsline {section}{\numberline {21.2}Craig interpolation for interface synthesis}{217}{section.21.2}%
+\contentsline {paragraph}{Application to type inference.}{218}{section*.958}%
+\contentsline {section}{\numberline {21.3}Quantifier instantiation for bounded domains}{218}{section.21.3}%
+\contentsline {paragraph}{Finite instantiation.}{218}{section*.959}%
+\contentsline {paragraph}{Inductive instantiation.}{218}{section*.960}%
+\contentsline {paragraph}{E-matching.}{218}{section*.961}%
+\contentsline {section}{\numberline {21.4}Abstract interpretation with predicate abstraction}{218}{section.21.4}%
+\contentsline {section}{\numberline {21.5}Symbolic execution for path-sensitive inference}{219}{section.21.5}%
+\contentsline {paragraph}{Bounded symbolic execution.}{219}{section*.962}%
+\contentsline {section}{\numberline {21.6}Liquid types: type inference as predicate abduction}{219}{section.21.6}%
+\contentsline {section}{\numberline {21.7}Machine-learning-guided predicate suggestion}{219}{section.21.7}%
+\contentsline {chapter}{\numberline {22}Enriched Category Theory for Type Propagation and Kan Extensions}{221}{chapter.22}%
+\contentsline {section}{\numberline {22.1}Enriched categories of types}{221}{section.22.1}%
+\contentsline {paragraph}{Interpretation.}{221}{section*.963}%
+\contentsline {section}{\numberline {22.2}Weighted colimits for type synthesis}{221}{section.22.2}%
+\contentsline {paragraph}{Concrete construction.}{222}{section*.964}%
+\contentsline {section}{\numberline {22.3}Kan extensions for interprocedural transport}{222}{section.22.3}%
+\contentsline {paragraph}{Interpretation.}{222}{section*.965}%
+\contentsline {section}{\numberline {22.4}The pointwise formula and computational realization}{223}{section.22.4}%
+\contentsline {paragraph}{Algorithmic realization.}{223}{section*.966}%
+\contentsline {section}{\numberline {22.5}Profunctors for type interfaces}{223}{section.22.5}%
+\contentsline {paragraph}{Composition of interfaces.}{223}{section*.967}%
+\contentsline {paragraph}{Identity profunctor.}{223}{section*.968}%
+\contentsline {section}{\numberline {22.6}The fibered category of type families}{223}{section.22.6}%
+\contentsline {paragraph}{Incremental analysis as base change.}{224}{section*.969}%
+\contentsline {chapter}{\numberline {23}The Relevance Optimization Problem: Formal Treatment}{225}{chapter.23}%
+\contentsline {section}{\numberline {23.1}The space of decorations}{225}{section.23.1}%
+\contentsline {section}{\numberline {23.2}Minimal useful decoration sets}{225}{section.23.2}%
+\contentsline {section}{\numberline {23.3}The relevance lattice}{226}{section.23.3}%
+\contentsline {section}{\numberline {23.4}Relevance propagation as a Galois connection}{226}{section.23.4}%
+\contentsline {paragraph}{Forward relevance propagation.}{226}{section*.970}%
+\contentsline {paragraph}{Backward relevance propagation.}{226}{section*.971}%
+\contentsline {section}{\numberline {23.5}The relevance fixpoint}{226}{section.23.5}%
+\contentsline {section}{\numberline {23.6}User interaction with the relevance system}{227}{section.23.6}%
+\contentsline {paragraph}{Querying relevance.}{227}{lstlisting.23.-91}%
+\contentsline {paragraph}{Forcing relevance.}{227}{lstlisting.23.-92}%
+\contentsline {paragraph}{Suppressing relevance.}{227}{lstlisting.23.-93}%
+\contentsline {section}{\numberline {23.7}Relevance-weighted MaxSMT}{227}{section.23.7}%
+\contentsline {chapter}{\numberline {24}Connections to Homotopy Type Theory and Higher-Dimensional Type Structure}{229}{chapter.24}%
+\contentsline {section}{\numberline {24.1}Types as spaces, programs as paths}{229}{section.24.1}%
+\contentsline {paragraph}{Program paths.}{229}{section*.975}%
+\contentsline {paragraph}{Practical consequence.}{229}{section*.976}%
+\contentsline {section}{\numberline {24.2}The univalence principle for type equivalence}{229}{section.24.2}%
+\contentsline {paragraph}{Application to type inference.}{230}{section*.977}%
+\contentsline {paragraph}{Automatic equivalence detection.}{230}{section*.978}%
+\contentsline {section}{\numberline {24.3}Higher inductive types for recursive data structures}{230}{section.24.3}%
+\contentsline {paragraph}{Application: quotient types.}{230}{section*.979}%
+\contentsline {paragraph}{Application: sets as quotients of lists.}{230}{section*.980}%
+\contentsline {section}{\numberline {24.4}Transport along type paths}{230}{section.24.4}%
+\contentsline {section}{\numberline {24.5}Identity types and equality reasoning}{231}{section.24.5}%
+\contentsline {section}{\numberline {24.6}The fundamental groupoid of a type}{231}{section.24.6}%
+\contentsline {section}{\numberline {24.7}Truncation levels and proof irrelevance}{232}{section.24.7}%
+\contentsline {paragraph}{Proof irrelevance.}{232}{section*.981}%
+\contentsline {paragraph}{Sets and decidable equality.}{232}{section*.982}%
+\contentsline {chapter}{\numberline {25}Synthesis of Relevant Propositions: Algorithms and Complexity}{233}{chapter.25}%
+\contentsline {section}{\numberline {25.1}The proposition synthesis pipeline}{233}{section.25.1}%
+\contentsline {section}{\numberline {25.2}Complexity analysis}{233}{section.25.2}%
+\contentsline {section}{\numberline {25.3}Optimizations for large programs}{234}{section.25.3}%
+\contentsline {paragraph}{Incremental slicing.}{234}{section*.983}%
+\contentsline {paragraph}{Parallelization.}{234}{section*.984}%
+\contentsline {paragraph}{Tiered analysis.}{234}{section*.985}%
+\contentsline {section}{\numberline {25.4}The relevance oracle: user-system interaction protocol}{234}{section.25.4}%
+\contentsline {section}{\numberline {25.5}Relevance for proof obligations}{235}{section.25.5}%

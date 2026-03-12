@@ -1,0 +1,16 @@
+module BenchmarkSurface
+
+theorem sort_values(xs: Tensor) -> SortedTensor:
+  theory pytorch-sort triggers torch.sort-call, theorem-benchmark cost 0.35 because theorem-carrying sort benchmark
+  ensures sorted(result)
+  goal perm(result, xs)
+
+theorem flatten_view(xs: Tensor) -> Tensor:
+  theory pytorch-shapes triggers tensor-view-call, theorem-benchmark cost 0.45 because theorem-carrying shape benchmark
+  ensures shape_transform(result, xs)
+  goal view_of(result, xs)
+
+theorem take_first(xs: Tensor) -> Tensor:
+  theory pytorch-indexing triggers tensor-indexing, theorem-benchmark cost 0.4 because theorem-carrying indexing benchmark
+  ensures indexed_from(result, xs)
+  goal index_select(result, xs, 0)
