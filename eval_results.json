@@ -1,0 +1,1039 @@
+{
+  "summary": {
+    "total_bugs": 222,
+    "classifiable": 100,
+    "sheaf_tp": 5,
+    "a3_tp": 0,
+    "both": 0,
+    "neither": 95,
+    "sheaf_only": 5,
+    "a3_only": 0
+  },
+  "by_type": {
+    "NULL_PTR": {
+      "total": 42,
+      "sheaf_tp": 4,
+      "a3_tp": 0
+    },
+    "VALUE_ERROR": {
+      "total": 27,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "TYPE_ERROR": {
+      "total": 15,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "IMPORT_ERROR": {
+      "total": 3,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "TIMEOUT_ERROR": {
+      "total": 2,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "INDEX_OOB": {
+      "total": 3,
+      "sheaf_tp": 1,
+      "a3_tp": 0
+    },
+    "ASSERT_FAIL": {
+      "total": 2,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "RUNTIME_ERROR": {
+      "total": 3,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "OVERFLOW": {
+      "total": 2,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    },
+    "UNICODE_ERROR": {
+      "total": 1,
+      "sheaf_tp": 0,
+      "a3_tp": 0
+    }
+  },
+  "results": [
+    {
+      "project": "ansible",
+      "bug_id": 1,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 2,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 5,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "ASSERT_FAIL",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 6,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 7,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 9,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 10,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 14,
+      "type": "IMPORT_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "ansible",
+      "bug_id": 17,
+      "type": "TIMEOUT_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 1,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 2,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 4,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 6,
+      "type": "NULL_PTR",
+      "sheaf": true,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 14,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "INDEX_OOB",
+        "KEY_ERROR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 15,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "INDEX_OOB",
+        "NULL_PTR",
+        "INDEX_OOB",
+        "KEY_ERROR",
+        "INDEX_OOB",
+        "KEY_ERROR",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 16,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 22,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "black",
+      "bug_id": 23,
+      "type": "INDEX_OOB",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "cookiecutter",
+      "bug_id": 1,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "cookiecutter",
+      "bug_id": 2,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "cookiecutter",
+      "bug_id": 4,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 1,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "ASSERT_FAIL",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 3,
+      "type": "IMPORT_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 6,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 9,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 13,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "fastapi",
+      "bug_id": 16,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "httpie",
+      "bug_id": 3,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 1,
+      "type": "ASSERT_FAIL",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 5,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 6,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 8,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "INDEX_OOB",
+        "KEY_ERROR",
+        "NULL_PTR",
+        "INDEX_OOB",
+        "INDEX_OOB",
+        "KEY_ERROR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 10,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 11,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 18,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 19,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 20,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 22,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 28,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 29,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 30,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 32,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 35,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 37,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 39,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 41,
+      "type": "RUNTIME_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "keras",
+      "bug_id": 42,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 2,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 3,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 6,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 9,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 13,
+      "type": "RUNTIME_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 14,
+      "type": "TIMEOUT_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 15,
+      "type": "NULL_PTR",
+      "sheaf": true,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 18,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 19,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 21,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 27,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 28,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 30,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "luigi",
+      "bug_id": 32,
+      "type": "IMPORT_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 1,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 2,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 5,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 6,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 8,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 11,
+      "type": "RUNTIME_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 13,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 15,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 16,
+      "type": "OVERFLOW",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 17,
+      "type": "OVERFLOW",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 21,
+      "type": "NULL_PTR",
+      "sheaf": true,
+      "a3": false,
+      "sheaf_types": [
+        "KEY_ERROR",
+        "TYPE_ERROR",
+        "INDEX_OOB",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 22,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 25,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 28,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "matplotlib",
+      "bug_id": 30,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 2,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 3,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 5,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 6,
+      "type": "INDEX_OOB",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 11,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 12,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 13,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 15,
+      "type": "NULL_PTR",
+      "sheaf": true,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 16,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 17,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 19,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 22,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 24,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 25,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 27,
+      "type": "NULL_PTR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 28,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 29,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 30,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 32,
+      "type": "UNICODE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 36,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 41,
+      "type": "INDEX_OOB",
+      "sheaf": true,
+      "a3": false,
+      "sheaf_types": [
+        "INDEX_OOB",
+        "KEY_ERROR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 42,
+      "type": "ASSERT_FAIL",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 44,
+      "type": "VALUE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR",
+        "NULL_PTR"
+      ],
+      "a3_types": []
+    },
+    {
+      "project": "pandas",
+      "bug_id": 45,
+      "type": "TYPE_ERROR",
+      "sheaf": false,
+      "a3": false,
+      "sheaf_types": [],
+      "a3_types": []
+    }
+  ]
+}

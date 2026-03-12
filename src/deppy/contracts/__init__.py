@@ -87,27 +87,6 @@ from deppy.contracts.transport_seed import (
     TransportSeedCollection,
 )
 
-# -- decreases (termination) ------------------------------------------------
-from deppy.contracts.decreases import (
-    DecreasesContract,
-    DecreasesObligation,
-    RankingFunction,
-    RankingMeasure,
-    WellFoundedOrdering,
-    WellFoundedProof,
-    decreases,
-)
-
-# -- ghost variables --------------------------------------------------------
-from deppy.contracts.ghost import (
-    GhostContract,
-    GhostState,
-    GhostTypeInfo,
-    GhostUpdate,
-    GhostVariable,
-    ghost,
-)
-
 # -- parser / extractor -----------------------------------------------------
 from deppy.contracts.parser import (
     ContractExtractor,
@@ -170,21 +149,6 @@ __all__ = [
     "TransportSeed",
     "TransportSeedBuilder",
     "TransportSeedCollection",
-    # decreases
-    "DecreasesContract",
-    "DecreasesObligation",
-    "RankingFunction",
-    "RankingMeasure",
-    "WellFoundedOrdering",
-    "WellFoundedProof",
-    "decreases",
-    # ghost
-    "GhostContract",
-    "GhostState",
-    "GhostTypeInfo",
-    "GhostUpdate",
-    "GhostVariable",
-    "ghost",
     # parser
     "ContractParser",
     "ContractExtractor",

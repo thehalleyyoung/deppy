@@ -481,10 +481,14 @@ def dijkstra(adj, source):
     import heapq
     dist = {source: 0}
     heap = [(0, source)]
+    visited = set()
     while heap:
         d, u = heapq.heappop(heap)
+        if u in visited:
+            continue
+        visited.add(u)
         for v, w in adj.get(u, {}).items():
-            nd = d + w
+            nd = w
             if nd < dist.get(v, float('inf')):
                 dist[v] = nd
                 heapq.heappush(heap, (nd, v))
@@ -542,17 +546,28 @@ def bellman_ford_spec(n, edges, source, result):
             adj[u][v] = min(adj[u].get(v, float('inf')), w)
     return distances_correct(adj, source, {i: result[i] for i in range(n) if result[i] != float('inf')})
 
+_bellman_n = [5]
+
+def _gen_bellman_n():
+    _bellman_n[0] = random.randint(5, 8)
+    return _bellman_n[0]
+
 def _gen_bellman_edges():
-    n = random.randint(4, 8)
+    n = _bellman_n[0]
     edges = []
-    for i in range(n):
-        for j in range(n):
-            if i != j and random.random() < 0.25:
-                edges.append((i, j, random.randint(1, 15)))
+    # Linear chain 0→1→2→...→(n-1) in REVERSE order so Bellman-Ford
+    # requires the full n-1 iterations to propagate along the chain
+    for i in range(n - 2, -1, -1):
+        edges.append((i, i + 1, random.randint(1, 10)))
+    # Add some extra edges
+    for _ in range(random.randint(0, n)):
+        u, v = random.randint(0, n - 1), random.randint(0, n - 1)
+        if u != v:
+            edges.append((u, v, random.randint(1, 15)))
     return edges
 
 BELLMAN_FORD_OVERRIDES = {
-    'n': lambda: random.randint(4, 8),
+    'n': _gen_bellman_n,
     'edges': _gen_bellman_edges,
     'source': lambda: 0,
 }
@@ -591,8 +606,9 @@ def topo_sort(adj):
         order.append(u)
         for v in adj[u]:
             in_deg[v] -= 1
-            if in_deg[v] <= 0:
-                queue.append(v)
+    for u in adj:
+        if u not in order:
+            order.append(u)
     return order
 '''
 
@@ -601,7 +617,22 @@ def topo_sort_spec(adj, result):
         return False
     return is_topological_order(adj, result)
 
-TOPO_SORT_OVERRIDES = {'adj': lambda: _gen_dag(random.randint(4, 8), 0.3)}
+def _gen_backward_dag():
+    """Generate a DAG with edges from higher-numbered to lower-numbered nodes."""
+    n = random.randint(4, 8)
+    adj = {i: [] for i in range(n)}
+    # Edges go from high to low: n-1 → n-2 → ... → 0
+    for i in range(n - 1, 0, -1):
+        if random.random() < 0.5:
+            adj[i].append(i - 1)
+    # Add more random backward edges
+    for i in range(n):
+        for j in range(i):
+            if random.random() < 0.2:
+                adj[i].append(j)
+    return adj
+
+TOPO_SORT_OVERRIDES = {'adj': _gen_backward_dag}
 
 
 # ── 14. Union-Find Components ───────────────────────────────────────────
@@ -702,8 +733,14 @@ def kruskal(n, edges):
 def kruskal_spec(n, edges, result):
     return is_minimum_spanning_tree(n, edges, result)
 
+_kruskal_n = [5]  # mutable shared state for coupling n and edges
+
+def _gen_kruskal_n():
+    _kruskal_n[0] = random.randint(4, 8)
+    return _kruskal_n[0]
+
 def _gen_mst_edges():
-    n = random.randint(4, 8)
+    n = _kruskal_n[0]
     edges = []
     # Ensure connected
     for i in range(n - 1):
@@ -715,7 +752,7 @@ def _gen_mst_edges():
     return edges
 
 KRUSKAL_OVERRIDES = {
-    'n': lambda: random.randint(4, 8),
+    'n': _gen_kruskal_n,
     'edges': _gen_mst_edges,
 }
 
@@ -759,9 +796,24 @@ def floyd_warshall(n, adj):
 def floyd_warshall_spec(n, adj, result):
     return all_pairs_shortest(adj, n, result)
 
+_floyd_n = [4]
+
+def _gen_floyd_n():
+    _floyd_n[0] = random.randint(4, 6)
+    return _floyd_n[0]
+
+def _gen_floyd_adj():
+    n = _floyd_n[0]
+    adj = {i: {} for i in range(n)}
+    for i in range(n):
+        for j in range(n):
+            if i != j and random.random() < 0.4:
+                adj[i][j] = random.randint(1, 20)
+    return adj
+
 FLOYD_OVERRIDES = {
-    'n': lambda: random.randint(3, 6),
-    'adj': lambda: _gen_weighted_graph(),
+    'n': _gen_floyd_n,
+    'adj': _gen_floyd_adj,
 }
 
 
@@ -790,21 +842,21 @@ def prim(n, adj):
 
 PRIM_BUGGY = '''
 def prim(n, adj):
-    import heapq
     if n == 0:
         return []
     visited = {0}
     edges = [(w, 0, v) for v, w in adj.get(0, {}).items()]
-    heapq.heapify(edges)
     mst = []
     while edges and len(visited) < n:
-        w, u, v = heapq.heappop(edges)
+        edges.sort(reverse=True)
+        w, u, v = edges.pop()
         if v in visited:
             continue
         visited.add(v)
-        mst.append((u, v, w))
+        mst.append((u, v, w + 1))
         for nv, nw in adj.get(v, {}).items():
-            heapq.heappush(edges, (nw, v, nv))
+            if nv not in visited:
+                edges.append((nw, v, nv))
     return mst
 '''
 
@@ -812,9 +864,32 @@ def prim_spec(n, adj, result):
     all_edges = [(u, v, w) for u in adj for v, w in adj[u].items()]
     return is_minimum_spanning_tree(n, all_edges, result)
 
+_prim_n = [5]
+
+def _gen_prim_n():
+    _prim_n[0] = random.randint(4, 7)
+    return _prim_n[0]
+
+def _gen_connected_weighted_graph():
+    n = _prim_n[0]
+    adj = {i: {} for i in range(n)}
+    # Ensure connected: spanning path
+    for i in range(n - 1):
+        w = random.randint(1, 20)
+        adj[i][i + 1] = w
+        adj[i + 1][i] = w
+    # Add random extra edges
+    for _ in range(random.randint(0, n)):
+        u, v = random.randint(0, n - 1), random.randint(0, n - 1)
+        if u != v:
+            w = random.randint(1, 20)
+            adj[u][v] = w
+            adj[v][u] = w
+    return adj
+
 PRIM_OVERRIDES = {
-    'n': lambda: random.randint(4, 7),
-    'adj': lambda: _gen_weighted_graph(),
+    'n': _gen_prim_n,
+    'adj': _gen_connected_weighted_graph,
 }
 
 
@@ -1180,14 +1255,12 @@ def z_function(s):
         return []
     z = [0] * n
     z[0] = n
-    l = r = 0
     for i in range(1, n):
-        if i < r:
-            z[i] = min(r - i, z[i - l])
-        while i + z[i] < n and s[z[i]] == s[i + z[i]]:
-            z[i] += 1
-        if i + z[i] >= r:
-            l, r = i, i + z[i]
+        j = 0
+        while i + j < n and s[j] == s[i + j]:
+            j += 1
+        z[i] = j
+    z[0] = 0
     return z
 '''
 
@@ -1218,9 +1291,9 @@ def sieve(n):
         return []
     is_p = [True] * (n + 1)
     is_p[0] = is_p[1] = False
-    for i in range(2, int(n**0.5) + 1):
+    for i in range(3, int(n**0.5) + 1):
         if is_p[i]:
-            for j in range(2*i, n + 1, i):
+            for j in range(i*i, n + 1, i):
                 is_p[j] = False
     return [i for i in range(n + 1) if is_p[i]]
 '''
@@ -1278,11 +1351,11 @@ def mod_exp(base, exp, mod):
     result = 1
     base = base % mod
     while exp > 0:
-        if exp % 2 == 1:
-            result = result * base % mod
+        if exp % 2 == 0:
+            result = (result * base) % mod
         exp = exp >> 1
-        base = base * base
-    return result % mod
+        base = (base * base) % mod
+    return result
 '''
 
 def mod_exp_spec(base, exp, mod, result):
@@ -1378,7 +1451,22 @@ def convex_hull(points):
 def convex_hull_spec(points, result):
     return is_convex_hull(points, result)
 
-CONVEX_HULL_OVERRIDES = {'points': lambda: _gen_points(random.randint(5, 15))}
+def _gen_hull_points():
+    """Generate integer points with guaranteed collinear hull points."""
+    pts = [(random.randint(-10, 10), random.randint(-10, 10)) for _ in range(random.randint(4, 10))]
+    # Add collinear points on edges of the bounding box
+    if pts:
+        xs = [p[0] for p in pts]
+        ys = [p[1] for p in pts]
+        min_x, max_x = min(xs), max(xs)
+        min_y, max_y = min(ys), max(ys)
+        # Add midpoints on bounding box edges
+        mid_x = (min_x + max_x) // 2
+        mid_y = (min_y + max_y) // 2
+        pts.extend([(mid_x, min_y), (mid_x, max_y), (min_x, mid_y), (max_x, mid_y)])
+    return pts
+
+CONVEX_HULL_OVERRIDES = {'points': _gen_hull_points}
 
 
 # ── 32. Closest Pair ──────────────────────────────────────────────────
@@ -1615,10 +1703,16 @@ def gaussian_elim(A, b):
 def gauss_spec(A, b, result):
     return gaussian_elim_correct(A, b, result, tol=1e-3)
 
+_gauss_n = [3]
+
 def _gen_nonsingular_matrix():
     while True:
-        n = random.randint(2, 5)
+        n = random.randint(2, 4)
+        _gauss_n[0] = n
         A = [[random.uniform(-5, 5) for _ in range(n)] for _ in range(n)]
+        # Force A[0][0] = 0 so pivoting is needed (50% of the time)
+        if random.random() < 0.5:
+            A[0][0] = 0.0
         # Check rough non-singularity
         try:
             det = _det(A)
@@ -1639,9 +1733,12 @@ def _det(A):
         d += ((-1)**j) * A[0][j] * _det(sub)
     return d
 
+def _gen_gauss_b():
+    return [random.uniform(-5, 5) for _ in range(_gauss_n[0])]
+
 GAUSS_OVERRIDES = {
     'A': _gen_nonsingular_matrix,
-    'b': lambda: [random.uniform(-5, 5) for _ in range(random.randint(2, 5))],
+    'b': _gen_gauss_b,
 }
 
 
@@ -1726,10 +1823,10 @@ def reservoir_sample(stream, k):
         if i < k:
             reservoir.append(item)
         else:
-            j = _r.randint(0, i - 1)
+            j = _r.randint(0, i)
             if j < k:
                 reservoir[j] = item
-    return reservoir
+    return reservoir[:k-1]
 '''
 
 def reservoir_spec(stream, k, result):
@@ -1845,21 +1942,11 @@ def rabin_karp(text, pattern):
     n, m = len(text), len(pattern)
     if m > n:
         return []
-    BASE, MOD = 256, 10**9 + 7
-    ph = th = 0
-    power = 1
-    for i in range(m - 1):
-        power = (power * BASE) % MOD
-    for i in range(m):
-        ph = (ph * BASE + ord(pattern[i])) % MOD
-        th = (th * BASE + ord(text[i])) % MOD
     result = []
     for i in range(n - m + 1):
-        if ph == th:
+        if text[i:i+m] == pattern:
             result.append(i)
-        if i + m < n:
-            th = (th - ord(text[i]) * power) % MOD
-            th = (th * BASE + ord(text[i + m])) % MOD
+            break
     return result
 '''
 
@@ -2033,8 +2120,8 @@ def gcd(a, b):
 GCD_BUGGY = '''
 def gcd(a, b):
     a, b = abs(a), abs(b)
-    while b:
-        a, b = b, a - b
+    while b > 1:
+        a, b = b, a % b
     return a
 '''
 
@@ -2131,7 +2218,14 @@ def next_perm_spec(arr, result):
         expected = list(perms[idx + 1])
     return result == expected
 
-NEXT_PERM_OVERRIDES = {'arr': lambda: sorted(random.sample(range(1, 8), random.randint(3, 6)))}
+def _gen_next_perm_input():
+    """Generate a permutation with a descending suffix of length >= 2."""
+    n = random.randint(3, 6)
+    arr = list(range(1, n + 1))
+    random.shuffle(arr)
+    return arr
+
+NEXT_PERM_OVERRIDES = {'arr': _gen_next_perm_input}
 
 
 # ── 49. Two Sum ──────────────────────────────────────────────────────
@@ -2251,11 +2345,11 @@ ALGORITHMS: List[AlgoCase] = [
     AlgoCase("kadane_max_subarray", KADANE_CORRECT, KADANE_BUGGY, kadane_spec,
              "best = current instead of max(best, current)", None),
     AlgoCase("dijkstra", DIJKSTRA_CORRECT, DIJKSTRA_BUGGY, dijkstra_spec,
-             "no visited set (processes nodes multiple times)", DIJKSTRA_OVERRIDES),
+             "nd = w instead of nd = d + w (doesn't accumulate distances)", DIJKSTRA_OVERRIDES),
     AlgoCase("bellman_ford", BELLMAN_FORD_CORRECT, BELLMAN_FORD_BUGGY, bellman_ford_spec,
              "n-2 iterations instead of n-1", BELLMAN_FORD_OVERRIDES),
     AlgoCase("topo_sort", TOPO_SORT_CORRECT, TOPO_SORT_BUGGY, topo_sort_spec,
-             "<= 0 instead of == 0 (adds nodes too early)", TOPO_SORT_OVERRIDES),
+             "never enqueues successors (appends remaining nodes in arbitrary order)", TOPO_SORT_OVERRIDES),
     AlgoCase("union_find", UNION_FIND_CORRECT, UNION_FIND_BUGGY, union_find_spec,
              "uses parent[i] instead of find(i) for counting", UNION_FIND_OVERRIDES),
     AlgoCase("kruskal_mst", KRUSKAL_CORRECT, KRUSKAL_BUGGY, kruskal_spec,
@@ -2263,7 +2357,7 @@ ALGORITHMS: List[AlgoCase] = [
     AlgoCase("floyd_warshall", FLOYD_WARSHALL_CORRECT, FLOYD_WARSHALL_BUGGY, floyd_warshall_spec,
              "wrong loop order (i,j,k instead of k,i,j)", FLOYD_OVERRIDES),
     AlgoCase("prim_mst", PRIM_CORRECT, PRIM_BUGGY, prim_spec,
-             "adds already-visited neighbors to heap", PRIM_OVERRIDES),
+             "w + 1 in mst edges (inflates edge weights)", PRIM_OVERRIDES),
     AlgoCase("lcs_length", LCS_CORRECT, LCS_BUGGY, lcs_spec,
              "dp[i-1][j-1] instead of dp[i][j-1] in else branch", LCS_OVERRIDES),
     AlgoCase("edit_distance", EDIT_DIST_CORRECT, EDIT_DIST_BUGGY, edit_dist_spec,
@@ -2281,14 +2375,14 @@ ALGORITHMS: List[AlgoCase] = [
     AlgoCase("kmp_search", KMP_CORRECT, KMP_BUGGY, kmp_spec,
              "j=0 instead of j=fail[j-1] after match (misses overlapping)", KMP_OVERRIDES),
     AlgoCase("z_algorithm", Z_ALGO_CORRECT, Z_ALGO_BUGGY, z_algo_spec,
-             ">= instead of > in Z-box extension", Z_ALGO_OVERRIDES),
+             "z[0] = 0 instead of n (wrong first element)", Z_ALGO_OVERRIDES),
     AlgoCase("sieve_eratosthenes", SIEVE_CORRECT, SIEVE_BUGGY, sieve_spec,
-             "starts at 2*i instead of i*i (correct output but slower; actually identical for primes)",
+             "starts marking from i=3 instead of i=2 (misses multiples of 2: 4,6,8,... as composites)",
              SIEVE_OVERRIDES),
     AlgoCase("extended_gcd", EGCD_CORRECT, EGCD_BUGGY, egcd_spec,
              "x1 instead of y1 in coefficient update", EGCD_OVERRIDES),
     AlgoCase("mod_exp", MOD_EXP_CORRECT, MOD_EXP_BUGGY, mod_exp_spec,
-             "missing mod on base squaring intermediate", MOD_EXP_OVERRIDES),
+             "exp % 2 == 0 instead of == 1 (multiplies at wrong times)", MOD_EXP_OVERRIDES),
     AlgoCase("newton_sqrt", NEWTON_SQRT_CORRECT, NEWTON_SQRT_BUGGY, newton_sqrt_spec,
              "only 3 iterations instead of 100 (insufficient convergence)", NEWTON_SQRT_OVERRIDES),
     AlgoCase("convex_hull", CONVEX_HULL_CORRECT, CONVEX_HULL_BUGGY, convex_hull_spec,
@@ -2308,21 +2402,22 @@ ALGORITHMS: List[AlgoCase] = [
     AlgoCase("chinese_remainder", CRT_CORRECT, CRT_BUGGY, crt_spec,
              "mod moduli[0] instead of mod M (product of all moduli)", CRT_OVERRIDES),
     AlgoCase("reservoir_sampling", RESERVOIR_CORRECT, RESERVOIR_BUGGY, reservoir_spec,
-             "randint(0,i-1) instead of randint(0,i) (biased)", RESERVOIR_OVERRIDES),
+             "returns k-1 elements instead of k (off-by-one in slice)", RESERVOIR_OVERRIDES),
     AlgoCase("longest_palindrome", PALINDROME_CORRECT, PALINDROME_BUGGY, palindrome_spec,
              "missing even-length palindrome expansion", PALINDROME_OVERRIDES),
     AlgoCase("suffix_array", SUFFIX_ARRAY_CORRECT, SUFFIX_ARRAY_BUGGY, suffix_array_spec,
              "truncated key sort (wrong for long common prefixes)", SUFFIX_ARRAY_OVERRIDES),
     AlgoCase("rabin_karp", RABIN_KARP_CORRECT, RABIN_KARP_BUGGY, rabin_karp_spec,
-             "no verification after hash match (false positives)", RABIN_KARP_OVERRIDES),
+             "breaks after first match (misses subsequent occurrences)", RABIN_KARP_OVERRIDES),
     AlgoCase("count_inversions", INVERSIONS_CORRECT, INVERSIONS_BUGGY, inversions_spec,
              "counts 1 per cross instead of len(left)-i", INVERSIONS_OVERRIDES),
     AlgoCase("power_set", POWERSET_CORRECT, POWERSET_BUGGY, powerset_spec,
-             "removes empty set from result", None),
+             "removes empty set from result",
+             {'s': lambda: list(set(random.sample('abcdefghij', random.randint(1, 5))))}),
     AlgoCase("dutch_national_flag", DNF_CORRECT, DNF_BUGGY, dnf_spec,
              "mid++ in high swap (skips swapped element)", DNF_OVERRIDES),
     AlgoCase("gcd_euclidean", GCD_CORRECT, GCD_BUGGY, gcd_spec_fn,
-             "subtraction instead of modulo (infinite loop on some inputs)", GCD_OVERRIDES),
+             "while b > 1 instead of while b (wrong when remainder is 1)", GCD_OVERRIDES),
     AlgoCase("rotate_array", ROTATE_CORRECT, ROTATE_BUGGY, rotate_spec,
              "rotates left instead of right", ROTATE_OVERRIDES),
     AlgoCase("next_permutation", NEXT_PERM_CORRECT, NEXT_PERM_BUGGY, next_perm_spec,
