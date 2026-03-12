@@ -1522,21 +1522,79 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                 ))
 
         # Info leak via traceback exposure in return values or dict literals
+        # Only flag traceback.format_exc() when its result appears in a return,
+        # not when it's merely passed to a logging function.
         if isinstance(node, ast.Call):
             try:
                 call_text = ast.unparse(node)
             except Exception:
                 call_text = ""
             if 'traceback.format_exc' in call_text or 'traceback.format_exception' in call_text:
-                reqs.append(SectionRequirement(
-                    site_id=SiteId(kind=SiteKind.ERROR, name=f"infoleak_L{node.lineno}"),
-                    bug_type="INFO_LEAK",
-                    required_predicate=Comparison(
-                        op='==', left=Var(f"tb_exposed_L{node.lineno}"), right=IntLit(0)
-                    ),
-                    description="traceback exposure leaks internal stack information",
-                    line=node.lineno, col=node.col_offset, ast_node=node,
-                ))
+                # Walk up to see if this call is inside a return/dict/yield
+                _is_returned = False
+                for parent_node in ast.walk(tree):
+                    if isinstance(parent_node, ast.Return) and parent_node.value is not None:
+                        try:
+                            ret_text = ast.unparse(parent_node.value)
+                        except Exception:
+                            ret_text = ""
+                        if 'traceback.format_exc' in ret_text or 'traceback.format_exception' in ret_text:
+                            _is_returned = True
+                            break
+                    # Also flag if assigned then returned or embedded in dict
+                    if isinstance(parent_node, ast.Assign) and len(parent_node.targets) == 1:
+                        if isinstance(parent_node.targets[0], ast.Name):
+                            _tb_var = parent_node.targets[0].id
+                            try:
+                                rhs_text = ast.unparse(parent_node.value)
+                            except Exception:
+                                rhs_text = ""
+                            if 'traceback.format_exc' in rhs_text or 'traceback.format_exception' in rhs_text:
+                                # Check if this var appears in any return statement
+                                for ret_node in ast.walk(tree):
+                                    if isinstance(ret_node, ast.Return) and ret_node.value is not None:
+                                        try:
+                                            rv = ast.unparse(ret_node.value)
+                                        except Exception:
+                                            rv = ""
+                                        if _tb_var in rv:
+                                            _is_returned = True
+                                            break
+                if _is_returned:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.ERROR, name=f"infoleak_L{node.lineno}"),
+                        bug_type="INFO_LEAK",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"tb_exposed_L{node.lineno}"), right=IntLit(0)
+                        ),
+                        description="traceback exposure leaks internal stack information",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+
+        # Info leak via str(e) / repr(e) in return values inside except blocks
+        if isinstance(node, ast.Return) and node.value is not None:
+            try:
+                ret_text = ast.unparse(node.value)
+            except Exception:
+                ret_text = ""
+            # Check if str(e) or repr(e) appears where e is an exception variable
+            # We detect exception variable names from enclosing except handlers
+            _exc_vars: Set[str] = set()
+            for eh in ast.walk(tree):
+                if isinstance(eh, ast.ExceptHandler) and eh.name:
+                    _exc_vars.add(eh.name)
+            for ev in _exc_vars:
+                if f"str({ev})" in ret_text or f"repr({ev})" in ret_text:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.ERROR, name=f"infoleak_L{node.lineno}"),
+                        bug_type="INFO_LEAK",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"secret_in_msg_L{node.lineno}"), right=IntLit(0)
+                        ),
+                        description="returning str(exception) may leak sensitive information",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+                    break
 
         # ── SECRECY_GAP: Timing channel ──
         #    Detected by: for-loop comparing secret data with early exit.
@@ -1600,6 +1658,14 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                                     hash_vars.add(sib.targets[0].id)
                     if hash_vars & {left_text.strip(), right_text.strip()}:
                         has_hash = True
+                # Also detect == on secret/key/token/password parameters
+                if not has_hash:
+                    _secret_kws = ('key', 'secret', 'token', 'password',
+                                   'credential', 'api_key', 'auth_token',
+                                   'passw', 'passwd')
+                    combined = (left_text + ' ' + right_text).lower()
+                    if any(kw in combined for kw in _secret_kws):
+                        has_hash = True
                 if has_hash:
                     reqs.append(SectionRequirement(
                         site_id=SiteId(kind=SiteKind.BRANCH_GUARD,
@@ -1608,7 +1674,7 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         required_predicate=Comparison(
                             op='==', left=Var(f"timing_indep_L{node.lineno}"), right=IntLit(1)
                         ),
-                        description="== comparison of hash/digest leaks timing information; use hmac.compare_digest",
+                        description="== comparison of secret/key/hash leaks timing information; use hmac.compare_digest",
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
 
