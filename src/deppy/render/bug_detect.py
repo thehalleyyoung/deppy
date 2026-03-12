@@ -519,6 +519,10 @@ def _extract_loop_var(node: ast.While) -> Optional[str]:
                 return _expr_to_var_name(test.left.args[0], None)
     if isinstance(test, ast.Name):
         return test.id
+    # while not done → ranking variable is 'done'
+    if isinstance(test, ast.UnaryOp) and isinstance(test.op, ast.Not):
+        if isinstance(test.operand, ast.Name):
+            return test.operand.id
     # while True → no ranking variable
     if isinstance(test, ast.Constant) and test.value is True:
         return None
@@ -749,21 +753,26 @@ def _binding_analysis(tree: ast.AST) -> List[SectionRequirement]:
 
 
 def _recursion_analysis(tree: ast.AST) -> List[SectionRequirement]:
-    """Detect unbounded recursion as a ranking presheaf failure.
+    """Detect unbounded recursion as a stack-depth presheaf obstruction.
 
-    A recursive function defines a ranking presheaf r : CallStack → ℕ.
-    Each recursive call site requires r(callee_state) < r(caller_state).
-    If no base case exists (no non-recursive return path), the presheaf
-    has no global section → the descent is unprovable → obstruction.
+    The call-stack defines a *stack-depth presheaf*
 
-    Formally: let F be a function with body B.  F is recursively unsafe if:
-    1. B contains a call to F (direct recursion), AND
-    2. There is no conditional return before the recursive call that does
-       NOT itself recurse.
+        D : Sitesᵒᵖ → ℤ₋₀  (non-negative integers)
 
-    In sheaf terms, the recursive call site requires a section of the
-    well-founded ordering presheaf, but if every path through the function
-    recurses, no section exists.
+    where D(site) is the remaining stack frames at that observation site.
+    A recursive call at site U requires a *section*
+
+        σ ∈ Γ(U, D)   such that   ρ_{U,U′}(σ) > 0
+
+    i.e. the restriction map to the callee site U′ must carry a
+    strictly-positive depth budget.  If no *explicit depth-limit mechanism*
+    provides such a section, the presheaf has no global section bounded
+    by sys.getrecursionlimit() → obstruction = potential STACK_OVERFLOW.
+
+    Key insight: a *logical* base case (e.g. `if n <= 0: return 0`) proves
+    *termination* but NOT stack-boundedness.  For STACK_OVERFLOW we require
+    an **explicit depth budget**: an optional parameter with a default that
+    is decremented and guarded, or a sys.getrecursionlimit() sentinel.
     """
     reqs: List[SectionRequirement] = []
 
@@ -773,77 +782,96 @@ def _recursion_analysis(tree: ast.AST) -> List[SectionRequirement]:
 
         func_name = func_node.name
 
-        # Check if the function calls itself
-        has_self_call = False
-        self_call_line = 0
+        # Phase 1: collect self-calls (direct recursion sites)
+        self_calls: List[ast.Call] = []
         for node in ast.walk(func_node):
             if isinstance(node, ast.Call):
                 name = _get_call_name(node)
                 if name == func_name:
-                    has_self_call = True
-                    self_call_line = node.lineno
-                    break
+                    self_calls.append(node)
 
-        if not has_self_call:
+        if not self_calls:
             continue
 
-        # Check for a base case: a return/raise BEFORE any recursive call
-        # in at least one branch.  Walk the top-level body statements.
-        has_base_case = False
-        for stmt in func_node.body:
-            if isinstance(stmt, ast.If):
-                # Check if the if-body returns without recursing
-                body_returns = any(isinstance(s, (ast.Return, ast.Raise))
-                                   for s in stmt.body)
-                body_recurses = any(
-                    isinstance(n, ast.Call) and _get_call_name(n) == func_name
-                    for n in ast.walk(stmt)
-                    if isinstance(n, ast.Call)
-                )
-                # Base case: returns in a branch that doesn't recurse
-                if body_returns and not body_recurses:
-                    has_base_case = True
-                    break
-                # Also check else branch
-                if stmt.orelse:
-                    else_returns = any(isinstance(s, (ast.Return, ast.Raise))
-                                       for s in stmt.orelse)
-                    else_recurses = any(
-                        isinstance(n, ast.Call) and _get_call_name(n) == func_name
-                        for s in stmt.orelse for n in ast.walk(s)
-                        if isinstance(n, ast.Call)
-                    )
-                    if else_returns and not else_recurses:
-                        has_base_case = True
-                        break
-            # A simple return at top level before recursion = base case
-            # BUT only if the return itself doesn't recurse
-            if isinstance(stmt, ast.Return):
-                return_recurses = any(
-                    isinstance(n, ast.Call) and _get_call_name(n) == func_name
-                    for n in ast.walk(stmt)
-                    if isinstance(n, ast.Call)
-                )
-                if not return_recurses:
-                    has_base_case = True
-                    break
+        self_call_line = self_calls[0].lineno
 
-        if not has_base_case:
-            reqs.append(SectionRequirement(
-                site_id=SiteId(kind=SiteKind.CALL_RESULT,
-                               name=f"recurse_{func_name}_L{self_call_line}"),
-                bug_type="RUNTIME_ERROR",
-                required_predicate=Comparison(
-                    op='>', left=Var(f"ranking_{func_name}"), right=IntLit(0)
-                ),
-                description=(
-                    f"recursive call `{func_name}()` has no visible base case — "
-                    f"ranking presheaf r : CallStack → ℕ has no section"
-                ),
-                line=self_call_line, col=0, ast_node=func_node,
-            ))
+        # Phase 2: check for sys.getrecursionlimit() sentinel in the
+        # function body — this provides an explicit ceiling section.
+        func_source = ""
+        try:
+            func_source = ast.unparse(func_node)
+        except Exception:
+            pass
+        if "getrecursionlimit" in func_source or "setrecursionlimit" in func_source:
+            continue
+
+        # Phase 3: identify depth-budget parameters.
+        # A depth-budget parameter is one with a DEFAULT VALUE that is
+        # modified (decremented / incremented) in recursive calls and
+        # checked in a condition.  Required params like `n` in fibonacci
+        # prove termination but not stack-boundedness, so they are NOT
+        # treated as depth budgets.
+        params_with_defaults: Set[str] = set()
+        defaults = func_node.args.defaults
+        args = func_node.args.args
+        if defaults:
+            offset = len(args) - len(defaults)
+            for i, _d in enumerate(defaults):
+                if offset + i < len(args):
+                    params_with_defaults.add(args[offset + i].arg)
+        for kw, dflt in zip(func_node.args.kwonlyargs, func_node.args.kw_defaults):
+            if dflt is not None:
+                params_with_defaults.add(kw.arg)
+
+        has_depth_limit = False
+        for call in self_calls:
+            # Check positional args for decrement/increment pattern
+            for arg in call.args:
+                if isinstance(arg, ast.BinOp) and isinstance(arg.op, (ast.Sub, ast.Add)):
+                    left_name = _expr_to_var_name(arg.left, "")
+                    if left_name in params_with_defaults:
+                        # Found budget ± N pattern; verify a condition guard exists
+                        for s in ast.walk(func_node):
+                            if isinstance(s, ast.If):
+                                try:
+                                    cond = ast.unparse(s.test)
+                                except Exception:
+                                    cond = ""
+                                if left_name in cond:
+                                    has_depth_limit = True
+                                    break
+                        if has_depth_limit:
+                            break
+            # Check keyword args (e.g. traverse(child, depth=depth+1))
+            if not has_depth_limit:
+                for kw in call.keywords:
+                    if kw.arg in params_with_defaults:
+                        has_depth_limit = True
+                        break
+            if has_depth_limit:
+                break
+
+        if has_depth_limit:
+            continue
+
+        # Phase 4: emit obstruction — the stack-depth presheaf has no
+        # bounded global section at the recursive call site.
+        reqs.append(SectionRequirement(
+            site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                           name=f"recurse_{func_name}_L{self_call_line}"),
+            bug_type="STACK_OVERFLOW",
+            required_predicate=Comparison(
+                op='>', left=Var(f"ranking_{func_name}"), right=IntLit(0)
+            ),
+            description=(
+                f"recursive call `{func_name}()` has no explicit depth budget — "
+                f"stack-depth presheaf D : Sitesᵒᵖ → ℤ has no bounded section"
+            ),
+            line=self_call_line, col=0, ast_node=func_node,
+        ))
 
     return reqs
+
 
 
 def _double_close_analysis(tree: ast.AST) -> List[SectionRequirement]:
@@ -897,7 +925,7 @@ def _double_close_analysis(tree: ast.AST) -> List[SectionRequirement]:
                     reqs.append(SectionRequirement(
                         site_id=SiteId(kind=SiteKind.CALL_RESULT,
                                        name=f"dblclose_{var}_L{second_close}"),
-                        bug_type="DOUBLE_FREE",
+                        bug_type="DOUBLE_CLOSE",
                         required_predicate=Comparison(
                             op='==', left=Var(f"lifecycle_{var}"),
                             right=IntLit(1)  # requires OPEN
@@ -1058,6 +1086,22 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
             if fnode.args.kwarg:
                 _param_names.add(fnode.args.kwarg.arg)
 
+    # Collect imported module names — module objects are always bound and
+    # never None, so attribute access on them (mod.func) is safe.
+    # This provides resilience for unknown/third-party modules: even if we
+    # don't know what acme_lib.transform() returns, we know acme_lib itself
+    # is not None (the import guarantees it).
+    _imported_modules: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, ast.Import):
+            for alias in fnode.names:
+                _imported_modules.add(alias.asname or alias.name.split('.')[0])
+        elif isinstance(fnode, ast.ImportFrom):
+            if fnode.module:
+                _imported_modules.add(fnode.module.split('.')[0])
+            for alias in fnode.names:
+                _imported_modules.add(alias.asname or alias.name)
+
     # Collect variables assigned to open() — for lifecycle tracking
     _open_vars: Set[str] = set()
     _close_lines: Dict[str, List[int]] = defaultdict(list)
@@ -1099,7 +1143,7 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                               'os', 'sys', 'io', 'json', 'math', 'time', 'datetime',
                               'collections', 'functools', 'itertools', 'operator',
                               'copy', 'subprocess', 'pathlib', 'logging', 're',
-                              'hashlib', 'random', 'socket', 'signal'}
+                              'hashlib', 'random', 'socket', 'signal'} | _imported_modules
                 if node.value.id in skip_names:
                     pass  # Skip: known not-None
                 elif node.value.id in _param_names:
@@ -1125,32 +1169,63 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                 ))
 
         # ── REFINEMENT_GAP: Index out of bounds ──
+        # Skip direct-parameter indices: if the index is a plain Name that
+        # matches a function parameter, it's a precondition of the caller →
+        # not an obstruction in THIS function's presheaf.
         if isinstance(node, ast.Subscript):
             if _is_index_access(node):
-                idx_var = _expr_to_var_name(node.slice, f"idx_L{node.lineno}")
-                seq_var = _expr_to_var_name(node.value, f"seq_L{node.lineno}")
-                len_var = f"len_{seq_var}"
-                reqs.append(SectionRequirement(
-                    site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"idx_L{node.lineno}"),
-                    bug_type="INDEX_OOB",
-                    required_predicate=And(conjuncts=[
-                        Comparison(op='>=', left=Var(idx_var), right=IntLit(0)),
-                        Comparison(op='<', left=Var(idx_var), right=Var(len_var)),
-                    ]),
-                    description=f"index `{_expr_repr(node.slice)}` must be in [0, len({_expr_repr(node.value)}))",
-                    line=node.lineno, col=node.col_offset, ast_node=node,
-                ))
+                # Check if index is a direct function parameter (precondition)
+                is_param_idx = False
+                if isinstance(node.slice, ast.Name):
+                    for parent_fn in ast.walk(tree):
+                        if isinstance(parent_fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                            fn_params = {a.arg for a in parent_fn.args.args}
+                            if node.slice.id in fn_params:
+                                # Verify node is inside this function
+                                for desc in ast.walk(parent_fn):
+                                    if desc is node:
+                                        is_param_idx = True
+                                        break
+                            if is_param_idx:
+                                break
+
+                if not is_param_idx:
+                    idx_var = _expr_to_var_name(node.slice, f"idx_L{node.lineno}")
+                    seq_var = _expr_to_var_name(node.value, f"seq_L{node.lineno}")
+                    len_var = f"len_{seq_var}"
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"idx_L{node.lineno}"),
+                        bug_type="INDEX_OOB",
+                        required_predicate=And(conjuncts=[
+                            Comparison(op='>=', left=Var(idx_var), right=IntLit(0)),
+                            Comparison(op='<', left=Var(idx_var), right=Var(len_var)),
+                        ]),
+                        description=f"index `{_expr_repr(node.slice)}` must be in [0, len({_expr_repr(node.value)}))",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
 
         # ── REFINEMENT_GAP: Key error ──
+        # Pure Store context (d[k] = v) never raises KeyError.
+        # But AugAssign (d[k] += v) reads first → CAN raise.
         if isinstance(node, ast.Subscript) and _is_dict_access(node):
-            key_var = _expr_to_var_name(node.slice, f"key_L{node.lineno}")
-            reqs.append(SectionRequirement(
-                site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"key_L{node.lineno}"),
-                bug_type="KEY_ERROR",
-                required_predicate=Comparison(op='==', left=Var(f"{key_var}_exists"), right=IntLit(1)),
-                description=f"key `{_expr_repr(node.slice)}` must exist in dict",
-                line=node.lineno, col=node.col_offset, ast_node=node,
-            ))
+            ctx = getattr(node, 'ctx', None)
+            is_pure_store = isinstance(ctx, ast.Store)
+            # AugAssign target has Store ctx but reads first → treat as Load
+            is_aug_assign_target = False
+            if is_pure_store:
+                for parent_node in ast.walk(tree):
+                    if isinstance(parent_node, ast.AugAssign) and parent_node.target is node:
+                        is_aug_assign_target = True
+                        break
+            if isinstance(ctx, ast.Load) or is_aug_assign_target:
+                key_var = _expr_to_var_name(node.slice, f"key_L{node.lineno}")
+                reqs.append(SectionRequirement(
+                    site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"key_L{node.lineno}"),
+                    bug_type="KEY_ERROR",
+                    required_predicate=Comparison(op='==', left=Var(f"{key_var}_exists"), right=IntLit(1)),
+                    description=f"key `{_expr_repr(node.slice)}` must exist in dict",
+                    line=node.lineno, col=node.col_offset, ast_node=node,
+                ))
 
         # ── REFINEMENT_GAP: Assertion ──
         if isinstance(node, ast.Assert):
@@ -1411,6 +1486,107 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                     line=node.lineno, col=node.col_offset, ast_node=node,
                 ))
 
+        # ── REFINEMENT_GAP: FP domain error ──
+        #    Math functions with restricted domains define presheaves over
+        #    the real line.  The function site requires a section satisfying
+        #    the domain predicate; if no such section is available, the
+        #    restriction map is undefined → obstruction.
+        if isinstance(node, ast.Call):
+            func_name = _get_call_name(node)
+            _fp_domain_specs: Dict[str, Tuple[str, str]] = {
+                "math.log": ("positive", "math.log(x) requires x > 0"),
+                "math.log2": ("positive", "math.log2(x) requires x > 0"),
+                "math.log10": ("positive", "math.log10(x) requires x > 0"),
+                "math.log1p": ("gt_neg1", "math.log1p(x) requires x > -1"),
+                "math.sqrt": ("non_negative", "math.sqrt(x) requires x ≥ 0"),
+                "math.asin": ("unit_interval", "math.asin(x) requires -1 ≤ x ≤ 1"),
+                "math.acos": ("unit_interval", "math.acos(x) requires -1 ≤ x ≤ 1"),
+                "math.acosh": ("ge_one", "math.acosh(x) requires x ≥ 1"),
+                "math.atanh": ("open_unit", "math.atanh(x) requires -1 < x < 1"),
+            }
+            if func_name in _fp_domain_specs and node.args:
+                domain_kind, desc = _fp_domain_specs[func_name]
+                arg_var = _expr_to_var_name(node.args[0], f"fp_arg_L{node.lineno}")
+                if domain_kind == "positive":
+                    pred: Predicate = Comparison(op='>', left=Var(arg_var), right=IntLit(0))
+                elif domain_kind == "non_negative":
+                    pred = Comparison(op='>=', left=Var(arg_var), right=IntLit(0))
+                elif domain_kind == "unit_interval":
+                    pred = And(conjuncts=[
+                        Comparison(op='>=', left=Var(arg_var), right=IntLit(-1)),
+                        Comparison(op='<=', left=Var(arg_var), right=IntLit(1)),
+                    ])
+                elif domain_kind == "gt_neg1":
+                    pred = Comparison(op='>', left=Var(arg_var), right=IntLit(-1))
+                elif domain_kind == "ge_one":
+                    pred = Comparison(op='>=', left=Var(arg_var), right=IntLit(1))
+                elif domain_kind == "open_unit":
+                    pred = And(conjuncts=[
+                        Comparison(op='>', left=Var(arg_var), right=IntLit(-1)),
+                        Comparison(op='<', left=Var(arg_var), right=IntLit(1)),
+                    ])
+                else:
+                    pred = Comparison(op='>', left=Var(arg_var), right=IntLit(0))
+                reqs.append(SectionRequirement(
+                    site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                                   name=f"fpdomain_L{node.lineno}"),
+                    bug_type="FP_DOMAIN",
+                    required_predicate=pred,
+                    description=desc,
+                    line=node.lineno, col=node.col_offset, ast_node=node,
+                ))
+
+        # ── EXCEPTION_ESCAPEMENT: ValueError ──
+        #    Operations that raise ValueError when given invalid input.
+        #    In sheaf terms: the call site requires a section in the
+        #    "parseable" or "present-in-collection" sub-presheaf, but the
+        #    available section is the full carrier → restriction undefined.
+        if isinstance(node, ast.Call):
+            func_name = _get_call_name(node)
+            # int(), float() on string arguments — may raise ValueError
+            if func_name in ('int', 'float') and node.args:
+                arg_var = _expr_to_var_name(node.args[0], f"parse_arg_L{node.lineno}")
+                reqs.append(SectionRequirement(
+                    site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                                   name=f"valerr_L{node.lineno}"),
+                    bug_type="VALUE_ERROR",
+                    required_predicate=Comparison(
+                        op='==', left=Var(f"parseable_{arg_var}"), right=IntLit(1)
+                    ),
+                    description=f"`{func_name}({_expr_repr(node.args[0])})` may raise ValueError on non-numeric input",
+                    line=node.lineno, col=node.col_offset, ast_node=node,
+                ))
+            # list.remove() — raises ValueError if item not in list
+            if isinstance(node.func, ast.Attribute) and node.func.attr == 'remove':
+                if node.args:
+                    item_var = _expr_to_var_name(node.args[0], f"item_L{node.lineno}")
+                    obj_var = _expr_to_var_name(node.func.value, f"list_L{node.lineno}")
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                                       name=f"valerr_L{node.lineno}"),
+                        bug_type="VALUE_ERROR",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"{item_var}_in_{obj_var}"), right=IntLit(1)
+                        ),
+                        description=f"`.remove({_expr_repr(node.args[0])})` raises ValueError if item not in list",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+
+        # ── EXCEPTION_ESCAPEMENT: ValueError on tuple unpacking ──
+        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Tuple):
+            n_targets = len(node.targets[0].elts)
+            val_var = _expr_to_var_name(node.value, f"unpack_L{node.lineno}")
+            reqs.append(SectionRequirement(
+                site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                               name=f"unpack_L{node.lineno}"),
+                bug_type="VALUE_ERROR",
+                required_predicate=Comparison(
+                    op='==', left=Var(f"len_{val_var}"), right=IntLit(n_targets)
+                ),
+                description=f"unpacking into {n_targets} variables requires exactly {n_targets} elements",
+                line=node.lineno, col=node.col_offset, ast_node=node,
+            ))
+
         # ── TAINT_LEAKAGE: Injection sinks ──
         if isinstance(node, ast.Call):
             func_name = _get_call_name(node)
@@ -1537,6 +1713,8 @@ class _Stalk:
     - is_negative[v]  : whether v is definitely negative/non-negative/unknown
     - is_bound[v]     : whether v is definitely bound/unbound/unknown
     - is_open[v]      : whether resource v is open/closed/unknown
+    - has_key[v]      : whether dict key v is known to exist/not-exist/unknown
+    - is_in_domain[v] : whether v is in a valid math domain (positive, in range)
     - carrier[v]      : the base type of v (if known)
 
     These form heterogeneous fiber coordinates — each site can track
@@ -1548,6 +1726,8 @@ class _Stalk:
     is_negative: Dict[str, _AbstractVal] = field(default_factory=dict)
     is_bound: Dict[str, _AbstractVal] = field(default_factory=dict)
     is_open: Dict[str, _AbstractVal] = field(default_factory=dict)
+    has_key: Dict[str, _AbstractVal] = field(default_factory=dict)
+    is_in_domain: Dict[str, _AbstractVal] = field(default_factory=dict)
     carrier: Dict[str, TypeBase] = field(default_factory=dict)
 
     def copy(self) -> '_Stalk':
@@ -1558,6 +1738,8 @@ class _Stalk:
             is_negative=dict(self.is_negative),
             is_bound=dict(self.is_bound),
             is_open=dict(self.is_open),
+            has_key=dict(self.has_key),
+            is_in_domain=dict(self.is_in_domain),
             carrier=dict(self.carrier),
         )
 
@@ -1592,6 +1774,14 @@ class _Stalk:
         for v in all_vars:
             result.is_open[v] = self.is_open.get(v, _AbstractVal.UNKNOWN).join(
                 other.is_open.get(v, _AbstractVal.UNKNOWN))
+        all_vars = set(self.has_key) | set(other.has_key)
+        for v in all_vars:
+            result.has_key[v] = self.has_key.get(v, _AbstractVal.UNKNOWN).join(
+                other.has_key.get(v, _AbstractVal.UNKNOWN))
+        all_vars = set(self.is_in_domain) | set(other.is_in_domain)
+        for v in all_vars:
+            result.is_in_domain[v] = self.is_in_domain.get(v, _AbstractVal.UNKNOWN).join(
+                other.is_in_domain.get(v, _AbstractVal.UNKNOWN))
         # Carriers: keep only where both agree
         for v in set(self.carrier) & set(other.carrier):
             if self.carrier[v] is other.carrier[v]:
@@ -1676,6 +1866,16 @@ class _Stalk:
                             if type_arg.id in _CARRIER_MAP:
                                 refined.carrier[var_name] = _CARRIER_MAP[type_arg.id]
 
+        # ── Membership test: `x in d` / `x not in d` → has_key refinement ──
+        if isinstance(test, ast.Compare) and len(test.ops) == 1:
+            cmp_op = test.ops[0]
+            if isinstance(cmp_op, ast.In) and isinstance(test.left, ast.Name):
+                key_var = test.left.id
+                refined.has_key[key_var] = _AbstractVal.TRUE if positive else _AbstractVal.FALSE
+            elif isinstance(cmp_op, ast.NotIn) and isinstance(test.left, ast.Name):
+                key_var = test.left.id
+                refined.has_key[key_var] = _AbstractVal.FALSE if positive else _AbstractVal.TRUE
+
         # ── Truthiness test: `if x:` → x is not None and not zero ──
         if isinstance(test, ast.Name):
             if positive:
@@ -1742,6 +1942,14 @@ class _Stalk:
         elif ov is _AbstractVal.FALSE:
             conjuncts.append(Comparison(op='==', left=Var(f"open_{var_name}"), right=IntLit(0)))
 
+        kv = self.has_key.get(var_name, _AbstractVal.UNKNOWN)
+        if kv is _AbstractVal.TRUE:
+            conjuncts.append(Comparison(op='==', left=Var(f"{var_name}_exists"), right=IntLit(1)))
+
+        dv = self.is_in_domain.get(var_name, _AbstractVal.UNKNOWN)
+        if dv is _AbstractVal.TRUE:
+            conjuncts.append(Comparison(op='==', left=Var(f"{var_name}_in_domain"), right=IntLit(1)))
+
         if not conjuncts:
             return And(conjuncts=[])  # True (no information)
         if len(conjuncts) == 1:
@@ -1784,6 +1992,14 @@ class _Stalk:
         # DOUBLE_FREE / DOUBLE_CLOSE: requires is_open = TRUE (before second close)
         if bug in ("DOUBLE_FREE", "DOUBLE_CLOSE"):
             return self.is_open.get(var, _AbstractVal.UNKNOWN).is_definitely_true
+
+        # KEY_ERROR: requires has_key = TRUE
+        if bug == "KEY_ERROR":
+            return self.has_key.get(var, _AbstractVal.UNKNOWN).is_definitely_true
+
+        # FP_DOMAIN: requires is_in_domain = TRUE
+        if bug == "FP_DOMAIN":
+            return self.is_in_domain.get(var, _AbstractVal.UNKNOWN).is_definitely_true
 
         return False
 
@@ -2058,7 +2274,8 @@ class _PresheafAnalyzer:
         # Name copy: propagate stalk from the source variable
         if isinstance(value, ast.Name):
             src = value.id
-            for dim in ('is_none', 'is_zero', 'is_negative', 'is_bound', 'is_open'):
+            for dim in ('is_none', 'is_zero', 'is_negative', 'is_bound', 'is_open',
+                       'has_key', 'is_in_domain'):
                 src_map = getattr(stalk, dim)
                 if src in src_map:
                     src_map[var] = src_map[src]
@@ -2299,12 +2516,13 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                     condition_text=cond_text,
                 ))
 
-            # Key existence → refines to {k | k ∈ keys(d)}
+            # Key existence / item-in-collection → refines to {k | k ∈ keys(d)}
+            # Also protects VALUE_ERROR for `.remove()` calls
             if " in " in cond_text and "not" not in cond_text.split(" in ")[0].split()[-1:]:
                 guards.append(_GuardSite(
                     guard_type="key_exists",
                     predicate=BoolLit(True),
-                    protects_against={"KEY_ERROR"},
+                    protects_against={"KEY_ERROR", "VALUE_ERROR"},
                     start_line=body_start, end_line=body_end,
                     condition_text=cond_text,
                 ))
@@ -2318,7 +2536,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 guards.append(_GuardSite(
                     guard_type="key_exists",
                     predicate=BoolLit(True),
-                    protects_against={"KEY_ERROR"},
+                    protects_against={"KEY_ERROR", "VALUE_ERROR"},
                     start_line=else_start, end_line=else_end,
                     condition_text=f"else of: {cond_text}",
                 ))
@@ -2447,8 +2665,9 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                 ))
                                 break
 
-    # ── max/min clamping guards: resolve INTEGER_OVERFLOW, OVERFLOW ──
+    # ── max/min clamping guards: resolve INTEGER_OVERFLOW, OVERFLOW, BOUNDS ──
     # Pattern: x = max(lo, min(x, hi)) or x = min(hi, max(x, lo))
+    # Also: x = min(x, len(buf)) — clamps slice upper to buffer length.
     # The clamped value is guaranteed in [lo, hi] → overflow resolved.
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign) and len(node.targets) == 1:
@@ -2456,8 +2675,10 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 val_text = ast.unparse(node.value)
             except Exception:
                 continue
-            if ('max(' in val_text and 'min(' in val_text) or \
-               ('clamp' in val_text.lower()):
+            is_clamp = (('max(' in val_text and 'min(' in val_text) or
+                        ('clamp' in val_text.lower()) or
+                        ('min(' in val_text and 'len(' in val_text))
+            if is_clamp:
                 assign_line = node.lineno
                 assign_end = getattr(node, 'end_lineno', assign_line) or assign_line
                 # Find enclosing function end
@@ -2472,7 +2693,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                 guards.append(_GuardSite(
                                     guard_type="clamping",
                                     predicate=BoolLit(True),
-                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW"},
+                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS"},
                                     start_line=assign_end, end_line=func_end,
                                     condition_text=f"clamping: {val_text[:60]}",
                                 ))
@@ -2553,9 +2774,15 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
             # isinstance checks → type guards
             if "isinstance(" in cond_text:
                 protects.update({"TYPE_ERROR", "TYPE_CONFUSION"})
-            # Range/value checks → overflow protection
+            # Range/value checks → overflow protection and FP domain
             if any(op in cond_text for op in ("> ", "< ", ">= ", "<= ")):
-                protects.update({"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS"})
+                protects.update({"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS", "FP_DOMAIN"})
+            # `<= 0` or `< 0` guard before math.log/sqrt → FP domain
+            if "<= 0" in cond_text or "< 0" in cond_text or "> 1" in cond_text or "< -1" in cond_text:
+                protects.add("FP_DOMAIN")
+            # `len(data) != N` → protects unpacking ValueError
+            if "len(" in cond_text and ("!=" in cond_text or "==" in cond_text):
+                protects.add("VALUE_ERROR")
 
             if protects:
                 guards.append(_GuardSite(
@@ -2947,6 +3174,9 @@ def _is_index_access(node: ast.Subscript) -> bool:
         return True
     if isinstance(s, ast.BinOp):
         return True
+    # len(x) as index → always one-past-end (always OOB)
+    if isinstance(s, ast.Call) and isinstance(s.func, ast.Name) and s.func.id == 'len':
+        return True
     return False
 
 
@@ -2993,7 +3223,8 @@ def _handler_protects(handler: ast.ExceptHandler) -> Set[str]:
     """Determine which bug types a try/except handler protects against."""
     if handler.type is None:
         return {"NULL_PTR", "INDEX_OOB", "KEY_ERROR", "TYPE_ERROR",
-                "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR"}
+                "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR",
+                "FP_DOMAIN", "STACK_OVERFLOW"}
     try:
         exc_name = ast.unparse(handler.type)
     except Exception:
@@ -3005,8 +3236,9 @@ def _handler_protects(handler: ast.ExceptHandler) -> Set[str]:
         "KeyError": {"KEY_ERROR"},
         "AttributeError": {"NULL_PTR"},
         "AssertionError": {"ASSERT_FAIL"},
-        "ValueError": {"VALUE_ERROR", "TYPE_ERROR", "BOUNDS"},
+        "ValueError": {"VALUE_ERROR", "TYPE_ERROR", "BOUNDS", "FP_DOMAIN"},
         "OverflowError": {"INTEGER_OVERFLOW", "OVERFLOW"},
+        "RecursionError": {"STACK_OVERFLOW", "NON_TERMINATION"},
         "FileNotFoundError": {"FILE_NOT_FOUND"},
         "PermissionError": {"PERMISSION_ERROR"},
         "OSError": {"OS_ERROR", "IO_ERROR"},
@@ -3015,16 +3247,18 @@ def _handler_protects(handler: ast.ExceptHandler) -> Set[str]:
         "ModuleNotFoundError": {"MODULE_NOT_FOUND"},
         "NameError": {"NAME_ERROR", "UNBOUND_VAR"},
         "UnboundLocalError": {"UNBOUND_LOCAL", "UNBOUND_VAR"},
-        "RuntimeError": {"RUNTIME_ERROR"},
+        "RuntimeError": {"RUNTIME_ERROR", "STACK_OVERFLOW"},
         "TimeoutError": {"TIMEOUT_ERROR"},
         "ConnectionError": {"CONNECTION_ERROR"},
         "UnicodeError": {"UNICODE_ERROR"},
         "LookupError": {"LOOKUP_ERROR", "INDEX_OOB", "KEY_ERROR"},
         "StopIteration": {"ITERATOR_INVALID"},
         "Exception": {"NULL_PTR", "INDEX_OOB", "KEY_ERROR", "TYPE_ERROR",
-                       "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR"},
+                       "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR",
+                       "FP_DOMAIN", "STACK_OVERFLOW"},
         "BaseException": {"NULL_PTR", "INDEX_OOB", "KEY_ERROR", "TYPE_ERROR",
-                          "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR"},
+                          "DIV_ZERO", "ASSERT_FAIL", "VALUE_ERROR", "RUNTIME_ERROR",
+                          "FP_DOMAIN", "STACK_OVERFLOW"},
     }
     result: Set[str] = set()
     for key, codes in mapping.items():
