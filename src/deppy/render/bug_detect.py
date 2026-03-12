@@ -569,6 +569,46 @@ def _body_modifies_var(body: List[ast.stmt], var: str) -> bool:
     return False
 
 
+def _body_modifies_var_correctly(body: List[ast.stmt], var: str,
+                                  loop_test: ast.AST) -> bool:
+    """Check whether the loop body modifies ``var`` in the correct direction.
+
+    In sheaf-theoretic terms, a ranking presheaf section must STRICTLY decrease
+    along the site refinement order.  If ``while n > 0: n += 1``, the body
+    modifies ``n`` but INCREASES it — the ranking function does not descend,
+    so termination remains unprovable → obstruction.
+
+    Returns True only if the modification direction is consistent with the
+    loop condition (e.g. ``-=`` when condition is ``> 0``).
+    """
+    # Determine expected direction from loop condition
+    expects_decrease = False
+    expects_increase = False
+    if isinstance(loop_test, ast.Compare) and len(loop_test.ops) == 1:
+        op = loop_test.ops[0]
+        if isinstance(op, (ast.Gt, ast.GtE)):
+            expects_decrease = True  # while n > 0 → need n to decrease
+        elif isinstance(op, (ast.Lt, ast.LtE)):
+            expects_increase = True  # while n < limit → need n to increase
+
+    if not expects_decrease and not expects_increase:
+        return True  # can't determine direction → assume OK
+
+    for stmt in body:
+        for node in ast.walk(stmt):
+            if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
+                if node.target.id == var:
+                    if isinstance(node.op, ast.Sub) and expects_decrease:
+                        return True
+                    if isinstance(node.op, ast.Add) and expects_increase:
+                        return True
+                    if isinstance(node.op, ast.Add) and expects_decrease:
+                        return False  # wrong direction
+                    if isinstance(node.op, ast.Sub) and expects_increase:
+                        return False
+    return True  # no AugAssign → can't tell, assume correct
+
+
 def _is_inside_thread_target(node: ast.AST, tree: ast.AST) -> bool:
     """Check if ``node`` is inside a function passed as a threading.Thread target.
 
@@ -1396,7 +1436,15 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
             if loop_var:
                 # Check if the loop body modifies the loop variable
                 body_modifies = _body_modifies_var(node.body, loop_var)
-                if not body_modifies:
+                # Also check that modification is in the correct direction
+                correct_dir = _body_modifies_var_correctly(
+                    node.body, loop_var, node.test)
+                if not body_modifies or not correct_dir:
+                    reason = (
+                        f"`{loop_var}` not modified in body"
+                        if not body_modifies
+                        else f"`{loop_var}` modified in wrong direction"
+                    )
                     reqs.append(SectionRequirement(
                         site_id=SiteId(kind=SiteKind.LOOP_HEADER_INVARIANT,
                                        name=f"loop_L{node.lineno}"),
@@ -1404,7 +1452,7 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         required_predicate=Comparison(
                             op='>', left=Var(f"ranking_{loop_var}"), right=IntLit(0)
                         ),
-                        description=f"while loop: no ranking function — `{loop_var}` not modified in body",
+                        description=f"while loop: no ranking function — {reason}",
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
 
@@ -1430,13 +1478,39 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
 
+        # Data race via subscript assignment: d[k] = v inside thread target
+        if isinstance(node, ast.Assign):
+            for tgt in node.targets:
+                if isinstance(tgt, ast.Subscript) and isinstance(tgt.value, ast.Name):
+                    if _is_inside_thread_target(node, tree):
+                        obj_var = tgt.value.id
+                        reqs.append(SectionRequirement(
+                            site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                           name=f"race_L{node.lineno}"),
+                            bug_type="DATA_RACE",
+                            required_predicate=Comparison(
+                                op='==', left=Var(f"lock_held_{obj_var}"), right=IntLit(1)
+                            ),
+                            description=f"subscript assignment on shared `{obj_var}` requires lock held",
+                            line=node.lineno, col=node.col_offset, ast_node=node,
+                        ))
+
         # ── SECRECY_GAP: Information leak ──
         if isinstance(node, ast.Raise) and node.exc is not None:
             try:
                 exc_text = ast.unparse(node.exc)
             except Exception:
                 exc_text = ""
-            if '{' in exc_text or 'f"' in exc_text or "f'" in exc_text or '%' in exc_text:
+            # Only flag interpolation that includes variable data (not just
+            # type(e).__name__ or static strings)
+            has_interpolation = ('{' in exc_text or 'f"' in exc_text or "f'" in exc_text or '%' in exc_text)
+            # Heuristic: safe patterns that don't leak secrets
+            safe_interp = all(
+                seg.strip().rstrip('}').strip() in ('', 'type(e).__name__', 'e.__class__.__name__')
+                for seg in exc_text.split('{')[1:]
+                if '}' in seg
+            ) if has_interpolation and '{' in exc_text else False
+            if has_interpolation and not safe_interp:
                 reqs.append(SectionRequirement(
                     site_id=SiteId(kind=SiteKind.ERROR, name=f"infoleak_L{node.lineno}"),
                     bug_type="INFO_LEAK",
@@ -1447,10 +1521,34 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                     line=node.lineno, col=node.col_offset, ast_node=node,
                 ))
 
+        # Info leak via traceback exposure in return values or dict literals
+        if isinstance(node, ast.Call):
+            try:
+                call_text = ast.unparse(node)
+            except Exception:
+                call_text = ""
+            if 'traceback.format_exc' in call_text or 'traceback.format_exception' in call_text:
+                reqs.append(SectionRequirement(
+                    site_id=SiteId(kind=SiteKind.ERROR, name=f"infoleak_L{node.lineno}"),
+                    bug_type="INFO_LEAK",
+                    required_predicate=Comparison(
+                        op='==', left=Var(f"tb_exposed_L{node.lineno}"), right=IntLit(0)
+                    ),
+                    description="traceback exposure leaks internal stack information",
+                    line=node.lineno, col=node.col_offset, ast_node=node,
+                ))
+
         # ── SECRECY_GAP: Timing channel ──
         #    Detected by: for-loop comparing secret data with early exit.
         if isinstance(node, ast.For):
             # Check if body contains an early return/break inside a comparison
+            # Detect both subscript indexing (a[i] != b[i]) and zip iteration
+            # (for x, y in zip(a, b): if x != y)
+            try:
+                iter_text = ast.unparse(node.iter)
+            except Exception:
+                iter_text = ""
+            is_zip_loop = "zip(" in iter_text
             for child in ast.walk(node):
                 if isinstance(child, ast.If):
                     try:
@@ -1458,8 +1556,9 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                     except Exception:
                         continue
                     has_subscript_cmp = ('[' in cond_text and ('!=' in cond_text or '==' in cond_text))
+                    has_name_cmp = (is_zip_loop and ('!=' in cond_text or '==' in cond_text))
                     body_returns = any(isinstance(s, (ast.Return, ast.Break)) for s in child.body)
-                    if has_subscript_cmp and body_returns:
+                    if (has_subscript_cmp or has_name_cmp) and body_returns:
                         reqs.append(SectionRequirement(
                             site_id=SiteId(kind=SiteKind.BRANCH_GUARD,
                                            name=f"timing_L{child.lineno}"),
@@ -1470,6 +1569,48 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                             description=f"early exit in element-wise comparison leaks timing information",
                             line=child.lineno, col=child.col_offset, ast_node=child,
                         ))
+
+        # Timing channel via == comparison of hash/digest results
+        # Collect variables assigned from .hexdigest()/.digest()/hashlib.* calls
+        if isinstance(node, ast.Compare) and len(node.ops) == 1:
+            if isinstance(node.ops[0], (ast.Eq, ast.NotEq)):
+                try:
+                    left_text = ast.unparse(node.left)
+                    right_text = ast.unparse(node.comparators[0])
+                except Exception:
+                    left_text = right_text = ""
+                # Direct call in comparison
+                has_hash = any(
+                    kw in left_text or kw in right_text
+                    for kw in ('.hexdigest()', '.digest()', 'hashlib.')
+                )
+                # Indirect: check if compared variables were assigned from hash calls
+                if not has_hash:
+                    hash_vars: Set[str] = set()
+                    for sib in ast.walk(tree):
+                        if isinstance(sib, ast.Assign) and len(sib.targets) == 1:
+                            if isinstance(sib.targets[0], ast.Name):
+                                try:
+                                    rhs_text = ast.unparse(sib.value)
+                                except Exception:
+                                    rhs_text = ""
+                                if any(kw in rhs_text for kw in (
+                                    '.hexdigest()', '.digest()', 'hashlib.',
+                                    'sha256(', 'sha1(', 'sha512(', 'md5(')):
+                                    hash_vars.add(sib.targets[0].id)
+                    if hash_vars & {left_text.strip(), right_text.strip()}:
+                        has_hash = True
+                if has_hash:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.BRANCH_GUARD,
+                                       name=f"timing_L{node.lineno}"),
+                        bug_type="TIMING_CHANNEL",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"timing_indep_L{node.lineno}"), right=IntLit(1)
+                        ),
+                        description="== comparison of hash/digest leaks timing information; use hmac.compare_digest",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
 
         # ── REFINEMENT_GAP: Bounds (slice access) ──
         if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Slice):
@@ -1506,6 +1647,12 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
             }
             if func_name in _fp_domain_specs and node.args:
                 domain_kind, desc = _fp_domain_specs[func_name]
+                # abs() wrapping guarantees non-negative → skip for sqrt etc.
+                arg0 = node.args[0]
+                if domain_kind == "non_negative" and isinstance(arg0, ast.Call):
+                    abs_name = _get_call_name(arg0)
+                    if abs_name in ("abs", "builtins.abs", "math.fabs"):
+                        continue
                 arg_var = _expr_to_var_name(node.args[0], f"fp_arg_L{node.lineno}")
                 if domain_kind == "positive":
                     pred: Predicate = Comparison(op='>', left=Var(arg_var), right=IntLit(0))
@@ -2433,6 +2580,7 @@ class _GuardSite:
     start_line: int
     end_line: int
     condition_text: str
+    protected_key: str = ""  # for key_exists guards: the specific key tested
 
 
 def _extract_guard_sites(source: str) -> List[_GuardSite]:
@@ -2506,6 +2654,16 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                     condition_text=cond_text,
                 ))
 
+            # Positive/non-negative checks → refines FP domain
+            if "> 0" in cond_text or ">= 0" in cond_text:
+                guards.append(_GuardSite(
+                    guard_type="positive",
+                    predicate=BoolLit(True),
+                    protects_against={"FP_DOMAIN"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=cond_text,
+                ))
+
             # Length/bounds checks → refines index to {i | 0 ≤ i < len}
             if "len(" in cond_text and any(op in cond_text for op in (">", "<", ">=", "<=", "==")):
                 guards.append(_GuardSite(
@@ -2519,13 +2677,30 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
             # Key existence / item-in-collection → refines to {k | k ∈ keys(d)}
             # Also protects VALUE_ERROR for `.remove()` calls
             if " in " in cond_text and "not" not in cond_text.split(" in ")[0].split()[-1:]:
-                guards.append(_GuardSite(
-                    guard_type="key_exists",
-                    predicate=BoolLit(True),
-                    protects_against={"KEY_ERROR", "VALUE_ERROR"},
-                    start_line=body_start, end_line=body_end,
-                    condition_text=cond_text,
-                ))
+                # Handle compound conditions: "k1 in d and k2 in d and ..."
+                # Extract ALL tested keys, emit one guard per key
+                import re as _re
+                key_parts = _re.findall(r'(["\']?\w+["\']?)\s+in\s+', cond_text)
+                if key_parts:
+                    for tested_key in key_parts:
+                        guards.append(_GuardSite(
+                            guard_type="key_exists",
+                            predicate=BoolLit(True),
+                            protects_against={"KEY_ERROR", "VALUE_ERROR"},
+                            start_line=body_start, end_line=body_end,
+                            condition_text=cond_text,
+                            protected_key=tested_key,
+                        ))
+                else:
+                    tested_key = cond_text.split(" in ")[0].strip()
+                    guards.append(_GuardSite(
+                        guard_type="key_exists",
+                        predicate=BoolLit(True),
+                        protects_against={"KEY_ERROR", "VALUE_ERROR"},
+                        start_line=body_start, end_line=body_end,
+                        condition_text=cond_text,
+                        protected_key=tested_key,
+                    ))
             # "not in" → else branch has the key
             if " not in " in cond_text and node.orelse:
                 else_start = node.orelse[0].lineno
@@ -2533,12 +2708,14 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                     (getattr(s, 'end_lineno', s.lineno) for s in node.orelse),
                     default=else_start,
                 )
+                tested_key_ni = cond_text.split(" not in ")[0].strip()
                 guards.append(_GuardSite(
                     guard_type="key_exists",
                     predicate=BoolLit(True),
                     protects_against={"KEY_ERROR", "VALUE_ERROR"},
                     start_line=else_start, end_line=else_end,
                     condition_text=f"else of: {cond_text}",
+                    protected_key=tested_key_ni,
                 ))
 
         # try/except → exception handler sites catch specific bug types
@@ -2677,7 +2854,8 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 continue
             is_clamp = (('max(' in val_text and 'min(' in val_text) or
                         ('clamp' in val_text.lower()) or
-                        ('min(' in val_text and 'len(' in val_text))
+                        ('min(' in val_text and 'len(' in val_text) or
+                        ('max(' in val_text and (', 0)' in val_text or ', 0,' in val_text)))
             if is_clamp:
                 assign_line = node.lineno
                 assign_end = getattr(node, 'end_lineno', assign_line) or assign_line
@@ -2693,7 +2871,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                 guards.append(_GuardSite(
                                     guard_type="clamping",
                                     predicate=BoolLit(True),
-                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS"},
+                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS", "FP_DOMAIN"},
                                     start_line=assign_end, end_line=func_end,
                                     condition_text=f"clamping: {val_text[:60]}",
                                 ))
@@ -2768,6 +2946,10 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 protects.add("KEY_ERROR")
             if "len(" in cond_text and ("== 0" in cond_text or "< " in cond_text or "<= 0" in cond_text):
                 protects.update({"INDEX_OOB", "DIV_ZERO"})
+            # `> len(` or `>= len(` → bounds check protects INDEX_OOB
+            if "len(" in cond_text and ("> len(" in cond_text or ">= len(" in cond_text or
+                                         "> len(" in cond_text.replace(" ", "")):
+                protects.update({"INDEX_OOB", "BOUNDS"})
             # `if not items:` / `if not x:` → protects against empty-collection bugs
             if cond_text.startswith("not ") and " " not in cond_text[4:]:
                 protects.update({"INDEX_OOB", "ASSERT_FAIL", "BOUNDS", "DIV_ZERO"})
@@ -2805,11 +2987,31 @@ def _resolve_obstructions_with_guards(
     A guard resolves requirement i if:
     1. The guard's line range covers the requirement's line
     2. The guard protects against the requirement's bug type
+    3. For key_exists guards, the tested key must match the requirement key
     """
     resolutions: Dict[int, _GuardSite] = {}
     for i, req in enumerate(requirements):
         for g in guards:
             if req.bug_type in g.protects_against and g.start_line <= req.line <= g.end_line:
+                # For key_exists guards, verify the specific key matches
+                if g.guard_type == "key_exists" and g.protected_key and req.bug_type == "KEY_ERROR":
+                    # Normalize key: strip quotes for comparison
+                    guard_key = g.protected_key.strip("'\"")
+                    # Try extracting actual key from requirement's ast_node
+                    key_match = False
+                    if hasattr(req, 'ast_node') and req.ast_node is not None:
+                        if isinstance(req.ast_node, ast.Subscript):
+                            try:
+                                key_text = ast.unparse(req.ast_node.slice).strip("'\"")
+                                if key_text == guard_key:
+                                    key_match = True
+                            except Exception:
+                                pass
+                    # Also check description for key name
+                    if not key_match and guard_key in req.description:
+                        key_match = True
+                    if not key_match:
+                        continue  # different key — don't resolve
                 resolutions[i] = g
                 break
     return resolutions
