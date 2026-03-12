@@ -6205,23 +6205,35 @@ def _refinement_presheaf_divergences(
     If no function definitions are found, compares the module bodies
     directly (for inline algorithms without function wrappers).
     """
+    divergences: List[_StalkDivergence] = []
+
+    try:
+        c_tree = ast.parse(textwrap.dedent(correct_source).strip())
+        b_tree = ast.parse(textwrap.dedent(buggy_source).strip())
+    except SyntaxError:
+        return divergences
+
+    # Extract functions for name-based alignment
     c_funcs = _extract_all_funcs(correct_source)
     b_funcs = _extract_all_funcs(buggy_source)
 
-    divergences: List[_StalkDivergence] = []
-
     if c_funcs and b_funcs:
+        # Compare matched function bodies
         pairs = _match_functions(c_funcs, b_funcs)
         for c_func, b_func in pairs:
             _align_and_compare_stmts(c_func.body, b_func.body, divergences)
-    else:
-        # Fallback: compare module bodies directly
-        try:
-            c_tree = ast.parse(textwrap.dedent(correct_source).strip())
-            b_tree = ast.parse(textwrap.dedent(buggy_source).strip())
-            _align_and_compare_stmts(c_tree.body, b_tree.body, divergences)
-        except SyntaxError:
-            pass
+
+    # Also compare non-function (driver) code at module level.
+    # Extract statements that aren't function/class definitions
+    # to catch bugs in initialization, wiring, and inline code.
+    c_driver = [s for s in c_tree.body
+                if not isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                      ast.ClassDef, ast.Import, ast.ImportFrom))]
+    b_driver = [s for s in b_tree.body
+                if not isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                      ast.ClassDef, ast.Import, ast.ImportFrom))]
+    if c_driver and b_driver:
+        _align_and_compare_stmts(c_driver, b_driver, divergences)
 
     return divergences
 
