@@ -3302,37 +3302,71 @@ def _output_is_concrete(term: _Term) -> bool:
     return True
 
 
-def _predicate_is_decidable(pred: _Predicate) -> bool:
-    """Check if a predicate is fully decidable by Z3 (no UF predicates).
+def _predicate_is_decidable(pred: _Predicate, allowed_vars: Optional[Set[str]] = None) -> bool:
+    """Check if a predicate is fully decidable by Z3 (no UF predicates, no dangling vars).
 
     A predicate is decidable when Z3 can definitively determine SAT/UNSAT.
-    UF predicates (from _make_uf_pred) are NOT decidable — Z3 treats
-    uninterpreted functions as free, so it can always find an interpretation
-    making any formula SAT.
+    Two failure modes:
 
-    Only predicates composed of:
-      - Comparisons on decidable terms
-      - Boolean connectives (And, Or, Not, Implies)
-      - Quantifiers over decidable bodies
-      - Collection predicates (Sorted, Permutation, etc.)
-    are decidable.
+    1. **UF predicates** (from _make_uf_pred): Z3 treats uninterpreted functions
+       as free, so it can always find an interpretation making any formula SAT.
+
+    2. **Dangling free variables**: Variables computed internally by the spec
+       (e.g., `actual_majority` in majority_element spec) that become free
+       when the conjunct is extracted from the spec.  Z3 assigns them freely
+       → spurious refutations.
 
     In sheaf terms: the presheaf F_S is "representable" when the spec
     is decidable — the section condition can be checked at each stalk.
-    When F_S involves UFs, it's only "partially representable" and
-    Z3 SAT results are meaningless.
+    When F_S involves UFs or dangling variables, it's only "partially
+    representable" and Z3 SAT results are meaningless.
     """
     for sub in pred.walk():
-        # Check for UF predicates: Comparison('!=', Call(uf_name, ...), IntLit(0))
         if isinstance(sub, Comparison):
             for t in sub.walk_terms():
                 if isinstance(t, Call) and t.func not in _KNOWN_CONCRETE_FUNCS:
                     return False
-    # Also check terms embedded in predicates
     for t in pred.walk_terms():
         if isinstance(t, Call) and t.func not in _KNOWN_CONCRETE_FUNCS:
             return False
+
+    # Check for dangling free variables not in allowed_vars
+    if allowed_vars is not None:
+        free = pred.free_variables()
+        # Quantifier-bound variables (starting with _) are fine
+        dangling = {v for v in free if not v.startswith('_')} - allowed_vars
+        if dangling:
+            return False
+
     return True
+
+
+def _extract_literal_constraints(term: _Term) -> List[_Predicate]:
+    """Extract Z3 context constraints for literal terms.
+
+    When the output term is a literal (e.g., TupleLit([])), Z3 doesn't
+    know its concrete properties (len, element values).  This function
+    generates equality constraints so Z3 can reason about them:
+
+      - TupleLit([]) → len(term) == 0
+      - TupleLit([a, b]) → len(term) == 2 ∧ term[0] == a ∧ term[1] == b
+      - Var(param) where the path is base-case with 'not arr' condition
+        → no constraints (Var could be anything)
+    """
+    constraints: List[_Predicate] = []
+
+    if isinstance(term, TupleLit):
+        # len constraint
+        constraints.append(
+            Comparison('==', Call('len', [term]), IntLit(len(term.elements)))
+        )
+        # Element constraints for small tuples
+        for idx, elem in enumerate(term.elements):
+            constraints.append(
+                Comparison('==', Index(term, IntLit(idx)), elem)
+            )
+
+    return constraints
 
 
 def _try_z3_refutation(
@@ -3395,12 +3429,20 @@ def _try_z3_refutation(
         expanded = _expand_for_z3(check_pred)
         negated = Not(expanded)  # ¬spec
 
-        # Context: path condition (if available)
+        # Context: path condition + concrete term properties
         ctx = []
         if path_condition is not None and not isinstance(path_condition, And) or \
            (isinstance(path_condition, And) and path_condition.conjuncts):
             ctx_expanded = _expand_for_z3(path_condition)
             ctx = [ctx_expanded]
+
+        # Add concrete constraints for literal output terms.
+        # Z3 treats len() as an uninterpreted function — it doesn't know
+        # len(()) = 0 or len((a,b)) = 2.  Add these as context so Z3
+        # can reason correctly about quantified specs (Sorted, Permutation).
+        if output_term is not None:
+            literal_constraints = _extract_literal_constraints(output_term)
+            ctx.extend(literal_constraints)
 
         # Check: context ∧ ¬spec for SAT
         # If SAT → counterexample exists → bug found (only for concrete sections!)
@@ -3432,7 +3474,7 @@ def _try_z3_refutation(
             # Check decidability on the EXPANDED formula (after _expand_for_z3),
             # because abstract predicates like Permutation expand to formulas
             # containing UF calls (e.g., Call('sorted', ...)).
-            if _predicate_is_decidable(expanded):
+            if _predicate_is_decidable(expanded, allowed_vars=set(spec_params)):
                 model_str = str(result.model) if result.model else "no model"
                 return False, "sat_refuted", \
                     f"Bug found: counterexample exists ({model_str})"
@@ -3766,10 +3808,12 @@ class SheafSpecVerifier:
         proof_log: List[str] = []
 
         # ── Phase 1: Compile spec to formal Predicate AST ──
+        # Fresh compiler per call to avoid state leakage between verify() calls
+        spec_compiler = SpecCompiler()
         spec_pred = None
         spec_params = []
         try:
-            spec_params, spec_pred = self._spec_compiler.compile(spec)
+            spec_params, spec_pred = spec_compiler.compile(spec)
             proof_log.append(f"Spec compiled to predicate: {spec_pred.pretty() if spec_pred else 'None'}")
         except Exception as e:
             proof_log.append(f"Spec compilation failed: {e}")
@@ -3801,11 +3845,13 @@ class SheafSpecVerifier:
         result_param = spec_params[-1] if spec_params else 'result'
 
         for path in impl.paths:
-            output = self._impl_compiler.compile_path_output(
+            # Fresh compiler per path to avoid state leakage
+            impl_compiler = ImplCompiler()
+            output = impl_compiler.compile_path_output(
                 path, impl.params, impl
             )
             impl_sections[path.index] = output
-            path_conditions[path.index] = self._impl_compiler.compile_path_condition(
+            path_conditions[path.index] = impl_compiler.compile_path_condition(
                 path, impl.params
             )
             if output is not None:
