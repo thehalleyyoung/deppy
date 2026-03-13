@@ -1212,7 +1212,33 @@ def _binding_analysis(tree: ast.AST, source: str = "") -> List[SectionRequiremen
                         # For loop binding is conditional (loop might not execute)
                         conditional.add(target.id)
                     _scan_body(stmt.body, in_branch=True)
-                    _scan_body(stmt.orelse, in_branch=True)
+                    # ── for/else definite binding (sheaf section join) ──
+                    # A for/else construct guarantees that *either* the
+                    # loop body executed (and possibly broke) *or* the
+                    # else clause executed.  If the else clause binds a
+                    # variable, that binding is unconditional along the
+                    # non-break path.  Combined with binding in the break
+                    # path, the variable is always bound after the loop.
+                    if stmt.orelse:
+                        else_binds: Set[str] = set()
+                        for else_stmt in stmt.orelse:
+                            for n in ast.walk(else_stmt):
+                                if isinstance(n, ast.Assign):
+                                    for t in n.targets:
+                                        if isinstance(t, ast.Name):
+                                            else_binds.add(t.id)
+                                elif isinstance(n, ast.AugAssign):
+                                    if isinstance(n.target, ast.Name):
+                                        else_binds.add(n.target.id)
+                        # Variables bound in the else clause are unconditional
+                        # because for/else always runs one of the two paths
+                        if not in_branch:
+                            unconditional.update(else_binds)
+                        else:
+                            conditional.update(else_binds)
+                        _scan_body(stmt.orelse, in_branch=True)
+                    else:
+                        pass  # no else clause
                 # If branches: all bindings inside are conditional
                 if isinstance(stmt, ast.If):
                     _scan_body(stmt.body, in_branch=True)
@@ -1225,11 +1251,37 @@ def _binding_analysis(tree: ast.AST, source: str = "") -> List[SectionRequiremen
                     _scan_body(stmt.body, in_branch=in_branch)
                 # Try
                 if isinstance(stmt, ast.Try):
-                    _scan_body(stmt.body, in_branch=True)
+                    # ── try/except definite binding (sheaf section join) ──
+                    # If the try body AND every except handler all bind the
+                    # same variable, that variable is unconditionally bound
+                    # after the try/except block.  The sheaf join of the
+                    # normal-exit section and handler sections is total.
+                    try_binds: Set[str] = set()
+                    for n in ast.walk(ast.Module(body=stmt.body, type_ignores=[])):
+                        if isinstance(n, ast.Assign):
+                            for t in n.targets:
+                                if isinstance(t, ast.Name):
+                                    try_binds.add(t.id)
+                    handler_binds_all: Optional[Set[str]] = None
                     for handler in stmt.handlers:
                         if handler.name:
                             conditional.add(handler.name)
+                        h_binds: Set[str] = set()
+                        for n in ast.walk(ast.Module(body=handler.body, type_ignores=[])):
+                            if isinstance(n, ast.Assign):
+                                for t in n.targets:
+                                    if isinstance(t, ast.Name):
+                                        h_binds.add(t.id)
+                        if handler_binds_all is None:
+                            handler_binds_all = h_binds
+                        else:
+                            handler_binds_all &= h_binds
                         _scan_body(handler.body, in_branch=True)
+                    # Variables bound in try AND all handlers
+                    if handler_binds_all and not in_branch:
+                        definite = try_binds & handler_binds_all
+                        unconditional.update(definite)
+                    _scan_body(stmt.body, in_branch=True)
                     _scan_body(stmt.orelse, in_branch=True)
                     _scan_body(stmt.finalbody, in_branch=True)
                 # While
@@ -2130,9 +2182,13 @@ def _short_circuit_guards_subscript(node: ast.Subscript,
         const_idx = node.slice.value
 
     for parent in ast.walk(tree):
-        if not isinstance(parent, ast.BoolOp) or not isinstance(parent.op, ast.And):
+        if not isinstance(parent, ast.BoolOp):
             continue
-        # Find which conjunct contains our subscript node
+        is_and = isinstance(parent.op, ast.And)
+        is_or = isinstance(parent.op, ast.Or)
+        if not is_and and not is_or:
+            continue
+        # Find which conjunct/disjunct contains our subscript node
         sub_idx = -1
         for i, val in enumerate(parent.values):
             for child in ast.walk(val):
@@ -2143,31 +2199,49 @@ def _short_circuit_guards_subscript(node: ast.Subscript,
                 break
         if sub_idx <= 0:
             continue  # not found or first conjunct — no prior guard
-        # Check earlier conjuncts for `key in dict` or length guards
-        for j in range(sub_idx):
-            earlier = parent.values[j]
-            if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
-                if isinstance(earlier.ops[0], ast.In):
-                    # `key in dict`
-                    cmp_key = ast.dump(earlier.left)
-                    if earlier.comparators and ast.dump(earlier.comparators[0]) == target_dict:
-                        if cmp_key == target_key:
-                            return True
-                # ── Length-check topology: ``len(seq) > k`` guards ``seq[k]`` ──
-                # This is the cardinality section of the presheaf: when
-                # ``len(seq) > k``, the fiber at index ``k`` is guaranteed
-                # to have a non-⊥ section.
-                if const_idx is not None and _is_len_guard_for(earlier, node.value, const_idx):
-                    return True
-            # Also handle nested subscript: `"city" in user["address"]`
-            # protecting `user["address"]["city"]`
-            if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
-                if isinstance(earlier.ops[0], ast.In) and earlier.comparators:
-                    cmp_dict = ast.dump(earlier.comparators[0])
-                    if cmp_dict == target_dict:
+
+        if is_and:
+            # Check earlier conjuncts for `key in dict` or length guards
+            for j in range(sub_idx):
+                earlier = parent.values[j]
+                if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
+                    if isinstance(earlier.ops[0], ast.In):
+                        # `key in dict`
                         cmp_key = ast.dump(earlier.left)
-                        if cmp_key == target_key:
+                        if earlier.comparators and ast.dump(earlier.comparators[0]) == target_dict:
+                            if cmp_key == target_key:
+                                return True
+                    # ── Length-check topology: ``len(seq) > k`` guards ``seq[k]`` ──
+                    if const_idx is not None and _is_len_guard_for(earlier, node.value, const_idx):
+                        return True
+                # Also handle nested subscript
+                if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
+                    if isinstance(earlier.ops[0], ast.In) and earlier.comparators:
+                        cmp_dict = ast.dump(earlier.comparators[0])
+                        if cmp_dict == target_dict:
+                            cmp_key = ast.dump(earlier.left)
+                            if cmp_key == target_key:
+                                return True
+
+        elif is_or:
+            # ── Or short-circuit topology ──
+            # In BoolOp(Or, [not X, ...X[k]...]), the later disjuncts
+            # are evaluated only when earlier ones are False.  If an
+            # earlier disjunct is ``not seq`` (falsy guard), then when
+            # it's False, ``seq`` is truthy (non-empty).  So seq[0] is
+            # safe — the non-empty fiber section covers index 0.
+            for j in range(sub_idx):
+                earlier = parent.values[j]
+                # `not seq` → when False, seq is truthy (non-empty)
+                if isinstance(earlier, ast.UnaryOp) and isinstance(earlier.op, ast.Not):
+                    operand = earlier.operand
+                    target_seq = ast.dump(node.value)
+                    if ast.dump(operand) == target_seq:
+                        if const_idx is not None and const_idx == 0:
                             return True
+                    # Also: `not seq[0]` protects seq[0] (it was already evaluated)
+                    if isinstance(operand, ast.Subscript) and ast.dump(operand) == ast.dump(node):
+                        return True
     return False
 
 
@@ -2389,6 +2463,201 @@ def _fromkeys_guards_subscript(node: ast.Subscript,
     return False
 
 
+def _defaultdict_guards_subscript(node: ast.Subscript,
+                                   tree: ast.Module) -> bool:
+    """Check if a dict subscript ``d[k]`` is on a ``collections.defaultdict``.
+
+    ``defaultdict(factory)`` supplies a default value for missing keys,
+    so ``d[k]`` never raises ``KeyError``.  In sheaf terms, the
+    key-existence section is total by construction — the default factory
+    closes every gap in the key fiber.
+    """
+    if not isinstance(node.value, ast.Name):
+        return False
+    dict_var = node.value.id
+
+    for parent in ast.walk(tree):
+        if not isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Module)):
+            continue
+        for stmt in ast.walk(parent):
+            if not isinstance(stmt, ast.Assign):
+                continue
+            if (len(stmt.targets) == 1
+                    and isinstance(stmt.targets[0], ast.Name)
+                    and stmt.targets[0].id == dict_var):
+                rhs = stmt.value
+                # defaultdict(...)
+                if isinstance(rhs, ast.Call):
+                    func = rhs.func
+                    # Direct: defaultdict(int)
+                    if isinstance(func, ast.Name) and func.id == 'defaultdict':
+                        return True
+                    # Qualified: collections.defaultdict(int)
+                    if (isinstance(func, ast.Attribute) and func.attr == 'defaultdict'
+                            and isinstance(func.value, ast.Name)
+                            and func.value.id == 'collections'):
+                        return True
+    return False
+
+
+def _assert_provably_true(node: ast.Assert, tree: ast.Module) -> bool:
+    """Check if an assertion is provably true from preceding statements.
+
+    In sheaf terms, the presheaf section at the assert site already
+    satisfies the assertion predicate — the restriction map from
+    preceding assignments to the assert test is provably total.
+
+    Recognizes:
+    - Literal construction then assertion on len/truthiness
+    - .append() / .extend() then non-empty assertion
+    - Type coercion (int/str/float) then isinstance assertion
+    - max/min clamp then range assertion
+    - Conditional assignment (if None → assign) then `is not None` assert
+    - `if` with else that covers all paths before assert
+    """
+    test = node.test
+    # Find the enclosing function body
+    func_body = None
+    for fn in ast.walk(tree):
+        if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for i, stmt in enumerate(fn.body):
+                if stmt is node or (hasattr(stmt, 'lineno') and stmt.lineno == node.lineno):
+                    func_body = fn.body[:i]
+                    break
+        if func_body is not None:
+            break
+    if func_body is None:
+        # Module-level
+        for i, stmt in enumerate(tree.body):
+            if stmt is node or (hasattr(stmt, 'lineno') and stmt.lineno == node.lineno):
+                func_body = tree.body[:i]
+                break
+    if not func_body:
+        return False
+
+    # Helper: get the most recent assignment to a variable
+    def _latest_assign(var_name: str) -> Optional[ast.expr]:
+        for stmt in reversed(func_body):
+            if isinstance(stmt, ast.Assign):
+                for t in stmt.targets:
+                    if isinstance(t, ast.Name) and t.id == var_name:
+                        return stmt.value
+            if isinstance(stmt, ast.AugAssign):
+                if isinstance(stmt.target, ast.Name) and stmt.target.id == var_name:
+                    return stmt
+        return None
+
+    # Helper: check if a preceding stmt mutates a container (append/extend)
+    def _has_append_or_extend(var_name: str) -> bool:
+        for stmt in func_body:
+            if isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Call):
+                call = stmt.value
+                if (isinstance(call.func, ast.Attribute)
+                        and isinstance(call.func.value, ast.Name)
+                        and call.func.value.id == var_name
+                        and call.func.attr in ('append', 'extend', 'add', 'insert')):
+                    return True
+        return False
+
+    # Helper: does the if/else before the assert guarantee a variable is not None?
+    def _if_else_guarantees_not_none(var_name: str) -> bool:
+        for stmt in reversed(func_body):
+            if isinstance(stmt, ast.If):
+                # Check if `if var is None: var = ...` or `if var is None: return`
+                t = stmt.test
+                checks_none = False
+                if isinstance(t, ast.Compare) and len(t.ops) == 1:
+                    if isinstance(t.ops[0], ast.Is) and t.comparators:
+                        if isinstance(t.comparators[0], ast.Constant) and t.comparators[0].value is None:
+                            if isinstance(t.left, ast.Name) and t.left.id == var_name:
+                                checks_none = True
+                if checks_none:
+                    # If body assigns var to non-None, or returns/raises
+                    for s in stmt.body:
+                        if isinstance(s, ast.Assign):
+                            for tgt in s.targets:
+                                if isinstance(tgt, ast.Name) and tgt.id == var_name:
+                                    return True
+                        if isinstance(s, (ast.Return, ast.Raise)):
+                            return True
+        return False
+
+    # ── Pattern 1: assert on truthiness/len of a literal list/dict/set/tuple ──
+    # e.g. `result = [1,2,3]; assert len(result) > 0` or `assert result`
+    if isinstance(test, ast.Name):
+        rhs = _latest_assign(test.id)
+        if rhs is not None:
+            if isinstance(rhs, (ast.List, ast.Dict, ast.Set, ast.Tuple)):
+                if isinstance(rhs, ast.Dict):
+                    if rhs.keys:  # non-empty dict literal
+                        return True
+                else:
+                    if getattr(rhs, 'elts', []):  # non-empty literal
+                        return True
+            if _has_append_or_extend(test.id):
+                return True
+
+    # len(x) > 0 or len(x) >= 1
+    if isinstance(test, ast.Compare) and len(test.ops) == 1:
+        left, op, right = test.left, test.ops[0], test.comparators[0]
+        # len(var) > 0 / len(var) >= 1 / len(var) != 0
+        if (isinstance(left, ast.Call) and isinstance(left.func, ast.Name)
+                and left.func.id == 'len' and left.args):
+            arg = left.args[0]
+            if isinstance(arg, ast.Name):
+                var_name = arg.id
+                rhs = _latest_assign(var_name)
+                if rhs is not None:
+                    if isinstance(rhs, (ast.List, ast.Set, ast.Tuple)) and getattr(rhs, 'elts', []):
+                        return True
+                    if isinstance(rhs, ast.Dict) and rhs.keys:
+                        return True
+                if _has_append_or_extend(var_name):
+                    return True
+
+    # ── Pattern 2: isinstance after type coercion ──
+    # `x = int(x); assert isinstance(x, int)`
+    if (isinstance(test, ast.Call) and isinstance(test.func, ast.Name)
+            and test.func.id == 'isinstance' and len(test.args) >= 2):
+        checked_arg = test.args[0]
+        if isinstance(checked_arg, ast.Name):
+            rhs = _latest_assign(checked_arg.id)
+            if isinstance(rhs, ast.Call) and isinstance(rhs.func, ast.Name):
+                coercion = rhs.func.id
+                expected = test.args[1]
+                # int(x) → isinstance(x, int)
+                if isinstance(expected, ast.Name) and expected.id == coercion:
+                    return True
+                if isinstance(expected, ast.Tuple):
+                    for elt in expected.elts:
+                        if isinstance(elt, ast.Name) and elt.id == coercion:
+                            return True
+
+    # ── Pattern 3: range assertion after clamp ──
+    # `x = max(lo, min(x, hi)); assert lo <= x <= hi`
+    if isinstance(test, ast.Compare) and len(test.ops) >= 2:
+        # Look for chained comparison: lo <= x <= hi
+        for i, comparator in enumerate(test.comparators):
+            if isinstance(comparator, ast.Name):
+                rhs = _latest_assign(comparator.id)
+                if rhs is not None and isinstance(rhs, ast.Call):
+                    func = rhs.func
+                    if isinstance(func, ast.Name) and func.id in ('max', 'min'):
+                        # Clamp pattern detected
+                        return True
+
+    # ── Pattern 4: `is not None` after conditional assignment ──
+    # `if val is None: val = ""; assert val is not None`
+    if isinstance(test, ast.Compare) and len(test.ops) == 1:
+        if isinstance(test.ops[0], ast.IsNot) and test.comparators:
+            if isinstance(test.comparators[0], ast.Constant) and test.comparators[0].value is None:
+                if isinstance(test.left, ast.Name):
+                    if _if_else_guarantees_not_none(test.left.id):
+                        return True
+
+    return False
+
+
 def _extract_requirements(source: str) -> List[SectionRequirement]:
     """Extract type section requirements from the AST.
 
@@ -2579,6 +2848,8 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         description=f"`{_expr_repr(node.value)}.{node.attr}` — object must not be None",
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
+            elif isinstance(node.value, ast.Constant):
+                pass  # Skip: literal values (strings, numbers) are never None
             elif not isinstance(node.value, ast.Call):
                 # Non-Name, non-Call attribute access: could be None
                 obj_var = _expr_to_var_name(node.value, f"obj_L{node.lineno}")
@@ -2780,6 +3051,15 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                                                     skip_idx = True
 
                     if not skip_idx:
+                        # ── Short-circuit evaluation topology for INDEX_OOB ──
+                        # In ``not seq or not seq[k]`` or ``seq and seq[k]``,
+                        # the subscript is only evaluated when the sequence
+                        # is truthy (non-empty).  The short-circuit evaluation
+                        # topology guarantees the index section is valid.
+                        if _short_circuit_guards_subscript(node, tree):
+                            skip_idx = True
+
+                    if not skip_idx:
                         idx_var = _expr_to_var_name(node.slice, f"idx_L{node.lineno}")
                         seq_var = _expr_to_var_name(node.value, f"seq_L{node.lineno}")
                         len_var = f"len_{seq_var}"
@@ -2830,6 +3110,12 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                 # where ``k ∈ keys`` (syntactically matching the iteration
                 # domain) has a guaranteed section — no KEY_ERROR.
                 if _fromkeys_guards_subscript(node, tree):
+                    continue
+                # ── defaultdict fiber completeness ──
+                # ``d = defaultdict(factory)`` makes the key fiber total
+                # by construction — every missing key triggers the factory,
+                # so ``d[k]`` never raises ``KeyError``.
+                if _defaultdict_guards_subscript(node, tree):
                     continue
                 key_var = _expr_to_var_name(node.slice, f"key_L{node.lineno}")
                 reqs.append(SectionRequirement(
@@ -2934,6 +3220,13 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
 
         # ── REFINEMENT_GAP: Assertion ──
         if isinstance(node, ast.Assert):
+            # ── Provably-true assertion discharge ──
+            # If the assertion predicate can be proved true from the
+            # preceding statements in the same scope, the assertion
+            # never fails — the presheaf section at the assert site
+            # already satisfies the required predicate.
+            if _assert_provably_true(node, tree):
+                continue
             reqs.append(SectionRequirement(
                 site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"assert_L{node.lineno}"),
                 bug_type="ASSERT_FAIL",
@@ -5611,6 +5904,52 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                         condition_text=f"try/except {_handler_name(handler)}",
                     ))
 
+            # ── try/except definite assignment: NULL_PTR guard ──
+            # If the same variable is assigned in the try body AND every
+            # except handler, that variable has a definite section after
+            # the try/except — it is never None.  Sheaf section join
+            # across exception fibers.
+            try_assigns: Set[str] = set()
+            for s in node.body:
+                for n in ast.walk(s):
+                    if isinstance(n, ast.Assign):
+                        for t in n.targets:
+                            if isinstance(t, ast.Name):
+                                try_assigns.add(t.id)
+            if node.handlers and try_assigns:
+                handler_assigns_all: Optional[Set[str]] = None
+                for handler in node.handlers:
+                    h_assigns: Set[str] = set()
+                    for s in handler.body:
+                        for n in ast.walk(s):
+                            if isinstance(n, ast.Assign):
+                                for t in n.targets:
+                                    if isinstance(t, ast.Name):
+                                        h_assigns.add(t.id)
+                    if handler_assigns_all is None:
+                        handler_assigns_all = h_assigns
+                    else:
+                        handler_assigns_all &= h_assigns
+                if handler_assigns_all:
+                    definite_vars = try_assigns & handler_assigns_all
+                    if definite_vars:
+                        try_end = max(
+                            body_end,
+                            max(
+                                (getattr(s, 'end_lineno', s.lineno)
+                                 for h in node.handlers for s in h.body),
+                                default=body_end,
+                            ),
+                        )
+                        guards.append(_GuardSite(
+                            guard_type="try_except_definite",
+                            predicate=BoolLit(True),
+                            protects_against={"NULL_PTR"},
+                            start_line=try_end, end_line=try_end + 100,
+                            protected_vars=definite_vars,
+                            condition_text=f"try/except defines {definite_vars}",
+                        ))
+
     # ── with-statement guards: resolve MEMORY_LEAK, USE_AFTER_FREE, DOUBLE_FREE ──
     # A with-statement provides a GLOBAL SECTION of the lifecycle presheaf:
     # the resource is guaranteed OPEN inside the block and CLOSED after,
@@ -5957,8 +6296,14 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                          "> len(" in cond_text.replace(" ", "")):
                 protects.update({"INDEX_OOB", "BOUNDS"})
             # `if not items:` / `if not x:` → protects against empty-collection bugs
+            # Also handles compound: `if not x or not y:` (each variable is truthy after)
             if cond_text.startswith("not ") and " " not in cond_text[4:]:
                 protects.update({"INDEX_OOB", "ASSERT_FAIL", "BOUNDS", "DIV_ZERO"})
+            # Compound negated truthiness: `if not x or not y:`
+            if " or " in cond_text:
+                parts = cond_text.split(" or ")
+                if all(p.strip().startswith("not ") for p in parts):
+                    protects.update({"INDEX_OOB", "ASSERT_FAIL", "BOUNDS", "DIV_ZERO"})
             # isinstance checks → type guards
             if "isinstance(" in cond_text:
                 protects.update({"TYPE_ERROR", "TYPE_CONFUSION"})
@@ -6300,10 +6645,44 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
         # Detect: range(len(X)) or enumerate(X)
         is_range_len = "range(len(" in iter_text.replace(" ", "") or "range(len(" in iter_text
         is_enumerate = iter_text.startswith("enumerate(") or "enumerate(" in iter_text
+        # Also detect: range(var) where var = len(...) in the same scope
+        if (not is_range_len and not is_enumerate
+                and isinstance(node.iter, ast.Call)
+                and isinstance(node.iter.func, ast.Name)
+                and node.iter.func.id == 'range'
+                and node.iter.args):
+            arg0 = node.iter.args[0]
+            if isinstance(arg0, ast.Name):
+                # Find assignment: var = len(...)
+                for assign in ast.walk(tree):
+                    if (isinstance(assign, ast.Assign)
+                            and len(assign.targets) == 1
+                            and isinstance(assign.targets[0], ast.Name)
+                            and assign.targets[0].id == arg0.id
+                            and isinstance(assign.value, ast.Call)
+                            and isinstance(assign.value.func, ast.Name)
+                            and assign.value.func.id == 'len'):
+                        is_range_len = True
+                        break
         if is_range_len or is_enumerate:
+            # Determine the range bound margin (k in `range(len(x) - k)`)
+            range_margin = 0
+            if is_range_len:
+                try:
+                    call_node = node.iter
+                    if isinstance(call_node, ast.Call) and call_node.args:
+                        arg0 = call_node.args[0]
+                        # range(len(x) - k)
+                        if (isinstance(arg0, ast.BinOp) and isinstance(arg0.op, ast.Sub)
+                                and isinstance(arg0.right, ast.Constant)
+                                and isinstance(arg0.right.value, int)):
+                            range_margin = arg0.right.value
+                except Exception:
+                    pass
+
             # Check if any subscript in the loop body uses loop_var + offset
-            # (e.g., arr[i + 1]) — such access may go past bounds, so don't
-            # grant blanket INDEX_OOB protection in that case.
+            # (e.g., arr[i + 1]) — such access may go past bounds unless the
+            # range margin accounts for the offset.
             loop_var = ""
             if isinstance(node.target, ast.Name):
                 loop_var = node.target.id
@@ -6311,7 +6690,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 first = node.target.elts[0]
                 if isinstance(first, ast.Name):
                     loop_var = first.id
-            has_offset_access = False
+            has_unsafe_offset = False
             if loop_var:
                 for sub_node in ast.walk(node):
                     if isinstance(sub_node, ast.Subscript):
@@ -6320,9 +6699,29 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                         except Exception:
                             continue
                         if loop_var in idx_text and ("+" in idx_text or "-" in idx_text):
-                            has_offset_access = True
-                            break
-            if not has_offset_access:
+                            # Parse the offset to check against range_margin
+                            sl = sub_node.slice
+                            offset_safe = False
+                            # Pattern: i + k where k <= range_margin
+                            if (isinstance(sl, ast.BinOp) and isinstance(sl.op, ast.Add)
+                                    and isinstance(sl.left, ast.Name)
+                                    and sl.left.id == loop_var
+                                    and isinstance(sl.right, ast.Constant)
+                                    and isinstance(sl.right.value, int)):
+                                if sl.right.value <= range_margin:
+                                    offset_safe = True
+                            # Pattern: i - k where k >= 0 (always safe)
+                            if (isinstance(sl, ast.BinOp) and isinstance(sl.op, ast.Sub)
+                                    and isinstance(sl.left, ast.Name)
+                                    and sl.left.id == loop_var
+                                    and isinstance(sl.right, ast.Constant)
+                                    and isinstance(sl.right.value, int)
+                                    and sl.right.value >= 0):
+                                offset_safe = True
+                            if not offset_safe:
+                                has_unsafe_offset = True
+                                break
+            if not has_unsafe_offset:
                 body_start = node.body[0].lineno if node.body else node.lineno
                 body_end = max(
                     (getattr(s, 'end_lineno', s.lineno) for s in node.body),
@@ -6335,6 +6734,124 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                     start_line=body_start, end_line=body_end,
                     condition_text=f"loop-bounded index: {iter_text[:60]}",
                 ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # NONE-FILTERING COMPREHENSION — filtered iteration sub-presheaf
+    #
+    # `filtered = [x for x in items if x is not None]` followed by
+    # `for x in filtered:` guarantees x is never None inside the loop.
+    # The comprehension filter restricts the iteration fiber to the
+    # non-None sub-presheaf.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.For, ast.AsyncFor)):
+            continue
+        # Check if iterating over a variable assigned from a
+        # None-filtering comprehension
+        if not isinstance(node.iter, ast.Name):
+            continue
+        iter_var = node.iter.id
+        loop_var = ""
+        if isinstance(node.target, ast.Name):
+            loop_var = node.target.id
+        if not loop_var:
+            continue
+        # Find the assignment: iter_var = [x for x in items if x is not None]
+        for assign_node in ast.walk(tree):
+            if not isinstance(assign_node, ast.Assign):
+                continue
+            if (len(assign_node.targets) == 1
+                    and isinstance(assign_node.targets[0], ast.Name)
+                    and assign_node.targets[0].id == iter_var
+                    and assign_node.lineno < node.lineno):
+                rhs = assign_node.value
+                if isinstance(rhs, ast.ListComp) and rhs.generators:
+                    gen = rhs.generators[0]
+                    for if_clause in gen.ifs:
+                        # Pattern: x is not None
+                        if (isinstance(if_clause, ast.Compare)
+                                and len(if_clause.ops) == 1
+                                and isinstance(if_clause.ops[0], ast.IsNot)
+                                and if_clause.comparators
+                                and isinstance(if_clause.comparators[0], ast.Constant)
+                                and if_clause.comparators[0].value is None):
+                            body_start = node.body[0].lineno if node.body else node.lineno
+                            body_end = max(
+                                (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                                default=node.lineno,
+                            )
+                            guards.append(_GuardSite(
+                                guard_type="none_filter_comprehension",
+                                predicate=BoolLit(True),
+                                protects_against={"NULL_PTR"},
+                                start_line=body_start, end_line=body_end,
+                                protected_vars={loop_var},
+                                condition_text=f"None-filtered comprehension: {iter_var}",
+                            ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # LITERAL CONSTRUCTION — non-None by construction
+    #
+    # Variables assigned from literal constructors ([...], {...}, (...),
+    # "...", constructor()) are provably non-None.  The presheaf section
+    # at the assignment site is total.
+    # NOTE: Only applies to non-None literals/constructors where the
+    # variable is never reassigned to a potentially-None value.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+            continue
+        if not isinstance(node.targets[0], ast.Name):
+            continue
+        rhs = node.value
+        # Must be non-None literal/constructor
+        is_nonnone_literal = False
+        if isinstance(rhs, (ast.List, ast.Dict, ast.Set, ast.Tuple)):
+            is_nonnone_literal = True
+        elif isinstance(rhs, ast.JoinedStr):
+            is_nonnone_literal = True  # f-strings are always str
+        elif isinstance(rhs, ast.Constant):
+            # Exclude None! Only non-None constants are non-None by construction
+            if rhs.value is not None:
+                is_nonnone_literal = True
+        if not is_nonnone_literal:
+            continue
+        var_name = node.targets[0].id
+        assign_line = node.lineno
+        # Check that the variable is NOT later reassigned to something
+        # potentially None in the same scope (too conservative otherwise)
+        later_reassigned = False
+        for parent_fn in ast.walk(tree):
+            if not isinstance(parent_fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            for stmt in ast.walk(parent_fn):
+                if isinstance(stmt, ast.Assign) and stmt is not node:
+                    for t in stmt.targets:
+                        if isinstance(t, ast.Name) and t.id == var_name and stmt.lineno > assign_line:
+                            later_reassigned = True
+                            break
+            if later_reassigned:
+                break
+        if later_reassigned:
+            continue
+        # Find enclosing function to set guard range
+        for parent in ast.walk(tree):
+            if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if any(s is node or (hasattr(s, 'lineno') and s.lineno == node.lineno)
+                       for s in ast.walk(parent)):
+                    func_end = max(
+                        (getattr(s, 'end_lineno', s.lineno) for s in parent.body),
+                        default=parent.lineno,
+                    )
+                    guards.append(_GuardSite(
+                        guard_type="literal_construction",
+                        predicate=BoolLit(True),
+                        protects_against={"NULL_PTR"},
+                        start_line=assign_line, end_line=func_end,
+                        protected_vars={var_name},
+                        condition_text=f"literal construction: {var_name}",
+                    ))
+                    break
 
     # ══════════════════════════════════════════════════════════════════════
     # OR-DEFAULT PATTERN — truthiness coproduct selection
@@ -7020,6 +7537,8 @@ def _resolve_obstructions_with_guards(
                 "non_empty_collection", "length_bound",
                 "arithmetic_lower_bound", "arithmetic_upper_bound",
                 "arithmetic_range_bound",
+                "literal_construction", "none_filter_comprehension",
+                "try_except_definite", "flag_alias_early_return",
             }:
                 req_var = _extract_var_from_req_description(req.description)
                 if not req_var or req_var not in g.protected_vars:
