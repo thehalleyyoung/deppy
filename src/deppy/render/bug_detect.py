@@ -831,6 +831,7 @@ def _body_modifies_var(body: List[ast.stmt], var: str) -> bool:
 
     We check for:
     - Direct assignment: ``var = ...``
+    - Tuple assignment: ``a, var = ...`` / ``var, b = ...``
     - Augmented assignment: ``var += ...``, ``var -= ...``
     - Function calls that might modify via aliasing (conservative: any call
       with var as argument)
@@ -842,6 +843,11 @@ def _body_modifies_var(body: List[ast.stmt], var: str) -> bool:
                 for target in node.targets:
                     if isinstance(target, ast.Name) and target.id == var:
                         return True
+                    # Tuple unpacking: ``a, b = expr``
+                    if isinstance(target, (ast.Tuple, ast.List)):
+                        for elt in target.elts:
+                            if isinstance(elt, ast.Name) and elt.id == var:
+                                return True
             # Augmented assignment (+=, -=, etc.)
             if isinstance(node, ast.AugAssign):
                 if isinstance(node.target, ast.Name) and node.target.id == var:
@@ -891,6 +897,13 @@ def _body_modifies_var_correctly(body: List[ast.stmt], var: str,
     if isinstance(loop_test, ast.Compare) and len(loop_test.ops) == 1:
         op = loop_test.ops[0]
         if isinstance(op, ast.NotEq):
+            # Extract the other comparand (the "target" variable)
+            rhs_name = None
+            if isinstance(loop_test.comparators[0], ast.Name):
+                rhs_name = loop_test.comparators[0].id
+            if isinstance(loop_test.comparators[0], ast.Constant):
+                rhs_name = None  # constant target is fine
+
             for stmt in body:
                 for node in ast.walk(stmt):
                     if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
@@ -899,6 +912,30 @@ def _body_modifies_var_correctly(body: List[ast.stmt], var: str,
                                 step = abs(node.value.value)
                                 if step != 1:
                                     return False  # non-unit step can skip target
+                    # Plain Assign: ``var = var - other`` where other is the
+                    # comparand → variable-width step, ranking depends on the
+                    # other variable's stalk.  This is not provably monotone.
+                    if isinstance(node, ast.Assign):
+                        for tgt in node.targets:
+                            if isinstance(tgt, ast.Name) and tgt.id == var:
+                                if isinstance(node.value, ast.BinOp):
+                                    # Check if step involves the other comparand
+                                    if rhs_name:
+                                        val_text = ""
+                                        try:
+                                            val_text = ast.unparse(node.value)
+                                        except Exception:
+                                            pass
+                                        if rhs_name in val_text and var in val_text:
+                                            return False  # variable-width step
+
+            # Check for multi-variable condition with both vars modified
+            # in different branches (e.g., while a != b: if a>b: a=a-b else: b=b-a)
+            if rhs_name:
+                rhs_modified = _body_modifies_var(body, rhs_name)
+                if rhs_modified:
+                    return False  # both sides of != modified → complex ranking
+
             return True  # unit step or no AugAssign found
 
     # ── Identity-predicate handling (``is`` / ``is not``) ─────────────────
@@ -941,6 +978,176 @@ def _body_modifies_var_correctly(body: List[ast.stmt], var: str,
                     if isinstance(node.op, ast.Sub) and expects_increase:
                         return False
     return True  # no AugAssign → can't tell, assume correct
+
+
+def _body_has_unconditional_exit(body: List[ast.stmt]) -> bool:
+    """Check if a loop body has a guaranteed (unconditional) exit.
+
+    In the ranking presheaf framework, a ``while True`` loop requires a
+    *terminal section* — an unconditional ``break``, ``return``, or ``raise``
+    that provides a fiber-wise exit from the loop cover.  If exits are only
+    reachable through conditional branches, the ranking presheaf has no
+    guaranteed descent → obstruction.
+
+    This checks the TOP-LEVEL statements only (not nested functions/classes).
+    """
+    for stmt in body:
+        if isinstance(stmt, (ast.Return, ast.Break, ast.Raise)):
+            return True
+        # For-range with guaranteed body → treat as bounded
+        if isinstance(stmt, ast.For):
+            return True  # for loops are bounded by the iterator
+    return False
+
+
+def _while_true_variant(node: ast.While) -> bool:
+    """Check if a while loop is an effective ``while True`` — constant-true condition.
+
+    Covers:  ``while True:``, ``while 1:``, ``while not False:``
+    """
+    test = node.test
+    if isinstance(test, ast.Constant) and test.value:
+        return True
+    if isinstance(test, ast.UnaryOp) and isinstance(test.op, ast.Not):
+        if isinstance(test.operand, ast.Constant) and not test.operand.value:
+            return True
+    return False
+
+
+def _body_modifies_var_non_monotonically(body: List[ast.stmt], var: str) -> bool:
+    """Detect conditional multi-directional modification of ``var`` in a loop body.
+
+    In the ranking presheaf, a ranking function must be MONOTONICALLY
+    decreasing.  If the loop body contains an if/else that modifies ``var``
+    in DIFFERENT arithmetic directions (one branch increases, another
+    decreases via plain assignment), the ranking function is non-monotone
+    → no well-founded descent → non-termination obstruction.
+
+    Examples:
+        ``if x % 2 == 0: x = x // 2  else: x = 3 * x + 1``  (Collatz)
+        ``if a > b: a = a - b  else: b = b - a``  (GCD subtraction)
+    """
+    # Collect assignments to var inside conditional branches
+    def _find_conditional_assigns(stmts):
+        """Return list of (branch, assign_node) tuples."""
+        results = []
+        for stmt in stmts:
+            if isinstance(stmt, ast.If):
+                for sub in ast.walk(ast.Module(body=stmt.body, type_ignores=[])):
+                    if isinstance(sub, ast.Assign):
+                        for tgt in sub.targets:
+                            if isinstance(tgt, ast.Name) and tgt.id == var:
+                                results.append(('if', sub))
+                    if isinstance(sub, ast.AugAssign) and isinstance(sub.target, ast.Name):
+                        if sub.target.id == var:
+                            results.append(('if', sub))
+                for sub in ast.walk(ast.Module(body=stmt.orelse, type_ignores=[])):
+                    if isinstance(sub, ast.Assign):
+                        for tgt in sub.targets:
+                            if isinstance(tgt, ast.Name) and tgt.id == var:
+                                results.append(('else', sub))
+                    if isinstance(sub, ast.AugAssign) and isinstance(sub.target, ast.Name):
+                        if sub.target.id == var:
+                            results.append(('else', sub))
+        return results
+
+    assigns = _find_conditional_assigns(body)
+    if len(assigns) < 2:
+        return False
+
+    # Check if assignments are in DIFFERENT branches
+    branches = set(branch for branch, _ in assigns)
+    if len(branches) < 2:
+        return False
+
+    # At least two branches modify the variable → non-monotone ranking
+    return True
+
+
+def _self_recursive_without_base_case(func_node: ast.FunctionDef) -> bool:
+    """Check if a function has a self-recursive call without a conditional base case.
+
+    In the stack-depth presheaf, a recursive function requires a *terminal
+    fiber* — a code path that does NOT recur and provides a base section.
+    If every code path through the function body contains a recursive call,
+    the presheaf has no terminal section → non-termination obstruction.
+
+    Specifically: if the function body's first statement is NOT an ``if``
+    guard, and the body contains a self-recursive call, there is no base case.
+    """
+    func_name = func_node.name
+
+    # Check if function has any self-recursive calls
+    has_self_call = False
+    for node in ast.walk(func_node):
+        if isinstance(node, ast.Call):
+            call_name = _get_call_name(node)
+            if call_name == func_name:
+                has_self_call = True
+                break
+
+    if not has_self_call:
+        return False
+
+    # Check if the body has a base-case guard (an if-statement that provides
+    # an early return/terminal path BEFORE any recursive call)
+    for stmt in func_node.body:
+        if isinstance(stmt, ast.If):
+            # If this if-statement has a return in its body (or orelse),
+            # it provides a base case
+            has_return_in_if = False
+            for sub in ast.walk(ast.Module(body=stmt.body, type_ignores=[])):
+                if isinstance(sub, ast.Return):
+                    has_return_in_if = True
+                    break
+            if not has_return_in_if:
+                for sub in ast.walk(ast.Module(body=stmt.orelse, type_ignores=[])):
+                    if isinstance(sub, ast.Return):
+                        has_return_in_if = True
+                        break
+            if has_return_in_if:
+                return False  # has base case guard
+        elif isinstance(stmt, ast.Return):
+            # Check if this return ITSELF contains a self-recursive call
+            has_self_call_in_return = False
+            if stmt.value:
+                for sub in ast.walk(stmt.value):
+                    if isinstance(sub, ast.Call):
+                        if _get_call_name(sub) == func_name:
+                            has_self_call_in_return = True
+                            break
+            if has_self_call_in_return:
+                return True  # recursive call with no base case guard
+            return False  # unconditional non-recursive return
+        elif isinstance(stmt, (ast.Expr, ast.Assign)):
+            # Check if this statement contains a recursive call
+            for node in ast.walk(stmt):
+                if isinstance(node, ast.Call):
+                    call_name = _get_call_name(node)
+                    if call_name == func_name:
+                        return True  # recursive call before any base case guard
+
+    return True  # no base case found
+
+
+def _threading_imported(tree: ast.AST) -> bool:
+    """Check if the ``threading`` module is imported anywhere in the tree.
+
+    In the synchronization presheaf framework, ``import threading`` is an
+    *intent declaration*: the author is signalling that the code operates
+    in a concurrent fiber topology.  Module-level mutations in such files
+    require synchronization sections even when no explicit ``Thread(target=…)``
+    constructor is visible in the snippet (the spawn may be external).
+    """
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Import):
+            for alias in n.names:
+                if alias.name == 'threading' or alias.name.startswith('threading.'):
+                    return True
+        if isinstance(n, ast.ImportFrom):
+            if n.module and (n.module == 'threading' or n.module.startswith('threading.')):
+                return True
+    return False
 
 
 def _is_inside_thread_target(node: ast.AST, tree: ast.AST) -> bool:
@@ -2793,6 +3000,47 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
     # A variable assigned BOTH from a constructor and from None/other is not safe
     _constructor_vars -= _non_constructor_assigned
 
+    # ── dict.get(key) without default pre-pass (nullable fiber sources) ──
+    # ``val = d.get(key)`` returns Optional[V]: the fiber at the assignment
+    # site has carrier = V | None.  Any subsequent dereference (attribute,
+    # subscript, BinOp) on ``val`` without a None check is a NULL_PTR
+    # obstruction — the None stalk has no compatible section for the op.
+    _dict_get_nullable_vars: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, ast.Assign) and len(fnode.targets) == 1:
+            tgt = fnode.targets[0]
+            if isinstance(tgt, ast.Name) and isinstance(fnode.value, ast.Call):
+                if isinstance(fnode.value.func, ast.Attribute):
+                    method_name = fnode.value.func.attr
+                    if method_name == 'get' and len(fnode.value.args) <= 1:
+                        # .get(key) with no default → nullable
+                        _dict_get_nullable_vars.add(tgt.id)
+                    elif method_name == 'get' and len(fnode.value.args) >= 2:
+                        pass  # .get(key, default) → not nullable
+
+    # ── Factory-returns-None pre-pass (intra-module None propagation) ──
+    # If a locally-defined function has all return paths returning None
+    # (or assigns None and returns it), the caller's variable is nullable.
+    _factory_none_funcs: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            returns = [n for n in ast.walk(fnode) if isinstance(n, ast.Return) and n.value is not None]
+            if returns:
+                all_return_none = all(
+                    isinstance(r.value, ast.Constant) and r.value.value is None
+                    for r in returns
+                )
+                if all_return_none:
+                    _factory_none_funcs.add(fnode.name)
+    _factory_none_vars: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, ast.Assign) and len(fnode.targets) == 1:
+            tgt = fnode.targets[0]
+            if isinstance(tgt, ast.Name) and isinstance(fnode.value, ast.Call):
+                call_name = _get_call_name(fnode.value)
+                if call_name in _factory_none_funcs:
+                    _factory_none_vars.add(tgt.id)
+
     # ── Thread-safe container pre-pass ──
     # Variables assigned from ``queue.Queue()`` are inherently thread-safe;
     # operations on them do not constitute data races.
@@ -2806,6 +3054,37 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                                  'queue.LifoQueue', 'queue.SimpleQueue',
                                  'multiprocessing.Queue'):
                     _thread_safe_vars.add(tgt.id)
+
+    # ── Threading-import concurrent fiber topology pre-pass ──
+    # When ``import threading`` is present, module-level mutable state
+    # mutations form open covers in the synchronization presheaf.  We
+    # pre-compute the set of global variables declared via ``global x``
+    # inside functions, and module-level mutable objects (list, dict, set
+    # literals at module scope), to identify race sites even without an
+    # explicit ``Thread(target=…)`` constructor in the snippet.
+    _threading_imported_flag = _threading_imported(tree)
+    _global_vars_in_funcs: Set[str] = set()
+    _module_level_mutables: Set[str] = set()
+    if _threading_imported_flag:
+        # Collect variables declared ``global x`` inside any function
+        for fnode in ast.walk(tree):
+            if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for stmt in ast.walk(fnode):
+                    if isinstance(stmt, ast.Global):
+                        _global_vars_in_funcs.update(stmt.names)
+        # Collect module-level mutable assignments (list/dict/set literals,
+        # or mutable constructors at module scope)
+        for stmt in (tree.body if hasattr(tree, 'body') else []):
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                tgt = stmt.targets[0]
+                if isinstance(tgt, ast.Name):
+                    val = stmt.value
+                    if isinstance(val, (ast.List, ast.Dict, ast.Set)):
+                        _module_level_mutables.add(tgt.id)
+                    elif isinstance(val, ast.Constant) and isinstance(val.value, (int, float)):
+                        # Scalar module-level vars mutated via ``global``
+                        if tgt.id in _global_vars_in_funcs:
+                            _module_level_mutables.add(tgt.id)
 
     for node in ast.walk(tree):
         # ── REFINEMENT_GAP: Division by zero ──
@@ -2898,6 +3177,29 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         description=f"`{obj_id}[...]` — object must not be None for subscript access",
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
+
+        # ── REFINEMENT_GAP: BinOp on nullable variable ──
+        # ``val = d.get(key); val + 1`` — if val is None (from dict.get
+        # without default), the BinOp raises TypeError.  In sheaf terms the
+        # nullable fiber at the BinOp site has no ⊕-compatible section.
+        if isinstance(node, ast.BinOp):
+            for operand in (node.left, node.right):
+                if isinstance(operand, ast.Name):
+                    v = operand.id
+                    if v in _dict_get_nullable_vars or v in _factory_none_vars:
+                        reqs.append(SectionRequirement(
+                            site_id=SiteId(kind=SiteKind.SSA_VALUE,
+                                           name=f"binop_null_L{node.lineno}"),
+                            bug_type="NULL_PTR",
+                            required_predicate=Comparison(
+                                op='!=', left=Var(f"{v}_is_none"), right=IntLit(1)),
+                            description=(
+                                f"`{v}` may be None (from dict.get/factory) — "
+                                f"operand must not be None for BinOp"
+                            ),
+                            line=node.lineno, col=node.col_offset, ast_node=node,
+                        ))
+                        break  # one obstruction per BinOp
 
         # ── REFINEMENT_GAP: Index out of bounds ──
         # Skip direct-parameter indices: if the index is a plain Name that
@@ -3756,7 +4058,11 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
             func_name = _get_call_name(node.value)
             if func_name in ("open", "builtins.open", "io.open",
                             "socket.socket", "tempfile.NamedTemporaryFile",
-                            "tempfile.NamedTemporaryFile"):
+                            "tempfile.NamedTemporaryFile",
+                            "urllib.request.urlopen", "urlopen",
+                            "requests.get", "requests.post", "requests.Session",
+                            "sqlite3.connect", "psycopg2.connect",
+                            "connect"):
                 # Check: is this inside a with-statement?
                 if not _is_inside_with(node, tree):
                     var_name = _expr_to_var_name(node.targets[0], f"res_L{node.lineno}")
@@ -3842,12 +4148,20 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                 # Also check that modification is in the correct direction
                 correct_dir = _body_modifies_var_correctly(
                     node.body, loop_var, node.test)
-                if not body_modifies or not correct_dir:
-                    reason = (
-                        f"`{loop_var}` not modified in body"
-                        if not body_modifies
-                        else f"`{loop_var}` modified in wrong direction"
-                    )
+                # Additionally check for non-monotone conditional modification
+                # (e.g. Collatz: x//2 in one branch, 3x+1 in another)
+                non_monotone = _body_modifies_var_non_monotonically(
+                    node.body, loop_var)
+                if not body_modifies or not correct_dir or non_monotone:
+                    if non_monotone:
+                        reason = (
+                            f"`{loop_var}` modified in multiple conditional "
+                            f"directions — ranking presheaf is non-monotone"
+                        )
+                    elif not body_modifies:
+                        reason = f"`{loop_var}` not modified in body"
+                    else:
+                        reason = f"`{loop_var}` modified in wrong direction"
                     reqs.append(SectionRequirement(
                         site_id=SiteId(kind=SiteKind.LOOP_HEADER_INVARIANT,
                                        name=f"loop_L{node.lineno}"),
@@ -3859,8 +4173,49 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
 
-        # ── RANKING_GAP: Unbounded recursion ──
-        #    A function that calls itself without a base case.
+            # ── while True / while <constant-true>: no ranking function candidate ──
+            # If the loop condition is always true, termination requires an
+            # unconditional exit (break/return/raise).  If exits are only
+            # conditional, the ranking presheaf has no bounded section.
+            elif _while_true_variant(node):
+                if not _body_has_unconditional_exit(node.body):
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.LOOP_HEADER_INVARIANT,
+                                       name=f"loop_L{node.lineno}"),
+                        bug_type="NON_TERMINATION",
+                        required_predicate=Comparison(
+                            op='>', left=Var("ranking_fuel"), right=IntLit(0)
+                        ),
+                        description=(
+                            "while-True loop: no unconditional exit — "
+                            "ranking presheaf has no bounded terminal section"
+                        ),
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+
+        # ── RANKING_GAP: Recursion without base case ──
+        # A self-recursive function with no conditional base case has no
+        # terminal fiber in the stack-depth presheaf → guaranteed divergence.
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            if _self_recursive_without_base_case(node):
+                self_call_line = node.lineno
+                for sub in ast.walk(node):
+                    if isinstance(sub, ast.Call) and _get_call_name(sub) == node.name:
+                        self_call_line = sub.lineno
+                        break
+                reqs.append(SectionRequirement(
+                    site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                                   name=f"nobase_{node.name}_L{self_call_line}"),
+                    bug_type="NON_TERMINATION",
+                    required_predicate=Comparison(
+                        op='>', left=Var(f"ranking_{node.name}"), right=IntLit(0)
+                    ),
+                    description=(
+                        f"recursive `{node.name}()` has no base case guard — "
+                        f"stack-depth presheaf has no terminal fiber"
+                    ),
+                    line=self_call_line, col=0, ast_node=node,
+                ))
 
         # ── SYNCHRONIZATION_GAP: Data race ──
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
@@ -3924,6 +4279,69 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                     description=f"AugAssign `{var} {ast.dump(node.op)}= …` on shared variable requires lock held",
                     line=node.lineno, col=node.col_offset, ast_node=node,
                 ))
+
+        # ── SYNCHRONIZATION_GAP (threading-import): concurrent fiber topology ──
+        # When ``import threading`` is present, module-level mutations inside
+        # any function form an *open cover* of concurrent fibers.  The
+        # synchronization presheaf L requires a lock_held section at each
+        # mutation site; without explicit ``Thread(target=...)`` we still
+        # know the code is intended for concurrent use.
+        if _threading_imported_flag and not _is_inside_thread_target(node, tree):
+            # AugAssign on a global variable (``global x; x += 1``)
+            if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
+                var = node.target.id
+                if var in _global_vars_in_funcs and var not in _thread_safe_vars:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                       name=f"race_glob_L{node.lineno}"),
+                        bug_type="DATA_RACE",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"lock_held_{var}"), right=IntLit(1)
+                        ),
+                        description=(
+                            f"AugAssign `{var} {ast.dump(node.op)}= …` on module-level "
+                            f"variable in threading-enabled module requires lock held"
+                        ),
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+            # Method-call mutation on module-level mutable (list.append, etc.)
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+                method = node.func.attr
+                if method in ('append', 'extend', 'pop', 'insert', 'remove'):
+                    obj_name = node.func.value.id if isinstance(node.func.value, ast.Name) else ""
+                    if obj_name and obj_name in _module_level_mutables and obj_name not in _thread_safe_vars:
+                        reqs.append(SectionRequirement(
+                            site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                           name=f"race_glob_L{node.lineno}"),
+                            bug_type="DATA_RACE",
+                            required_predicate=Comparison(
+                                op='==', left=Var(f"lock_held_{obj_name}"), right=IntLit(1)
+                            ),
+                            description=(
+                                f"`.{method}()` on module-level `{obj_name}` in "
+                                f"threading-enabled module requires lock held"
+                            ),
+                            line=node.lineno, col=node.col_offset, ast_node=node,
+                        ))
+            # Subscript assignment on module-level dict (``config[key] = val``)
+            if isinstance(node, ast.Assign):
+                for tgt in node.targets:
+                    if isinstance(tgt, ast.Subscript) and isinstance(tgt.value, ast.Name):
+                        obj_name = tgt.value.id
+                        if obj_name in _module_level_mutables and obj_name not in _thread_safe_vars:
+                            reqs.append(SectionRequirement(
+                                site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                               name=f"race_glob_L{node.lineno}"),
+                                bug_type="DATA_RACE",
+                                required_predicate=Comparison(
+                                    op='==', left=Var(f"lock_held_{obj_name}"), right=IntLit(1)
+                                ),
+                                description=(
+                                    f"subscript assignment on module-level `{obj_name}` "
+                                    f"in threading-enabled module requires lock held"
+                                ),
+                                line=node.lineno, col=node.col_offset, ast_node=node,
+                            ))
 
         # ── SECRECY_GAP: Information leak ──
         if isinstance(node, ast.Raise) and node.exc is not None:
@@ -4911,6 +5329,15 @@ class _PresheafAnalyzer:
         result_var = '_result'
         first = True
 
+        # Pre-compute simple variable-to-value mapping within the function
+        # to trace ``return var`` where ``var = None`` (nullable fiber).
+        _local_var_vals: Dict[str, ast.AST] = {}
+        for stmt in ast.walk(func_node):
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                tgt = stmt.targets[0]
+                if isinstance(tgt, ast.Name):
+                    _local_var_vals[tgt.id] = stmt.value
+
         for ret in returns:
             branch_stalk = _Stalk()
             if ret.value is None:
@@ -4953,6 +5380,23 @@ class _PresheafAnalyzer:
                             branch_stalk.is_zero[result_var] = _AbstractVal.UNKNOWN
                 elif isinstance(val, ast.BinOp):
                     branch_stalk.is_none[result_var] = _AbstractVal.FALSE
+                # ── Name → trace through local assignment ──
+                # ``return var`` where ``var = None`` → nullable fiber
+                elif isinstance(val, ast.Name):
+                    local_val = _local_var_vals.get(val.id)
+                    if local_val is not None:
+                        if isinstance(local_val, ast.Constant) and local_val.value is None:
+                            branch_stalk.is_none[result_var] = _AbstractVal.TRUE
+                        elif isinstance(local_val, (ast.List, ast.Tuple, ast.Set, ast.Dict)):
+                            branch_stalk.is_none[result_var] = _AbstractVal.FALSE
+                        elif isinstance(local_val, ast.Call):
+                            cn = ""
+                            try:
+                                cn = ast.unparse(local_val.func) if hasattr(local_val, 'func') else ""
+                            except Exception:
+                                pass
+                            if cn and cn[0].isupper():
+                                branch_stalk.is_none[result_var] = _AbstractVal.FALSE
 
             if first:
                 result_stalk = branch_stalk
@@ -7206,6 +7650,136 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                             start_line=body_start, end_line=body_end,
                             condition_text=f"compound and: {ast.unparse(val)}",
                         ))
+
+    # ── Binary search loop-invariant guard: ``while lo < hi: mid = (lo+hi)//2`` ──
+    # The arithmetic fiber of the bisection topology guarantees
+    # ``lo ≤ mid < hi`` at every iteration.  If ``hi`` is initialized from
+    # ``len(arr)`` and ``lo`` from ``0``, then ``0 ≤ mid < len(arr)`` holds
+    # for all loop iterations → ``arr[mid]`` is INDEX_OOB-safe.
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.While):
+            continue
+        # Match condition pattern: ``lo < hi``
+        test = node.test
+        if not (isinstance(test, ast.Compare) and len(test.ops) == 1
+                and isinstance(test.ops[0], ast.Lt)):
+            continue
+        if not (isinstance(test.left, ast.Name)
+                and isinstance(test.comparators[0], ast.Name)):
+            continue
+        lo_var, hi_var = test.left.id, test.comparators[0].id
+
+        # Check if ``hi`` is assigned from ``len(arr)`` before the loop
+        hi_from_len_of: Optional[str] = None
+        for prev in ast.walk(tree):
+            if isinstance(prev, ast.Assign) and len(prev.targets) == 1:
+                tgt = prev.targets[0]
+                if isinstance(tgt, ast.Name) and tgt.id == hi_var:
+                    if (isinstance(prev.value, ast.Call)
+                            and isinstance(prev.value.func, ast.Name)
+                            and prev.value.func.id == 'len'
+                            and prev.value.args
+                            and isinstance(prev.value.args[0], ast.Name)):
+                        hi_from_len_of = prev.value.args[0].id
+                # Tuple assignment: ``lo, hi = 0, len(arr)``
+                if isinstance(tgt, (ast.Tuple, ast.List)) and len(tgt.elts) == 2:
+                    for i, elt in enumerate(tgt.elts):
+                        if isinstance(elt, ast.Name) and elt.id == hi_var:
+                            if isinstance(prev.value, (ast.Tuple, ast.List)) and len(prev.value.elts) == 2:
+                                rhs_elt = prev.value.elts[i]
+                                if (isinstance(rhs_elt, ast.Call)
+                                        and isinstance(rhs_elt.func, ast.Name)
+                                        and rhs_elt.func.id == 'len'
+                                        and rhs_elt.args
+                                        and isinstance(rhs_elt.args[0], ast.Name)):
+                                    hi_from_len_of = rhs_elt.args[0].id
+
+        if not hi_from_len_of:
+            continue
+
+        # Check for ``mid = (lo + hi) // 2`` in loop body
+        mid_var: Optional[str] = None
+        for stmt in node.body:
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                tgt = stmt.targets[0]
+                if isinstance(tgt, ast.Name):
+                    try:
+                        assign_text = ast.unparse(stmt.value)
+                    except Exception:
+                        assign_text = ""
+                    if lo_var in assign_text and hi_var in assign_text:
+                        mid_var = tgt.id
+                        break
+
+        if mid_var:
+            body_start = node.body[0].lineno if node.body else node.lineno
+            body_end = max(
+                (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                default=node.lineno,
+            )
+            guards.append(_GuardSite(
+                guard_type="binary_search_invariant",
+                predicate=BoolLit(True),
+                protects_against={"INDEX_OOB"},
+                start_line=body_start, end_line=body_end,
+                condition_text=(
+                    f"while {lo_var} < {hi_var}: {mid_var} = ({lo_var}+{hi_var})//2 "
+                    f"with {hi_var} = len({hi_from_len_of}) — "
+                    f"bisection invariant guarantees 0 ≤ {mid_var} < len({hi_from_len_of})"
+                ),
+            ))
+
+    # ── Subscript-on-constructor result guard for NULL_PTR ──
+    # ``items = make_items(); items[0].name`` — if ``items`` is assigned
+    # from a function call DEFINED in the same module and that function
+    # returns a non-None value, the subscript result is safe.  The guard
+    # only fires when the factory function is visible and returns a
+    # collection literal (list, dict, set, tuple) — providing a fiber-
+    # local section guaranteeing non-None at the subscript site.
+    _local_factory_returns_nonnone: Set[str] = set()
+    for fn_node in ast.walk(tree):
+        if isinstance(fn_node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for sub in ast.walk(fn_node):
+                if isinstance(sub, ast.Return) and sub.value is not None:
+                    if isinstance(sub.value, (ast.List, ast.Dict, ast.Set, ast.Tuple)):
+                        _local_factory_returns_nonnone.add(fn_node.name)
+                    elif isinstance(sub.value, ast.Call):
+                        # Constructor call (uppercase or known)
+                        cn = ""
+                        try:
+                            cn = ast.unparse(sub.value.func)
+                        except Exception:
+                            pass
+                        if cn and cn[0].isupper():
+                            _local_factory_returns_nonnone.add(fn_node.name)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Subscript):
+            sub = node.value
+            if isinstance(sub.value, ast.Name):
+                arr_var = sub.value.id
+                # Check if arr_var was assigned from a local factory
+                for assign_node in ast.walk(tree):
+                    if isinstance(assign_node, ast.Assign) and len(assign_node.targets) == 1:
+                        tgt = assign_node.targets[0]
+                        if isinstance(tgt, ast.Name) and tgt.id == arr_var:
+                            if isinstance(assign_node.value, ast.Call):
+                                call_name = _get_call_name(assign_node.value)
+                                if call_name in _local_factory_returns_nonnone:
+                                    guards.append(_GuardSite(
+                                        guard_type="factory_subscript_attr",
+                                        predicate=Comparison(
+                                            op='!=',
+                                            left=Var(f"{arr_var}_subscript_is_none"),
+                                            right=IntLit(1)),
+                                        protects_against={"NULL_PTR"},
+                                        start_line=node.lineno,
+                                        end_line=node.lineno,
+                                        condition_text=(
+                                            f"{arr_var} from `{call_name}()` returns "
+                                            f"non-None collection — subscript result safe"
+                                        ),
+                                    ))
+                                    break
 
     # ── Harvest module augmentation ───────────────────────────────────────
     # Use deppy.harvest infrastructure to catch guard patterns that the
