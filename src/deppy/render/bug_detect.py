@@ -3098,6 +3098,123 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                 line=node.lineno, col=node.col_offset, ast_node=node,
             ))
 
+        # ── REFINEMENT_GAP: Unbounded shift / power ──
+        # In the magnitude presheaf, ``x << n`` and ``base ** exp`` have
+        # EXPONENTIAL growth fibers.  When the exponent/shift-amount is an
+        # unclamped parameter the growth fiber is UNBOUNDED — an obstruction
+        # in the bounded-resource section.
+        # Skip when both operands are literals (compile-time constant).
+        if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.LShift, ast.Pow)):
+            exponent = node.right
+            base_expr = node.left
+            exp_var = _expr_to_var_name(exponent, f"exp_L{node.lineno}")
+            _exp_is_literal = (isinstance(exponent, ast.Constant)
+                               and isinstance(exponent.value, (int, float)))
+            _base_is_literal = (isinstance(base_expr, ast.Constant)
+                                and isinstance(base_expr.value, (int, float)))
+            if not (_exp_is_literal and _base_is_literal):
+                # Skip when the result flows into a bitmask-bounded
+                # variable.  Look for ``&= MASK`` or ``& MASK`` on any
+                # ancestor variable in the enclosing function.
+                _has_downstream_mask = False
+                for _fn in ast.walk(tree):
+                    if not isinstance(_fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        continue
+                    _fn_contains = False
+                    for _d in ast.walk(_fn):
+                        if _d is node:
+                            _fn_contains = True
+                            break
+                    if not _fn_contains:
+                        continue
+                    for _d in ast.walk(_fn):
+                        if (isinstance(_d, ast.AugAssign)
+                                and isinstance(_d.op, ast.BitAnd)
+                                and isinstance(_d.value, ast.Constant)
+                                and isinstance(_d.value.value, int)
+                                and _d.value.value > 0):
+                            _has_downstream_mask = True
+                            break
+                        if (isinstance(_d, ast.BinOp)
+                                and isinstance(_d.op, ast.BitAnd)):
+                            if ((isinstance(_d.right, ast.Constant)
+                                 and isinstance(_d.right.value, int)
+                                 and _d.right.value > 0) or
+                                (isinstance(_d.left, ast.Constant)
+                                 and isinstance(_d.left.value, int)
+                                 and _d.left.value > 0)):
+                                _has_downstream_mask = True
+                                break
+                    break  # only check the enclosing function
+                if _has_downstream_mask:
+                    pass  # Bitmask truncates the magnitude fiber
+                else:
+                    op_name = "<<" if isinstance(node.op, ast.LShift) else "**"
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.SSA_VALUE,
+                                       name=f"shift_pow_L{node.lineno}"),
+                        bug_type="INTEGER_OVERFLOW",
+                        required_predicate=Comparison(
+                            op='<=', left=Var(exp_var), right=IntLit(63)),
+                    description=(
+                        f"`{_expr_repr(base_expr)} {op_name} {_expr_repr(exponent)}`"
+                        f" — unbounded {op_name} can overflow"
+                    ),
+                    line=node.lineno, col=node.col_offset, ast_node=node,
+                ))
+
+        # ── REFINEMENT_GAP: Unbounded loop accumulation ──
+        # ``total += x`` or ``result *= i`` inside a for-loop without any
+        # overflow/bounds check.  The accumulation presheaf grows
+        # monotonically with iteration count — if the iteration bound comes
+        # from a parameter and no overflow guard is present, the accumulation
+        # fiber is UNBOUNDED.
+        if isinstance(node, ast.AugAssign) and isinstance(node.op, (ast.Add, ast.Mult)):
+            _enclosing_for = None
+            for ancestor in ast.walk(tree):
+                if isinstance(ancestor, ast.For):
+                    for child in ast.walk(ancestor):
+                        if child is node:
+                            _enclosing_for = ancestor
+                            break
+                    if _enclosing_for:
+                        break
+            if _enclosing_for is not None and isinstance(node.target, ast.Name):
+                accum_var = node.target.id
+                # Check for in-loop overflow guard: ``if var > LIMIT: raise``
+                # or any Raise inside the same loop body — indicates the
+                # programmer has bounded the accumulation fiber.
+                _has_loop_overflow_guard = False
+                for loop_child in ast.walk(_enclosing_for):
+                    if isinstance(loop_child, ast.Raise):
+                        _has_loop_overflow_guard = True
+                        break
+                    # Also: comparison against the accumulator in an if-test
+                    if (isinstance(loop_child, ast.If)
+                            and isinstance(loop_child.test, ast.Compare)):
+                        try:
+                            cond_text = ast.unparse(loop_child.test)
+                        except Exception:
+                            cond_text = ""
+                        if accum_var in cond_text and any(
+                                op in cond_text for op in ('>', '<', '>=', '<=')):
+                            _has_loop_overflow_guard = True
+                            break
+                if not _has_loop_overflow_guard:
+                    op_sym = "+=" if isinstance(node.op, ast.Add) else "*="
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.SSA_VALUE,
+                                       name=f"accum_L{node.lineno}"),
+                        bug_type="INTEGER_OVERFLOW",
+                        required_predicate=Comparison(
+                            op='<=', left=Var(accum_var), right=IntLit(2**63)),
+                        description=(
+                            f"`{accum_var} {op_sym} ...` in loop — "
+                            f"unbounded accumulation can overflow"
+                        ),
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+
         # ── REFINEMENT_GAP: None dereference ──
         # The presheaf F at an attribute-access site requires F(U) = {obj : T | obj ≠ None}.
         # We skip known-not-None cases:
@@ -4073,6 +4190,83 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                             op='==', left=Var(f"closed_{var_name}"), right=IntLit(1)
                         ),
                         description=f"`{_expr_repr(node.targets[0])}` = open(...) without context manager — resource may leak",
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
+
+        # ── LIFECYCLE_GAP: List comprehension resource leak ──
+        # ``conns = [connect(h) for h in hosts]`` — each call opens a resource
+        # but the list itself has no context-manager protocol.  In the lifecycle
+        # presheaf the comprehension site creates N OPEN fibers with no
+        # guaranteed CLOSE transition.  Skip if inside try/finally with .close().
+        _RESOURCE_OPENERS = {"open", "connect", "urlopen", "socket"}
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.ListComp):
+            comp = node.value
+            # Check if the comprehension's elt contains a resource-opening call
+            _has_resource_call = False
+            for _sub in ast.walk(comp.elt):
+                if isinstance(_sub, ast.Call):
+                    _call_name = _get_call_name(_sub)
+                    # Match any call whose basename is a resource opener
+                    _basename = _call_name.split('.')[-1] if _call_name else ""
+                    if _basename in _RESOURCE_OPENERS:
+                        _has_resource_call = True
+                        break
+            if _has_resource_call and not _is_inside_with(node, tree):
+                # Check if inside try/finally with .close() calls
+                _inside_try_finally = False
+                for _anc in ast.walk(tree):
+                    if isinstance(_anc, ast.Try) and _anc.finalbody:
+                        for _fin_stmt in ast.walk(ast.Module(body=_anc.finalbody, type_ignores=[])):
+                            if (isinstance(_fin_stmt, ast.Call)
+                                    and isinstance(_fin_stmt.func, ast.Attribute)
+                                    and _fin_stmt.func.attr == 'close'):
+                                # Check if the try body contains our node
+                                for _try_child in ast.walk(ast.Module(body=_anc.body, type_ignores=[])):
+                                    if _try_child is node:
+                                        _inside_try_finally = True
+                                        break
+                            if _inside_try_finally:
+                                break
+                    if _inside_try_finally:
+                        break
+                # Also check: is there a try/finally with .close() in the
+                # same enclosing function?  The finally-block provides the
+                # CLOSE transition even if the assignment is before the try.
+                if not _inside_try_finally:
+                    _var_id = node.targets[0].id if isinstance(node.targets[0], ast.Name) else ""
+                    for _fn in ast.walk(tree):
+                        if not isinstance(_fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                            continue
+                        _fn_has_node = False
+                        for _d in ast.walk(_fn):
+                            if _d is node:
+                                _fn_has_node = True
+                                break
+                        if not _fn_has_node:
+                            continue
+                        for _d in ast.walk(_fn):
+                            if isinstance(_d, ast.Try) and _d.finalbody:
+                                for _fs in ast.walk(ast.Module(body=_d.finalbody, type_ignores=[])):
+                                    if (isinstance(_fs, ast.Call)
+                                            and isinstance(_fs.func, ast.Attribute)
+                                            and _fs.func.attr == 'close'):
+                                        _inside_try_finally = True
+                                        break
+                                if _inside_try_finally:
+                                    break
+                        break
+                if not _inside_try_finally:
+                    var_name = _expr_to_var_name(node.targets[0], f"res_L{node.lineno}")
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.CALL_RESULT,
+                                       name=f"resleak_comp_L{node.lineno}"),
+                        bug_type="MEMORY_LEAK",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"closed_{var_name}"), right=IntLit(1)),
+                        description=(
+                            f"`{_expr_repr(node.targets[0])}` = [resource_call(...) for ...] "
+                            f"— resources may leak"
+                        ),
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
 
@@ -6568,10 +6762,23 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 val_text = ast.unparse(node.value)
             except Exception:
                 continue
+            # Sheaf-theoretic: ANY min/max call bounds the magnitude fiber
+            # to a truncated presheaf.  ``min(x, K)`` alone is an upper
+            # clamp; ``max(x, K)`` alone is a lower clamp.
             is_clamp = (('max(' in val_text and 'min(' in val_text) or
                         ('clamp' in val_text.lower()) or
                         ('min(' in val_text and 'len(' in val_text) or
-                        ('max(' in val_text and (', 0)' in val_text or ', 0,' in val_text or '(0,' in val_text or '(0 ,' in val_text)))
+                        ('max(' in val_text and (', 0)' in val_text or ', 0,' in val_text or '(0,' in val_text or '(0 ,' in val_text)) or
+                        # Bare min(var, constant) or min(constant, var) — upper clamp
+                        (isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name)
+                         and node.value.func.id == 'min' and len(node.value.args) == 2
+                         and any(isinstance(a, ast.Constant) and isinstance(a.value, (int, float))
+                                 for a in node.value.args)) or
+                        # Bare max(var, constant) — lower clamp
+                        (isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name)
+                         and node.value.func.id == 'max' and len(node.value.args) == 2
+                         and any(isinstance(a, ast.Constant) and isinstance(a.value, (int, float))
+                                 for a in node.value.args)))
             if is_clamp:
                 assign_line = node.lineno
                 assign_end = getattr(node, 'end_lineno', assign_line) or assign_line
@@ -6618,6 +6825,33 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                     protects_against={"INTEGER_OVERFLOW", "OVERFLOW"},
                                     start_line=mask_end, end_line=func_end,
                                     condition_text=f"bitmask &= 0x{node.value.value:X} (bounded fiber)",
+                                ))
+                                break
+        # Inline bitmask BinOp: ``return (a + b) & 0xFFFFFFFF`` or
+        # ``x = expr & MASK`` — the BitAnd truncates the magnitude fiber
+        # to a bounded presheaf section, resolving INTEGER_OVERFLOW.
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitAnd):
+            mask_const = None
+            if isinstance(node.right, ast.Constant) and isinstance(node.right.value, int):
+                mask_const = node.right.value
+            elif isinstance(node.left, ast.Constant) and isinstance(node.left.value, int):
+                mask_const = node.left.value
+            if mask_const is not None and mask_const > 0:
+                mask_line = node.lineno
+                for parent in ast.walk(tree):
+                    if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        for desc in ast.walk(parent):
+                            if desc is node:
+                                func_end = max(
+                                    (getattr(s, 'end_lineno', s.lineno) for s in parent.body),
+                                    default=mask_line + 100,
+                                )
+                                guards.append(_GuardSite(
+                                    guard_type="bitmask_bound",
+                                    predicate=BoolLit(True),
+                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW"},
+                                    start_line=mask_line, end_line=func_end,
+                                    condition_text=f"bitmask & 0x{mask_const:X} (bounded fiber)",
                                 ))
                                 break
         # Range comparison: ``if -N <= x <= N:`` or similar
