@@ -3057,7 +3057,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
             is_clamp = (('max(' in val_text and 'min(' in val_text) or
                         ('clamp' in val_text.lower()) or
                         ('min(' in val_text and 'len(' in val_text) or
-                        ('max(' in val_text and (', 0)' in val_text or ', 0,' in val_text)))
+                        ('max(' in val_text and (', 0)' in val_text or ', 0,' in val_text or '(0,' in val_text or '(0 ,' in val_text)))
             if is_clamp:
                 assign_line = node.lineno
                 assign_end = getattr(node, 'end_lineno', assign_line) or assign_line
@@ -3073,7 +3073,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                 guards.append(_GuardSite(
                                     guard_type="clamping",
                                     predicate=BoolLit(True),
-                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS", "FP_DOMAIN"},
+                                    protects_against={"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS", "FP_DOMAIN", "INDEX_OOB"},
                                     start_line=assign_end, end_line=func_end,
                                     condition_text=f"clamping: {val_text[:60]}",
                                 ))
@@ -3141,7 +3141,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
             #   # everything here is guarded by ¬bad_condition
             protects: Set[str] = set()
 
-            if "== 0" in cond_text or "!= 0" in cond_text:
+            if "== 0" in cond_text or "!= 0" in cond_text or "<= 0" in cond_text or "< 0" in cond_text:
                 protects.add("DIV_ZERO")
             if "is None" in cond_text or "== None" in cond_text:
                 protects.add("NULL_PTR")
@@ -3183,6 +3183,548 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                     start_line=after_start, end_line=func_end,
                     condition_text=f"after early return: if {cond_text}: return/raise",
                 ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # ASSERT GUARDS — fiber restriction via assertion
+    #
+    # An `assert P` statement introduces a FIBER RESTRICTION: the
+    # continuation presheaf is restricted to the open set where P holds.
+    # If P is violated, the program terminates (raises AssertionError),
+    # so every section after the assert carries the P-refinement.
+    # Sheaf-theoretically, the assert kills the ¬P fiber.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assert):
+            try:
+                cond_text = ast.unparse(node.test)
+            except Exception:
+                continue
+            assert_line = node.lineno
+            # Guard covers everything after the assert to end of enclosing function
+            for parent in ast.walk(tree):
+                if not isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    continue
+                # Check if this assert is inside this function
+                func_start = parent.lineno
+                func_end_line = max(
+                    (getattr(s, 'end_lineno', s.lineno) for s in parent.body),
+                    default=func_start + 200,
+                )
+                if not (func_start <= assert_line <= func_end_line):
+                    continue
+                after_start = assert_line + 1
+                # Apply same patterns as if-conditions
+                if "is not None" in cond_text or "!= None" in cond_text:
+                    guards.append(_GuardSite(
+                        guard_type="assert_guard",
+                        predicate=BoolLit(True),
+                        protects_against={"NULL_PTR"},
+                        start_line=after_start, end_line=func_end_line,
+                        condition_text=f"assert {cond_text}",
+                    ))
+                if "!= 0" in cond_text or "> 0" in cond_text or "< 0" in cond_text or "<= 0" not in cond_text and ">= 1" in cond_text:
+                    guards.append(_GuardSite(
+                        guard_type="assert_guard",
+                        predicate=BoolLit(True),
+                        protects_against={"DIV_ZERO"},
+                        start_line=after_start, end_line=func_end_line,
+                        condition_text=f"assert {cond_text}",
+                    ))
+                if "len(" in cond_text and any(op in cond_text for op in (">", "<", ">=", "<=", "==")):
+                    guards.append(_GuardSite(
+                        guard_type="assert_guard",
+                        predicate=BoolLit(True),
+                        protects_against={"INDEX_OOB", "BOUNDS"},
+                        start_line=after_start, end_line=func_end_line,
+                        condition_text=f"assert {cond_text}",
+                    ))
+                if "> 0" in cond_text or ">= 0" in cond_text:
+                    guards.append(_GuardSite(
+                        guard_type="assert_guard",
+                        predicate=BoolLit(True),
+                        protects_against={"FP_DOMAIN"},
+                        start_line=after_start, end_line=func_end_line,
+                        condition_text=f"assert {cond_text}",
+                    ))
+                if "isinstance(" in cond_text:
+                    guards.append(_GuardSite(
+                        guard_type="assert_guard",
+                        predicate=BoolLit(True),
+                        protects_against={"TYPE_ERROR", "TYPE_CONFUSION"},
+                        start_line=after_start, end_line=func_end_line,
+                        condition_text=f"assert {cond_text}",
+                    ))
+                break  # found the enclosing function
+
+    # ══════════════════════════════════════════════════════════════════════
+    # TERNARY / IfExp GUARDS — inline coproduct decomposition
+    #
+    # `x.attr if x is not None else default` is a coproduct:
+    #   body-fiber (x is not None) ⊔ orelse-fiber (x is None).
+    # The attribute access lives in the body-fiber where the guard holds.
+    # Sheaf-theoretically, the IfExp test restricts the body to the
+    # open set where the predicate is true.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.IfExp):
+            try:
+                cond_text = ast.unparse(node.test)
+            except Exception:
+                continue
+            body_start = getattr(node.body, 'lineno', node.lineno)
+            body_end = getattr(node.body, 'end_lineno', body_start) or body_start
+            if "is not None" in cond_text or "!= None" in cond_text:
+                guards.append(_GuardSite(
+                    guard_type="ternary_guard",
+                    predicate=BoolLit(True),
+                    protects_against={"NULL_PTR"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=f"ternary: {cond_text}",
+                ))
+            if "!= 0" in cond_text or "> 0" in cond_text or "< 0" in cond_text:
+                guards.append(_GuardSite(
+                    guard_type="ternary_guard",
+                    predicate=BoolLit(True),
+                    protects_against={"DIV_ZERO"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=f"ternary: {cond_text}",
+                ))
+            if "len(" in cond_text:
+                guards.append(_GuardSite(
+                    guard_type="ternary_guard",
+                    predicate=BoolLit(True),
+                    protects_against={"INDEX_OOB", "BOUNDS"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=f"ternary: {cond_text}",
+                ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # TRUTHINESS GUARDS — non-empty section from truthiness test
+    #
+    # `if data:` where `data` is a sequence means `len(data) > 0`.
+    # Inside the body, data carries a NON-EMPTY SECTION: the cardinality
+    # sub-presheaf restricts to {n ∈ ℕ | n > 0}, making data[0] valid.
+    # We recognize bare variable truthiness checks as INDEX_OOB guards.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.If):
+            try:
+                cond_text = ast.unparse(node.test)
+            except Exception:
+                continue
+            # Bare variable truthiness: `if data:` or `if items:`
+            if isinstance(node.test, ast.Name):
+                body_start = node.body[0].lineno if node.body else node.lineno
+                body_end = max(
+                    (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                    default=node.lineno,
+                )
+                guards.append(_GuardSite(
+                    guard_type="truthiness",
+                    predicate=BoolLit(True),
+                    protects_against={"INDEX_OOB", "BOUNDS", "NULL_PTR"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=f"truthiness: {cond_text}",
+                ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # HASATTR GUARDS — attribute-existence probe on the object presheaf
+    #
+    # `hasattr(obj, 'name')` probes whether the object's attribute
+    # presheaf has a section for 'name'.  Inside the true branch,
+    # `obj.name` is safe — the attribute exists.  For NULL_PTR,
+    # `hasattr(obj, ...)` also proves obj is not None (can't call
+    # hasattr on None).
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.If):
+            try:
+                cond_text = ast.unparse(node.test)
+            except Exception:
+                continue
+            if "hasattr(" in cond_text:
+                # Short-circuit: in `hasattr(obj, 'x') and obj.x ...`, the RHS
+                # of the `and` is on the SAME LINE as the hasattr call — so the
+                # guard must cover the condition line itself as well.
+                cond_line = node.lineno
+                body_start = node.body[0].lineno if node.body else node.lineno
+                body_end = max(
+                    (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                    default=node.lineno,
+                )
+                guards.append(_GuardSite(
+                    guard_type="hasattr_guard",
+                    predicate=BoolLit(True),
+                    protects_against={"NULL_PTR", "ATTRIBUTE_ERROR"},
+                    start_line=cond_line, end_line=body_end,
+                    condition_text=f"hasattr: {cond_text}",
+                ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # CONTINUE/BREAK AS LOOP-LOCAL EARLY RETURN
+    #
+    # In a loop body, `if x is None: continue` restricts the remainder
+    # of the loop iteration to the ¬(x is None) fiber.  This is the
+    # loop-local analogue of an early return: the `continue` kills the
+    # None fiber for the rest of the iteration body.
+    # Sheaf-theoretically: the iteration presheaf's continuation section
+    # is restricted to the open set where ¬cond holds.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
+            continue
+        for i, stmt in enumerate(node.body):
+            if not isinstance(stmt, ast.If):
+                continue
+            # Check if the if-body ends with continue or break
+            body_terminates = (
+                stmt.body and
+                isinstance(stmt.body[-1], (ast.Continue, ast.Break))
+            )
+            if not body_terminates:
+                continue
+            try:
+                cond_text = ast.unparse(stmt.test)
+            except Exception:
+                continue
+            # Everything after this if (within the loop body) is guarded by ¬cond
+            after_start = (stmt.end_lineno or stmt.lineno) + 1
+            loop_body_end = max(
+                (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                default=after_start + 50,
+            )
+            protects_cont: Set[str] = set()
+            if "is None" in cond_text and "is not None" not in cond_text:
+                protects_cont.add("NULL_PTR")
+            if "== None" in cond_text:
+                protects_cont.add("NULL_PTR")
+            if "== 0" in cond_text or "!= 0" in cond_text:
+                protects_cont.add("DIV_ZERO")
+            if cond_text.startswith("not "):
+                protects_cont.update({"INDEX_OOB", "NULL_PTR"})
+            if "not hasattr(" in cond_text or "not isinstance(" in cond_text:
+                protects_cont.add("NULL_PTR")
+            if "hasattr(" in cond_text and "not " not in cond_text:
+                protects_cont.add("NULL_PTR")
+            if protects_cont:
+                guards.append(_GuardSite(
+                    guard_type="continue_guard",
+                    predicate=BoolLit(True),
+                    protects_against=protects_cont,
+                    start_line=after_start, end_line=loop_body_end,
+                    condition_text=f"after continue/break: if {cond_text}",
+                ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # NESTED EARLY-RETURN GUARDS
+    #
+    # The basic early-return logic only checks top-level function body
+    # statements.  But early returns inside `for` loops and nested `if`
+    # blocks are equally valid guard patterns.
+    # `for x in items: if bad(x): return` → after the if, code is guarded.
+    # `if outer: if inner_bad: return; use_inner` → after inner if, guarded.
+    # ══════════════════════════════════════════════════════════════════════
+    for func_node in ast.walk(tree):
+        if not isinstance(func_node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        func_end = max(
+            (getattr(s, 'end_lineno', s.lineno) for s in func_node.body),
+            default=func_node.lineno + 200,
+        )
+        # Walk all nested blocks looking for if-return patterns
+        for container in ast.walk(func_node):
+            # Check inside for-loop bodies and if-else bodies
+            body_lists = []
+            if isinstance(container, (ast.For, ast.AsyncFor, ast.While)):
+                body_lists.append(container.body)
+            if isinstance(container, ast.If):
+                body_lists.append(container.body)
+                if container.orelse:
+                    body_lists.append(container.orelse)
+            for body in body_lists:
+                for j, inner_stmt in enumerate(body):
+                    if not isinstance(inner_stmt, ast.If):
+                        continue
+                    inner_terminates = (
+                        inner_stmt.body and
+                        isinstance(inner_stmt.body[-1], (ast.Return, ast.Raise))
+                    )
+                    if not inner_terminates:
+                        continue
+                    try:
+                        inner_cond = ast.unparse(inner_stmt.test)
+                    except Exception:
+                        continue
+                    inner_after = (inner_stmt.end_lineno or inner_stmt.lineno) + 1
+                    block_end = max(
+                        (getattr(s, 'end_lineno', s.lineno) for s in body),
+                        default=inner_after + 50,
+                    )
+                    nested_protects: Set[str] = set()
+                    if "== 0" in inner_cond or "!= 0" in inner_cond or "<= 0" in inner_cond or "< 0" in inner_cond:
+                        nested_protects.add("DIV_ZERO")
+                    if "is None" in inner_cond or "== None" in inner_cond:
+                        nested_protects.add("NULL_PTR")
+                    if "len(" in inner_cond:
+                        nested_protects.update({"INDEX_OOB", "BOUNDS"})
+                    if inner_cond.startswith("not ") and " " not in inner_cond[4:]:
+                        nested_protects.update({"INDEX_OOB", "NULL_PTR", "DIV_ZERO"})
+                    if "isinstance(" in inner_cond:
+                        nested_protects.update({"TYPE_ERROR", "TYPE_CONFUSION"})
+                    if any(op in inner_cond for op in ("> ", "< ", ">= ", "<= ")):
+                        nested_protects.update({"INTEGER_OVERFLOW", "OVERFLOW", "BOUNDS", "FP_DOMAIN"})
+                    if nested_protects:
+                        # Return exits the function, so guard extends to func_end
+                        guards.append(_GuardSite(
+                            guard_type="nested_early_return",
+                            predicate=BoolLit(True),
+                            protects_against=nested_protects,
+                            start_line=inner_after, end_line=func_end,
+                            condition_text=f"nested early return: if {inner_cond}",
+                        ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # RANGE/ENUMERATE LOOP-BOUNDED INDEX — valid-index sub-presheaf
+    #
+    # `for i in range(len(lst)):` creates a loop variable `i` bounded by
+    # len(lst).  Inside the loop, `lst[i]` lies in the valid-index
+    # sub-presheaf [0, len(lst)).  The loop iteration morphism ensures
+    # the index section is total on each fiber.
+    # Similarly, `for i, v in enumerate(lst):` bounds i by len(lst).
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.For, ast.AsyncFor)):
+            continue
+        iter_text = ""
+        try:
+            iter_text = ast.unparse(node.iter)
+        except Exception:
+            continue
+        # Detect: range(len(X)) or enumerate(X)
+        is_range_len = "range(len(" in iter_text.replace(" ", "") or "range(len(" in iter_text
+        is_enumerate = iter_text.startswith("enumerate(") or "enumerate(" in iter_text
+        if is_range_len or is_enumerate:
+            # Check if any subscript in the loop body uses loop_var + offset
+            # (e.g., arr[i + 1]) — such access may go past bounds, so don't
+            # grant blanket INDEX_OOB protection in that case.
+            loop_var = ""
+            if isinstance(node.target, ast.Name):
+                loop_var = node.target.id
+            elif isinstance(node.target, ast.Tuple) and node.target.elts:
+                first = node.target.elts[0]
+                if isinstance(first, ast.Name):
+                    loop_var = first.id
+            has_offset_access = False
+            if loop_var:
+                for sub_node in ast.walk(node):
+                    if isinstance(sub_node, ast.Subscript):
+                        try:
+                            idx_text = ast.unparse(sub_node.slice)
+                        except Exception:
+                            continue
+                        if loop_var in idx_text and ("+" in idx_text or "-" in idx_text):
+                            has_offset_access = True
+                            break
+            if not has_offset_access:
+                body_start = node.body[0].lineno if node.body else node.lineno
+                body_end = max(
+                    (getattr(s, 'end_lineno', s.lineno) for s in node.body),
+                    default=node.lineno,
+                )
+                guards.append(_GuardSite(
+                    guard_type="loop_bounded_index",
+                    predicate=BoolLit(True),
+                    protects_against={"INDEX_OOB"},
+                    start_line=body_start, end_line=body_end,
+                    condition_text=f"loop-bounded index: {iter_text[:60]}",
+                ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # OR-DEFAULT PATTERN — truthiness coproduct selection
+    #
+    # `x = val or default` selects from the truthiness coproduct:
+    #   - if val is truthy (not None, not 0, not empty), x = val
+    #   - if val is falsy, x = default
+    # After assignment, x is guaranteed truthy (non-None) if default
+    # is truthy.  This provides a NOT_NONE section on x.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign) and len(node.targets) == 1:
+            if isinstance(node.value, ast.BoolOp) and isinstance(node.value.op, ast.Or):
+                assign_line = node.lineno
+                assign_end = getattr(node, 'end_lineno', assign_line) or assign_line
+                for parent in ast.walk(tree):
+                    if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        func_start = parent.lineno
+                        p_func_end = max(
+                            (getattr(s, 'end_lineno', s.lineno) for s in parent.body),
+                            default=func_start + 200,
+                        )
+                        if func_start <= assign_line <= p_func_end:
+                            guards.append(_GuardSite(
+                                guard_type="or_default",
+                                predicate=BoolLit(True),
+                                protects_against={"NULL_PTR", "INDEX_OOB"},
+                                start_line=assign_end, end_line=p_func_end,
+                                condition_text=f"or-default pattern",
+                            ))
+                            break
+
+    # ══════════════════════════════════════════════════════════════════════
+    # BOOLEAN FLAG ALIASING — morphism transport through boolean variables
+    #
+    # When `flag = x is not None` (or similar), the boolean variable
+    # `flag` is a MORPHISM from the type presheaf to {True, False}.
+    # Inside `if flag:`, the original predicate's section is transported
+    # through the morphism: the flag carries the is-not-None refinement.
+    # We detect simple alias patterns and map them back to the original
+    # guard type.
+    # ══════════════════════════════════════════════════════════════════════
+    for func_node in ast.walk(tree):
+        if not isinstance(func_node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        # Phase 1: collect boolean aliases in the function body
+        bool_aliases: dict = {}  # flag_name → original condition text
+        for stmt in ast.walk(func_node):
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                tgt = stmt.targets[0]
+                if isinstance(tgt, ast.Name):
+                    try:
+                        val_text = ast.unparse(stmt.value)
+                    except Exception:
+                        continue
+                    # Recognize common predicate patterns
+                    if any(p in val_text for p in ("is not None", "is None", "!= None",
+                                                     "== None", "!= 0", "== 0",
+                                                     "isinstance(", "hasattr(")):
+                        bool_aliases[tgt.id] = val_text
+        # Phase 2: find if-statements that use these flags
+        if bool_aliases:
+            for if_node in ast.walk(func_node):
+                if not isinstance(if_node, ast.If):
+                    continue
+                if isinstance(if_node.test, ast.Name) and if_node.test.id in bool_aliases:
+                    original_cond = bool_aliases[if_node.test.id]
+                    body_start = if_node.body[0].lineno if if_node.body else if_node.lineno
+                    body_end = max(
+                        (getattr(s, 'end_lineno', s.lineno) for s in if_node.body),
+                        default=if_node.lineno,
+                    )
+                    flag_protects: Set[str] = set()
+                    if "is not None" in original_cond or "!= None" in original_cond:
+                        flag_protects.add("NULL_PTR")
+                    if "is None" in original_cond or "== None" in original_cond:
+                        # Negated: flag = (x is None); if flag: ... else uses x
+                        if if_node.orelse:
+                            else_start = if_node.orelse[0].lineno
+                            else_end = max(
+                                (getattr(s, 'end_lineno', s.lineno) for s in if_node.orelse),
+                                default=else_start,
+                            )
+                            guards.append(_GuardSite(
+                                guard_type="flag_alias",
+                                predicate=BoolLit(True),
+                                protects_against={"NULL_PTR"},
+                                start_line=else_start, end_line=else_end,
+                                condition_text=f"flag alias (else): {original_cond}",
+                            ))
+                    if "!= 0" in original_cond or "== 0" in original_cond:
+                        flag_protects.add("DIV_ZERO")
+                    if "isinstance(" in original_cond:
+                        flag_protects.update({"TYPE_ERROR", "TYPE_CONFUSION"})
+                    if "hasattr(" in original_cond:
+                        flag_protects.add("NULL_PTR")
+                    if flag_protects:
+                        guards.append(_GuardSite(
+                            guard_type="flag_alias",
+                            predicate=BoolLit(True),
+                            protects_against=flag_protects,
+                            start_line=body_start, end_line=body_end,
+                            condition_text=f"flag alias: {original_cond}",
+                        ))
+                # Handle `if not flag:` as negated alias
+                if (isinstance(if_node.test, ast.UnaryOp) and
+                    isinstance(if_node.test.op, ast.Not) and
+                    isinstance(if_node.test.operand, ast.Name) and
+                    if_node.test.operand.id in bool_aliases):
+                    original_cond = bool_aliases[if_node.test.operand.id]
+                    # `if not is_missing: ...` where is_missing = (x is None)
+                    # means inside body, x is not None
+                    body_start = if_node.body[0].lineno if if_node.body else if_node.lineno
+                    body_end = max(
+                        (getattr(s, 'end_lineno', s.lineno) for s in if_node.body),
+                        default=if_node.lineno,
+                    )
+                    neg_protects: Set[str] = set()
+                    if "is None" in original_cond and "is not None" not in original_cond:
+                        neg_protects.add("NULL_PTR")
+                    if "== 0" in original_cond:
+                        neg_protects.add("DIV_ZERO")
+                    if neg_protects:
+                        guards.append(_GuardSite(
+                            guard_type="flag_alias",
+                            predicate=BoolLit(True),
+                            protects_against=neg_protects,
+                            start_line=body_start, end_line=body_end,
+                            condition_text=f"negated flag alias: not {original_cond}",
+                        ))
+                # Handle early return on negated flag:
+                # `is_missing = x is None; if is_missing: return` → after: guarded
+                if isinstance(if_node.test, ast.Name) and if_node.test.id in bool_aliases:
+                    if if_node.body and isinstance(if_node.body[-1], (ast.Return, ast.Raise)):
+                        original_cond = bool_aliases[if_node.test.id]
+                        after_start_f = (if_node.end_lineno or if_node.lineno) + 1
+                        f_func_end = max(
+                            (getattr(s, 'end_lineno', s.lineno) for s in func_node.body),
+                            default=after_start_f + 100,
+                        )
+                        ret_protects: Set[str] = set()
+                        if "is None" in original_cond and "is not None" not in original_cond:
+                            ret_protects.add("NULL_PTR")
+                        if "== None" in original_cond:
+                            ret_protects.add("NULL_PTR")
+                        if ret_protects:
+                            guards.append(_GuardSite(
+                                guard_type="flag_alias_early_return",
+                                predicate=BoolLit(True),
+                                protects_against=ret_protects,
+                                start_line=after_start_f, end_line=f_func_end,
+                                condition_text=f"flag early return: {original_cond}",
+                            ))
+
+    # ══════════════════════════════════════════════════════════════════════
+    # SETDEFAULT / ASSIGNMENT-BEFORE-ACCESS — key existence section
+    #
+    # `d.setdefault(key, default)` establishes a TOTAL SECTION in the
+    # has_key dimension for the given key.  After this call, `d[key]`
+    # has a valid key section.  We create a guard covering subsequent code.
+    # ══════════════════════════════════════════════════════════════════════
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
+            call = node.value
+            try:
+                call_text = ast.unparse(call.func)
+            except Exception:
+                continue
+            if call_text.endswith(".setdefault") and call.args:
+                call_line = node.lineno
+                call_end = getattr(node, 'end_lineno', call_line) or call_line
+                for parent in ast.walk(tree):
+                    if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        p_start = parent.lineno
+                        p_end = max(
+                            (getattr(s, 'end_lineno', s.lineno) for s in parent.body),
+                            default=p_start + 200,
+                        )
+                        if p_start <= call_line <= p_end:
+                            guards.append(_GuardSite(
+                                guard_type="setdefault",
+                                predicate=BoolLit(True),
+                                protects_against={"KEY_ERROR"},
+                                start_line=call_end, end_line=p_end,
+                                condition_text=f"setdefault establishes key section",
+                            ))
+                            break
 
     return guards
 
