@@ -20,7 +20,7 @@ and the "local sections" are the local equivalences eta_{U_i}.
 
 This module delegates to:
 - SheafConditionChecker from presheaf.py for the gluing axiom
-- PushoutBuilder from topos.py for the colimit construction
+- FiberProductBuilder for the colimit construction
 - EquivalenceDescentChecker from descent.py for H^1 computation
 - StalkEquivalenceChecker from stalk.py for stalk-level verification
 """
@@ -90,7 +90,6 @@ from deppy.equivalence.fiber_product import (
     FiberProduct,
     FiberProductBuilder,
 )
-from deppy.equivalence.topos import PushoutBuilder
 from deppy.equivalence.stalk import StalkEquivalenceChecker, StalkEquivalenceResult
 from deppy.types.dependent import IdentityType
 from deppy.types.refinement import (
@@ -227,6 +226,26 @@ class GlobalEquivalenceChecker:
             descent_result = descent_checker.check(judgments)
 
         if not descent_result.descent_holds:
+            # Compute persistence confidence for the obstruction
+            persistence_conf = None
+            try:
+                from deppy.equivalence.persistent_cohomology import (
+                    auto_filtration_from_judgments,
+                    PersistentCohomologyComputer,
+                )
+                judgment_dict = {j.site_id: j for j in judgments}
+                overlaps = self._cat.find_overlaps(
+                    frozenset(judgment_dict.keys())
+                )
+                filtration = auto_filtration_from_judgments(
+                    judgment_dict, overlaps,
+                )
+                if filtration.n_levels > 0:
+                    pers_result = PersistentCohomologyComputer(filtration).compute()
+                    persistence_conf = pers_result.confidence_for_verdict()
+            except Exception:
+                pass
+
             return GlobalEquivalenceResult(
                 verdict=EquivalenceVerdict.INEQUIVALENT,
                 local_judgments=judgments,
@@ -234,6 +253,7 @@ class GlobalEquivalenceChecker:
                 descent_result=descent_result,
                 obstructions=descent_result.obstructions,
                 explanation="Descent check failed: H^1 is non-trivial",
+                persistence_confidence=persistence_conf,
             )
 
         # -- Phase 4: Gluing -----------------------------------------------
@@ -418,6 +438,7 @@ class GlobalEquivalenceResult:
     gluing_result: Optional[GluingResult] = None
     obstructions: List[EquivalenceObstruction] = field(default_factory=list)
     explanation: str = ""
+    persistence_confidence: Optional[float] = None  # from persistent H¹
 
     @property
     def is_equivalent(self) -> bool:

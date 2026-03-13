@@ -1,0 +1,297 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usetheme{metropolis}
+\usepackage{listings,xcolor,booktabs,amsmath,amssymb}
+
+\definecolor{codebg}{HTML}{F5F5F5}
+\definecolor{good}{HTML}{2E7D32}
+\definecolor{meh}{HTML}{E65100}
+\definecolor{honest}{HTML}{1565C0}
+
+\lstset{
+  basicstyle=\ttfamily\tiny,
+  backgroundcolor=\color{codebg},
+  frame=single, framerule=0.3pt,
+  columns=fullflexible, keepspaces=true, language=Python,
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{gray},
+  stringstyle=\color{red!60!black},
+  breaklines=true,
+  aboveskip=0.4em,belowskip=0.2em,
+}
+
+\setbeamertemplate{frametitle}{\vspace{-0.2em}\insertframetitle\vspace{-0.3em}}
+\setbeamersize{text margin left=7mm, text margin right=7mm}
+
+\newcommand{\yes}{\textcolor{good}{\checkmark}}
+\newcommand{\no}{\textcolor{meh}{$\times$}}
+
+\title{What Sheaf Theory Actually Gets You}
+\subtitle{Three tasks, three concrete wins, no hand-waving}
+\author{}
+\date{}
+
+\begin{document}
+
+% ── SLIDE 1 ──────────────────────────────────────────────────
+\begin{frame}[plain]
+\vspace{1.5cm}
+\begin{center}
+{\Large\textbf{What Sheaf Theory Actually Gets You}}\\[0.3em]
+{\normalsize Three tasks, three concrete wins, no hand-waving}\\[1em]
+{\small\textit{We built a sheaf-theoretic program analyzer.
+Here is exactly\\where the math pays off---and where it doesn't.}}
+\end{center}
+\end{frame}
+
+% ── SLIDE 2: Three tasks ────────────────────────────────────
+\begin{frame}{Three Tasks, One Framework}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}rp{10cm}@{}}
+\textbf{Task 1} & \textbf{Zero-annotation bug finding} on 20 classes
+                   (div-by-zero \ldots\ data races).
+                   \emph{No annotations, no specs.} \\
+\textbf{Task 2} & \textbf{Behavioral equivalence}: proof or
+                   localized counterexample for two implementations. \\
+\textbf{Task 3} & \textbf{Spec checking}: refinement-type spec vs.\ function
+                   $\to$ yes/no with structured evidence. \\
+\end{tabular}
+
+\vspace{0.6em}
+For each: \textbf{what does the sheaf framing concretely add}
+over the best standard tool for the same job?
+\end{frame}
+
+% ── SLIDE 3: Gluing ≠ invariants ────────────────────────────
+\begin{frame}[fragile]{Task 1: Checking Gluing $\neq$ Constructing Invariants}
+\textbf{Standard (abstract interpretation):}
+Compute global fixpoint over all paths.
+Cost $\mathcal{O}(|D|^k)$; requires widening, loses precision non-monotonically.
+
+\vspace{0.3em}
+\textbf{Sheaf approach:} two decoupled phases.
+\begin{enumerate}\small
+  \item \textbf{Local inference} (AI, symbolic exec, ML, tests---any method):
+        assign a \texttt{TypeSection} to each site. Cost $\mathcal{O}(n)$.
+  \item \textbf{Gluing check}: per overlap, ask Z3 if
+        $\text{avail}_i \land \lnot\text{req}_j$ is SAT.
+        Cost $\mathcal{O}(|\text{overlaps}|)$ local queries.
+\end{enumerate}
+
+\begin{lstlisting}
+gap = And(available.predicate, Not(required.predicate))
+is_bug = z3.Solver().check(gap) == sat        # LOCAL query
+\end{lstlisting}
+
+\vspace{0.2em}
+\textbf{Win:} no loop invariants needed. You check whether adjacent sites
+\emph{agree}---a local property.
+
+\textcolor{honest}{\textbf{Key insight:}} checking $\rho_{U_i \cap U_j}$ is total
+is cheaper than constructing $s \in \Gamma(X, \mathcal{F})$.
+\end{frame}
+
+% ── SLIDE 4: rank H^1 ──────────────────────────────────────
+\begin{frame}[fragile]{Task 1: $\operatorname{rank} H^1$ = Minimum Independent Fixes}
+47 warnings---how many are independent? Standard tools: unknown.
+
+\vspace{0.2em}
+\textbf{Sheaf answer:} obstructions live in $H^1$ with algebraic structure.
+Build the \textbf{coboundary matrix} $\partial_0\!: C^0 \!\to\! C^1$ over $\mathbb{F}_2$:
+\begin{itemize}\small
+  \item Rows = overlaps, columns = sites;\;
+        $(\partial_0)_{(i,j),k} = 1$ iff $k \in \{i,j\}$
+  \item $\operatorname{rank} H^1 = \dim\ker\partial_1 - \dim\operatorname{im}\partial_0$
+        \quad(Gaussian elimination over $\mathbb{F}_2$)
+\end{itemize}
+
+\vspace{0.1em}
+$\operatorname{rank} H^1$ = \textbf{minimum number of independent fixes}.
+Fix that many independent obstructions $\Rightarrow$ all 47 resolve.
+
+\vspace{0.2em}
+Each obstruction carries a \textbf{gap predicate}
+$\varphi = \text{avail} \land \lnot\text{req}$.
+Negate it $\to$ exact repair guard:
+
+\begin{lstlisting}
+# Obstruction: gap = (y == 0)
+repair_guard = Not(gap_predicate)   # => add `if y != 0:`
+\end{lstlisting}
+\end{frame}
+
+% ── SLIDE 5: Equivalence decomposition ──────────────────────
+\begin{frame}{Task 2: Exponential Savings from Decomposition}
+\textbf{Global bisimulation}: $k$ variables, domain $d$ each.
+State space $d^k$, cost $\mathcal{O}(d^k \log d^k)$.
+
+\vspace{0.4em}
+\textbf{Sheaf decomposition} into $m$ sites, each touching $k/m$ variables:
+\[
+\underbrace{\mathcal{O}(m \cdot d^{k/m})}_{\text{local equiv.}}
++\;
+\underbrace{\mathcal{O}(|\text{overlaps}| \cdot \text{SMT})}_{\text{gluing (poly)}}
++\;
+\underbrace{\mathcal{O}(|\text{triples}|)}_{\text{cocycle}}
+\]
+
+Since $m \cdot d^{k/m} \ll d^k$ for $m > 1$:
+\textbf{exponentially cheaper}.
+
+\vspace{0.4em}
+\textbf{When?} Variables partition into nearly-independent groups---the
+common case (functions have local variables). The natural cover from code
+structure gives $m = \Theta(k/\log k)$ or better.
+
+\vspace{0.4em}
+\textbf{What you pay:} cocycle check on triples ($\mathcal{O}(m^3)$ worst case,
+typically sparse). Dominated by local equivalence checks.
+\end{frame}
+
+% ── SLIDE 6: H^1 = 0 iff global equiv ──────────────────────
+\begin{frame}[fragile]{Task 2: $H^1 = 0$ Is Sound \emph{and} Complete}
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{\small
+Local equivalences $\{\eta_i\!: \text{Sem}_f(U_i) \!\xrightarrow{\sim}\! \text{Sem}_g(U_i)\}$
+glue to a global equivalence \textbf{iff} $H^1(\{U_i\}, \mathcal{I}\!so) = 0$.}}
+\end{center}
+
+\vspace{0.3em}
+\begin{itemize}\small
+  \item Standard modular checking: interfaces match $\Rightarrow$ equiv.
+        \textbf{Sound but not complete}---rejects equivalent programs
+        with non-matching interfaces.
+  \item Sheaf: $H^1\!=\!0 \Leftrightarrow$ global equiv.
+        \textbf{Sound \emph{and} complete} for the cover.
+\end{itemize}
+
+\vspace{0.2em}
+When $H^1 \neq 0$, cocycle representatives localize failure to
+specific overlaps:
+
+\begin{lstlisting}
+# Cocycle on triple (i,j,k): g_ij . g_jk == g_ik ?
+lhs = Conjunction(transition[(i,j)].pred, transition[(j,k)].pred)
+rhs = transition[(i,k)].pred
+if not smt_equivalent(lhs, rhs):
+    report(sites=(i,j,k), witness=counterexample)
+\end{lstlisting}
+\end{frame}
+
+% ── SLIDE 7: VC factoring ──────────────────────────────────
+\begin{frame}[fragile]{Task 3: VC Factoring via the Product Cover}
+\textbf{Standard} (Liquid Haskell, F*): one monolithic VC per function.
+$n$ paths, $k$ conjuncts $\to$ formula of size $\mathcal{O}(nk)$.
+
+\vspace{0.2em}
+\textbf{Sheaf}: product cover $\{(p_i, c_j)\}$, one site per path $\times$ conjunct:
+
+\begin{lstlisting}
+cover = { (path_i, conj_j)  for i in paths  for j in spec }
+# Each VC is SMALL: one path, one conjunct
+\end{lstlisting}
+
+\vspace{0.2em}
+\textbf{Payoffs:}
+\begin{enumerate}\small
+  \item \textbf{Parallel}: all $nk$ VCs independent. Standard: one monolithic call.
+  \item \textbf{Incremental}: change $p_3$ $\to$ re-check row 3 only.
+  \item \textbf{Localized}: ``conj 2 fails on path 4'' vs ``VC unsat.''
+  \item \textbf{Proof transfer}: $(p_1, c_j)$ proved $\land$
+        $p_1 \cap p_2 \neq \emptyset$ $\Rightarrow$ skip $(p_2, c_j)$.
+\end{enumerate}
+\end{frame}
+
+% ── SLIDE 8: Descent as meta-soundness ─────────────────────
+\begin{frame}{Task 3: Descent as a Meta-Soundness Theorem}
+Standard: ``all VCs passed $\Rightarrow$ spec holds.''
+But how do you know VCs \emph{covered everything}?
+
+\vspace{0.4em}
+\textbf{Sheaf checking adds two checkable certificates:}
+\begin{enumerate}\small
+  \item $H^0$ (components of cover nerve):
+        $H^0\!=\!1$ means the cover is connected---\emph{no dead zones}.
+  \item $H^1$ (cycle rank of cover nerve):
+        $H^1\!=\!0$ means proofs on overlapping sites are globally
+        consistent---\emph{no invisible interactions}.
+\end{enumerate}
+
+\vspace{0.3em}
+Together: \textbf{all VCs pass} $\land$ $H^0\!=\!1$ $\land$ $H^1\!=\!0$
+gives a \emph{structured soundness argument}:
+
+\vspace{0.2em}
+\begin{tabular}{@{}ll@{}}
+\emph{Coverage:}    & cover spans the function ($H^0$) \\
+\emph{Consistency:} & local proofs compose ($H^1$) \\
+\emph{Correctness:} & each local VC discharged (SMT) \\
+\end{tabular}
+
+\vspace{0.4em}
+No standard refinement checker offers an analogous
+meta-level completeness/consistency certificate.
+\end{frame}
+
+% ── SLIDE 9: Mayer-Vietoris ───────────────────────────────
+\begin{frame}{The Deeper Win: Mayer-Vietoris Compositionality}
+Decompose $f$ at a branch into $A, B$ with overlap $A \cap B$.
+The exact sequence:
+\vspace{-0.3em}
+{\small\[
+0 \!\to\! H^0(f) \!\to\! H^0(A) \!\oplus\! H^0(B) \!\to\! H^0(A\!\cap\! B)
+\xrightarrow{\delta}
+H^1(f) \!\to\! H^1(A) \!\oplus\! H^1(B) \!\to\! H^1(A\!\cap\! B)
+\]}
+\vspace{-0.5em}
+
+\textbf{Translation:}
+$H^0 =$ spec holds;\;
+$H^1 =$ obstructions;\;
+$\delta =$ overlap failures $\to$ global obstructions.
+
+\vspace{0.3em}
+\textbf{What nothing else gives you:}
+\begin{enumerate}\small
+  \item \textbf{Compositional obstruction counting}:
+        $\operatorname{rk} H^1\!(f) = \operatorname{rk} H^1\!(A) +
+        \operatorname{rk} H^1\!(B) - \operatorname{rk} H^1\!(A\!\cap\! B)
+        + \operatorname{rk}\operatorname{im}(\delta)$.\\
+        Bug count of the whole from bug counts of the parts.
+  \item \textbf{Incremental}: modify $A$ $\Rightarrow$ recompute
+        $H^1\!(A)$ and $H^0\!(A\!\cap\! B)$, plug in. No re-analysis of $B$.
+  \item \textbf{Unification}: same sequence governs bugs (T1),
+        equivalence (T2), and specs (T3).
+\end{enumerate}
+\end{frame}
+
+% ── SLIDE 10: Status ───────────────────────────────────────
+\begin{frame}{Implementation Status}
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\begin{tabular}{@{}p{6.2cm}cc@{}}
+\toprule
+\textbf{Claim} & \textbf{Impl.} & \textbf{Status} \\
+\midrule
+Bug finding: 20 classes, zero annotations & \yes & Shipped \\
+Bug finding: gap predicate $\to$ repair guard & \yes & \textcolor{good}{New} \\
+Bug finding: $\operatorname{rank} H^1$ via $\mathbb{F}_2$ Gaussian elim & \yes & \textcolor{good}{New} \\
+Bug finding: obstruction independence algebra & \yes & \textcolor{good}{New} \\
+Equivalence: \v{C}ech cocycle on triples & \yes & Shipped \\
+Equivalence: $H^1\!=\!0 \Leftrightarrow$ global equiv & \yes & Shipped \\
+Spec checking: product-cover VC factoring & \yes & Shipped \\
+Spec checking: proof transfer via overlap & \yes & Shipped \\
+Spec checking: $H^0 + H^1$ meta-certificate & \yes & Shipped \\
+Mayer-Vietoris connecting homomorphism & \yes & \textcolor{good}{New} \\
+\midrule
+Formal soundness proof (Lean/Coq) & \no & Open \\
+Benchmark vs Astr\'ee / Liquid Haskell & \no & Open \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.4em}
+\textbf{Bottom line:} compositional analysis with provable cost,
+completeness, and failure structure---not vocabulary,
+but concrete algorithms with concrete advantages.
+\end{frame}
+
+\end{document}

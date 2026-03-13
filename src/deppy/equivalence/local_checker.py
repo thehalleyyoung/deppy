@@ -20,8 +20,8 @@ Layer 3 -- Presheaf Restriction Coherence:
     be equivalent (this is the naturality condition at the local level).
 
 Layer 4 -- Equaliser Check:
-    Use EqualiserBuilder from topos.py to verify that the two
-    sections factor through the equaliser of the restriction maps.
+    Verify that the two sections factor through the equaliser
+    of the restriction maps (predicate comparison).
 
 Layer 5 -- Stalk Check (optional):
     Use StalkEquivalenceChecker from stalk.py to verify equivalence
@@ -84,8 +84,6 @@ from deppy.equivalence.predicates import (
     build_fiber_product_predicate,
 )
 from deppy.equivalence.topos import (
-    EqualiserBuilder,
-    EqualiserDiagram,
     PresheafMorphism,
     SectionTransformComponent,
 )
@@ -596,7 +594,7 @@ class LocalEquivalenceChecker:
 
 
 class EqualiserLocalChecker:
-    """Enhanced local checker using EqualiserBuilder from topos.py.
+    """Enhanced local checker using equaliser predicate comparison.
 
     This checker constructs the equaliser of the two forgetful maps:
         alpha : Sem_f(U) -> Base
@@ -648,7 +646,15 @@ class EqualiserLocalChecker:
             ImplicationPred(antecedent=g_pred, consequent=f_pred),
         ))
 
-        is_in_equaliser = not isinstance(f_pred, FalsePred) and not isinstance(g_pred, FalsePred)
+        # The section is in the equaliser iff the agreement predicate is
+        # satisfiable — i.e., both predicates are non-trivially false AND
+        # they are logically equivalent (the biimplication holds).
+        if isinstance(f_pred, FalsePred) or isinstance(g_pred, FalsePred):
+            is_in_equaliser = False
+        else:
+            from deppy.equivalence.predicate_eq import predicates_equivalent, PredicateRelation
+            eq_result = predicates_equivalent(f_pred, g_pred)
+            is_in_equaliser = eq_result.relation == PredicateRelation.EQUIVALENT
 
         return is_in_equaliser, {site_id: agreement}
 

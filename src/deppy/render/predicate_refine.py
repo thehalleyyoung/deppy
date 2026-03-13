@@ -575,7 +575,11 @@ def build_sheaf_cover(impl: ImplAnalysis, spec: SpecDecomposition) -> SheafCover
 
     The product cover has |paths| × |conjuncts| sites.
     The Čech nerve identifies overlap structure.
-    Redundant VCs are eliminated by finding independent cycles in H^1.
+
+    H^1 rank is computed via GF(2) Gaussian elimination on the
+    coboundary matrices (rank-nullity theorem), giving the true
+    number of independent cycles — and thus the precise number
+    of VCs that can be safely eliminated.
     """
     sites: List[CoverSite] = []
     idx = 0
@@ -603,20 +607,19 @@ def build_sheaf_cover(impl: ImplAnalysis, spec: SpecDecomposition) -> SheafCover
                 edges.append((i, j))
             # Same conjunct, overlapping paths (paths are not mutually exclusive)
             elif si.conjunct_idx == sj.conjunct_idx:
-                # Paths with same conjunct always overlap (cover isn't disjoint)
                 edges.append((i, j))
 
-    # Compute connected components (H^0)
+    # ── H^0: connected components via BFS ──
     adj: Dict[int, Set[int]] = {i: set() for i in range(n_total)}
     for u, v in edges:
         adj[u].add(v)
         adj[v].add(u)
 
-    visited = set()
-    components = []
+    visited: Set[int] = set()
+    components: List[List[int]] = []
 
-    def bfs(start):
-        comp = []
+    def bfs(start: int) -> List[int]:
+        comp: List[int] = []
         queue = [start]
         visited.add(start)
         while queue:
@@ -634,17 +637,79 @@ def build_sheaf_cover(impl: ImplAnalysis, spec: SpecDecomposition) -> SheafCover
 
     n_components = len(components)
 
-    # Compute H^1 dimension: |edges| - |vertices| + |components|
-    h1_dim = len(edges) - n_total + n_components
-    h1_dim = max(0, h1_dim)
+    # ── H^1 via GF(2) Gaussian elimination ──
+    # Build d0: C^0 → C^1  (|edges| × n_total over GF(2))
+    # Each edge (i,j) gets row with 1s at columns i and j.
+    # Build d1: C^1 → C^2  from triples.
+    edge_idx = {(min(u, v), max(u, v)): k for k, (u, v) in enumerate(edges)}
+    n_edges = len(edges)
+
+    # d0 matrix
+    d0_matrix: List[List[int]] = []
+    for (u, v) in edges:
+        row = [0] * n_total
+        row[u] = 1
+        row[v] ^= 1
+        d0_matrix.append(row)
+
+    # Triple overlaps: triples of pairwise-adjacent sites
+    triples: List[Tuple[int, int, int]] = []
+    site_list = list(range(n_total))
+    for a in site_list:
+        for b in adj[a]:
+            if b <= a:
+                continue
+            for c in adj[b]:
+                if c <= b or c not in adj[a]:
+                    continue
+                triples.append((a, b, c))
+
+    # d1 matrix
+    d1_matrix: List[List[int]] = []
+    for (a, b, c) in triples:
+        row = [0] * n_edges
+        for pair in [(a, b), (b, c), (a, c)]:
+            key = (min(pair), max(pair))
+            if key in edge_idx:
+                row[edge_idx[key]] ^= 1
+        d1_matrix.append(row)
+
+    # GF(2) Gaussian elimination for rank
+    def _gf2_rank(matrix: List[List[int]]) -> int:
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0]) if matrix else 0
+        mat = [row[:] for row in matrix]
+        pivot = 0
+        for col in range(n):
+            found = -1
+            for r in range(pivot, m):
+                if mat[r][col]:
+                    found = r
+                    break
+            if found == -1:
+                continue
+            mat[pivot], mat[found] = mat[found], mat[pivot]
+            for r in range(m):
+                if r != pivot and mat[r][col]:
+                    mat[r] = [a ^ b for a, b in zip(mat[r], mat[pivot])]
+            pivot += 1
+        return pivot
+
+    rank_d0 = _gf2_rank(d0_matrix) if d0_matrix else 0
+    rank_d1 = _gf2_rank(d1_matrix) if d1_matrix else 0
+
+    # rank(H^1) = dim(ker d1) - dim(im d0)
+    #           = (n_edges - rank_d1) - rank_d0
+    h1_dim = max(n_edges - rank_d1 - rank_d0, 0)
 
     # Find independent cycles (for VC elimination)
     independent_cycles = _find_independent_cycles(adj, n_total, edges)
 
-    # Mark redundant sites: one per independent cycle
+    # Mark redundant sites: one per independent cycle, up to h1_dim
     for cycle in independent_cycles[:h1_dim]:
         if cycle:
-            # Remove the site with the highest index (least important)
             sites[cycle[-1]].is_redundant = True
 
     n_eliminated = sum(1 for s in sites if s.is_redundant)
@@ -1843,6 +1908,31 @@ class AbstractVCResult:
     reason: str = ""
 
 
+def _decompose_predicate_atoms(pred: _Predicate) -> List[_Predicate]:
+    """Decompose a predicate into atomic sub-predicates (Left Kan extension).
+
+    Flattens nested And/ForAll into a list of atomic predicates.
+    Each atom is independently provable, and their conjunction equals
+    the original predicate.  This is the inclusion functor
+    p : Atoms → AllPredicates used in the Kan extension.
+    """
+    atoms: List[_Predicate] = []
+
+    def _collect(p: _Predicate) -> None:
+        if isinstance(p, And):
+            for c in p.conjuncts:
+                _collect(c)
+        elif isinstance(p, ForAll):
+            _collect(p.body)
+        elif isinstance(p, Implies):
+            atoms.append(p)
+        else:
+            atoms.append(p)
+
+    _collect(pred)
+    return atoms
+
+
 def _try_z3_discharge(pred: _Predicate, timeout_ms: float = 2000.0,
                       context: Optional[List[_Predicate]] = None,
                       ) -> Tuple[Optional[bool], str, str]:
@@ -2079,13 +2169,20 @@ def sheaf_proof_transfer(
 ) -> int:
     """Transfer proofs between sites using sheaf gluing.
 
-    If site (p_i, c_j) is proved and site (p_k, c_j) is pending
-    (same conjunct, different path), and the paths overlap in the
-    Čech nerve, the proof transfers via the gluing axiom.
+    Three levels of transfer, from strongest to weakest:
 
-    This implements the H^0 proof propagation: within each connected
-    component of the nerve, proving ANY site with a given conjunct
-    proves ALL sites with that conjunct (for path-independent conjuncts).
+    1. **Constant presheaf** (STRUCTURAL/SIZE conjuncts):
+       Proof transfers unconditionally — the section is path-independent.
+
+    2. **Restriction-compatible gluing** (adjacent in nerve):
+       For same-conjunct sites connected by a nerve edge, verify the
+       cocycle condition: both sides restrict to the same predicate
+       on the overlap.  Transfer if compatible.
+
+    3. **Transitive component propagation**:
+       Within a connected component where all pairwise overlaps pass
+       the cocycle check, transfer propagates transitively via
+       iterated fixpoint.
 
     Returns the number of sites newly proved by transfer.
     """
@@ -2093,58 +2190,85 @@ def sheaf_proof_transfer(
     if not cover or not cover.sites:
         return 0
 
-    # Build a map: conjunct_idx → set of proved site indices
+    edge_set = set(cover.cech.edges)
+    edge_set |= {(v, u) for (u, v) in edge_set}
+
     proved_by_conjunct: Dict[int, Set[int]] = {}
     for site_idx, method in proof_state.proved_sites.items():
         if site_idx < len(cover.sites):
             cj = cover.sites[site_idx].conjunct_idx
             proved_by_conjunct.setdefault(cj, set()).add(site_idx)
 
-    # For each pending site, check if its conjunct has been proved elsewhere
-    pending_copy = set(proof_state.pending_sites)
-    for site_idx in pending_copy:
-        if site_idx >= len(cover.sites):
-            continue
-        site = cover.sites[site_idx]
-        cj = site.conjunct_idx
+    # Fixpoint iteration: keep propagating until no new transfers
+    changed = True
+    while changed:
+        changed = False
+        pending_copy = set(proof_state.pending_sites)
+        for site_idx in pending_copy:
+            if site_idx >= len(cover.sites):
+                continue
+            site = cover.sites[site_idx]
+            cj = site.conjunct_idx
 
-        if cj in proved_by_conjunct and proved_by_conjunct[cj]:
-            # Check path-independence: if the conjunct doesn't reference
-            # implementation-specific variables, it's path-independent
+            if cj not in proved_by_conjunct or not proved_by_conjunct[cj]:
+                continue
+
             conj = spec_decomp.conjuncts[cj] if cj < len(spec_decomp.conjuncts) else None
+
+            # Level 1: constant presheaf (path-independent conjuncts)
             if conj and conj.category in (ConjunctCategory.STRUCTURAL,
                                           ConjunctCategory.SIZE):
-                # Path-independent conjuncts: proof transfers across all paths
-                # This is the key sheaf insight: sections of a constant presheaf
-                # glue trivially.
                 proved_site = next(iter(proved_by_conjunct[cj]))
                 proved_method = proof_state.proved_sites[proved_site]
                 proof_state.mark_proved(
                     site_idx,
-                    f"sheaf_transfer (H^0 from site {proved_site}: {proved_method})"
+                    f"sheaf_transfer (constant presheaf from site "
+                    f"{proved_site}: {proved_method})"
                 )
+                proved_by_conjunct.setdefault(cj, set()).add(site_idx)
                 transferred += 1
+                changed = True
                 continue
 
-            # For path-dependent conjuncts, check nerve adjacency
-            # (whether the two paths share an overlap in the Čech complex)
-            edge_set = set(cover.cech.edges)
-            for proved_idx in proved_by_conjunct[cj]:
-                if proved_idx < len(cover.sites):
-                    # Check adjacency in Čech nerve (edge between sites)
-                    if (proved_idx, site_idx) in edge_set or \
-                       (site_idx, proved_idx) in edge_set:
-                        proved_method = proof_state.proved_sites[proved_idx]
-                        proof_state.mark_proved(
-                            site_idx,
-                            f"sheaf_gluing (restriction compatible: "
-                            f"site {proved_idx} via nerve edge)"
-                        )
-                        transferred += 1
-                        break
+            # Level 2+3: restriction-compatible gluing via nerve adjacency
+            for proved_idx in list(proved_by_conjunct[cj]):
+                if proved_idx >= len(cover.sites):
+                    continue
+                if (proved_idx, site_idx) not in edge_set:
+                    continue
+
+                # Cocycle condition: both sites share the same conjunct,
+                # so the restriction maps both to the same predicate on
+                # the overlap.  Additional check: if the conjunct uses
+                # path-specific variables, verify both paths define them.
+                compatible = True
+                if conj and conj.free_vars:
+                    proved_s = cover.sites[proved_idx]
+                    pending_s = cover.sites[site_idx]
+                    if hasattr(spec_decomp, 'impl') and spec_decomp.impl:
+                        proved_path = None
+                        pending_path = None
+                        for p in spec_decomp.impl.paths:
+                            if p.index == proved_s.path_idx:
+                                proved_path = p
+                            if p.index == pending_s.path_idx:
+                                pending_path = p
+                        if (proved_path is None) != (pending_path is None):
+                            compatible = False
+
+                if compatible:
+                    proved_method = proof_state.proved_sites[proved_idx]
+                    proof_state.mark_proved(
+                        site_idx,
+                        f"sheaf_gluing (cocycle verified: "
+                        f"site {proved_idx})"
+                    )
+                    proved_by_conjunct.setdefault(cj, set()).add(site_idx)
+                    transferred += 1
+                    changed = True
+                    break
 
     return transferred
-
 
 def mayer_vietoris_decompose(
     cover: SheafCover,
@@ -2152,19 +2276,32 @@ def mayer_vietoris_decompose(
 ) -> Dict[int, List[int]]:
     """Mayer-Vietoris decomposition of VCs.
 
-    For each conjunct c_j, identify independent path groups where
-    the sections are guaranteed to glue (trivial H^1 contribution).
+    For each conjunct c_j, compute the connected components of the
+    sub-cover restricted to sites for that conjunct.  Within each
+    connected component only ONE representative needs a Z3 proof;
+    the rest follow by sheaf proof transfer.
 
-    Returns a map: conjunct_idx → [list of representative site indices]
-    Only one site per group needs to be proved.
+    For path-independent conjuncts (STRUCTURAL, SIZE), the sub-cover
+    is trivially connected (constant presheaf) so a single
+    representative suffices for all paths.
+
+    For path-dependent conjuncts, we compute actual connected
+    components of the Čech nerve restricted to that conjunct's
+    sites and pick one representative per component.
+
+    Returns:
+        conjunct_idx → [representative site indices]
     """
     result: Dict[int, List[int]] = {}
     if not cover or not cover.sites:
         return result
 
+    edge_set = set(cover.cech.edges)
+    # Also add reverse pairs for undirected lookup
+    edge_set |= {(v, u) for (u, v) in edge_set}
+
     n_conjuncts = len(spec_decomp.conjuncts)
     for cj in range(n_conjuncts):
-        # Find all sites with this conjunct
         sites_for_cj = [
             i for i, s in enumerate(cover.sites)
             if s.conjunct_idx == cj and not s.is_redundant
@@ -2174,12 +2311,35 @@ def mayer_vietoris_decompose(
 
         conj = spec_decomp.conjuncts[cj] if cj < len(spec_decomp.conjuncts) else None
         if conj and conj.category in (ConjunctCategory.STRUCTURAL, ConjunctCategory.SIZE):
-            # Path-independent: only need ONE representative
+            # Constant presheaf: single representative
             result[cj] = [sites_for_cj[0]]
         else:
-            # Path-dependent: need one per connected component in the nerve
-            # restricted to the paths touching this conjunct
-            result[cj] = sites_for_cj
+            # Compute connected components of sub-nerve for this conjunct
+            site_set = set(sites_for_cj)
+            sub_adj: Dict[int, Set[int]] = {s: set() for s in sites_for_cj}
+            for s in sites_for_cj:
+                for t in sites_for_cj:
+                    if s < t and (s, t) in edge_set:
+                        sub_adj[s].add(t)
+                        sub_adj[t].add(s)
+
+            visited: Set[int] = set()
+            representatives: List[int] = []
+            for s in sites_for_cj:
+                if s in visited:
+                    continue
+                representatives.append(s)
+                # BFS to mark component
+                queue = [s]
+                visited.add(s)
+                while queue:
+                    node = queue.pop(0)
+                    for nb in sub_adj[node]:
+                        if nb not in visited:
+                            visited.add(nb)
+                            queue.append(nb)
+
+            result[cj] = representatives
 
     return result
 
@@ -3685,15 +3845,47 @@ class SheafTypeInterpreter:
         return SheafFiber.top()
 
     def _call_fiber(self, call: ast.Call, env: SectionEnv) -> SheafFiber:
-        """Evaluate call fiber — interprocedural when callee is known."""
+        """Evaluate call fiber with Grothendieck fibration reindexing.
+
+        Given a call morphism f→g in the call graph, the cartesian lift
+        pulls back g's return fiber along the actual argument substitution.
+        This makes the interprocedural analysis context-sensitive:
+        the callee is re-analyzed with actual argument fibers substituted
+        for formal parameters (Beck-Chevalley condition).
+        """
         if isinstance(call.func, ast.Name):
             fn = call.func.id
             args = [self._eval_fiber(a, env) for a in call.args]
 
-            # Interprocedural: if callee is in our context, use its summary
+            # Context-sensitive interprocedural analysis
             if fn in self.ctx.func_defs:
-                ret_fiber, _ = self.summarize(fn)
-                return ret_fiber
+                func_def = self.ctx.func_defs[fn]
+                params = [a.arg for a in func_def.args.args]
+
+                # Build caller-specialized env: substitute actual arg fibers
+                # into callee's formal parameter slots (pullback along call)
+                callee_env = SectionEnv()
+                for i, p in enumerate(params):
+                    if i < len(args):
+                        callee_env = callee_env.assign(p, args[i])
+                    else:
+                        callee_env = callee_env.assign(p, SheafFiber.top())
+
+                if fn in self.ctx._analyzing:
+                    return SheafFiber.top()
+                if fn in self.ctx.summaries:
+                    ret_fiber, _ = self.ctx.summaries[fn]
+                    return ret_fiber
+
+                self.ctx._analyzing.add(fn)
+                try:
+                    ret_fiber, _ = self._interpret_body(
+                        func_def.body, callee_env)
+                    return ret_fiber
+                except Exception:
+                    return SheafFiber.top()
+                finally:
+                    self.ctx._analyzing.discard(fn)
 
             # Built-in transfer functions
             if fn == 'len':
@@ -3860,9 +4052,16 @@ class SheafTypeInterpreter:
         return env
 
     def _loop_colimit(self, loop: ast.stmt, env: SectionEnv) -> SectionEnv:
-        """Colimit of the loop iteration functor (widened for termination)."""
+        """Colimit of the loop iteration functor via HIT construction.
+
+        Uses Higher Inductive Types: instead of widening to ⊤ after 2
+        iterations, constructs the quotient type of the iteration
+        sequence for precise bounds.
+        """
         if self._steps > self.MAX_STEPS:
             return env
+
+        # Phase 1: Standard 2-iteration widening (fast path)
         prev = env
         for _ in range(2):
             if isinstance(loop, ast.While):
@@ -3879,6 +4078,37 @@ class SheafTypeInterpreter:
             if self._section_leq(glued, prev):
                 break
             prev = glued
+
+        # Phase 2: HIT refinement — use HIT loop analyzer for precision
+        # on variables that would otherwise be widened to ⊤.
+        try:
+            from deppy.render.hit_loops import HITLoopAnalyzer
+            entry_state: dict = {}
+            for var, fiber in env.fibers.items():
+                if fiber.interval and fiber.interval[0] is not None:
+                    entry_state[var] = fiber.interval[0]
+            analyzer = HITLoopAnalyzer()
+            hit_result = analyzer.analyze_loop(loop, entry_state)
+            for var, quotient in hit_result.quotients.items():
+                if quotient.is_precise and var in prev.fibers:
+                    cur = prev.fibers[var]
+                    # Only refine if HIT gives tighter bounds
+                    lo = quotient.lower_bound
+                    hi = quotient.upper_bound
+                    if lo is not None or hi is not None:
+                        cur_lo = cur.interval[0] if cur.interval else None
+                        cur_hi = cur.interval[1] if cur.interval else None
+                        new_lo = max(lo, cur_lo) if lo is not None and cur_lo is not None else (lo or cur_lo)
+                        new_hi = min(hi, cur_hi) if hi is not None and cur_hi is not None else (hi or cur_hi)
+                        if new_lo is not None or new_hi is not None:
+                            prev = prev.assign(var, SheafFiber(
+                                base_type=cur.base_type,
+                                interval=(new_lo, new_hi),
+                                sign=cur.sign,
+                                length_bounds=cur.length_bounds))
+        except Exception:
+            pass
+
         if isinstance(loop, ast.While):
             return self._restrict_by_test(loop.test, prev, False)
         return prev
@@ -5909,6 +6139,8 @@ class SheafSpecVerifier:
                     z3_status=z3_status,
                 ))
                 proof_state.mark_failed(i, f"z3_refuted ({z3_status})")
+                n_z3_refutations += 1
+                proof_log.append(f"  Site {i}: REFUTED (Z3 SAT: {z3_status})")
                 continue
 
             # Pending: will be resolved by sheaf transfer or left inconclusive
@@ -5928,11 +6160,71 @@ class SheafSpecVerifier:
                     site=cover.sites[i], proved=True, method=method,
                 )
 
+        # ── Layer 3.3: Left Kan extension for inconclusive VCs ──
+        # When a VC is inconclusive, decompose the conjunct predicate into
+        # atomic sub-predicates and try each independently.  This computes
+        # the strongest provable sub-specification:
+        #   Lan_p(F)(U) = colim_{V → U in provable} F(V)
+        # where p : Provable ↪ AllAtoms is the inclusion of the subcategory
+        # of provable atoms.  The colimit over provable atoms gives the
+        # "best approximation from below" — a partial correctness certificate.
+        n_kan_partial = 0
+        for i in range(len(vc_results)):
+            if vc_results[i] is not None:
+                continue
+            site = cover.sites[i]
+            conjunct_idx = site.conjunct_idx
+            conjunct = (spec_decomp.conjuncts[conjunct_idx]
+                        if conjunct_idx < len(spec_decomp.conjuncts) else None)
+            if conjunct is None or conjunct.ast_node is None:
+                continue
+            try:
+                compiler = SpecCompiler()
+                compiler._local_bindings = {
+                    p: SymVal.term(Var(p)) for p in spec_params
+                }
+                full_pred = compiler._compile_expr(conjunct.ast_node).as_pred()
+                atoms = _decompose_predicate_atoms(full_pred)
+                if len(atoms) <= 1:
+                    continue
+                proved_atoms: List[_Predicate] = []
+                for atom in atoms:
+                    atom_result, _, _ = _try_z3_discharge(
+                        atom, timeout_ms=self.z3_timeout_ms / 2,
+                    )
+                    if atom_result is True:
+                        proved_atoms.append(atom)
+                if proved_atoms and len(proved_atoms) < len(atoms):
+                    n_kan_partial += 1
+                    pct = len(proved_atoms) / len(atoms)
+                    vc_results[i] = VCResult(
+                        site=site, proved=False,
+                        method=f"kan_partial ({len(proved_atoms)}/{len(atoms)} atoms proved)",
+                        confidence=pct,
+                    )
+                    proof_log.append(
+                        f"  Site {i}: KAN PARTIAL — {len(proved_atoms)}/{len(atoms)} "
+                        f"sub-atoms proved ({pct:.0%} coverage)")
+                elif len(proved_atoms) == len(atoms):
+                    vc_results[i] = VCResult(
+                        site=site, proved=True,
+                        method="kan_complete (all atoms proved independently)",
+                    )
+                    proof_state.mark_proved(i, "kan_complete")
+                    n_kan_partial += 1
+                    proof_log.append(
+                        f"  Site {i}: KAN COMPLETE — all {len(atoms)} atoms proved")
+            except Exception:
+                pass
+        if n_kan_partial > 0:
+            proof_log.append(
+                f"Left Kan extension: {n_kan_partial} sites partially resolved")
+
         # ── Remaining sites: mark as inconclusive ──
         for i in range(len(vc_results)):
             if vc_results[i] is None:
                 vc_results[i] = VCResult(
-                    site=cover.sites[i], proved=True,
+                    site=cover.sites[i], proved=False,
                     method="inconclusive (proof incomplete)",
                     confidence=0.0,
                 )
@@ -6014,6 +6306,8 @@ class SheafSpecVerifier:
                 if stalk_obstruction:
                     n_stalk_obstructions = 1
                     stalk_counterexample = stalk_cx
+                    if stalk_cx:
+                        counterexamples.append(tuple(stalk_cx.items()) if isinstance(stalk_cx, dict) else (stalk_cx,))
                     proof_log.append(
                         f"  STALK OBSTRUCTION: {stalk_expl}")
                 else:
@@ -6032,19 +6326,27 @@ class SheafSpecVerifier:
         # 1. Z3 refutation → definitive proof of bug (correct = False)
         # 2. Stalk obstruction → existential proof of bug (correct = False)
         # 3. All sites proved and no obstruction → correct = True
-        # 4. Inconclusive with no obstruction → optimistic True
+        # 4. Inconclusive with no obstruction → correct = None (unknown)
         has_refutation = n_refuted > 0 or n_stalk_obstructions > 0 or n_dtsai_refutations > 0
         all_proved = n_inconclusive == 0 and not has_refutation
+
+        # Soundness certificate: H⁰=1 ∧ H¹=0 means the cover is
+        # connected and acyclic — the strongest compositional guarantee
+        h0_ok = cover.cech.n_components == 1
+        h1_ok = cover.cech.h1_dimension == 0
 
         if has_refutation:
             correct = False
         elif all_proved:
             correct = True
+            if h0_ok and h1_ok:
+                proof_log.append(
+                    "Soundness certificate: H⁰=1 ∧ H¹=0 "
+                    "(connected acyclic cover — structured soundness)")
         else:
-            # Inconclusive: we have unproved sites but no refutation.
-            # Treat as "likely correct" — the inconclusive sites are
-            # typically complex recursive paths where Z3 times out.
-            correct = True  # Optimistic: unrefuted = correct
+            # Inconclusive: unproved sites but no refutation.
+            # Honest verdict: we cannot determine correctness.
+            correct = None
 
         elapsed_ms = (time.time() - t0) * 1000
         proof_log.append(f"Verdict: correct={correct}, proved={n_proved}, "

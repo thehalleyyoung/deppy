@@ -204,6 +204,29 @@ class EquivalencePipeline:
         # Stage 3: Align covers
         self._stage_start("align_covers")
         site_cat = SiteCategory()
+
+        # Populate site category with sites from both covers so that
+        # find_overlaps and sieve computations are non-trivial.
+        from deppy.core.site import ConcreteSite, ConcreteMorphism as _CM
+        all_site_ids = set()
+        for sid in cover_f.site_ids():
+            site_cat.add_site(ConcreteSite(sid))
+            all_site_ids.add(sid)
+        for sid in cover_g.site_ids():
+            site_cat.add_site(ConcreteSite(sid))
+            all_site_ids.add(sid)
+
+        # Add morphisms between same-kind sites (f↔g) so overlaps
+        # are discoverable.  Two sites with the same SiteKind and
+        # matching name share an observation overlap.
+        sid_list = sorted(all_site_ids, key=lambda s: (s.kind.value, s.name))
+        for i, si in enumerate(sid_list):
+            for sj in sid_list[i + 1:]:
+                if si.kind == sj.kind and si.name == sj.name:
+                    # Mutual morphisms: shared observation
+                    site_cat.add_morphism(_CM(si, sj))
+                    site_cat.add_morphism(_CM(sj, si))
+
         alignment_builder = CommonRefinementBuilder(site_cat)
         refinement = alignment_builder.build(cover_f, cover_g)
         self._stage_end("align_covers")

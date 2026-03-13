@@ -70,14 +70,6 @@ from deppy.equivalence.predicates import (
 from deppy.equivalence.topos import (
     PresheafMorphism,
     SectionTransformComponent,
-    PullbackDiagram,
-    PullbackBuilder,
-    EqualiserDiagram,
-    EqualiserBuilder,
-    SubobjectClassifier,
-    InternalHomPresheaf,
-    PushoutDiagram,
-    PushoutBuilder,
 )
 
 # --- Stalk ---
@@ -242,14 +234,6 @@ __all__ = [
     # Topos
     "PresheafMorphism",
     "SectionTransformComponent",
-    "PullbackDiagram",
-    "PullbackBuilder",
-    "EqualiserDiagram",
-    "EqualiserBuilder",
-    "SubobjectClassifier",
-    "InternalHomPresheaf",
-    "PushoutDiagram",
-    "PushoutBuilder",
     # Stalk
     "Germ",
     "Stalk",

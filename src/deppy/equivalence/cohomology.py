@@ -470,6 +470,121 @@ def compute_image(
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# GF(2) linear algebra for true cohomological rank
+# ═══════════════════════════════════════════════════════════════════════════════
+
+
+def _gf2_rank(matrix: List[List[int]]) -> int:
+    """Compute the rank of a binary matrix over GF(2) via Gaussian elimination.
+
+    Each row is a list of 0/1 ints.  The matrix is modified in place.
+    Returns the number of linearly independent rows (= rank).
+    """
+    if not matrix:
+        return 0
+    m = len(matrix)
+    n = len(matrix[0]) if matrix else 0
+    pivot_row = 0
+    for col in range(n):
+        # Find a row with a 1 in this column at or below pivot_row
+        found = -1
+        for row in range(pivot_row, m):
+            if matrix[row][col]:
+                found = row
+                break
+        if found == -1:
+            continue
+        # Swap to pivot position
+        matrix[pivot_row], matrix[found] = matrix[found], matrix[pivot_row]
+        # Eliminate column in all other rows
+        for row in range(m):
+            if row != pivot_row and matrix[row][col]:
+                matrix[row] = [a ^ b for a, b in zip(matrix[row], matrix[pivot_row])]
+        pivot_row += 1
+    return pivot_row
+
+
+def compute_h1_rank_gf2(
+    sites: List[Tuple[SiteId, ...]],
+    overlaps: List[Tuple[SiteId, SiteId]],
+    triples: List[Tuple[SiteId, SiteId, SiteId]],
+    kernel_keys: Set[Tuple[SiteId, ...]],
+    image_keys: Set[Tuple[SiteId, ...]],
+) -> int:
+    """Compute rank(H^1) = dim(ker d^1) - dim(im d^0) over GF(2).
+
+    Uses the coboundary matrices directly:
+      rank(H^1) = nullity(d^1) - rank(d^0)
+                = |C^1| - rank(d^1) - rank(d^0)
+
+    by the rank-nullity theorem over GF(2).
+
+    If the full matrix data is unavailable, falls back to
+    |kernel_keys| - |image_keys| (the naive count).
+    """
+    # Index sites
+    site_set: List[SiteId] = []
+    for key in sites:
+        for s in key:
+            if s not in site_set:
+                site_set.append(s)
+    site_idx = {s: i for i, s in enumerate(site_set)}
+    n_sites = len(site_set)
+
+    # Index overlaps (C^1 basis)
+    overlap_list = list(overlaps)
+    overlap_idx = {tuple(sorted([a, b], key=lambda s: s.name)): i
+                   for i, (a, b) in enumerate(overlap_list)}
+    n_overlaps = len(overlap_list)
+
+    if n_overlaps == 0:
+        return 0
+
+    # Build d^0: C^0 -> C^1  (n_overlaps x n_sites matrix over GF(2))
+    # (d^0 phi)_{ij} = phi_j - phi_i  (in GF(2): phi_j XOR phi_i)
+    d0_matrix: List[List[int]] = []
+    for (a, b) in overlap_list:
+        row = [0] * n_sites
+        if a in site_idx:
+            row[site_idx[a]] = 1
+        if b in site_idx:
+            row[site_idx[b]] ^= 1
+        d0_matrix.append(row)
+
+    rank_d0 = _gf2_rank([row[:] for row in d0_matrix])
+
+    # Build d^1: C^1 -> C^2  (n_triples x n_overlaps matrix over GF(2))
+    # (d^1 psi)_{ijk} = psi_{jk} - psi_{ij} + psi_{ik}
+    triple_list = list(triples)
+    n_triples = len(triple_list)
+
+    if n_triples == 0:
+        # No triples => ker(d^1) = all of C^1
+        # rank(H^1) = n_overlaps - rank(d^0)
+        return max(n_overlaps - rank_d0, 0)
+
+    d1_matrix: List[List[int]] = []
+    for (si, sj, sk) in triple_list:
+        row = [0] * n_overlaps
+        key_ij = tuple(sorted([si, sj], key=lambda s: s.name))
+        key_jk = tuple(sorted([sj, sk], key=lambda s: s.name))
+        key_ik = tuple(sorted([si, sk], key=lambda s: s.name))
+        if key_ij in overlap_idx:
+            row[overlap_idx[key_ij]] ^= 1
+        if key_jk in overlap_idx:
+            row[overlap_idx[key_jk]] ^= 1
+        if key_ik in overlap_idx:
+            row[overlap_idx[key_ik]] ^= 1
+        d1_matrix.append(row)
+
+    rank_d1 = _gf2_rank([row[:] for row in d1_matrix])
+
+    # rank(H^1) = nullity(d^1) - rank(d^0)
+    #           = (n_overlaps - rank(d^1)) - rank(d^0)
+    return max(n_overlaps - rank_d1 - rank_d0, 0)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Cohomology group  H^p = ker(d^p) / im(d^{p-1})
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -484,16 +599,25 @@ class CohomologyGroup:
         image:      im(d^{p-1}) ⊂ C^p
         quotient:   Representatives of H^p = ker/im
         is_trivial: H^p = 0
+        rank_gf2:   True rank computed via GF(2) Gaussian elimination
+                    on the coboundary matrices (set by the computer).
     """
     degree: int
     kernel: SubgroupData
     image: SubgroupData
     quotient: Dict[Tuple[SiteId, ...], CochainElement] = field(default_factory=dict)
     is_trivial: bool = True
+    rank_gf2: Optional[int] = None
 
     @property
     def rank(self) -> int:
-        """The rank (number of generators) of H^p."""
+        """The rank of H^p.
+
+        Prefers the GF(2) Gaussian-elimination result when available;
+        falls back to the naive quotient count.
+        """
+        if self.rank_gf2 is not None:
+            return self.rank_gf2
         return len(self.quotient)
 
     @property
@@ -646,6 +770,21 @@ class CechCohomologyComputer:
         ker_d1 = compute_kernel(c1, c2, coboundary, degree=1)
         im_d0 = compute_image(c0, coboundary, degree=0)
         h1 = compute_cohomology(ker_d1, im_d0, degree=1)
+
+        # Step 7: Compute true rank via GF(2) Gaussian elimination
+        try:
+            h1_rank = compute_h1_rank_gf2(
+                sites=list(c0.elements.keys()),
+                overlaps=self._overlaps,
+                triples=coboundary._triple_overlaps,
+                kernel_keys=set(ker_d1.elements.keys()),
+                image_keys=set(im_d0.elements.keys()),
+            )
+            h1.rank_gf2 = h1_rank
+            if h1_rank == 0:
+                h1.is_trivial = True
+        except Exception:
+            pass  # fall back to naive rank
 
         return CechCohomologyResult(
             c0=c0,

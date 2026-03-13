@@ -337,7 +337,7 @@ class CommonRefinementBuilder:
                 c_j_idx = common_sites.index(s_j)
                 c_j = correspondences[c_j_idx]
 
-                orig_overlaps = self._cat.find_overlaps(c_i.f_site, c_j.f_site)
+                orig_overlaps = self._cat.find_overlaps(frozenset({c_i.f_site, c_j.f_site}))
                 if orig_overlaps:
                     overlaps[(s_i, s_j)] = orig_overlaps[0][0]
 

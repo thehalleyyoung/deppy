@@ -14,9 +14,9 @@ encoded as a SigmaType whose first component carries sigma_f and whose
 second component is a RefinementType carrying sigma_g refined by the
 equaliser predicate `pi_f(sigma_f) = pi_g(sigma_g)`.
 
-This module delegates to ``PullbackBuilder`` from ``topos.py`` for the
-genuine categorical construction, then wraps the result in deppy's
-``ConcretePresheaf`` API with proper projection morphisms.
+This module computes the pullback directly using deppy's
+``ConcretePresheaf`` API, with proper projection morphisms and
+SigmaType encoding.
 
 Restriction of fiber-product sections is computed by restricting each
 component independently through the respective presheaves:
@@ -64,8 +64,6 @@ from deppy.equivalence.predicates import (
     build_fiber_product_predicate,
 )
 from deppy.equivalence.topos import (
-    PullbackBuilder,
-    PullbackDiagram,
     PresheafMorphism,
     SectionTransformComponent,
 )
@@ -147,7 +145,7 @@ class FiberProductBuilder:
     """Build the fiber product presheaf using genuine pullback construction.
 
     Given presheaves Sem_f and Sem_g over a common site category,
-    computes the pullback at each site using PullbackBuilder and
+    computes the pullback at each site and
     assembles the result into a ConcretePresheaf.
 
     Usage:

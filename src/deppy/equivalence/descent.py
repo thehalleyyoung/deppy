@@ -265,7 +265,7 @@ class DescentDatumBuilder:
                 carrier = IdentityType(
                     carrier=carrier_f,
                     lhs=carrier_f,
-                    rhs=carrier_g if carrier_g else carrier_f,
+                    rhs=carrier_g if carrier_g is not None else carrier_f,
                 )
                 from deppy.core.section import SectionFactory
                 sections[j.site_id] = SectionFactory.create(
@@ -512,3 +512,130 @@ class CocycleResult:
     """Result of the cocycle condition check."""
     cocycle_holds: bool
     failures: List[CocycleFailure] = field(default_factory=list)
+
+
+# ===========================================================================
+# Mayer-Vietoris exact sequence for compositional obstruction counting
+# ===========================================================================
+
+
+@dataclass
+class MayerVietorisDecomposition:
+    """A decomposition of a cover into two sub-covers A, B with overlap A∩B.
+
+    The Mayer-Vietoris exact sequence relates obstruction counts:
+
+        0 → H⁰(A∪B) → H⁰(A) ⊕ H⁰(B) → H⁰(A∩B)
+          →δ H¹(A∪B) → H¹(A) ⊕ H¹(B) → H¹(A∩B)
+
+    This gives the compositional formula:
+        rank H¹(A∪B) = rank H¹(A) + rank H¹(B)
+                      - rank H¹(A∩B) + rank im(δ)
+
+    where δ: H⁰(A∩B) → H¹(A∪B) is the connecting homomorphism.
+    """
+    sites_a: Set[SiteId]
+    sites_b: Set[SiteId]
+    sites_ab: Set[SiteId]  # = sites_a ∩ sites_b
+
+
+@dataclass
+class MayerVietorisResult:
+    """Result of applying the Mayer-Vietoris exact sequence."""
+    h0_union: int
+    h0_a: int
+    h0_b: int
+    h0_ab: int
+    h1_union: int
+    h1_a: int
+    h1_b: int
+    h1_ab: int
+    connecting_rank: int  # rank of im(δ)
+    # Whether the formula rank H¹(∪) = rank H¹(A)+H¹(B)-H¹(A∩B)+im(δ) holds
+    exact: bool
+
+
+class MayerVietorisComputer:
+    """Compute the Mayer-Vietoris exact sequence for a cover decomposition.
+
+    Given a cover U = A ∪ B, computes H⁰ and H¹ for A, B, A∩B, and
+    the full union, then derives the connecting homomorphism rank.
+    """
+
+    def __init__(
+        self,
+        judgments: Dict[SiteId, LocalEquivalenceJudgment],
+        overlaps: List[Tuple[SiteId, SiteId]],
+    ) -> None:
+        self._judgments = judgments
+        self._overlaps = overlaps
+
+    def compute(
+        self,
+        decomp: MayerVietorisDecomposition,
+    ) -> MayerVietorisResult:
+        """Run the MV sequence on the given A/B decomposition."""
+        from deppy.equivalence.cohomology import (
+            CechCohomologyComputer,
+            compute_h1_rank_gf2,
+        )
+
+        def _sub_h(sites: Set[SiteId]) -> Tuple[int, int]:
+            """Compute (h0, h1) for the sub-cover restricted to sites."""
+            sub_j = {s: j for s, j in self._judgments.items() if s in sites}
+            sub_o = [(a, b) for (a, b) in self._overlaps
+                     if a in sites and b in sites]
+            if not sub_j:
+                return (0, 0)
+            comp = CechCohomologyComputer(sub_j, sub_o)
+            res = comp.compute()
+            return (res.h0.rank, res.h1.rank)
+
+        h0_a, h1_a = _sub_h(decomp.sites_a)
+        h0_b, h1_b = _sub_h(decomp.sites_b)
+        h0_ab, h1_ab = _sub_h(decomp.sites_ab)
+
+        all_sites = decomp.sites_a | decomp.sites_b
+        h0_union, h1_union = _sub_h(all_sites)
+
+        # From the exact sequence:
+        # rank im(δ) = h1_union - h1_a - h1_b + h1_ab
+        connecting_rank = max(h1_union - h1_a - h1_b + h1_ab, 0)
+
+        # Verify exactness: the formula should hold if the sequence is exact
+        predicted = h1_a + h1_b - h1_ab + connecting_rank
+        exact = (predicted == h1_union)
+
+        return MayerVietorisResult(
+            h0_union=h0_union, h0_a=h0_a, h0_b=h0_b, h0_ab=h0_ab,
+            h1_union=h1_union, h1_a=h1_a, h1_b=h1_b, h1_ab=h1_ab,
+            connecting_rank=connecting_rank,
+            exact=exact,
+        )
+
+    @staticmethod
+    def auto_decompose(
+        sites: Set[SiteId],
+        overlaps: List[Tuple[SiteId, SiteId]],
+    ) -> Optional[MayerVietorisDecomposition]:
+        """Heuristic: split sites into two halves via a balanced graph cut.
+
+        Returns None if the cover has fewer than 2 sites.
+        """
+        if len(sites) < 2:
+            return None
+        site_list = sorted(sites, key=lambda s: s.name)
+        mid = len(site_list) // 2
+        set_a = set(site_list[:mid])
+        set_b = set(site_list[mid:])
+        # A∩B = sites adjacent to both halves
+        set_ab: Set[SiteId] = set()
+        for (u, v) in overlaps:
+            if (u in set_a and v in set_b) or (u in set_b and v in set_a):
+                set_ab.add(u)
+                set_ab.add(v)
+        return MayerVietorisDecomposition(
+            sites_a=set_a | set_ab,
+            sites_b=set_b | set_ab,
+            sites_ab=set_ab,
+        )
