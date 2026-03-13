@@ -591,6 +591,24 @@ def _body_modifies_var_correctly(body: List[ast.stmt], var: str,
         elif isinstance(op, (ast.Lt, ast.LtE)):
             expects_increase = True  # while n < limit → need n to increase
 
+    # ── NotEq (!=) handling ──────────────────────────────────────────────
+    # For `while pos != target: pos += step`, the orbit of pos under +step
+    # must be cofinal with the target.  A non-unit step can skip the exact
+    # target value → the presheaf section over the loop has no terminal
+    # object in its orbit category, yielding a non-termination obstruction.
+    if isinstance(loop_test, ast.Compare) and len(loop_test.ops) == 1:
+        op = loop_test.ops[0]
+        if isinstance(op, ast.NotEq):
+            for stmt in body:
+                for node in ast.walk(stmt):
+                    if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
+                        if node.target.id == var:
+                            if isinstance(node.value, ast.Constant) and isinstance(node.value.value, (int, float)):
+                                step = abs(node.value.value)
+                                if step != 1:
+                                    return False  # non-unit step can skip target
+            return True  # unit step or no AugAssign found
+
     if not expects_decrease and not expects_increase:
         return True  # can't determine direction → assume OK
 
@@ -1101,6 +1119,57 @@ def _deadlock_analysis(tree: ast.AST) -> List[SectionRequirement]:
     return reqs
 
 
+def _short_circuit_guards_subscript(node: ast.Subscript,
+                                     tree: ast.Module) -> bool:
+    """Check if a dict subscript ``d[k]`` is guarded by short-circuit ``and``.
+
+    In sheaf terms, within a single observation site (the if-condition),
+    a ``BoolOp(And, [test₁, test₂, …])`` induces a **short-circuit
+    evaluation topology**: conjunct ``testⱼ`` is only evaluated over the
+    open set where ``test₁ ∧ … ∧ testⱼ₋₁`` holds.  If an earlier conjunct
+    is ``key in dict``, the subscript ``dict[key]`` in a later conjunct is
+    evaluated in a fiber where the key is guaranteed present — the
+    restriction map automatically resolves the KEY_ERROR requirement.
+    """
+    target_dict = ast.dump(node.value)
+    target_key = ast.dump(node.slice)
+
+    for parent in ast.walk(tree):
+        if not isinstance(parent, ast.BoolOp) or not isinstance(parent.op, ast.And):
+            continue
+        # Find which conjunct contains our subscript node
+        sub_idx = -1
+        for i, val in enumerate(parent.values):
+            for child in ast.walk(val):
+                if child is node:
+                    sub_idx = i
+                    break
+            if sub_idx >= 0:
+                break
+        if sub_idx <= 0:
+            continue  # not found or first conjunct — no prior guard
+        # Check earlier conjuncts for `key in dict`
+        for j in range(sub_idx):
+            earlier = parent.values[j]
+            if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
+                if isinstance(earlier.ops[0], ast.In):
+                    # `key in dict`
+                    cmp_key = ast.dump(earlier.left)
+                    if earlier.comparators and ast.dump(earlier.comparators[0]) == target_dict:
+                        if cmp_key == target_key:
+                            return True
+            # Also handle nested subscript: `"city" in user["address"]`
+            # protecting `user["address"]["city"]`
+            if isinstance(earlier, ast.Compare) and len(earlier.ops) == 1:
+                if isinstance(earlier.ops[0], ast.In) and earlier.comparators:
+                    cmp_dict = ast.dump(earlier.comparators[0])
+                    if cmp_dict == target_dict:
+                        cmp_key = ast.dump(earlier.left)
+                        if cmp_key == target_key:
+                            return True
+    return False
+
+
 def _extract_requirements(source: str) -> List[SectionRequirement]:
     """Extract type section requirements from the AST.
 
@@ -1258,6 +1327,14 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         is_aug_assign_target = True
                         break
             if isinstance(ctx, ast.Load) or is_aug_assign_target:
+                # ── Short-circuit evaluation topology ──
+                # In a BoolOp(And, [t₁, …, tₙ]), conjunct tⱼ is observed
+                # only over the open set U₁ ∩ … ∩ Uⱼ₋₁.  If an earlier
+                # conjunct is ``key ∈ dict``, the subscript ``dict[key]``
+                # in a later conjunct lives in a fiber where the key
+                # section is already total — no gluing obstruction exists.
+                if _short_circuit_guards_subscript(node, tree):
+                    continue  # resolved by evaluation-topology restriction
                 key_var = _expr_to_var_name(node.slice, f"key_L{node.lineno}")
                 reqs.append(SectionRequirement(
                     site_id=SiteId(kind=SiteKind.SSA_VALUE, name=f"key_L{node.lineno}"),
@@ -1278,7 +1355,66 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
             ))
 
         # ── CARRIER_MISMATCH: Type error on binary ops ──
+        # The carrier presheaf C : Sites^op → Type assigns each expression
+        # site its ground type.  A BinOp junction requires the carrier
+        # sections of both operands to glue — i.e., C(left) ⊕ C(right) is
+        # defined under the operator.  A type-constructor call (int, str,
+        # float, bool) is a **carrier morphism** that produces a total
+        # section with a definite carrier.  When an operand is such a call,
+        # the carrier is known and the gluing condition can be checked
+        # directly at extraction time — no Z3 needed.
         if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult)):
+            # ── Carrier stalk computation at operand sites ──
+            _NUMERIC_CARRIERS = frozenset({'int', 'float', 'complex', 'bool'})
+            _STRING_CARRIERS = frozenset({'str', 'bytes'})
+
+            def _carrier_stalk(expr: ast.AST) -> Optional[str]:
+                """Compute the carrier section at an expression site.
+
+                Returns the ground type name if the site has a total carrier
+                section (via type-constructor morphism or literal), else None
+                (carrier is UNKNOWN — the section is partial).
+                """
+                if isinstance(expr, ast.Call) and isinstance(expr.func, ast.Name):
+                    if expr.func.id in ('int', 'float', 'complex', 'bool',
+                                        'str', 'bytes', 'list', 'tuple',
+                                        'set', 'dict', 'len', 'abs', 'ord',
+                                        'round', 'hash'):
+                        # Constructor morphisms with known return carrier
+                        return {'len': 'int', 'abs': 'int', 'ord': 'int',
+                                'round': 'int', 'hash': 'int'}.get(
+                                    expr.func.id, expr.func.id)
+                if isinstance(expr, ast.Constant):
+                    return type(expr.value).__name__
+                return None
+
+            left_carrier = _carrier_stalk(node.left)
+            right_carrier = _carrier_stalk(node.right)
+
+            # Check gluing: if both carriers are known and compatible,
+            # the carrier presheaf sections glue → no obstruction.
+            if left_carrier and right_carrier:
+                both_numeric = (left_carrier in _NUMERIC_CARRIERS
+                                and right_carrier in _NUMERIC_CARRIERS)
+                both_string = (isinstance(node.op, ast.Add)
+                               and left_carrier in _STRING_CARRIERS
+                               and right_carrier in _STRING_CARRIERS)
+                if both_numeric or both_string:
+                    continue  # carrier sections glue — no TYPE_ERROR
+
+            # If exactly one operand has a known carrier via constructor,
+            # the other operand's carrier must match at the calling site.
+            # The type-constructor morphism restricts the presheaf to a
+            # fiber where the operator is well-typed.
+            if left_carrier or right_carrier:
+                known = left_carrier or right_carrier
+                if known in _NUMERIC_CARRIERS and isinstance(node.op, (ast.Sub, ast.Mult)):
+                    continue  # numeric operator with at least one known-numeric
+                if known in _NUMERIC_CARRIERS and isinstance(node.op, ast.Add):
+                    continue  # + with a known numeric → other should be numeric too
+                if known in _STRING_CARRIERS and isinstance(node.op, ast.Add):
+                    continue  # + with a known string → other should be string too
+
             left_var = _expr_to_var_name(node.left, f"binop_l_L{node.lineno}")
             right_var = _expr_to_var_name(node.right, f"binop_r_L{node.lineno}")
             op_sym = {ast.Add: '+', ast.Sub: '-', ast.Mult: '*'}.get(type(node.op), '+')
@@ -2966,6 +3102,7 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                                 protects_against={"UNBOUND_VAR"},
                                 start_line=assign_end + 1, end_line=func_end,
                                 condition_text=f"unconditional assignment to `{var}` (binding presheaf section)",
+                                protected_key=var,  # fiber index: which variable's binding section
                             ))
 
     # ── Early-return guards ──
@@ -3010,7 +3147,13 @@ def _extract_guard_sites(source: str) -> List[_GuardSite]:
                 protects.add("NULL_PTR")
             if "not " in cond_text and " in " in cond_text:
                 protects.add("KEY_ERROR")
-            if "len(" in cond_text and ("== 0" in cond_text or "< " in cond_text or "<= 0" in cond_text):
+            # ── Cardinality section from len() early-return ──
+            # An early return `if len(x) OP K: return` splits the covering
+            # sieve.  The continuation branch carries a cardinality section
+            # ¬(len(x) OP K), providing a lower bound on collection length.
+            # This resolves INDEX_OOB for indices within that bound.
+            # Covers: len(x)==0, len(x)<N, len(x)<=N for any N.
+            if "len(" in cond_text and ("== 0" in cond_text or "< " in cond_text or "<= " in cond_text):
                 protects.update({"INDEX_OOB", "DIV_ZERO"})
             # `> len(` or `>= len(` → bounds check protects INDEX_OOB
             if "len(" in cond_text and ("> len(" in cond_text or ">= len(" in cond_text or
@@ -3053,13 +3196,19 @@ def _resolve_obstructions_with_guards(
     A guard resolves requirement i if:
     1. The guard's line range covers the requirement's line
     2. The guard protects against the requirement's bug type
-    3. For key_exists guards, the tested key must match the requirement key
+    3. For fiber-indexed guards (key_exists, unconditional_binding), the
+       guard's fiber must match the requirement's fiber — sheaf sections
+       are local to their fiber, and a section in fiber v does NOT
+       restrict to fiber w unless v = w.
     """
     resolutions: Dict[int, _GuardSite] = {}
     for i, req in enumerate(requirements):
         for g in guards:
             if req.bug_type in g.protects_against and g.start_line <= req.line <= g.end_line:
-                # For key_exists guards, verify the specific key matches
+                # ── Fiber locality for key_exists guards ──
+                # The guard's key-existence section lives in a specific
+                # fiber of the has_key dimension.  Only resolve if the
+                # fiber (dict key) matches the requirement's key.
                 if g.guard_type == "key_exists" and g.protected_key and req.bug_type == "KEY_ERROR":
                     # Normalize key: strip quotes for comparison
                     guard_key = g.protected_key.strip("'\"")
@@ -3077,7 +3226,26 @@ def _resolve_obstructions_with_guards(
                     if not key_match and guard_key in req.description:
                         key_match = True
                     if not key_match:
-                        continue  # different key — don't resolve
+                        continue  # different fiber — section doesn't restrict
+
+                # ── Fiber locality for unconditional_binding guards ──
+                # The binding presheaf Γ has fibers indexed by variable
+                # names.  The guard for variable v provides a total
+                # section only in the v-fiber.  An UNBOUND_VAR requirement
+                # for variable w lives in the w-fiber — resolution requires
+                # the fibers to match (v = w).
+                if g.guard_type == "unconditional_binding" and g.protected_key and req.bug_type == "UNBOUND_VAR":
+                    req_var = None
+                    # Extract variable name from requirement description
+                    # (format: "variable `name` only conditionally bound ...")
+                    desc = req.description
+                    if '`' in desc:
+                        start = desc.index('`') + 1
+                        end = desc.index('`', start)
+                        req_var = desc[start:end]
+                    if req_var and req_var != g.protected_key:
+                        continue  # different fiber — binding section doesn't restrict
+
                 resolutions[i] = g
                 break
     return resolutions
