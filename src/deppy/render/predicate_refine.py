@@ -40,17 +40,19 @@ of implementation paths and specification observables:
 
 USAGE
 ─────
-    from deppy.render.predicate_refine import verify_with_spec, is_sorted, is_permutation
+    from deppy.render.predicate_refine import verify_with_spec
 
-    def merge_sort_spec(arr, result):
-        return is_sorted(result) and is_permutation(result, arr)
+    # Specs are self-contained boolean-returning functions.
+    # No built-in predicate library — each (code, spec) pair is independent.
+    def my_spec(arr, result):
+        return result == sorted(arr) and len(result) == len(arr)
 
     result = verify_with_spec('''
-    def merge_sort(arr):
+    def solve(arr):
         if len(arr) <= 1: return arr
         mid = len(arr) // 2
-        return merge(merge_sort(arr[:mid]), merge_sort(arr[mid:]))
-    ''', spec=merge_sort_spec)
+        return merge(solve(arr[:mid]), solve(arr[mid:]))
+    ''', spec=my_spec)
 
     print(result.correct)  # True or False
 """
@@ -90,897 +92,20 @@ from typing import (
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-#  SECTION 1: Specification Helpers — Observable Functions
+#  SECTION 1: (removed — no built-in predicate library)
 # ═══════════════════════════════════════════════════════════════════════════
 #
-#  Each helper is a pure Python predicate usable inside spec functions.
-#  In sheaf-theoretic terms, each is an "observation morphism"
-#  obs: Σ(inputs, output) → {True, False} at a single site.
+#  All specification predicates are self-contained: each (code, spec) pair
+#  carries its own refinement type as a boolean-returning function.
+#  The engine is domain-agnostic — it verifies any spec without needing
+#  a library of known predicates.
 #
-
-# ── 1.1 Sorting & Ordering ──────────────────────────────────────────────
-
-def is_sorted(lst: Sequence, *, key: Callable = None, reverse: bool = False) -> bool:
-    """Check if a sequence is sorted (ascending by default)."""
-    if len(lst) <= 1:
-        return True
-    k = key if key is not None else (lambda x: x)
-    for i in range(len(lst) - 1):
-        a, b = k(lst[i]), k(lst[i + 1])
-        if reverse:
-            if a < b:
-                return False
-        else:
-            if a > b:
-                return False
-    return True
-
-
-def is_stable_sorted(original: Sequence, result: Sequence,
-                     *, key: Callable = None) -> bool:
-    """Check that result is a stable sort of original.
-
-    Stability means: equal elements appear in the same relative order
-    as in the original.
-    """
-    if not is_sorted(result, key=key):
-        return False
-    if not is_permutation(original, result):
-        return False
-    k = key if key is not None else (lambda x: x)
-    # Check stability: for each pair of equal-key elements in result,
-    # their relative order matches original.
-    orig_indices = {}
-    for i, x in enumerate(original):
-        orig_indices.setdefault(id(x), i)
-    # Rebuild by matching
-    used = [False] * len(original)
-    mapping = []
-    for r in result:
-        for i, o in enumerate(original):
-            if not used[i] and o == r:
-                mapping.append(i)
-                used[i] = True
-                break
-    # mapping should be sorted for each equivalence class
-    for i in range(len(mapping) - 1):
-        if k(result[i]) == k(result[i + 1]):
-            if mapping[i] > mapping[i + 1]:
-                return False
-    return True
-
-
-def is_heap(arr: Sequence, *, max_heap: bool = False) -> bool:
-    """Check if array satisfies the (min or max) heap property."""
-    n = len(arr)
-    for i in range(n):
-        left = 2 * i + 1
-        right = 2 * i + 2
-        if max_heap:
-            if left < n and arr[i] < arr[left]:
-                return False
-            if right < n and arr[i] < arr[right]:
-                return False
-        else:
-            if left < n and arr[i] > arr[left]:
-                return False
-            if right < n and arr[i] > arr[right]:
-                return False
-    return True
-
-
-def is_permutation(a: Sequence, b: Sequence) -> bool:
-    """Check if b is a permutation of a (same multiset of elements)."""
-    if len(a) != len(b):
-        return False
-    return sorted(a) == sorted(b)
-
-
-def preserves_multiset(inputs: Sequence, output: Sequence) -> bool:
-    """Output has exactly the same elements as input (possibly reordered)."""
-    return is_permutation(inputs, output)
-
-
-# ── 1.2 Searching & Selection ───────────────────────────────────────────
-
-def search_correct(arr: Sequence, target, result: int) -> bool:
-    """Binary/linear search correctness: if found, arr[result]==target;
-    if not found, result==-1 and target not in arr."""
-    if result == -1:
-        return target not in arr
-    return 0 <= result < len(arr) and arr[result] == target
-
-
-def search_leftmost(arr: Sequence, target, result: int) -> bool:
-    """Leftmost search: result is the smallest index with arr[result]==target."""
-    if result == -1:
-        return target not in arr
-    if not (0 <= result < len(arr) and arr[result] == target):
-        return False
-    return result == 0 or arr[result - 1] != target
-
-
-def nth_element_correct(arr: Sequence, k: int, result) -> bool:
-    """The k-th smallest element is correct."""
-    if k < 0 or k >= len(arr):
-        return result is None
-    return result == sorted(arr)[k]
-
-
-def partition_correct(arr: Sequence, pivot_idx: int, result: Sequence) -> bool:
-    """After partitioning: elements left of pivot <= pivot <= elements right."""
-    if not is_permutation(arr, result):
-        return False
-    if pivot_idx < 0 or pivot_idx >= len(result):
-        return False
-    pv = result[pivot_idx]
-    return (all(x <= pv for x in result[:pivot_idx]) and
-            all(x >= pv for x in result[pivot_idx + 1:]))
-
-
-# ── 1.3 Graph Predicates ────────────────────────────────────────────────
-
-def is_valid_path(adj: Dict, path: Sequence) -> bool:
-    """Check that path follows edges in adjacency list graph."""
-    for i in range(len(path) - 1):
-        u, v = path[i], path[i + 1]
-        if u not in adj:
-            return False
-        neighbors = adj[u]
-        if isinstance(neighbors, dict):
-            if v not in neighbors:
-                return False
-        else:
-            if v not in neighbors:
-                return False
-    return True
-
-
-def distances_correct(adj: Dict[Any, Dict[Any, float]], source,
-                      dist: Dict) -> bool:
-    """Check single-source shortest distances via Bellman-Ford ground truth."""
-    if source not in adj and source not in dist:
-        return True
-    if dist.get(source, 0) != 0:
-        return False
-    # Compute ground truth via Bellman-Ford
-    nodes = set(adj.keys())
-    for u in adj:
-        if isinstance(adj[u], dict):
-            nodes |= set(adj[u].keys())
-        else:
-            nodes |= set(adj[u])
-    gt = {v: float('inf') for v in nodes}
-    gt[source] = 0
-    for _ in range(len(nodes) - 1):
-        for u in adj:
-            if gt[u] == float('inf'):
-                continue
-            neighbors = adj[u]
-            if isinstance(neighbors, dict):
-                for v, w in neighbors.items():
-                    if gt[u] + w < gt[v]:
-                        gt[v] = gt[u] + w
-            else:
-                for v in neighbors:
-                    if gt[u] + 1 < gt[v]:
-                        gt[v] = gt[u] + 1
-    # Compare
-    for v in nodes:
-        expected = gt[v]
-        actual = dist.get(v, float('inf'))
-        if expected == float('inf'):
-            if v in dist and dist[v] != float('inf'):
-                return False
-        else:
-            if abs(actual - expected) > 1e-9:
-                return False
-    return True
-
-
-def is_topological_order(adj: Dict[Any, list], order: Sequence) -> bool:
-    """Check that order is a valid topological sort of the DAG."""
-    if set(order) != set(adj.keys()):
-        return False
-    pos = {v: i for i, v in enumerate(order)}
-    for u in adj:
-        for v in adj[u]:
-            if pos[u] >= pos[v]:
-                return False
-    return True
-
-
-def is_spanning_tree(n: int, edges: Sequence[Tuple[int, int]],
-                     tree_edges: Sequence[Tuple[int, int]]) -> bool:
-    """Check that tree_edges form a spanning tree of graph with n nodes."""
-    if len(tree_edges) != n - 1:
-        return False
-    # Check all tree_edges are valid edges
-    edge_set = set()
-    for u, v in edges:
-        edge_set.add((min(u, v), max(u, v)))
-    for u, v in tree_edges:
-        if (min(u, v), max(u, v)) not in edge_set:
-            return False
-    # Check connectivity
-    parent = list(range(n))
-
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    for u, v in tree_edges:
-        pu, pv = find(u), find(v)
-        if pu == pv:
-            return False  # Cycle
-        parent[pu] = pv
-    return len(set(find(i) for i in range(n))) == 1
-
-
-def is_minimum_spanning_tree(n: int, edges: Sequence[Tuple[int, int, float]],
-                             tree_edges: Sequence[Tuple[int, int, float]]) -> bool:
-    """Check MST by comparing total weight to ground-truth Kruskal."""
-    if not tree_edges and n <= 1:
-        return True
-    # Check it's a spanning tree
-    simple_edges = [(u, v) for u, v, _ in edges]
-    simple_tree = [(u, v) for u, v, _ in tree_edges]
-    if not is_spanning_tree(n, simple_edges, simple_tree):
-        return False
-    # Check total weight matches Kruskal ground truth
-    tree_weight = sum(w for _, _, w in tree_edges)
-    # Kruskal
-    sorted_edges = sorted(edges, key=lambda e: e[2])
-    parent = list(range(n))
-
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    mst_weight = 0
-    count = 0
-    for u, v, w in sorted_edges:
-        pu, pv = find(u), find(v)
-        if pu != pv:
-            parent[pu] = pv
-            mst_weight += w
-            count += 1
-            if count == n - 1:
-                break
-    return abs(tree_weight - mst_weight) < 1e-9
-
-
-def all_pairs_shortest(adj: Dict[int, Dict[int, float]], n: int,
-                       dist_matrix: Sequence[Sequence[float]]) -> bool:
-    """Check Floyd-Warshall output against ground truth."""
-    INF = float('inf')
-    gt = [[INF] * n for _ in range(n)]
-    for i in range(n):
-        gt[i][i] = 0
-    for u in adj:
-        for v, w in adj[u].items():
-            gt[u][v] = min(gt[u][v], w)
-    for k in range(n):
-        for i in range(n):
-            for j in range(n):
-                if gt[i][k] + gt[k][j] < gt[i][j]:
-                    gt[i][j] = gt[i][k] + gt[k][j]
-    for i in range(n):
-        for j in range(n):
-            expected = gt[i][j]
-            actual = dist_matrix[i][j] if i < len(dist_matrix) and j < len(dist_matrix[i]) else INF
-            if expected == INF:
-                if actual != INF:
-                    return False
-            elif abs(actual - expected) > 1e-9:
-                return False
-    return True
-
-
-def is_scc_decomposition(adj: Dict, sccs: Sequence[Sequence]) -> bool:
-    """Check that sccs is a valid strongly connected components decomposition."""
-    all_nodes = set(adj.keys())
-    for u in adj:
-        all_nodes |= set(adj[u])
-    # All nodes covered
-    scc_nodes = set()
-    for scc in sccs:
-        for v in scc:
-            if v in scc_nodes:
-                return False  # Duplicate
-            scc_nodes.add(v)
-    if scc_nodes != all_nodes:
-        return False
-    # Each SCC is strongly connected
-    for scc in sccs:
-        scc_set = set(scc)
-        if len(scc_set) <= 1:
-            continue
-        for u in scc_set:
-            # BFS from u within scc
-            visited = {u}
-            queue = [u]
-            while queue:
-                curr = queue.pop(0)
-                for v in adj.get(curr, []):
-                    if v in scc_set and v not in visited:
-                        visited.add(v)
-                        queue.append(v)
-            if visited != scc_set:
-                return False
-    return True
-
-
-def max_flow_correct(capacity: Dict[Any, Dict[Any, float]], source, sink,
-                     flow_value: float) -> bool:
-    """Check max-flow value by computing ground-truth BFS-based Ford-Fulkerson."""
-    # Deep copy capacity for residual
-    residual = {}
-    for u in capacity:
-        residual[u] = dict(capacity[u])
-        for v in capacity[u]:
-            if v not in residual:
-                residual[v] = {}
-            if u not in residual[v]:
-                residual[v][u] = 0
-
-    def bfs_path():
-        visited = {source}
-        queue = [(source, [source])]
-        while queue:
-            u, path = queue.pop(0)
-            for v in residual.get(u, {}):
-                if v not in visited and residual[u][v] > 1e-9:
-                    if v == sink:
-                        return path + [v]
-                    visited.add(v)
-                    queue.append((v, path + [v]))
-        return None
-
-    total = 0.0
-    while True:
-        path = bfs_path()
-        if path is None:
-            break
-        bottleneck = min(residual[path[i]][path[i + 1]] for i in range(len(path) - 1))
-        for i in range(len(path) - 1):
-            u, v = path[i], path[i + 1]
-            residual[u][v] -= bottleneck
-            if v not in residual:
-                residual[v] = {}
-            residual[v][u] = residual.get(v, {}).get(u, 0) + bottleneck
-        total += bottleneck
-    return abs(flow_value - total) < 1e-9
-
-
-# ── 1.4 Subsequence & String Predicates ─────────────────────────────────
-
-def is_subsequence(sub: Sequence, seq: Sequence) -> bool:
-    """Check that sub is a subsequence of seq (preserving order)."""
-    it = iter(seq)
-    return all(c in it for c in sub)
-
-
-def is_common_subsequence(sub: Sequence, a: Sequence, b: Sequence) -> bool:
-    """Check that sub is a common subsequence of a and b."""
-    return is_subsequence(sub, a) and is_subsequence(sub, b)
-
-
-def lcs_length_correct(a: Sequence, b: Sequence, length: int) -> bool:
-    """Check LCS length against ground truth DP."""
-    m, n = len(a), len(b)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if a[i - 1] == b[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1] + 1
-            else:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-    return length == dp[m][n]
-
-
-def edit_distance_correct(a: str, b: str, dist: int) -> bool:
-    """Check edit distance against ground truth DP."""
-    m, n = len(a), len(b)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    for i in range(m + 1):
-        dp[i][0] = i
-    for j in range(n + 1):
-        dp[0][j] = j
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if a[i - 1] == b[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1]
-            else:
-                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
-    return dist == dp[m][n]
-
-
-def all_pattern_occurrences(text: str, pattern: str, positions: Sequence[int]) -> bool:
-    """Check that positions contains exactly all occurrences of pattern in text."""
-    if not pattern:
-        return list(positions) == list(range(len(text) + 1))
-    expected = []
-    start = 0
-    while True:
-        idx = text.find(pattern, start)
-        if idx == -1:
-            break
-        expected.append(idx)
-        start = idx + 1
-    return list(positions) == expected
-
-
-def is_suffix_array(text: str, sa: Sequence[int]) -> bool:
-    """Check that sa is a valid suffix array of text."""
-    n = len(text)
-    if len(sa) != n:
-        return False
-    if sorted(sa) != list(range(n)):
-        return False
-    for i in range(n - 1):
-        if text[sa[i]:] > text[sa[i + 1]:]:
-            return False
-    return True
-
-
-def z_array_correct(s: str, z: Sequence[int]) -> bool:
-    """Check Z-array: z[i] = length of longest substring starting at i
-    that matches a prefix of s."""
-    n = len(s)
-    if len(z) != n:
-        return False
-    if n > 0 and z[0] != n:
-        return False
-    for i in range(1, n):
-        # z[i] should be the length of the longest prefix match
-        expected = 0
-        while i + expected < n and s[expected] == s[i + expected]:
-            expected += 1
-        if z[i] != expected:
-            return False
-    return True
-
-
-def is_palindrome(s: str) -> bool:
-    """Check if string is a palindrome."""
-    return s == s[::-1]
-
-
-def longest_palindrome_correct(s: str, result: str) -> bool:
-    """Check that result is the longest palindromic substring of s."""
-    if not is_palindrome(result):
-        return False
-    if result not in s:
-        return False
-    # Check no longer palindrome exists
-    n = len(s)
-    for length in range(len(result) + 1, n + 1):
-        for start in range(n - length + 1):
-            sub = s[start:start + length]
-            if is_palindrome(sub):
-                return False
-    return True
-
-
-# ── 1.5 Dynamic Programming Predicates ──────────────────────────────────
-
-def knapsack_correct(weights: Sequence[int], values: Sequence[int],
-                     capacity: int, result: int) -> bool:
-    """Check 0/1 knapsack result against ground truth DP."""
-    n = len(weights)
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
-    for i in range(1, n + 1):
-        for w in range(capacity + 1):
-            dp[i][w] = dp[i - 1][w]
-            if weights[i - 1] <= w:
-                dp[i][w] = max(dp[i][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])
-    return result == dp[n][capacity]
-
-
-def lis_length_correct(arr: Sequence[int], length: int) -> bool:
-    """Check longest increasing subsequence length."""
-    if not arr:
-        return length == 0
-    # O(n log n) patience sorting
-    tails = []
-    for x in arr:
-        lo, hi = 0, len(tails)
-        while lo < hi:
-            mid = (lo + hi) // 2
-            if tails[mid] < x:
-                lo = mid + 1
-            else:
-                hi = mid
-        if lo == len(tails):
-            tails.append(x)
-        else:
-            tails[lo] = x
-    return length == len(tails)
-
-
-def coin_change_correct(coins: Sequence[int], amount: int, result: int) -> bool:
-    """Check minimum coin change result."""
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for c in coins:
-        for a in range(c, amount + 1):
-            dp[a] = min(dp[a], dp[a - c] + 1)
-    expected = dp[amount] if dp[amount] != float('inf') else -1
-    return result == expected
-
-
-def matrix_chain_correct(dims: Sequence[int], result: int) -> bool:
-    """Check matrix chain multiplication minimum cost."""
-    n = len(dims) - 1
-    if n <= 0:
-        return result == 0
-    dp = [[0] * n for _ in range(n)]
-    for length in range(2, n + 1):
-        for i in range(n - length + 1):
-            j = i + length - 1
-            dp[i][j] = float('inf')
-            for k in range(i, j):
-                cost = dp[i][k] + dp[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1]
-                dp[i][j] = min(dp[i][j], cost)
-    return result == dp[0][n - 1]
-
-
-def max_subarray_correct(arr: Sequence[int], result: int) -> bool:
-    """Check Kadane's maximum subarray sum."""
-    if not arr:
-        return result == 0
-    best = current = arr[0]
-    for x in arr[1:]:
-        current = max(x, current + x)
-        best = max(best, current)
-    return result == best
-
-
-def rod_cutting_correct(prices: Sequence[int], n: int, result: int) -> bool:
-    """Check rod cutting maximum revenue."""
-    dp = [0] * (n + 1)
-    for i in range(1, n + 1):
-        for j in range(1, min(i, len(prices)) + 1):
-            dp[i] = max(dp[i], prices[j - 1] + dp[i - j])
-    return result == dp[n]
-
-
-# ── 1.6 Number Theory Predicates ────────────────────────────────────────
-
-def is_prime(n: int) -> bool:
-    """Deterministic primality test."""
-    if n < 2:
-        return False
-    if n < 4:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
-
-
-def gcd_correct(a: int, b: int, g: int) -> bool:
-    """Check GCD result."""
-    return g == math.gcd(abs(a), abs(b))
-
-
-def extended_gcd_correct(a: int, b: int, g: int, x: int, y: int) -> bool:
-    """Check extended GCD: g = gcd(a,b) and a*x + b*y = g."""
-    return g == math.gcd(abs(a), abs(b)) and a * x + b * y == g
-
-
-def mod_exp_correct(base: int, exp: int, mod: int, result: int) -> bool:
-    """Check modular exponentiation."""
-    if mod <= 0:
-        return False
-    return result == pow(base, exp, mod)
-
-
-def sieve_correct(n: int, primes: Sequence[int]) -> bool:
-    """Check sieve of Eratosthenes output."""
-    expected = [p for p in range(2, n + 1) if is_prime(p)]
-    return list(primes) == expected
-
-
-def crt_correct(remainders: Sequence[int], moduli: Sequence[int],
-                result: int) -> bool:
-    """Check Chinese Remainder Theorem: result ≡ r_i (mod m_i) for all i."""
-    for r, m in zip(remainders, moduli):
-        if result % m != r % m:
-            return False
-    return True
-
-
-# ── 1.7 Geometry Predicates ─────────────────────────────────────────────
-
-def is_convex_hull(points: Sequence[Tuple[float, float]],
-                   hull: Sequence[Tuple[float, float]]) -> bool:
-    """Check that hull is the convex hull of points (CCW order)."""
-    if len(points) <= 1:
-        return len(hull) == len(points)
-    if len(hull) < 3 and len(set(points)) >= 3:
-        return False
-
-    def cross(o, a, b):
-        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-
-    # All hull points should be from the original set
-    pts_set = set(points)
-    for h in hull:
-        if h not in pts_set:
-            return False
-    # Hull should be strictly convex (all left turns, no collinear)
-    n = len(hull)
-    for i in range(n):
-        c = cross(hull[i], hull[(i + 1) % n], hull[(i + 2) % n])
-        if c < -1e-10:
-            return False
-        # Reject collinear hull points (cross product ~0 means not minimal)
-        if abs(c) < 1e-10:
-            return False
-    # All points should be inside or on the hull
-    for p in points:
-        inside = True
-        for i in range(n):
-            if cross(hull[i], hull[(i + 1) % n], p) < -1e-10:
-                inside = False
-                break
-        if not inside:
-            return False
-    return True
-
-
-def closest_pair_correct(points: Sequence[Tuple[float, float]],
-                         dist: float) -> bool:
-    """Check closest pair distance against brute force."""
-    if len(points) < 2:
-        return dist == float('inf') or dist == 0
-    min_dist = float('inf')
-    for i in range(len(points)):
-        for j in range(i + 1, len(points)):
-            d = math.sqrt((points[i][0] - points[j][0]) ** 2 +
-                          (points[i][1] - points[j][1]) ** 2)
-            min_dist = min(min_dist, d)
-    return abs(dist - min_dist) < 1e-9
-
-
-# ── 1.8 Data Structure Predicates ───────────────────────────────────────
-
-def is_bst(tree: Optional[Tuple]) -> bool:
-    """Check BST property on (value, left, right) tuple tree."""
-    if tree is None:
-        return True
-
-    def check(node, lo, hi):
-        if node is None:
-            return True
-        val, left, right = node
-        if val <= lo or val >= hi:
-            return False
-        return check(left, lo, val) and check(right, val, hi)
-
-    return check(tree, float('-inf'), float('inf'))
-
-
-def is_balanced(tree: Optional[Tuple]) -> bool:
-    """Check AVL balance property on (value, left, right) tuple tree."""
-    def height(node):
-        if node is None:
-            return 0
-        _, left, right = node
-        lh = height(left)
-        rh = height(right)
-        if lh == -1 or rh == -1:
-            return -1
-        if abs(lh - rh) > 1:
-            return -1
-        return 1 + max(lh, rh)
-
-    return height(tree) != -1
-
-
-def trie_contains_all(trie: Dict, words: Sequence[str]) -> bool:
-    """Check that all words are findable in the trie."""
-    for word in words:
-        node = trie
-        for ch in word:
-            if ch not in node:
-                return False
-            node = node[ch]
-        if '#' not in node:
-            return False
-    return True
-
-
-def segment_tree_correct(arr: Sequence[int], tree: Sequence[int],
-                         query_fn: str = "sum") -> bool:
-    """Check segment tree is built correctly (sum or min)."""
-    n = len(arr)
-    if n == 0:
-        return True
-
-    def expected_query(l, r):
-        if query_fn == "sum":
-            return sum(arr[l:r + 1])
-        elif query_fn == "min":
-            return min(arr[l:r + 1])
-        return 0
-
-    # Check a few random queries
-    for _ in range(min(50, n * n)):
-        l = random.randint(0, n - 1)
-        r = random.randint(l, n - 1)
-        expected = expected_query(l, r)
-        # Query the segment tree
-        result = _segment_tree_query(tree, 0, 0, n - 1, l, r, query_fn)
-        if result != expected:
-            return False
-    return True
-
-
-def _segment_tree_query(tree, node, start, end, l, r, fn):
-    """Helper: query segment tree."""
-    if r < start or end < l:
-        return 0 if fn == "sum" else float('inf')
-    if l <= start and end <= r:
-        if node < len(tree):
-            return tree[node]
-        return 0 if fn == "sum" else float('inf')
-    mid = (start + end) // 2
-    left_val = _segment_tree_query(tree, 2 * node + 1, start, mid, l, r, fn)
-    right_val = _segment_tree_query(tree, 2 * node + 2, mid + 1, end, l, r, fn)
-    if fn == "sum":
-        return left_val + right_val
-    return min(left_val, right_val)
-
-
-def fenwick_prefix_correct(arr: Sequence[int], bit: Sequence[int]) -> bool:
-    """Check Fenwick tree stores correct prefix sums."""
-    n = len(arr)
-    if len(bit) < n + 1:
-        return False
-
-    def bit_query(idx):
-        s = 0
-        while idx > 0:
-            s += bit[idx]
-            idx -= idx & (-idx)
-        return s
-
-    for i in range(n):
-        expected = sum(arr[:i + 1])
-        actual = bit_query(i + 1)
-        if actual != expected:
-            return False
-    return True
-
-
-# ── 1.9 Probabilistic / Statistical Predicates ─────────────────────────
-
-def reservoir_sample_valid(stream_len: int, k: int, sample: Sequence) -> bool:
-    """Check reservoir sample has correct size and elements in range."""
-    if stream_len < k:
-        return len(sample) == stream_len
-    return len(sample) == k and all(0 <= x < stream_len for x in sample)
-
-
-def bloom_filter_no_false_negatives(inserted: Set, bf_contains: Callable,
-                                     query_set: Set) -> bool:
-    """Bloom filter must return True for all inserted elements."""
-    for x in inserted:
-        if x in query_set and not bf_contains(x):
-            return False
-    return True
-
-
-# ── 1.10 Miscellaneous Predicates ───────────────────────────────────────
-
-def interval_schedule_correct(intervals: Sequence[Tuple[int, int]],
-                              selected: Sequence[int]) -> bool:
-    """Check interval scheduling: selected intervals are non-overlapping
-    and maximum cardinality."""
-    if not intervals:
-        return len(selected) == 0
-    # Check non-overlapping
-    sel = sorted([intervals[i] for i in selected], key=lambda x: x[1])
-    for i in range(len(sel) - 1):
-        if sel[i][1] > sel[i + 1][0]:
-            return False
-    # Check maximum cardinality via greedy ground truth
-    sorted_intervals = sorted(enumerate(intervals), key=lambda x: x[1][1])
-    gt_count = 0
-    last_end = -float('inf')
-    for _, (s, e) in sorted_intervals:
-        if s >= last_end:
-            gt_count += 1
-            last_end = e
-    return len(selected) == gt_count
-
-
-def sqrt_correct(n: float, result: float, tolerance: float = 1e-10) -> bool:
-    """Check square root approximation."""
-    if n < 0:
-        return False
-    return abs(result * result - n) < tolerance
-
-
-def gaussian_elim_correct(A: Sequence[Sequence[float]],
-                          b: Sequence[float],
-                          x: Sequence[float],
-                          tol: float = 1e-6) -> bool:
-    """Check that Ax = b (within tolerance)."""
-    n = len(b)
-    if len(x) != n:
-        return False
-    for i in range(n):
-        row_sum = sum(A[i][j] * x[j] for j in range(n))
-        if abs(row_sum - b[i]) > tol:
-            return False
-    return True
-
-
-def union_find_correct(n: int, edges: Sequence[Tuple[int, int]],
-                       components: int) -> bool:
-    """Check that the number of connected components is correct."""
-    parent = list(range(n))
-
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    for u, v in edges:
-        pu, pv = find(u), find(v)
-        if pu != pv:
-            parent[pu] = pv
-    return len(set(find(i) for i in range(n))) == components
-
-
-def bipartite_matching_correct(adj: Dict[int, List[int]],
-                               matching: Dict[int, int]) -> bool:
-    """Check maximum bipartite matching size against Hopcroft-Karp ground truth."""
-    # Check matching validity: each node matched at most once
-    right_matched = set()
-    for u, v in matching.items():
-        if v in adj.get(u, []):
-            if v in right_matched:
-                return False
-            right_matched.add(v)
-        else:
-            return False
-    # Check maximality via augmenting path search
-    match_u = dict(matching)
-    match_v = {v: u for u, v in matching.items()}
-
-    def dfs_augment(u, visited):
-        for v in adj.get(u, []):
-            if v not in visited:
-                visited.add(v)
-                if v not in match_v or dfs_augment(match_v[v], visited):
-                    return True
-        return False
-
-    # If we can find an augmenting path, matching isn't maximum
-    for u in adj:
-        if u not in match_u:
-            if dfs_augment(u, set()):
-                return False
-    return True
 
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  SECTION 2: Spec Parsing and Decomposition
 # ═══════════════════════════════════════════════════════════════════════════
+
 
 
 class ConjunctCategory(Enum):
@@ -1047,15 +172,9 @@ def _classify_conjunct(node: ast.expr, spec_source: str) -> ConjunctCategory:
     if _re.search(r'\w+_correct\(', src):
         return ConjunctCategory.GROUND_TRUTH
 
-    # Structural predicates
-    structural_names = {
-        'is_sorted', 'is_permutation', 'is_heap', 'is_bst', 'is_balanced',
-        'is_stable_sorted', 'is_topological_order', 'is_spanning_tree',
-        'is_convex_hull', 'is_palindrome', 'is_suffix_array',
-        'is_scc_decomposition', 'preserves_multiset',
-    }
+    # Structural predicates (heuristic: function names starting with is_/preserves_)
     if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
-        if node.func.id in structural_names:
+        if node.func.id.startswith(('is_', 'preserves_', 'has_')):
             return ConjunctCategory.STRUCTURAL
 
     # Size constraints
@@ -1086,16 +205,12 @@ def _extract_free_vars(node: ast.expr, bound: Set[str]) -> FrozenSet[str]:
     for child in ast.walk(node):
         if isinstance(child, ast.Name) and child.id not in bound:
             free.add(child.id)
-    # Remove built-in names
+    # Remove built-in names (Python builtins + stdlib only, no domain predicates)
     builtins_names = {'len', 'range', 'int', 'float', 'str', 'list', 'dict',
                       'set', 'tuple', 'min', 'max', 'sum', 'abs', 'all', 'any',
                       'True', 'False', 'None', 'sorted', 'reversed', 'enumerate',
                       'zip', 'map', 'filter', 'isinstance', 'type', 'print',
-                      'is_sorted', 'is_permutation', 'is_heap', 'is_bst',
-                      'is_balanced', 'search_correct', 'is_subsequence',
-                      'is_common_subsequence', 'preserves_multiset',
-                      'is_stable_sorted', 'is_palindrome', 'math',
-                      'float', 'inf'}
+                      'math', 'collections', 'random', 'inf'}
     return frozenset(free - builtins_names)
 
 
@@ -1888,59 +1003,11 @@ class SymVal:
 # ---------------------------------------------------------------------------
 
 # Functions whose result is a Predicate (boolean-valued)
+# No problem-specific predicates — any unknown boolean-valued function in a spec
+# is automatically lifted to an uninterpreted predicate via _make_uf_pred.
 _KNOWN_PRED_FUNCS: Dict[str, Callable] = {
-    'is_sorted': lambda args, kw: Sorted(args[0]),
-    'is_permutation': lambda args, kw: Permutation(args[0], args[1]),
-    'preserves_multiset': lambda args, kw: Permutation(args[0], args[1]),
-    'is_heap': lambda args, kw: _make_uf_pred('is_heap', args),
-    'is_stable_sorted': lambda args, kw: _make_uf_pred('is_stable_sorted', args),
-    'is_subsequence': lambda args, kw: _make_uf_pred('is_subsequence', args),
-    'is_common_subsequence': lambda args, kw: _make_uf_pred('is_common_subsequence', args),
-    'is_palindrome': lambda args, kw: _make_uf_pred('is_palindrome', args),
-    'is_prime': lambda args, kw: _make_uf_pred('is_prime', args),
-    'is_bst': lambda args, kw: _make_uf_pred('is_bst', args),
-    'is_balanced': lambda args, kw: _make_uf_pred('is_balanced', args),
-    'is_convex_hull': lambda args, kw: _make_uf_pred('is_convex_hull', args),
-    'is_valid_path': lambda args, kw: _make_uf_pred('is_valid_path', args),
-    'is_topological_order': lambda args, kw: _make_uf_pred('is_topological_order', args),
-    'is_spanning_tree': lambda args, kw: _make_uf_pred('is_spanning_tree', args),
-    'is_minimum_spanning_tree': lambda args, kw: _make_uf_pred('is_minimum_spanning_tree', args),
-    'is_scc_decomposition': lambda args, kw: _make_uf_pred('is_scc_decomposition', args),
-    'is_suffix_array': lambda args, kw: _make_uf_pred('is_suffix_array', args),
-    'search_correct': lambda args, kw: _make_uf_pred('search_correct', args),
-    'search_leftmost': lambda args, kw: _make_uf_pred('search_leftmost', args),
-    'nth_element_correct': lambda args, kw: _make_uf_pred('nth_element_correct', args),
-    'distances_correct': lambda args, kw: _make_uf_pred('distances_correct', args),
-    'all_pairs_shortest': lambda args, kw: _make_uf_pred('all_pairs_shortest', args),
-    'max_flow_correct': lambda args, kw: _make_uf_pred('max_flow_correct', args),
-    'lcs_length_correct': lambda args, kw: _make_uf_pred('lcs_length_correct', args),
-    'edit_distance_correct': lambda args, kw: _make_uf_pred('edit_distance_correct', args),
-    'all_pattern_occurrences': lambda args, kw: _make_uf_pred('all_pattern_occurrences', args),
-    'z_array_correct': lambda args, kw: _make_uf_pred('z_array_correct', args),
-    'longest_palindrome_correct': lambda args, kw: _make_uf_pred('longest_palindrome_correct', args),
-    'knapsack_correct': lambda args, kw: _make_uf_pred('knapsack_correct', args),
-    'lis_length_correct': lambda args, kw: _make_uf_pred('lis_length_correct', args),
-    'coin_change_correct': lambda args, kw: _make_uf_pred('coin_change_correct', args),
-    'matrix_chain_correct': lambda args, kw: _make_uf_pred('matrix_chain_correct', args),
-    'max_subarray_correct': lambda args, kw: _make_uf_pred('max_subarray_correct', args),
-    'rod_cutting_correct': lambda args, kw: _make_uf_pred('rod_cutting_correct', args),
-    'gcd_correct': lambda args, kw: _make_uf_pred('gcd_correct', args),
-    'extended_gcd_correct': lambda args, kw: _make_uf_pred('extended_gcd_correct', args),
-    'mod_exp_correct': lambda args, kw: _make_uf_pred('mod_exp_correct', args),
-    'sieve_correct': lambda args, kw: _make_uf_pred('sieve_correct', args),
-    'crt_correct': lambda args, kw: _make_uf_pred('crt_correct', args),
-    'closest_pair_correct': lambda args, kw: _make_uf_pred('closest_pair_correct', args),
-    'trie_contains_all': lambda args, kw: _make_uf_pred('trie_contains_all', args),
-    'fenwick_prefix_correct': lambda args, kw: _make_uf_pred('fenwick_prefix_correct', args),
-    'interval_schedule_correct': lambda args, kw: _make_uf_pred('interval_schedule_correct', args),
-    'sqrt_correct': lambda args, kw: _make_uf_pred('sqrt_correct', args),
-    'gaussian_elim_correct': lambda args, kw: _make_uf_pred('gaussian_elim_correct', args),
-    'union_find_correct': lambda args, kw: _make_uf_pred('union_find_correct', args),
-    'bipartite_matching_correct': lambda args, kw: _make_uf_pred('bipartite_matching_correct', args),
-    'partition_correct': lambda args, kw: _make_uf_pred('partition_correct', args),
-    'segment_tree_correct': lambda args, kw: _make_uf_pred('segment_tree_correct', args),
-    'reservoir_sample_valid': lambda args, kw: _make_uf_pred('reservoir_sample_valid', args),
-    'bloom_filter_no_false_negatives': lambda args, kw: _make_uf_pred('bloom_filter_no_false_negatives', args),
+    # Generic: isinstance is boolean-valued
+    'isinstance': lambda args, kw: _make_uf_pred('isinstance', args),
 }
 
 # Functions whose result is a Term (value-producing)
@@ -2003,7 +1070,7 @@ class SpecCompiler:
        path predicates.  Here, the "path" is the spec function body.
 
     2. **Function summaries** (compositional SE): Pre-built symbolic summaries
-       for known functions (is_sorted → Sorted predicate, etc.).
+       for known builtins (len, sorted, etc.); unknown functions → uninterpreted predicates.
 
     3. **Under-constrained SE** (UC-KLEE): Variables start unconstrained
        (as free Var terms), constraints accumulate from control flow.
@@ -5845,6 +4912,20 @@ def _compare_aligned_stmts(
                 explanation=f"Statement replaced with pass: {type(c).__name__}",
                 severity=1.0,
             ))
+        else:
+            # General statement type mismatch (e.g., While → If,
+            # For → While).  In the syntax presheaf, these are
+            # fundamentally different fibers — the iteration /
+            # branching structure of the computation changes.
+            divergences.append(_StalkDivergence(
+                kind="wrong_stmt_type",
+                context="body",
+                correct_fp=type(c).__name__,
+                buggy_fp=type(b).__name__,
+                explanation=f"Statement type: {type(c).__name__} vs "
+                            f"{type(b).__name__}",
+                severity=0.95,
+            ))
         return
 
     # ── Assignment: compare RHS expression stalks ──
@@ -6120,9 +5201,22 @@ def _report_expr_divergence(
             ))
             return
         for i, (cv, bv) in enumerate(zip(c_expr.values, b_expr.values)):
-            if _stalk_fingerprint(cv) != _stalk_fingerprint(bv):
-                _report_expr_divergence(cv, bv, divergences,
-                                        context + f"_boolval{i}")
+            _report_expr_divergence(cv, bv, divergences,
+                                    context + f"_boolval{i}")
+        # Detect missing/extra conjuncts — a critical refinement type
+        # divergence: the correct section's path condition has more/fewer
+        # constraints than the buggy one.
+        if len(c_expr.values) != len(b_expr.values):
+            op_name = type(c_expr.op).__name__
+            divergences.append(_StalkDivergence(
+                kind="missing_conjunct",
+                context=context,
+                correct_fp=f"{op_name}({len(c_expr.values)})",
+                buggy_fp=f"{op_name}({len(b_expr.values)})",
+                explanation=f"Boolean {op_name}: {len(c_expr.values)} "
+                            f"vs {len(b_expr.values)} operands in {context}",
+                severity=1.0,
+            ))
         return
 
     # ── UnaryOp: compare operator ──
@@ -6538,63 +5632,36 @@ class SheafSpecVerifier:
         self._impl_compiler = ImplCompiler()
 
     def _add_helpers_to_globals(self):
-        """Add all spec helper functions to the globals namespace."""
+        """Add stdlib helpers to spec globals.
+
+        No problem-specific predicates — specs are self-contained.
+        Only standard library modules and Python builtins are injected.
+        """
         helpers = {
-            'is_sorted': is_sorted,
-            'is_permutation': is_permutation,
-            'is_stable_sorted': is_stable_sorted,
-            'is_heap': is_heap,
-            'preserves_multiset': preserves_multiset,
-            'search_correct': search_correct,
-            'search_leftmost': search_leftmost,
-            'nth_element_correct': nth_element_correct,
-            'partition_correct': partition_correct,
-            'is_valid_path': is_valid_path,
-            'distances_correct': distances_correct,
-            'is_topological_order': is_topological_order,
-            'is_spanning_tree': is_spanning_tree,
-            'is_minimum_spanning_tree': is_minimum_spanning_tree,
-            'all_pairs_shortest': all_pairs_shortest,
-            'is_scc_decomposition': is_scc_decomposition,
-            'max_flow_correct': max_flow_correct,
-            'is_subsequence': is_subsequence,
-            'is_common_subsequence': is_common_subsequence,
-            'lcs_length_correct': lcs_length_correct,
-            'edit_distance_correct': edit_distance_correct,
-            'all_pattern_occurrences': all_pattern_occurrences,
-            'is_suffix_array': is_suffix_array,
-            'z_array_correct': z_array_correct,
-            'is_palindrome': is_palindrome,
-            'longest_palindrome_correct': longest_palindrome_correct,
-            'knapsack_correct': knapsack_correct,
-            'lis_length_correct': lis_length_correct,
-            'coin_change_correct': coin_change_correct,
-            'matrix_chain_correct': matrix_chain_correct,
-            'max_subarray_correct': max_subarray_correct,
-            'rod_cutting_correct': rod_cutting_correct,
-            'is_prime': is_prime,
-            'gcd_correct': gcd_correct,
-            'extended_gcd_correct': extended_gcd_correct,
-            'mod_exp_correct': mod_exp_correct,
-            'sieve_correct': sieve_correct,
-            'crt_correct': crt_correct,
-            'is_convex_hull': is_convex_hull,
-            'closest_pair_correct': closest_pair_correct,
-            'is_bst': is_bst,
-            'is_balanced': is_balanced,
-            'trie_contains_all': trie_contains_all,
-            'segment_tree_correct': segment_tree_correct,
-            'fenwick_prefix_correct': fenwick_prefix_correct,
-            'reservoir_sample_valid': reservoir_sample_valid,
-            'interval_schedule_correct': interval_schedule_correct,
-            'sqrt_correct': sqrt_correct,
-            'gaussian_elim_correct': gaussian_elim_correct,
-            'union_find_correct': union_find_correct,
-            'bipartite_matching_correct': bipartite_matching_correct,
             'math': math,
             'collections': collections,
             'random': random,
             'float': float,
+            'int': int,
+            'str': str,
+            'list': list,
+            'dict': dict,
+            'set': set,
+            'tuple': tuple,
+            'bool': bool,
+            'len': len,
+            'min': min,
+            'max': max,
+            'sum': sum,
+            'abs': abs,
+            'all': all,
+            'any': any,
+            'sorted': sorted,
+            'enumerate': enumerate,
+            'zip': zip,
+            'range': range,
+            'isinstance': isinstance,
+            'type': type,
             'inf': float('inf'),
         }
         for name, obj in helpers.items():

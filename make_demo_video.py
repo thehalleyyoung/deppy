@@ -1,15 +1,25 @@
-"""Generate a demo MP4 showing deppy proving semantic correctness.
+"""Generate a demo MP4 showing deppy's actual verification capabilities.
 
-Shows deppy verifying merge sort (iterative + recursive) and LRU cache
-(class-level invariant synthesis + 24-VC systematic proof).
-All text is real output from deppy.render.verify.
+The video presents three things deppy demonstrably does today:
+1. semantic verification of recursive / class-based Python code,
+2. code-shaped class invariant synthesis for stateful objects, and
+3. runtime bug detection across a 20-family synthetic suite.
+
+Terminal panes are built from real output produced by deppy's verification and
+bug-detection engines; title / explanation cards summarize what the viewer is
+seeing and normalize a few inferred invariants into code-like form.
 """
 
+import inspect
+import json
 import os
+from pathlib import Path
+import re
 import sys
 import subprocess
 import tempfile
 import shutil
+import textwrap
 from PIL import Image, ImageDraw, ImageFont
 
 # ── Configuration ──────────────────────────────────────────────────────────
@@ -69,6 +79,8 @@ FONT_DETAIL = get_font(20)
 
 LINE_H = 20
 MAX_LINES = 45
+
+KEYWORD_RE = re.compile(r"\b(class|def|return|if|elif|else|while|for|in|and|or|not|import|from|try|except|with|as|pass|raise|del)\b")
 
 
 # ── Frame rendering ───────────────────────────────────────────────────────
@@ -158,6 +170,27 @@ def make_explanation_card(title, lines):
     return img
 
 
+def source_to_lines(source):
+    """Render plain source as demo code lines with very light highlighting."""
+    rendered = []
+    for raw in textwrap.dedent(source).strip("\n").splitlines():
+        if not raw.strip():
+            rendered.append(None)
+            continue
+        line = ColorLine()
+        cursor = 0
+        for match in KEYWORD_RE.finditer(raw):
+            start, end = match.span()
+            if start > cursor:
+                line.add(raw[cursor:start], FG)
+            line.add(raw[start:end], YELLOW)
+            cursor = end
+        if cursor < len(raw):
+            line.add(raw[cursor:], FG)
+        rendered.append(line)
+    return rendered
+
+
 # ── Output colorizer ─────────────────────────────────────────────────────
 
 def classify_line(raw: str) -> str:
@@ -183,6 +216,16 @@ def classify_line(raw: str) -> str:
         return "conclusion"
     if stripped.startswith("Root cause:"):
         return "root_cause"
+    if stripped.startswith("Sheaf type-section analysis:"):
+        return "phase"
+    if stripped.startswith("Obstructions") or stripped.startswith("Resolved obstructions"):
+        return "phase"
+    if stripped.startswith("No gluing obstructions"):
+        return "conclusion"
+    if re.match(r"^\d+\. \[[A-Z_]+\]", stripped):
+        return "vc_result"
+    if stripped.startswith("✓ ["):
+        return "synthesis"
     if "→" in stripped and ("VC" in stripped or "establishment" in stripped or "preservation" in stripped):
         return "vc_list"
     if stripped.startswith("= ") and "proof obligations" in stripped:
@@ -199,6 +242,18 @@ def colorize_output(text: str) -> list:
             lines.append(ColorLine().add(raw, ACCENT))
         elif raw.startswith("=="):
             lines.append(ColorLine().add(raw, ACCENT))
+        elif raw.startswith("Sheaf type-section analysis:"):
+            lines.append(ColorLine().add(raw, ACCENT))
+        elif raw.startswith("Cover topology:") or raw.startswith("Section requirements extracted:"):
+            lines.append(ColorLine().add(raw, CYAN))
+        elif raw.startswith("Gluing audit:") or raw.startswith("Obstructions (bugs as gluing failures):") or raw.startswith("Resolved obstructions"):
+            lines.append(ColorLine().add(raw, ACCENT))
+        elif "Genuine obstructions" in raw:
+            lines.append(ColorLine().add(raw, RED))
+        elif "Resolved by guards" in raw:
+            lines.append(ColorLine().add(raw, GREEN))
+        elif "Spurious (Z3 UNSAT" in raw:
+            lines.append(ColorLine().add(raw, YELLOW))
         elif raw.startswith("Precondition:"):
             lines.append(ColorLine().add(raw, YELLOW))
         elif raw.startswith("Postconditions"):
@@ -281,6 +336,20 @@ def colorize_output(text: str) -> list:
             lines.append(ColorLine().add(raw, RED))
         elif stripped.startswith("Method `"):
             lines.append(ColorLine().add(raw, RED))
+        elif re.match(r"^\d+\. \[[A-Z_]+\]", stripped):
+            lines.append(ColorLine().add(raw, RED))
+        elif stripped.startswith("Required section:"):
+            lines.append(ColorLine().add(raw, PURPLE))
+        elif stripped.startswith("Available section:"):
+            lines.append(ColorLine().add(raw, DIM))
+        elif stripped.startswith("Gap:"):
+            lines.append(ColorLine().add(raw, ORANGE))
+        elif stripped.startswith("✓ ["):
+            lines.append(ColorLine().add(raw, GREEN))
+        elif stripped.startswith("Elapsed:"):
+            lines.append(ColorLine().add(raw, DIM))
+        elif stripped.startswith("No gluing obstructions"):
+            lines.append(ColorLine().add(raw, GREEN))
         elif stripped == "":
             lines.append(None)
         else:
@@ -550,7 +619,6 @@ def capture_outputs():
 
     results = {}
     post = "result is sorted and result is a permutation of left and right"
-    results["correct"] = str(verify(CORRECT_SRC, precondition="left and right are sorted", postcondition=post))
     results["merge_sort"] = str(verify_recursive(MERGE_SORT_SRC, precondition="arr is a list of comparable elements",
                                                   postcondition="result is sorted and result is a permutation of arr"))
     results["buggy_missing"] = str(verify(BUGGY_MISSING_SRC, precondition="left and right are sorted", postcondition=post))
@@ -559,6 +627,162 @@ def capture_outputs():
     results["lru_bug_ordering"] = str(verify_class(LRU_BUG_ORDERING_SRC))
     results["lru_bug_capacity"] = str(verify_class(LRU_BUG_CAPACITY_SRC))
     return results
+
+
+def _condense_verification_output(text: str) -> str:
+    """Trim very noisy overlap dumps while preserving the proof story."""
+    kept = []
+    for raw in text.splitlines():
+        stripped = raw.strip()
+        if "✗ INCOMPATIBLE" in raw:
+            continue
+        if stripped.startswith("i_") or stripped.startswith("j_") or stripped.startswith("arg_"):
+            continue
+        if stripped.startswith("guard_if_") or stripped.startswith("call_result."):
+            continue
+        if stripped.startswith("error_"):
+            continue
+        kept.append(raw)
+
+    compact = []
+    previous_blank = False
+    for raw in kept:
+        is_blank = raw.strip() == ""
+        if is_blank and previous_blank:
+            continue
+        compact.append(raw)
+        previous_blank = is_blank
+    return "\n".join(compact)
+
+
+def capture_runtime_bug_outputs():
+    """Capture representative runtime-bug analyses from the synthetic suite."""
+    src_dir = os.path.join(os.path.dirname(__file__), "src")
+    tests_dir = os.path.join(os.path.dirname(__file__), "tests")
+    if src_dir not in sys.path:
+        sys.path.insert(0, src_dir)
+    if tests_dir not in sys.path:
+        sys.path.insert(0, tests_dir)
+
+    from deppy.render.bug_detect import detect_bugs, format_bug_report
+    from synthetic_bug_suite import (
+        div_zero_buggy,
+        div_zero_safe,
+        non_termination_buggy,
+        deadlock_buggy,
+        memory_leak_buggy,
+        SUITE,
+    )
+
+    selected = {
+        "div_zero_buggy": div_zero_buggy,
+        "div_zero_safe": div_zero_safe,
+        "non_termination_buggy": non_termination_buggy,
+        "deadlock_buggy": deadlock_buggy,
+        "memory_leak_buggy": memory_leak_buggy,
+    }
+
+    reports = {}
+    for name, fn in selected.items():
+        source = textwrap.dedent(inspect.getsource(fn))
+        report = detect_bugs(source, function_name=fn.__name__)
+        reports[name] = {
+            "source": source,
+            "report": format_bug_report(report),
+        }
+
+    bug_types = []
+    for bug_type, _, _, _ in SUITE:
+        if bug_type not in bug_types:
+            bug_types.append(bug_type)
+    reports["bug_types"] = bug_types
+    return reports
+
+
+def load_runtime_suite_summary():
+    """Load saved synthetic-suite metrics; fall back to recomputation if absent."""
+    results_path = Path(__file__).with_name("eval_synthetic_results.json")
+    if results_path.exists():
+        data = json.loads(results_path.read_text())
+        data["source"] = str(results_path.name)
+        return data
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+    from eval_synthetic import run_evaluation
+
+    summary = run_evaluation()
+    return {
+        "n_pairs": summary.total_cases // 2,
+        "sheaf": {
+            "tp": summary.sheaf_tp,
+            "tn": summary.sheaf_tn,
+            "fp": summary.sheaf_fp,
+            "fn": summary.sheaf_fn,
+            "accuracy": (summary.sheaf_tp + summary.sheaf_tn) / summary.total_cases if summary.total_cases else 0,
+        },
+        "a3": {
+            "tp": summary.a3_tp,
+            "tn": summary.a3_tn,
+            "fp": summary.a3_fp,
+            "fn": summary.a3_fn,
+            "accuracy": (summary.a3_tp + summary.a3_tn) / summary.total_cases if summary.total_cases else 0,
+        },
+        "source": "live run_evaluation()",
+    }
+
+
+def make_runtime_summary_card(summary, bug_types):
+    bug_rows = [
+        "  " + "   ".join(bug_types[:5]),
+        "  " + "   ".join(bug_types[5:10]),
+        "  " + "   ".join(bug_types[10:15]),
+        "  " + "   ".join(bug_types[15:20]),
+    ]
+    sheaf = summary["sheaf"]
+    a3 = summary["a3"]
+    n_pairs = summary.get("n_pairs", 0)
+    n_cases = n_pairs * 2
+    return make_explanation_card(
+        "Runtime Bug Detection — 20 Bug Families",
+        [
+            "",
+            f"Synthetic benchmark: {n_pairs} buggy/safe pairs = {n_cases} total cases.",
+            f"Metrics artifact: {summary.get('source', 'saved results')}",
+            "",
+            ColorLine().add("Sheaf detector: ", ACCENT).add(
+                f"TP {sheaf['tp']}  TN {sheaf['tn']}  FP {sheaf['fp']}  FN {sheaf['fn']}  acc {sheaf['accuracy']:.1%}",
+                GREEN,
+            ),
+            ColorLine().add("a3-python:     ", DIM).add(
+                f"TP {a3['tp']}  TN {a3['tn']}  FP {a3['fp']}  FN {a3['fn']}  acc {a3['accuracy']:.1%}",
+                YELLOW,
+            ),
+            "",
+            ColorLine().add("Families covered:", ACCENT),
+            *bug_rows,
+            "",
+            "Representative reports follow for refinement, termination,",
+            "concurrency, and resource-lifetime failure classes.",
+        ],
+    )
+
+
+def make_lru_invariant_code_card():
+    return make_explanation_card(
+        "Class Invariant Synthesis — Code Form",
+        [
+            "",
+            "Normalized clauses inferred from constructor + mutator analysis:",
+            "",
+            ColorLine().add("  assert len(self.cache) <= self.capacity", PURPLE),
+            ColorLine().add("  assert set(self.cache.keys()) == set(self.order)", PURPLE),
+            ColorLine().add("  assert len(self.cache) == len(self.order)", PURPLE),
+            ColorLine().add("  on cache hit: self.order.remove(key); self.order.append(key)", PURPLE),
+            "",
+            "Clauses 1-3 are state invariants; clause 4 is the recovered",
+            "transition schema for access-recency preservation.",
+        ],
+    )
 
 
 # ── Build frames — line-by-line with pauses ──────────────────────────────
@@ -688,11 +912,16 @@ def build_demo_frames(code_lines, output_text, subtitle, code_hold=None):
 
 def main():
     print("Capturing real deppy output...")
-    outputs = capture_outputs()
+    outputs = {k: _condense_verification_output(v) for k, v in capture_outputs().items()}
+    runtime_outputs = capture_runtime_bug_outputs()
+    runtime_summary = load_runtime_suite_summary()
 
     for name, text in outputs.items():
         n_lines = len(text.split("\n"))
         print(f"  {name}: {n_lines} lines")
+    for name, payload in runtime_outputs.items():
+        if isinstance(payload, dict) and "report" in payload:
+            print(f"  {name}: {len(payload['report'].splitlines())} bug-report lines")
 
     print("Generating frames...")
     all_frames = []
@@ -703,37 +932,44 @@ def main():
 
     intro = make_title_card(
         "deppy",
-        "Sheaf-Descent Semantic Verification for Python",
+        "Python Verification / Bug Detection",
         [
             "",
-            "deppy proves semantic correctness via Z3 —",
-            "no test inputs, no manual annotations.",
+            "Inputs: AST + SSA-like state facts + guards + solver discharge.",
+            "Outputs: semantic VCs, synthesized invariants, obstruction reports.",
             "",
-            "Invariants, ranking functions, and verification",
-            "conditions are automatically synthesized from code",
-            "structure, then discharged symbolically via SMT.",
+            "Displayed artifacts are restricted to currently emitted deppy traces:",
+            "  • recursive VC generation + ranking-function evidence",
+            "  • class invariant synthesis rendered as normalized clauses",
+            "  • runtime obstruction detection on 20 synthetic bug families",
             "",
-            ColorLine().add("This demo: ", DIM).add("7 verifications, 37 VCs, <500ms total", ACCENT),
+            ColorLine().add("Demo scope: ", DIM).add("function proofs, class proofs, runtime bug reports", ACCENT),
         ],
     )
     all_frames.extend([intro] * TITLE_FRAMES)
 
     # Table of contents
     toc = make_title_card(
-        "Demo Contents",
+        "Demo Index",
         "",
         [
             "",
             ColorLine().add("Part I  ", ACCENT).add("Merge Sort — Function-Level Verification", FG),
-            ColorLine().add("  1. ", DIM).add("Correct merge     ", GREEN).add("— 8/8 VCs proved", FG),
-            ColorLine().add("  2. ", DIM).add("merge_sort         ", GREEN).add("— structural induction proof", FG),
-            ColorLine().add("  3. ", DIM).add("Bug: missing extend", RED).add("— structural gap detected", FG),
-            ColorLine().add("  4. ", DIM).add("Bug: reversed cmp  ", RED).add("— Z3 refutes invariant", FG),
+            ColorLine().add("  1. ", DIM).add("merge_sort        ", GREEN).add("— structural induction + ranking", FG),
+            ColorLine().add("  2. ", DIM).add("Bug: missing extend", RED).add("— incomplete output dataflow", FG),
+            ColorLine().add("  3. ", DIM).add("Bug: reversed cmp  ", RED).add("— SMT refutation of sortedness", FG),
             "",
             ColorLine().add("Part II ", ACCENT).add("LRU Cache — Class-Level Verification", FG),
-            ColorLine().add("  5. ", DIM).add("Correct LRU        ", GREEN).add("— 24/24 VCs (auto-invariant)", FG),
-            ColorLine().add("  6. ", DIM).add("Bug: stale ordering ", RED).add("— structural gap in get()", FG),
-            ColorLine().add("  7. ", DIM).add("Bug: off-by-one     ", RED).add("— Z3 finds capacity overflow", FG),
+            ColorLine().add("  4. ", DIM).add("Invariant synthesis ", GREEN).add("— normalized code clauses", FG),
+            ColorLine().add("  5. ", DIM).add("Correct LRU        ", GREEN).add("— 24/24 VCs proved", FG),
+            ColorLine().add("  6. ", DIM).add("Bug: stale ordering ", RED).add("— transition schema violation", FG),
+            ColorLine().add("  7. ", DIM).add("Bug: off-by-one     ", RED).add("— capacity overflow model", FG),
+            "",
+            ColorLine().add("Part III", ACCENT).add(" Runtime Bug Detection", FG),
+            ColorLine().add("  8. ", DIM).add("20-family suite    ", GREEN).add("— benchmark metrics", FG),
+            ColorLine().add("  9. ", DIM).add("DIV_ZERO buggy/safe", GREEN).add("— unsatisfied vs refined section", FG),
+            ColorLine().add(" 10. ", DIM).add("NON_TERMINATION    ", RED).add("— missing descent witness", FG),
+            ColorLine().add(" 11. ", DIM).add("DEADLOCK + leak    ", RED).add("— concurrency/resource violations", FG),
         ],
     )
     all_frames.extend([toc] * TITLE_FRAMES)
@@ -746,45 +982,34 @@ def main():
         "Part I — Function-Level Verification",
         [
             "",
-            "The sheaf-descent pipeline for a function:",
+            "Function-level sheaf-descent pipeline:",
             "",
-            ColorLine().add("  1. Cover synthesis", ACCENT).add("  — decompose AST into observation sites", FG),
-            ColorLine().add("                       ", ACCENT).add("    (arg boundaries, SSA values, branches, calls, return)", FG),
-            ColorLine().add("  2. Invariant synthesis", ACCENT).add(" — read loop headers, guards, and SSA sites", FG),
-            ColorLine().add("                         ", ACCENT).add("   to discover what the loop maintains", FG),
-            ColorLine().add("  3. VC discovery", ACCENT).add("       — each overlap between proof-relevant sites", FG),
-            ColorLine().add("                         ", ACCENT).add("   is a gluing condition = one VC", FG),
-            ColorLine().add("  4. Z3 discharge", ACCENT).add("       — prove each VC symbolically", FG),
+            ColorLine().add("  1. Cover synthesis", ACCENT).add("  — AST → proof-relevant sites", FG),
+            ColorLine().add("                       ", ACCENT).add("    (args, SSA states, branches, calls, return)", FG),
+            ColorLine().add("  2. Structural extraction", ACCENT).add(" — recursion / descent witnesses", FG),
+            ColorLine().add("  3. VC generation", ACCENT).add("    — site overlaps induce gluing constraints", FG),
+            ColorLine().add("  4. SMT discharge", ACCENT).add("     — Z3 proves or refutes each VC", FG),
             "",
-            "Result: O(|sites|) proof obligations, not O(|inputs|) test cases.",
+            "Asymptotic objective: O(|sites|) obligations, not O(|inputs|) tests.",
         ],
     )
     all_frames.extend([part1_intro] * TITLE_FRAMES)
 
-    # ── 1. Correct merge ──────────────────────────────────────────────
-
-    all_frames.extend(build_demo_frames(
-        CORRECT_CODE_LINES,
-        outputs["correct"],
-        "1/7 — Correct merge: proving sortedness, permutation, length",
-        code_hold=10,
-    ))
-
-    # ── 2. Recursive merge_sort ───────────────────────────────────────
+    # ── 1. Recursive merge_sort ───────────────────────────────────────
 
     merge_sort_explain = make_explanation_card(
-        "Recursive Verification via Structural Induction",
+        "Recursive Verification — Structural Induction",
         [
             "",
-            "For recursive functions, deppy uses structural induction:",
+            "VC schema for recursive merge sort:",
             "",
-            ColorLine().add("  Base case: ", ACCENT).add("len(arr) ≤ 1 → trivially sorted", FG),
-            ColorLine().add("  Decomposition: ", ACCENT).add("arr[:mid] ++ arr[mid:] = arr", FG),
-            ColorLine().add("  Inductive step: ", ACCENT).add("merge(sorted, sorted) is sorted", FG),
-            ColorLine().add("  Permutation: ", ACCENT).add("split + merge preserves all elements", FG),
-            ColorLine().add("  Termination: ", ACCENT).add("len(arr) strictly decreases", FG),
+            ColorLine().add("  Base VC: ", ACCENT).add("len(arr) ≤ 1 ⇒ sorted(arr)", FG),
+            ColorLine().add("  Split VC: ", ACCENT).add("arr = arr[:mid] ++ arr[mid:]", FG),
+            ColorLine().add("  Merge VC: ", ACCENT).add("sorted(L) ∧ sorted(R) ⇒ sorted(merge(L,R))", FG),
+            ColorLine().add("  Perm VC: ", ACCENT).add("multiset(merge(L,R)) = multiset(L) ⊎ multiset(R)", FG),
+            ColorLine().add("  Term VC: ", ACCENT).add("len(subcall) < len(arr)", FG),
             "",
-            "Each is a Z3-backed VC — not assumed, proved.",
+            "All clauses are solver-backed VCs; none are hand-annotated axioms.",
         ],
     )
     all_frames.extend([merge_sort_explain] * TITLE_FRAMES)
@@ -792,23 +1017,23 @@ def main():
     all_frames.extend(build_demo_frames(
         MERGE_SORT_LINES,
         outputs["merge_sort"],
-        "2/7 — merge_sort: recursive proof by structural induction",
+        "1/11 — merge_sort: structural induction + SMT discharge",
         code_hold=10,
     ))
 
-    # ── 3. Missing extend ─────────────────────────────────────────────
+    # ── 2. Missing extend ─────────────────────────────────────────────
 
     buggy1_explain = make_explanation_card(
-        "Bug Detection: Structural Gap in Cover",
+        "Bug Detection — Dataflow Incompleteness",
         [
             "",
-            "The cover synthesis reveals what data flows exist:",
+            "Cover analysis recovers output-construction paths:",
             "",
-            ColorLine().add("  Correct: ", GREEN).add("append (loop) + extend (post-loop) → complete flow", FG),
-            ColorLine().add("  Buggy:   ", RED).add("append only → remaining elements never reach output", FG),
+            ColorLine().add("  Correct: ", GREEN).add("append(loop) + extend(tails) ⇒ total element transfer", FG),
+            ColorLine().add("  Buggy:   ", RED).add("append(loop) only ⇒ residual tails lack output path", FG),
             "",
-            "This is a structural gap — no path from input to output",
-            "through the cover. Detected WITHOUT running the code.",
+            "Failure mode: uncovered residual-state to output mapping.",
+            "Detection mode: static cover analysis; no execution required.",
         ],
     )
     all_frames.extend([buggy1_explain] * TITLE_FRAMES)
@@ -816,24 +1041,24 @@ def main():
     all_frames.extend(build_demo_frames(
         BUGGY_MISSING_LINES,
         outputs["buggy_missing"],
-        "3/7 — Bug: missing extend (remaining elements lost)",
+        "2/11 — missing extend: residual elements unreachable",
     ))
 
-    # ── 4. Reversed comparison ────────────────────────────────────────
+    # ── 3. Reversed comparison ────────────────────────────────────────
 
     buggy2_explain = make_explanation_card(
-        "Bug Detection: Z3 Refutes Invariant",
+        "Bug Detection — SMT Refutation",
         [
             "",
-            "The cover reads the branch condition from the AST:",
+            "Guard extracted from AST branch predicate:",
             ColorLine().add("  left[i] >= right[j]", RED).add("  instead of  ", FG).add("left[i] <= right[j]", GREEN),
             "",
-            "Z3 checks: does the loop invariant hold through this branch?",
-            ColorLine().add("  Encode: ", ACCENT).add("invariant ∧ branch_cond → invariant_after_append", FG),
-            ColorLine().add("  Z3 says: ", RED).add("SAT (counterexample exists) → invariant BREAKS", FG),
+            "VC under check:",
+            ColorLine().add("  Encode: ", ACCENT).add("Inv ∧ guard ⇒ Inv'", FG),
+            ColorLine().add("  Solver: ", RED).add("SAT(counterexample) ⇒ preservation VC fails", FG),
             "",
-            "The >= operator selects the LARGER element, so sorted",
-            "order is not maintained after appending.",
+            "Semantic effect: branch appends the larger head element first.",
+            "Consequence: sortedness preservation is refuted.",
         ],
     )
     all_frames.extend([buggy2_explain] * TITLE_FRAMES)
@@ -841,7 +1066,7 @@ def main():
     all_frames.extend(build_demo_frames(
         BUGGY_REVERSED_LINES,
         outputs["buggy_reversed"],
-        "4/7 — Bug: >= instead of <= (Z3 refutes loop invariant)",
+        "3/11 — reversed comparator: sortedness VC refuted",
     ))
 
     # ════════════════════════════════════════════════════════════════════
@@ -850,19 +1075,18 @@ def main():
 
     transition = make_title_card(
         "Part II: Class-Level Verification",
-        "LRU Cache — Multi-Method Invariant Proof",
+        "LRU Cache — Multi-Method Invariant Checking",
         [
             "",
-            "The sheaf-descent approach for classes:",
+            "Class-level sheaf view:",
             "",
-            "  Each method is a local site in the class cover.",
-            "  The class invariant is a global section that must",
-            "  hold at entry and exit of every method.",
+            "  Methods = local sites in the class cover.",
+            "  Class invariant = global section preserved at method boundaries.",
             "",
-            "  Deppy automatically synthesizes the invariant",
-            "  from __init__ + guard patterns + co-mutation analysis.",
+            "  Invariants are synthesized from __init__, guard schemas,",
+            "  and co-mutation structure over shared state.",
             "",
-            ColorLine().add("  Zero manual annotation.", ACCENT),
+            ColorLine().add("  Manual invariant annotations: 0", ACCENT),
         ],
     )
     all_frames.extend([transition] * TITLE_FRAMES)
@@ -872,48 +1096,50 @@ def main():
         [
             "",
             ColorLine().add("Strategy 1: Capacity bounds", PURPLE),
-            "  Scan for len(self.x) >= self.capacity → I: len(x) ≤ capacity",
+            "  Guard schema len(self.x) >= cap  ⇒  invariant len(x) ≤ cap",
             "",
             ColorLine().add("Strategy 2: Collection consistency", PURPLE),
-            "  If cache + order are co-mutated → I: keys(cache) = set(order)",
+            "  Co-mutation(cache, order)  ⇒  keys(cache) = set(order)",
             "",
             ColorLine().add("Strategy 3: Size synchronization", PURPLE),
-            "  Paired collections must have same length → I: len(cache) = len(order)",
+            "  Paired collection updates  ⇒  len(cache) = len(order)",
             "",
             ColorLine().add("Strategy 4: Ordering", PURPLE),
-            "  If remove()+append() on a list → tracks access recency (LRU)",
+            "  remove(); append() on hit-path  ⇒  LRU recency transition",
             "",
-            "VC matrix: methods × paths × invariants = systematic proof",
+            "VC basis: methods × paths × invariant clauses.",
         ],
     )
     all_frames.extend([class_method_card] * TITLE_FRAMES)
 
-    # ── 5. Correct LRU cache ─────────────────────────────────────────
+    all_frames.extend([make_lru_invariant_code_card()] * TITLE_FRAMES)
+
+    # ── 4. Correct LRU cache ─────────────────────────────────────────
 
     all_frames.extend(build_demo_frames(
         LRU_CORRECT_LINES,
         outputs["lru_correct"],
-        "5/7 — Correct LRU Cache: 24/24 VCs proved",
+        "5/11 — correct LRU: 24/24 invariant VCs proved",
         code_hold=10,
     ))
 
-    # ── 6. LRU bug — missing ordering update ─────────────────────────
+    # ── 5. LRU bug — missing ordering update ─────────────────────────
 
     lru_bug1_explain = make_explanation_card(
-        "Bug Detection: Structural Gap in Ordering",
+        "Bug Detection — Transition Schema Violation",
         [
             "",
-            "The correct get() does:",
+            "Required hit-path transition:",
             ColorLine().add("  self.order.remove(key)", GREEN),
-            ColorLine().add("  self.order.append(key)", GREEN).add("  # move to end = most recent", FG),
+            ColorLine().add("  self.order.append(key)", GREEN).add("  # promote key to MRU position", FG),
             "",
-            "The buggy get() omits this → just returns the value.",
+            "Buggy variant returns value without executing the recency update.",
             "",
-            "Deppy's structural checker sees: get() accesses a key",
-            "that IS in the cache (from the branch condition), but",
-            "does NOT call remove+append → ordering invariant violated.",
+            "Observed path condition: key ∈ cache.",
+            "Observed effect: no remove/append transition on order.",
+            "Invariant consequence: access-recency schema is violated.",
             "",
-            "Next eviction will remove the WRONG element.",
+            "Downstream effect: eviction may select a non-LRU key.",
         ],
     )
     all_frames.extend([lru_bug1_explain] * TITLE_FRAMES)
@@ -921,28 +1147,28 @@ def main():
     all_frames.extend(build_demo_frames(
         LRU_BUG_ORDERING_LINES,
         outputs["lru_bug_ordering"],
-        "6/7 — Bug: get() doesn't update LRU order",
+        "6/11 — stale ordering: hit-path recency update missing",
         code_hold=10,
     ))
 
-    # ── 7. LRU bug — off-by-one capacity ─────────────────────────────
+    # ── 6. LRU bug — off-by-one capacity ─────────────────────────────
 
     lru_bug2_explain = make_explanation_card(
-        "Bug Detection: Z3 Finds Capacity Overflow",
+        "Bug Detection — Capacity Overflow Model",
         [
             "",
             ColorLine().add("Correct: ", GREEN).add("elif len(self.cache) >= self.capacity:", FG),
             ColorLine().add("Buggy:   ", RED).add("elif len(self.cache) > self.capacity:", FG),
             "",
-            "When len(cache) == capacity (cache is full):",
-            ColorLine().add("  >= : ", GREEN).add("triggers eviction → cache stays at capacity", FG),
-            ColorLine().add("  >  : ", RED).add("does NOT trigger → new key added → capacity + 1!", FG),
+            "Critical boundary state: len(cache) = capacity.",
+            ColorLine().add("  >= : ", GREEN).add("eviction fires  ⇒  post-size = capacity", FG),
+            ColorLine().add("  >  : ", RED).add("eviction skipped ⇒  post-size = capacity + 1", FG),
             "",
-            "Z3 encodes the abstract state transition:",
-            "  pre: cache_size ≤ capacity  (guard says cache_size ≤ cap)",
-            "  effect: cache_size + 1",
-            "  post: cache_size + 1 ≤ capacity ?",
-            ColorLine().add("  Z3: SAT", RED).add(" — counterexample at cache_size = capacity", FG),
+            "Abstract transition model:",
+            "  pre: cache_size ≤ capacity",
+            "  step: cache_size' = cache_size + 1",
+            "  goal: cache_size' ≤ capacity",
+            ColorLine().add("  Solver: SAT", RED).add(" at cache_size = capacity", FG),
         ],
     )
     all_frames.extend([lru_bug2_explain] * TITLE_FRAMES)
@@ -950,8 +1176,78 @@ def main():
     all_frames.extend(build_demo_frames(
         LRU_BUG_CAPACITY_LINES,
         outputs["lru_bug_capacity"],
-        "7/7 — Bug: off-by-one in eviction (> vs >=)",
+        "7/11 — off-by-one guard: capacity VC refuted",
         code_hold=10,
+    ))
+
+    # ════════════════════════════════════════════════════════════════════
+    # PART III: Runtime bug detection
+    # ════════════════════════════════════════════════════════════════════
+
+    runtime_transition = make_title_card(
+        "Part III: Runtime Bug Detection",
+        "Type-Section Obstruction Analysis",
+        [
+            "",
+            "For each sink, deppy extracts a required local section",
+            "(e.g. divisor ≠ 0, index ∈ bounds, resource eventually closed)",
+            "and checks whether upstream facts restrict into that section.",
+            "",
+            "No restriction map  ⇒  confirmed obstruction.",
+            "Guard-induced path refinement  ⇒  obstruction resolved.",
+        ],
+    )
+    all_frames.extend([runtime_transition] * TITLE_FRAMES)
+
+    all_frames.extend([make_runtime_summary_card(runtime_summary, runtime_outputs["bug_types"])] * (TITLE_FRAMES + 1))
+
+    div_zero_intro = make_explanation_card(
+        "Runtime Example — DIV_ZERO",
+        [
+            "",
+            ColorLine().add("Required section:", ACCENT).add(" {count : int | count ≠ 0}", PURPLE),
+            ColorLine().add("Buggy path:", RED).add(" count reaches '/' with no nonzero refinement", FG),
+            ColorLine().add("Safe path:", GREEN).add(" if count == 0: return 0.0 adds the required refinement", FG),
+            "",
+            "Next: same requirement under two path conditions — unresolved first,",
+            "then discharged by a branch guard.",
+        ],
+    )
+    all_frames.extend([div_zero_intro] * TITLE_FRAMES)
+
+    all_frames.extend(build_demo_frames(
+        source_to_lines(runtime_outputs["div_zero_buggy"]["source"]),
+        runtime_outputs["div_zero_buggy"]["report"],
+        "9/11 — DIV_ZERO: missing nonzero refinement",
+        code_hold=8,
+    ))
+
+    all_frames.extend(build_demo_frames(
+        source_to_lines(runtime_outputs["div_zero_safe"]["source"]),
+        runtime_outputs["div_zero_safe"]["report"],
+        "9b/11 — DIV_ZERO safe: guard supplies restriction map",
+        code_hold=8,
+    ))
+
+    all_frames.extend(build_demo_frames(
+        source_to_lines(runtime_outputs["non_termination_buggy"]["source"]),
+        runtime_outputs["non_termination_buggy"]["report"],
+        "10/11 — NON_TERMINATION: no decreasing variant",
+        code_hold=8,
+    ))
+
+    all_frames.extend(build_demo_frames(
+        source_to_lines(runtime_outputs["deadlock_buggy"]["source"]),
+        runtime_outputs["deadlock_buggy"]["report"],
+        "11/11 — DEADLOCK: cyclic wait-order relation",
+        code_hold=8,
+    ))
+
+    all_frames.extend(build_demo_frames(
+        source_to_lines(runtime_outputs["memory_leak_buggy"]["source"]),
+        runtime_outputs["memory_leak_buggy"]["report"],
+        "11b/11 — MEMORY_LEAK: resource escapes without closure",
+        code_hold=8,
     ))
 
     # ════════════════════════════════════════════════════════════════════
@@ -963,36 +1259,35 @@ def main():
         "",
         [
             "",
-            ColorLine().add("What deppy synthesizes automatically:", ACCENT),
-            "  • Loop invariants (from LOOP_HEADER + BRANCH_GUARD sites)",
-            "  • Ranking functions (from loop variable + bound analysis)",
-            "  • Class invariants (from __init__ + guards + co-mutation)",
-            "  • Verification conditions (from overlap graph walk)",
+            ColorLine().add("Displayed artifact classes:", ACCENT),
+            "  • Recursive VCs + ranking-function witnesses",
+            "  • Class invariants normalized into executable-style clauses",
+            "  • Method/path/invariant VC matrices for stateful objects",
+            "  • Runtime obstruction reports on 20 synthetic bug families",
             "",
-            ColorLine().add("What deppy proves:", ACCENT),
-            ColorLine().add("  merge:      ", GREEN).add("8/8 VCs   (loop invariant + Z3)", FG),
-            ColorLine().add("  merge_sort: ", GREEN).add("5/5 VCs   (structural induction + Z3)", FG),
-            ColorLine().add("  LRU Cache:  ", GREEN).add("24/24 VCs (auto-invariant + Z3 + structural)", FG),
+            ColorLine().add("Verified examples:", ACCENT),
+            ColorLine().add("  merge_sort: ", GREEN).add("4/4 VCs   (induction + SMT)", FG),
+            ColorLine().add("  LRU Cache:  ", GREEN).add("24/24 VCs (invariant synthesis + SMT)", FG),
             "",
-            ColorLine().add("What deppy catches:", ACCENT),
-            ColorLine().add("  Bug #1: ", RED).add("structural gap (missing extend)", FG),
-            ColorLine().add("  Bug #2: ", RED).add("Z3 counterexample (wrong comparator)", FG),
-            ColorLine().add("  Bug #3: ", RED).add("structural gap (missing move-to-front)", FG),
-            ColorLine().add("  Bug #4: ", RED).add("Z3 counterexample (off-by-one → overflow)", FG),
+            ColorLine().add("Detected counterexamples / obstructions:", ACCENT),
+            ColorLine().add("  Semantic: ", RED).add("missing extend, wrong comparator, stale ordering, overflow", FG),
+            ColorLine().add("  Runtime:  ", RED).add("DIV_ZERO, NON_TERMINATION, DEADLOCK, MEMORY_LEAK, ...", FG),
         ],
     )
     all_frames.extend([summary] * (TITLE_FRAMES + 2))
 
     outro = make_title_card(
         "deppy",
-        "Sheaf-Descent Semantic Verification",
+        "Sheaf-Descent Verification / Bug Detection",
         [
             "",
-            "37 verification conditions total.",
-            "All proved or refuted in <500ms.",
-            "Zero manual annotation required.",
+            "Unified abstraction: site cover + local sections + gluing constraints.",
+            "Same core view drives semantic proof traces and runtime bug reports.",
             "",
-            "O(|sites|) proof obligations, not O(|inputs|) test cases.",
+            "Video contents: function proofs, class invariants, class VC discharge,",
+            "and representative runtime obstruction reports from the 20-family suite.",
+            "",
+            "Target proof scale: O(|sites|) obligations, not O(|inputs|) test cases.",
             "",
             ColorLine().add("github.com/halleyyoung/deppy", ACCENT),
         ],
