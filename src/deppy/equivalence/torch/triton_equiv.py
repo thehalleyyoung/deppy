@@ -50,6 +50,16 @@ from .triton_ir import (
     fingerprints_compatible,
     tiling_topologies_equivalent,
 )
+from .triton_counterexample import (
+    BinOp,
+    Cond,
+    Expr,
+    FnCall,
+    Neg,
+    Var,
+    _ExprExtractor,
+    _compare,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -63,6 +73,7 @@ class KernelComparisonResult:
     memory_match: bool = False
     reduction_match: bool = False
     tiling_match: bool = False
+    computation_match: bool = False
     fingerprint_f: Optional[KernelFingerprint] = None
     fingerprint_g: Optional[KernelFingerprint] = None
     explanation: str = ""
@@ -94,7 +105,8 @@ class TritonStructuralChecker:
         fp_f = compute_fingerprint(ast_f)
         fp_g = compute_fingerprint(ast_g)
 
-        structural = fingerprints_compatible(fp_f, fp_g)
+        computation_match = self._compare_store_computation(source_f, source_g)
+        structural = fingerprints_compatible(fp_f, fp_g) and computation_match
 
         # Memory pattern comparison
         memory_match = self._compare_memory(ast_f, ast_g)
@@ -112,6 +124,8 @@ class TritonStructuralChecker:
         explanation_parts = []
         if not structural:
             explanation_parts.append(f"Fingerprint mismatch: {fp_f} vs {fp_g}")
+        if not computation_match:
+            explanation_parts.append("Per-tile store computation differs")
         if not memory_match:
             explanation_parts.append("Memory access pattern differs")
         if not reduction_match:
@@ -124,10 +138,27 @@ class TritonStructuralChecker:
             memory_match=memory_match,
             reduction_match=reduction_match,
             tiling_match=tiling_match,
+            computation_match=computation_match,
             fingerprint_f=fp_f,
             fingerprint_g=fp_g,
             explanation="; ".join(explanation_parts) if explanation_parts
             else "Structurally equivalent",
+        )
+
+    def _compare_store_computation(self, source_f: str, source_g: str) -> bool:
+        extractor_f = _ExprExtractor()
+        extractor_g = _ExprExtractor()
+        extractor_f.extract(source_f)
+        extractor_g.extract(source_g)
+        exprs_f = extractor_f.resolved_store_exprs()
+        exprs_g = extractor_g.resolved_store_exprs()
+        if len(exprs_f) != len(exprs_g):
+            return False
+        normalized_f = _alpha_normalize_exprs(exprs_f)
+        normalized_g = _alpha_normalize_exprs(exprs_g)
+        return all(
+            _compare(expr_f, expr_g) is not None
+            for expr_f, expr_g in zip(normalized_f, normalized_g)
         )
 
     def _compare_memory(self, ast_f: TritonKernelAST,
@@ -469,7 +500,6 @@ class TritonEquivalenceChecker:
             verdict=EquivalenceVerdict.EQUIVALENT,
             explanation="Reduction operations match",
         )
-
     def _compare_configs(self, spec_f: TritonKernelSpec,
                          spec_g: TritonKernelSpec,
                          site_id: SiteId) -> List[TensorObstruction]:
@@ -604,3 +634,47 @@ class TritonEquivalenceChecker:
                 f"Triton kernel '{spec.name}' tiling presheaf is well-formed"
             ),
         )
+
+
+def _alpha_normalize_exprs(exprs: Sequence[Expr]) -> List[Expr]:
+    env: Dict[str, str] = {}
+    next_index = [0]
+    return [_alpha_normalize_expr(expr, env, next_index) for expr in exprs]
+
+
+def _alpha_normalize_expr(
+    expr: Expr,
+    env: Dict[str, str],
+    next_index: List[int],
+) -> Expr:
+    if isinstance(expr, Var):
+        alias = env.get(expr.name)
+        if alias is None:
+            alias = f"v{next_index[0]}"
+            env[expr.name] = alias
+            next_index[0] += 1
+        return Var(alias)
+    if isinstance(expr, BinOp):
+        return BinOp(
+            expr.op,
+            _alpha_normalize_expr(expr.left, env, next_index),
+            _alpha_normalize_expr(expr.right, env, next_index),
+        )
+    if isinstance(expr, Neg):
+        return Neg(_alpha_normalize_expr(expr.arg, env, next_index))
+    if isinstance(expr, FnCall):
+        return FnCall(
+            expr.func,
+            tuple(_alpha_normalize_expr(arg, env, next_index) for arg in expr.args),
+            tuple(
+                (name, _alpha_normalize_expr(arg, env, next_index))
+                for name, arg in expr.kwargs
+            ),
+        )
+    if isinstance(expr, Cond):
+        return Cond(
+            _alpha_normalize_expr(expr.test, env, next_index),
+            _alpha_normalize_expr(expr.if_true, env, next_index),
+            _alpha_normalize_expr(expr.if_false, env, next_index),
+        )
+    return expr

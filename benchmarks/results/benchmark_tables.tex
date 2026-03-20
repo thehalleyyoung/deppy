@@ -1,0 +1,84 @@
+% ---- RQ1: Bug Detection ----
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Bug class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+BOUNDS & 0% & 0% & 0% \\
+DIV_ZERO & 86% & 100% & 92% \\
+INDEX_OOB & 57% & 80% & 67% \\
+KEY_ERROR & 80% & 80% & 80% \\
+MEMORY_LEAK & 0% & 0% & 0% \\
+NULL_PTR & 50% & 50% & 50% \\
+STACK_OVERFLOW & 0% & 0% & 0% \\
+TYPE_CONFUSION & 0% & 0% & 0% \\
+UNBOUND_VAR & 100% & 100% & 100% \\
+USE_AFTER_FREE & 100% & 100% & 100% \\
+VALUE_ERROR & 100% & 100% & 100% \\
+\midrule
+\textbf{Overall} & 61% & 83% & 70% \\
+\bottomrule
+\end{tabular}
+
+% ---- RQ2: H¹ Localization ----
+\begin{tabular}{lrr}
+\toprule
+& \textbf{Correct} & \textbf{Total} \\
+\midrule
+$\rk\,\Hc{1}$ = actual fixes & 23 & 33 \\
+\bottomrule
+\end{tabular}
+
+% ---- RQ3: Equivalence ----
+\begin{tabular}{lrr}
+\toprule
+& \textbf{Correct} & \textbf{Total} \\
+\midrule
+Equivalent (true positive) & 14 & 17 \\
+Non-equivalent (true negative) & 16 & 17 \\
+\textbf{Overall} & 30 & 34 \\
+\bottomrule
+\end{tabular}
+
+% ---- RQ4: Spec Satisfaction ----
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Spec} & \textbf{VCs} & \textbf{Reduced} & \textbf{Correct} \\
+\midrule
+binary_search_spec & 42 & 93\% & \xmark \\
+sqrt_spec & 38 & 95\% & \checkmark \\
+gcd_spec & 20 & 90\% & \checkmark \\
+reverse_spec & 4 & 75\% & \checkmark \\
+failing_spec & 7 & 86\% & \xmark \\
+partial_spec & 28 & 93\% & \checkmark \\
+sort_spec & 27 & 96\% & \checkmark \\
+fibonacci_spec & 20 & 95\% & \checkmark \\
+\midrule
+\textbf{Overall} & & 90% avg & 6/8 \\
+\bottomrule
+\end{tabular}
+
+% ---- RQ5: Incremental Analysis ----
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Full analysis & 6.2 ms \\
+Incremental analysis & 6.1 ms \\
+Speedup & 1.0$\times$ \\
+Functions reanalyzed & 3/3 \\
+\bottomrule
+\end{tabular}
+
+% ---- Comparison with Traditional Approaches ----
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Capability} & \textbf{Deppy} & \textbf{Abstract Interp.} & \textbf{Refinement Types} & \textbf{Hoare Logic} \\
+\midrule
+Error localization & $\rk\,\Hc{1}$ = min fixes & No analogue & No analogue & Single VC \\
+Compositionality & Mayer-Vietoris & Widening (lossy) & Module boundaries & Frame rule \\
+Equivalence checking & Descent theorem & Not built-in & Not built-in & Relational \\
+Incremental analysis & Algebraic (exact) & Re-solve fixpoint & Re-check all & Re-verify \\
+Bug count certificate & $\rk\,\Hc{1}$ over $\GF_2$ & Upper bound only & N/A & N/A \\
+Sheaf-theoretic & Native & \xmark & \xmark & \xmark \\
+\bottomrule
+\end{tabular}

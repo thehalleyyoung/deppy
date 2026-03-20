@@ -1,0 +1,50 @@
+\chapter{Theory Packs and Local Solver Geometries}
+
+The repository does not attempt to solve every semantic question with one universal logic.
+Instead it provides domain-specific theory packs and theory-library machinery. This is
+another place where the cohomological typing viewpoint clarifies what the implementation is
+doing.
+
+A theory pack is best understood as a local geometry of solvable questions. Tensor shape,
+nullability, boolean guards, witness transport, exceptions, heaps, protocols, loop
+invariants, and similar concerns each induce their own families of local sections and
+viability checks. The pack decides which sites are relevant, what local solver to invoke,
+which restrictions are legitimate, and how trust should be upgraded when a local discharge
+succeeds.
+
+\section*{Why packs fit the site-based viewpoint}
+The older monograph on sheaf-descent semantic typing already pushes hard on the idea of
+site families and theory families. The hybrid and theory-pack code carries the same spirit
+forward. Rather than pretending there is one maximally expressive theorem prover inside the
+project, \DepPy{} distributes reasoning across packs. Each pack is responsible for a local
+stalk theory.
+
+That phrasing is not decorative. A stalk theory answers local questions about a site. A
+shape theory can answer tensor-shape compatibility questions. A guard theory can answer
+branch-sensitive path-viability questions. A protocol or heap theory can answer ownership
+and field-availability questions. A witness transport theory can answer equality and
+transport questions. The global analyzer then composes these local answers.
+
+\section*{Trust upgrades through local discharge}
+Theory packs also give a concrete answer to the question ``where do trust upgrades come
+from?'' They come from successful local discharge in a domain where the relevant solver or
+proof method is appropriate. A structural fact that begins as merely asserted may rise to
+runtime-checked or Z3-proven status after a local pack solves it. The hybrid trust lattice
+therefore does not float abstractly above the repository; it is fed by actual local
+reasoning modules.
+
+\begin{example}[Tensor theory]
+A tensor-shape pack may certify that two tensors can be broadcast together, or that a
+reshape preserves total size. Those are local shape facts, but once transported across
+call sites and composed with code and proof layers they become part of a global contract
+for a function. The same story generalizes to device compatibility, indexing safety, and
+order-sensitive tensor operations.
+\end{example}
+
+\section*{Absolutizing the title carefully}
+If the phrase ``absolutely everything'' is to remain honest, theory packs are part of the
+answer. The repository cannot yet reason deeply about every possible Python phenomenon.
+But it can repeatedly grow new local geometries and plug them into a common architecture.
+The title should therefore be read as a claim about the architecture's extensibility: any
+domain that can be given local sections, restrictions, and gluing conditions is in scope
+for cohomological typing.

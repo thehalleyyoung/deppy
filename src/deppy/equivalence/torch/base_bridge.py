@@ -209,13 +209,13 @@ def build_base_site_category(
     Creates sites for each judgment and morphisms connecting
     sites within the same stratum (since they share restrictions).
     """
-    from deppy.core.site import ConcreteMorphism
+    from deppy.core.site import ConcreteMorphism, ConcreteSite
 
     cat = SiteCategory()
 
     # Add a site for each judgment
     for j in judgments:
-        site = Site(site_id=j.site_id)
+        site = ConcreteSite(_site_id=j.site_id)
         cat.add_site(site)
 
     # Add morphisms between sites that share a stratum.
@@ -239,13 +239,13 @@ def build_base_site_category(
                         kind=SiteKind.TENSOR_SHAPE,
                         name=f"overlap_{src_sid.name}_{tgt_sid.name}",
                     )
-                    overlap_site = Site(site_id=common_target)
+                    overlap_site = ConcreteSite(_site_id=common_target)
                     cat.add_site(overlap_site)
                     cat.add_morphism(ConcreteMorphism(
-                        source=src_sid, target=common_target,
+                        _source=src_sid, _target=common_target,
                     ))
                     cat.add_morphism(ConcreteMorphism(
-                        source=tgt_sid, target=common_target,
+                        _source=tgt_sid, _target=common_target,
                     ))
 
     # Within each stratum, create pairwise overlaps
@@ -258,13 +258,13 @@ def build_base_site_category(
                     kind=SiteKind.TENSOR_SHAPE,
                     name=f"intra_{s1.name}_{s2.name}",
                 )
-                overlap_site = Site(site_id=common_target)
+                overlap_site = ConcreteSite(_site_id=common_target)
                 cat.add_site(overlap_site)
                 cat.add_morphism(ConcreteMorphism(
-                    source=s1, target=common_target,
+                    _source=s1, _target=common_target,
                 ))
                 cat.add_morphism(ConcreteMorphism(
-                    source=s2, target=common_target,
+                    _source=s2, _target=common_target,
                 ))
 
     return cat

@@ -1,0 +1,151 @@
+\chapter{Cohomology and Obstruction Theory}
+
+If one chapter must bear the weight of the title, it is this one. The phrase
+``cohomological typing'' should not merely signal mathematical taste. It should explain why
+so many parts of the repository feel related. Cohomology is the device by which one records
+that local compatibility problems are not noise but structure. In this monograph, that means
+that the difference between success and failure is not exhausted by a boolean result. Success
+is the existence of a global section; failure is the presence of a cocycle that refuses to be
+resolved by the currently chosen cover.
+
+\section*{From local sections to Čech complexes}
+Let a cover of the relevant program object be written as \(\mathcal{U} = \{U_i\}_{i \in I}\),
+and let \(\mathcal{F}\) be the presheaf of typed local evidence under discussion. Then the
+first terms of the Čech complex are
+\[
+0 \to \Cech^0(\mathcal{U}, \mathcal{F}) \xrightarrow{\delta^0}
+\Cech^1(\mathcal{U}, \mathcal{F}) \xrightarrow{\delta^1}
+\Cech^2(\mathcal{U}, \mathcal{F}) \to \cdots.
+\]
+A $0$-cochain is a family of local sections. Its coboundary measures disagreement on pairwise
+overlaps. A vanishing coboundary says that the family is compatible; a nontrivial class in
+\(\Hc{1}(\mathcal{U},\mathcal{F})\) says that the local data does not glue globally.
+
+For the software situations emphasized in this repository, one often works with covers whose
+salient failures are already visible on pairwise overlaps. This is why first cohomology keeps
+reappearing. The point is not that higher cohomology is philosophically impossible. The point
+is that the repository's main engineering pathologies---mismatched contracts, inconsistent
+local semantics, ungluable modules, competing trust claims---already have a natural home in
+\(\Hc{1}\).
+
+\section*{Global sections, obstructions, and repair}
+The correct moral is therefore short:
+\begin{quote}
+\emph{A successful verification or synthesis episode is a vanishing first-obstruction claim
+relative to a chosen cover and chosen evidence presheaf.}
+\end{quote}
+
+This sentence is powerful because it scales. For a plain typing problem, the cover may be a
+family of control-flow and data-flow sites, and the presheaf may record refinement
+obligations. For a hybrid coherence problem, the cover is enriched by a layer dimension and
+the presheaf now records both obligations and trust-bearing witnesses. For a synthesis
+problem, the cover is a family of local module obligations. For anti-hallucination, the cover
+contains symbol-resolution, contract, and behavior sites. The outer mathematical sentence is
+unchanged.
+
+Repair then becomes a map from obstruction classes to refined local structure. In words,
+repair is the act of changing the cover, strengthening a local predicate, refining a module
+boundary, or introducing a new witness so that the old cocycle becomes a coboundary. This is
+why the repository often treats diagnosis and repair as intimately connected. Once the
+obstruction has been localized, one already knows where a refinement should be attempted.
+
+\section*{Five manifestations of first cohomology}
+The promise of a single project becomes most visible when the same cohomological sentence is
+instantiated in several apparently distant workflows.
+
+\paragraph{Bugs.}
+In the most classical case, a bug is a non-gluing local fact. A guard site may allow states
+that an arithmetic site forbids. A call site may assume a postcondition stronger than what
+the callee provides. A proof site may rely on a branch invariant that the code never really
+establishes. These disagreements live on overlaps and therefore naturally become $1$-cocycles.
+
+\paragraph{Hallucinations.}
+A generated artifact can be structurally well formed yet fail to inhabit the semantic layer,
+or it can fail already at the structural layer because it names nonexistent symbols or
+grossly misstates a signature. In either case the failure is local-to-global noncoherence.
+The artifact does not inhabit the expected hybrid presheaf across the relevant cover. This is
+a cohomological failure, not merely a qualitative disappointment.
+
+\paragraph{Equivalence failure.}
+Two implementations may agree at many local sites and still fail to produce a global
+isomorphism. The equivalence machinery in \repo{src/deppy/equivalence/} becomes much easier
+to understand once local semantic correspondences are read as candidate $0$-cochains whose
+incompatibilities define a difference cocycle.
+
+\paragraph{Generation failure.}
+A module plan is a cover. Local code generation attempts to populate that cover with sections.
+If interfaces, assumptions, proof goals, or exported semantics fail to match across overlaps,
+one does not merely have ``bad generation.'' One has an obstruction to descent. The agent is
+then in the business of refining covers and retrying gluing.
+
+\paragraph{Trust inconsistency.}
+Perhaps the most novel case is trust. One local path may deliver Z3-backed evidence, another
+only oracle-backed evidence, and a third may contradict both. These are not just numbers on a
+dashboard. They are typed local witnesses whose incompatibility can itself be treated as a
+non-gluing phenomenon. The language of trust-valued presheaves is therefore not optional if
+one wants the system to reason honestly about mixed evidence.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw=chapterblue, rounded corners=2pt, fill=chapterblue!6, minimum width=3.2cm, minimum height=0.9cm, align=center},
+  obs/.style={draw=accentgold, rounded corners=2pt, fill=accentgold!12, minimum width=3.3cm, minimum height=0.9cm, align=center},
+  >=Latex
+]
+\node[box] (local) {local sections \ typed evidence on sites};
+\node[box, right=1.6cm of local] (overlap) {overlap maps \ pairwise compatibility};
+\node[obs, right=1.6cm of overlap] (h1) {$\Hc{1}$ class \ unresolved obstruction};
+\node[obs, below=1.0cm of local] (bugs) {bugs};
+\node[obs, below=1.0cm of overlap] (hall) {hallucinations / equivalence failures};
+\node[obs, below=1.0cm of h1] (gen) {generation / trust inconsistencies};
+\draw[->, thick, chapterblue] (local) -- (overlap);
+\draw[->, thick, chapterblue] (overlap) -- (h1);
+\draw[->, thick, accentgold] (h1) -- (bugs);
+\draw[->, thick, accentgold] (h1) -- (hall);
+\draw[->, thick, accentgold] (h1) -- (gen);
+\end{tikzpicture}
+\caption{One cohomological sentence, many manifestations. The repository's main failure modes are organized by the same passage from local sections to overlap incompatibilities to first-obstruction classes.}
+\end{figure}
+
+\section*{Obstruction mass and the quality of an elaboration}
+The repository's newer scalar-valued ideation layer is also easier to justify in this
+language. A candidate elaboration should not be judged only by thematic elegance or by an
+LLM's enthusiasm. It should also be penalized when it appears likely to generate unresolved
+obstruction mass. In the current code, this appears as a penalty term related to the
+observed or estimated \(H^1\)-dimension of the ideation result. That move is mathematically
+more principled than it first appears. It says that elaborations carrying unresolved gluing
+risk should be scored lower even before full generation begins.
+
+In other words, cohomology does double duty. It diagnoses explicit failures after local
+claims have been made, and it also helps rank prospective elaborations before the full cost
+of construction is paid. This is one of the clearest signs that the project's geometry is
+not ornamental. It actively shapes the agent's search.
+
+\section*{Why first cohomology is not only about failure}
+There is a temptation to speak as though cohomology entered the story only when something has
+gone wrong. That reading is too narrow. The vanishing of first cohomology is not merely the
+absence of drama. It is the positive condition that local evidence has achieved global form.
+A gluable family of sections is itself a mathematical achievement. It is a certificate that
+multiple local accounts of a program agree. For a system like \DepPy{}, which deliberately
+keeps many kinds of evidence visible instead of collapsing them, such certificates are the
+closest thing to semantic harmony that one can ask for.
+
+\section*{Repair as a research methodology}
+This suggests a wider philosophical point. The repository is not only trying to type and
+verify programs. It is trying to organize research methodology around the cycle
+\[
+  \text{observe locally} \to \text{compute incompatibility} \to \text{refine locally} \to \text{glue globally}.
+\]
+That cycle is visible in program analysis, in theory-pack extension, in ideation, and in
+agent-driven synthesis. Once stated this way, it becomes plausible to claim that
+``cohomological typing for absolutely everything'' is a methodology and not merely a slogan.
+
+\begin{proposition}
+If a subsystem of software engineering can be represented by a cover of local sites, a notion
+of typed local evidence, and a repair loop that attempts to turn overlap failures into
+compatibilities, then that subsystem is in scope for the repository's cohomological typing
+program.
+\end{proposition}
+
+The proof is not a theorem internal to one file; it is the architecture of the repository
+itself.

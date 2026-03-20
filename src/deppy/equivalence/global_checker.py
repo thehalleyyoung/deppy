@@ -278,14 +278,20 @@ class GlobalEquivalenceChecker:
 
         # -- Assemble final result -----------------------------------------
         iso_witness = morphism.to_isomorphism_witness()
-        all_conditional = any(
+        has_refined = any(
             j.verdict == EquivalenceVerdict.REFINED
+            for j in judgments
+        )
+        has_unknown = any(
+            j.verdict == EquivalenceVerdict.UNKNOWN
             for j in judgments
         )
         has_conditional_squares = len(morphism.conditional_squares()) > 0
 
-        if all_conditional or has_conditional_squares:
+        if has_refined or has_conditional_squares:
             verdict = EquivalenceVerdict.REFINED
+        elif has_unknown:
+            verdict = EquivalenceVerdict.UNKNOWN
         else:
             verdict = EquivalenceVerdict.EQUIVALENT
 

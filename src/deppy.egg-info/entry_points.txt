@@ -1,0 +1,3 @@
+[console_scripts]
+deppy = deppy.cli.main:cli_entry_point
+deppy-lsp = deppy.lsp:main

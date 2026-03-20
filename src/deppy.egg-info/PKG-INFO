@@ -1,7 +1,12 @@
 Metadata-Version: 2.4
 Name: deppy
-Version: 0.1.0
-Summary: Dependent type architecture for Python derived from TensorGuard
-Requires-Python: >=3.11
-Description-Content-Type: text/markdown
+Version: 2.0.0
+Summary: Dependent typing as optimization for Python via sheaf-descent semantics
+Requires-Python: >=3.10
 Requires-Dist: z3-solver>=4.12
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-timeout>=2.0; extra == "dev"
+Provides-Extra: lsp
+Requires-Dist: pygls>=1.3; extra == "lsp"
+Requires-Dist: lsprotocol>=2023.0.1; extra == "lsp"

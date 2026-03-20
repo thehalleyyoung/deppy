@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The site/presheaf/sheaf/cohomology story behind deppy&#x27;s notion of bugs and drift." />
+  <title>Sheaf semantics - deppy</title>
+  <link rel="stylesheet" href="../../assets/site.css" />
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+  </script>
+  <script defer src="../../assets/site.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../../index.html"><h1>deppy</h1><p>A multi-page site for deppy: aims, examples, APIs, and algebraic-geometric dependent type theory.</p></a>
+      <button class="theme-toggle" data-theme-toggle type="button">Switch theme</button>
+      <nav><section><h2>Overview</h2><ul><li><a data-slug="index.html" href="../../index.html">deppy: trustworthy software from specs, code, and proofs</a></li><li><a data-slug="aims/index.html" href="../../aims/index.html">Aims</a></li><li><a data-slug="getting-started/index.html" href="../../getting-started/index.html">Getting started</a></li><li><a data-slug="architecture/index.html" href="../../architecture/index.html">Architecture</a></li></ul></section><section><h2>Examples</h2><ul><li><a data-slug="examples/index.html" href="../../examples/index.html">Examples</a></li><li><a data-slug="examples/trading/index.html" href="../../examples/trading/index.html">Verified trading example</a></li><li><a data-slug="examples/zero-change/index.html" href="../../examples/zero-change/index.html">Zero-change verification</a></li></ul></section><section><h2>API</h2><ul><li><a data-slug="api/index.html" href="../../api/index.html">API overview</a></li><li><a data-slug="api/cli/index.html" href="../../api/cli/index.html">CLI reference</a></li><li><a data-slug="api/python/index.html" href="../../api/python/index.html">Python API</a></li></ul></section><section><h2>Math</h2><ul><li><a data-slug="math/index.html" href="../../math/index.html">Math overview</a></li><li><a data-slug="math/sheaf-semantics/index.html" href="../../math/sheaf-semantics/index.html">Sheaf semantics</a></li><li><a data-slug="math/hybrid-dependent-types/index.html" href="../../math/hybrid-dependent-types/index.html">Hybrid dependent types</a></li><li><a data-slug="math/controlled-oracles/index.html" href="../../math/controlled-oracles/index.html">Controlled oracles</a></li><li><a data-slug="math/type-expansion/index.html" href="../../math/type-expansion/index.html">Type expansion</a></li><li><a data-slug="math/ideation/index.html" href="../../math/ideation/index.html">Ideation as typing</a></li><li><a data-slug="math/equivalence-and-descent/index.html" href="../../math/equivalence-and-descent/index.html">Equivalence and descent</a></li></ul></section><section><h2>Research</h2><ul><li><a data-slug="research/index.html" href="../../research/index.html">Research program</a></li><li><a data-slug="roadmap/index.html" href="../../roadmap/index.html">Roadmap</a></li></ul></section></nav>
+    </aside>
+    <main class="content">
+      <header class="page-header">
+        <p class="eyebrow">Math</p>
+        <h1>Sheaf semantics</h1>
+        <p class="summary">The site/presheaf/sheaf/cohomology story behind deppy&#x27;s notion of bugs and drift.</p>
+      </header>
+      <div class="toc" data-generated-toc><h2>On this page</h2></div>
+      <article><p class="lede">Sheaf theory is the mature mathematics of local-to-global problems. Programs are full of local facts; deppy asks when those facts glue into a coherent global story.</p>
+<h2>Programs as sites</h2><p>A program induces a site: functions, blocks, APIs, modules, tests, and interfaces become objects; control-flow, dataflow, and inclusion relationships become morphisms.</p>
+<div class="math-block">\[\mathrm{Ty} : \mathrm{Site}(P)^{op} \to \mathrm{TypeLattice}.\]</div>
+<h2>The sheaf condition</h2><p>Local sections that agree on overlaps should glue uniquely. If they do not, the failure is informative.</p>
+<div class="math-block">\[s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j} \;\forall i,j \Longrightarrow \exists!\, s \in \Gamma(U, \mathrm{Ty}).\]</div>
+<h2>Why H^1 matters</h2><p>The first Cech cohomology group measures obstructions to gluing.</p>
+<div class="math-block">\[H^1(U, \mathrm{Ty}) \neq 0 \Longrightarrow \text{there exists a genuine local-to-global inconsistency}.\]</div></article>
+      <footer><p>This site is a static GitHub Pages-friendly documentation build for deppy. Math is rendered with MathJax.</p></footer>
+    </main>
+  </div>
+</body>
+</html>

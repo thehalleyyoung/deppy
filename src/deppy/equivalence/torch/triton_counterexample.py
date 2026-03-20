@@ -1,8 +1,8 @@
 """
-Triton kernel edge-case counterexample synthesis — boundary stratum analysis.
+Triton kernel counterexample synthesis via algebraic axiom theory.
 
 Sheaf-theoretic formulation
-───────────────────────────
+───────────────────────
 The floating-point input space  F  has a natural **stratification**
 induced by IEEE 754:
 
@@ -12,22 +12,23 @@ Two kernels that agree on the open dense stratum F_regular may
 **disagree on boundary strata** — the presheaf isomorphism η : Sem_f ⇒ Sem_g
 fails to extend from the interior to the compactification.
 
+Architecture
+────────────
+The synthesizer is built on three algebraic layers:
+
+1. **Expression algebra** (§3): An immutable AST for kernel computations
+   — Var, Num, BinOp, Neg, FnCall, Cond — with MetaVar-based unification.
+
+2. **Axiom catalog** (§4): Each axiom of real-number algebra is declared
+   as a (LHS pattern, RHS pattern) pair.  The IEEE 754 failure spec for
+   each axiom maps it to the strata and category where it breaks.
+
+3. **Comparison engine** (§5): A depth-bounded, memoised rewrite search
+   that identifies which axioms are needed to equate two expressions.
+   Counterexamples are derived mechanically from axiom failure specs.
+
 A **counterexample** is a section  σ ∈ Γ(U, Sem_f)  on a boundary fiber
-U ⊂ F_boundary  witnessing  η|_U  is NOT an isomorphism.  This is a
-*cohomological obstruction*: the first Čech cohomology class
-H¹(F_boundary, Iso(Sem_f, Sem_g))  is non-trivial.
-
-The synthesizer works by:
-1. Extracting the **store expression** from each kernel (the section functor)
-2. Comparing expressions via AST structural analysis
-3. Classifying differences against known FP-hazard patterns
-4. Generating specific input values on boundary strata that witness
-   the non-isomorphism
-
-For Triton kernels, there is an additional **tiling boundary** stratum:
-when N is not a multiple of BLOCK_SIZE, the last tile has a partial
-mask.  Two kernels with different ``other=`` defaults in masked loads
-disagree on this tiling boundary.
+U ⊂ F_boundary  witnessing  η|_U  is NOT an isomorphism.
 """
 
 from __future__ import annotations
@@ -38,11 +39,11 @@ import math
 import re
 import textwrap
 from dataclasses import dataclass, field
-from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple
+from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple, Union
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Input space stratification
+# §1  Input space stratification & data types
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
@@ -55,86 +56,35 @@ class InputStratum(enum.Enum):
     with closure relations (e.g. Inf is in the closure of the regulars).
     Algebraic identities that hold on F_regular may fail on boundary strata.
     """
-
     REGULAR = "regular"
-    """Normal floating-point numbers — the open dense stratum."""
-
     SUBNORMAL = "subnormal"
-    """Denormalized numbers — boundary near zero."""
-
     ZERO = "zero"
-    """±0 — distinguished boundary point (negative zero ≠ positive zero)."""
-
     INFINITY = "infinity"
-    """±Inf — boundary at infinity (compactification)."""
-
     NAN = "nan"
-    """NaN — singular stratum (absorbing element)."""
-
     LARGE_MAGNITUDE = "large_magnitude"
-    """Values near ±MAX_FLOAT — overflow boundary."""
-
     PRECISION_BOUNDARY = "precision_boundary"
-    """Values where FP rounding causes information loss (e.g. 1e16 + 1)."""
-
     TILING_BOUNDARY = "tiling_boundary"
-    """Tile boundary: N not a multiple of BLOCK_SIZE."""
-
     NEGATIVE = "negative"
-    """Negative values — sign boundary."""
 
 
 class EdgeCaseCategory(enum.Enum):
     """Categories of edge-case counterexamples."""
-
     FP_IDENTITY = "fp_identity"
-    """Algebraic identity that fails for special FP values."""
-
     FP_ASSOCIATIVITY = "fp_associativity"
-    """Non-associativity of FP addition/multiplication."""
-
     FP_DISTRIBUTIVITY = "fp_distributivity"
-    """Failure of distributive law in FP arithmetic."""
-
     DIVISION_HAZARD = "division_hazard"
-    """Division by zero or near-zero causing divergence."""
-
     CANCELLATION = "cancellation"
-    """Catastrophic cancellation in subtraction."""
-
     OVERFLOW = "overflow"
-    """Intermediate overflow producing Inf/NaN."""
-
     MASK_BOUNDARY = "mask_boundary"
-    """Tiling boundary with different mask defaults."""
-
     NAN_PROPAGATION = "nan_propagation"
-    """NaN propagation differs between equivalent expressions."""
-
     SIGN_LOSS = "sign_loss"
-    """Sign information lost (e.g. -0 → +0)."""
-
     CONDITIONAL_EDGE = "conditional_edge"
-    """Conditional expression with NaN/Inf in comparison."""
-
     REDUCTION_ORDER = "reduction_order"
-    """Reduction order sensitivity for FP sums."""
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# Counterexample data types
-# ═══════════════════════════════════════════════════════════════════════════════
 
 
 @dataclass(frozen=True)
 class EdgeCaseCounterexample:
-    """A witness to non-equivalence on a boundary stratum.
-
-    Sheaf-theoretically, this is a section on a closed substratum
-    of the input fiber where the presheaf restriction map diverges:
-    the natural transformation η fails on this fiber.
-    """
-
+    """A witness to non-equivalence on a boundary stratum."""
     category: EdgeCaseCategory
     input_stratum: InputStratum
     description: str
@@ -149,15 +99,14 @@ class EdgeCaseCounterexample:
             f"[{self.category.value}] {self.description}\n"
             f"  Stratum: {self.input_stratum.value}\n"
             f"  Trigger: {vals}\n"
-            f"  Kernel A → {self.kernel_a_output}\n"
-            f"  Kernel B → {self.kernel_b_output}"
+            f"  Kernel A \u2192 {self.kernel_a_output}\n"
+            f"  Kernel B \u2192 {self.kernel_b_output}"
         )
 
 
 @dataclass
 class CounterexampleReport:
     """Full report from counterexample synthesis on a kernel pair."""
-
     counterexamples: List[EdgeCaseCounterexample] = field(default_factory=list)
     kernel_a_expr: str = ""
     kernel_b_expr: str = ""
@@ -179,240 +128,442 @@ class CounterexampleReport:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Expression extraction from Triton kernel AST
+# §2  Expression algebra — immutable AST for kernel computations
+# ═══════════════════════════════════════════════════════════════════════════════
+
+Expr = Union["Var", "Num", "BinOp", "Neg", "FnCall", "Cond"]
+
+
+@dataclass(frozen=True)
+class Var:
+    """Leaf: a loaded tensor variable or unresolved parameter."""
+    name: str
+
+
+@dataclass(frozen=True)
+class Num:
+    """Leaf: a floating-point constant."""
+    value: float
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Num):
+            return NotImplemented
+        if math.isnan(self.value) and math.isnan(other.value):
+            return True
+        return self.value == other.value
+
+    def __hash__(self) -> int:
+        return hash(("Num", self.value if not math.isnan(self.value) else "nan"))
+
+
+@dataclass(frozen=True)
+class BinOp:
+    """Binary arithmetic: +, -, *, /, **, and comparisons."""
+    op: str
+    left: Expr
+    right: Expr
+
+
+@dataclass(frozen=True)
+class Neg:
+    """Unary negation."""
+    arg: Expr
+
+
+@dataclass(frozen=True)
+class FnCall:
+    """Function call: tl.exp, tl.abs, tl.sum, etc."""
+    func: str
+    args: tuple
+    kwargs: tuple = ()
+
+
+@dataclass(frozen=True)
+class Cond:
+    """Conditional: tl.where(test, if_true, if_false)."""
+    test: Expr
+    if_true: Expr
+    if_false: Expr
+
+
+@dataclass(frozen=True)
+class MetaVar:
+    """Pattern variable that binds to any sub-expression during unification."""
+    name: str
+
+
+Pattern = Union[Var, Num, BinOp, Neg, FnCall, Cond, MetaVar]
+
+
+def unify(
+    pattern: Pattern, expr: Expr, bindings: Optional[Dict[str, Expr]] = None,
+) -> Optional[Dict[str, Expr]]:
+    """Structural unification of *pattern* against *expr*.
+
+    MetaVar nodes in *pattern* bind to sub-expressions.  A MetaVar that
+    appears more than once must bind to structurally equal sub-trees.
+    """
+    if bindings is None:
+        bindings = {}
+    if isinstance(pattern, MetaVar):
+        if pattern.name in bindings:
+            return bindings if bindings[pattern.name] == expr else None
+        b = dict(bindings)
+        b[pattern.name] = expr
+        return b
+    if type(pattern) is not type(expr):
+        return None
+    if isinstance(pattern, Var):
+        return bindings if pattern.name == expr.name else None  # type: ignore[union-attr]
+    if isinstance(pattern, Num):
+        return bindings if pattern == expr else None
+    if isinstance(pattern, BinOp):
+        assert isinstance(expr, BinOp)
+        if pattern.op != expr.op:
+            return None
+        b = unify(pattern.left, expr.left, bindings)
+        return unify(pattern.right, expr.right, b) if b is not None else None
+    if isinstance(pattern, Neg):
+        assert isinstance(expr, Neg)
+        return unify(pattern.arg, expr.arg, bindings)
+    if isinstance(pattern, FnCall):
+        assert isinstance(expr, FnCall)
+        if pattern.func != expr.func or len(pattern.args) != len(expr.args):
+            return None
+        b = bindings
+        for pa, ea in zip(pattern.args, expr.args):
+            b = unify(pa, ea, b)
+            if b is None:
+                return None
+        return b
+    if isinstance(pattern, Cond):
+        assert isinstance(expr, Cond)
+        b = unify(pattern.test, expr.test, bindings)
+        if b is None:
+            return None
+        b = unify(pattern.if_true, expr.if_true, b)
+        return unify(pattern.if_false, expr.if_false, b) if b is not None else None
+    return None
+
+
+def instantiate(pattern: Pattern, bindings: Dict[str, Expr]) -> Expr:
+    """Substitute MetaVars in *pattern* with their bound expressions."""
+    if isinstance(pattern, MetaVar):
+        return bindings[pattern.name]
+    if isinstance(pattern, (Var, Num)):
+        return pattern  # type: ignore[return-value]
+    if isinstance(pattern, BinOp):
+        return BinOp(pattern.op, instantiate(pattern.left, bindings),
+                     instantiate(pattern.right, bindings))
+    if isinstance(pattern, Neg):
+        return Neg(instantiate(pattern.arg, bindings))
+    if isinstance(pattern, FnCall):
+        return FnCall(pattern.func,
+                      tuple(instantiate(a, bindings) for a in pattern.args),
+                      pattern.kwargs)
+    if isinstance(pattern, Cond):
+        return Cond(instantiate(pattern.test, bindings),
+                    instantiate(pattern.if_true, bindings),
+                    instantiate(pattern.if_false, bindings))
+    return pattern  # type: ignore[return-value]
+
+
+def _expr_to_str(e: Expr) -> str:
+    """Human-readable string for an expression tree."""
+    if isinstance(e, Var):
+        return e.name
+    if isinstance(e, Num):
+        return repr(e.value)
+    if isinstance(e, BinOp):
+        return f"({_expr_to_str(e.left)} {e.op} {_expr_to_str(e.right)})"
+    if isinstance(e, Neg):
+        return f"(-{_expr_to_str(e.arg)})"
+    if isinstance(e, FnCall):
+        a = ", ".join(_expr_to_str(x) for x in e.args)
+        return f"{e.func}({a})"
+    if isinstance(e, Cond):
+        return f"where({_expr_to_str(e.test)}, {_expr_to_str(e.if_true)}, {_expr_to_str(e.if_false)})"
+    return "?"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# §3  Axioms of R-algebra and their IEEE 754 failure specifications
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
-# Sentinel for load variables in resolved expressions
-_LOAD_PREFIX = "«LOAD:"
-_LOAD_SUFFIX = "»"
+class RealAxiom(enum.Enum):
+    """Each value names an axiom of the real-number field that *fails*
+    on at least one IEEE 754 boundary stratum."""
+    SUB_SELF = "x - x = 0"
+    DIV_SELF = "x / x = 1"
+    MUL_ZERO = "x * 0 = 0"
+    ADD_ZERO = "x + 0 = x"
+    ADD_ASSOC = "(a+b)+c = a+(b+c)"
+    MUL_ASSOC = "(a*b)*c = a*(b*c)"
+    DISTRIBUTE = "a*(b+c) = a*b+a*c"
+    MUL_DIV_CANCEL = "(x*y)/y = x"
+    ADD_SUB_CANCEL = "(x+y)-y = x"
+    SUB_ADD_CANCEL = "(x-y)+y = x"
+    DIV_MUL_CANCEL = "(x/y)*y = x"
+    SQ_SELF_DIV = "(x*x)/x = x"
+    DIV_MUL_RECIP = "a/b = a*(1/b)"
+    RECIP_INVOL = "1/(1/x) = x"
+    DIV_CHAIN = "(a/b)/c = a/(b*c)"
+    COMPLEX_FRACTION = "a/(b/c) = (a*c)/b"
+    FRACTION_ADD = "1/a+1/b = (a+b)/(a*b)"
+    POW_EXPAND = "x^n = x*...*x"
+    SQ_DIFF = "a^2-b^2 = (a+b)(a-b)"
+    SQ_EXPAND = "(a+b)^2 = a^2+2ab+b^2"
+    LINEARITY = "a+a+a = 3*a"
+    EXP_ADD = "exp(a)*exp(b) = exp(a+b)"
+    MAX_ALG = "max(a,b) = (a+b+|a-b|)/2"
+    ABS_MAX_MIN = "max-min = |a-b|"
+    PROD_EXP_LOG = "prod = exp.sum.log"
+    WHERE_AS_MUL = "where(c,x,0) = x*c"
+    MAX_AS_WHERE = "max(x,0) = where(x>0,x,0)"
+    CLAMP_ORDER = "clamp order"
+    SUM_ABS = "sum|x| >= |sum x|"
+    SOFTPLUS_GUARD = "log(1+exp(x)) approx x"
+    SIGN_DIV = "x/|x| = sign(x)"
+    SAFE_DIV = "a/(b+eps) approx guarded"
+    MEAN_EXPAND = "sum(x)/N = sum(x/N)"
 
 
-class _ExprExtractor(ast.NodeVisitor):
-    """Extracts computation expressions from a Triton kernel.
+@dataclass(frozen=True)
+class AxiomRule:
+    """Declarative rewrite: lhs -> rhs modulo an axiom."""
+    axiom: RealAxiom
+    lhs: Pattern
+    rhs: Pattern
 
-    Walks the function body, building a variable→expression environment.
-    For each ``tl.store``, resolves the stored value through the
-    environment back to load variables, producing a canonical
-    expression string.
-    """
 
-    def __init__(self) -> None:
-        self.env: Dict[str, ast.expr] = {}
-        self.loads: Dict[str, ast.Call] = {}
-        self.stores: List[Tuple[str, ast.expr]] = []  # (ptr_expr, value_expr)
-        self.store_masks: List[Optional[str]] = []
-        self.load_others: Dict[str, Optional[str]] = {}
-        self.load_masks: Dict[str, Optional[str]] = {}
-        self.reductions: Dict[str, ast.Call] = {}
-        self._call_args_cache: Dict[str, List[str]] = {}
+@dataclass(frozen=True)
+class AxiomFailureSpec:
+    """How an axiom fails under IEEE 754."""
+    strata: Tuple[InputStratum, ...]
+    category: EdgeCaseCategory
+    description: str
+    trigger: Dict[str, str]
+    output_a: str
+    output_b: str
 
-    def extract(self, source: str) -> None:
-        """Extract expressions from kernel source."""
-        tree = ast.parse(textwrap.dedent(source))
-        for node in ast.walk(tree):
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                self._walk_body(node.body)
-                break
 
-    def _walk_body(self, body: List[ast.stmt]) -> None:
-        for stmt in body:
-            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
-                target = stmt.targets[0]
-                if isinstance(target, ast.Name):
-                    name = target.id
-                    self.env[name] = stmt.value
-                    if self._is_tl_call(stmt.value, "load"):
-                        self.loads[name] = stmt.value
-                        self._extract_load_info(name, stmt.value)
-                    elif self._is_tl_reduction(stmt.value):
-                        self.reductions[name] = stmt.value
-            elif isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Call):
-                if self._is_tl_call(stmt.value, "store"):
-                    self._extract_store(stmt.value)
-            elif isinstance(stmt, ast.AugAssign):
-                if isinstance(stmt.target, ast.Name):
-                    name = stmt.target.id
-                    synth = ast.BinOp(
-                        left=ast.Name(id=name, ctx=ast.Load()),
-                        op=stmt.op,
-                        right=stmt.value,
-                    )
-                    self.env[name] = synth
-            elif isinstance(stmt, ast.If):
-                self._walk_body(stmt.body)
-                if stmt.orelse:
-                    self._walk_body(stmt.orelse)
-            elif isinstance(stmt, ast.For):
-                self._walk_body(stmt.body)
+# shorthand MetaVars
+_A, _B, _C = MetaVar("A"), MetaVar("B"), MetaVar("C")
+_X, _Y, _Z = MetaVar("X"), MetaVar("Y"), MetaVar("Z")
 
-    # ── helper: identify tl.X calls ──────────────────────────────────────
+AXIOM_RULES: List[AxiomRule] = [
+    # identity / cancellation
+    AxiomRule(RealAxiom.SUB_SELF, BinOp("-", _X, _X), Num(0.0)),
+    AxiomRule(RealAxiom.DIV_SELF, BinOp("/", _X, _X), Num(1.0)),
+    AxiomRule(RealAxiom.MUL_ZERO, BinOp("*", _X, Num(0.0)), Num(0.0)),
+    AxiomRule(RealAxiom.ADD_ZERO, BinOp("+", _X, Num(0.0)), _X),
+    # structure
+    AxiomRule(RealAxiom.ADD_ASSOC,
+             BinOp("+", BinOp("+", _A, _B), _C),
+             BinOp("+", _A, BinOp("+", _B, _C))),
+    AxiomRule(RealAxiom.MUL_ASSOC,
+             BinOp("*", BinOp("*", _A, _B), _C),
+             BinOp("*", _A, BinOp("*", _B, _C))),
+    AxiomRule(RealAxiom.DISTRIBUTE,
+             BinOp("*", _A, BinOp("+", _B, _C)),
+             BinOp("+", BinOp("*", _A, _B), BinOp("*", _A, _C))),
+    AxiomRule(RealAxiom.DISTRIBUTE,
+             BinOp("*", BinOp("+", _A, _B), _C),
+             BinOp("+", BinOp("*", _A, _C), BinOp("*", _B, _C))),
+    # cancellation through two ops
+    AxiomRule(RealAxiom.MUL_DIV_CANCEL,
+             BinOp("/", BinOp("*", _X, _Y), _Y), _X),
+    AxiomRule(RealAxiom.ADD_SUB_CANCEL,
+             BinOp("-", BinOp("+", _X, _Y), _Y), _X),
+    AxiomRule(RealAxiom.SUB_ADD_CANCEL,
+             BinOp("+", BinOp("-", _X, _Y), _Y), _X),
+    AxiomRule(RealAxiom.DIV_MUL_CANCEL,
+             BinOp("*", BinOp("/", _X, _Y), _Y), _X),
+    AxiomRule(RealAxiom.SQ_SELF_DIV,
+             BinOp("/", BinOp("*", _X, _X), _X), _X),
+    # division algebra
+    AxiomRule(RealAxiom.DIV_MUL_RECIP,
+             BinOp("/", _A, _B),
+             BinOp("*", _A, BinOp("/", Num(1.0), _B))),
+    AxiomRule(RealAxiom.RECIP_INVOL,
+             BinOp("/", Num(1.0), BinOp("/", Num(1.0), _X)), _X),
+    AxiomRule(RealAxiom.DIV_CHAIN,
+             BinOp("/", BinOp("/", _A, _B), _C),
+             BinOp("/", _A, BinOp("*", _B, _C))),
+    AxiomRule(RealAxiom.COMPLEX_FRACTION,
+             BinOp("/", _A, BinOp("/", _B, _C)),
+             BinOp("/", BinOp("*", _A, _C), _B)),
+    AxiomRule(RealAxiom.FRACTION_ADD,
+             BinOp("+", BinOp("/", Num(1.0), _A), BinOp("/", Num(1.0), _B)),
+             BinOp("/", BinOp("+", _A, _B), BinOp("*", _A, _B))),
+    # powers
+    AxiomRule(RealAxiom.POW_EXPAND,
+             BinOp("*", BinOp("*", _X, _X), _X),
+             BinOp("**", _X, Num(3.0))),
+    AxiomRule(RealAxiom.SQ_DIFF,
+             BinOp("-", BinOp("*", _A, _A), BinOp("*", _B, _B)),
+             BinOp("*", BinOp("+", _A, _B), BinOp("-", _A, _B))),
+    AxiomRule(RealAxiom.SQ_EXPAND,
+             BinOp("*", BinOp("+", _X, _Y), BinOp("+", _X, _Y)),
+             BinOp("+", BinOp("+", BinOp("*", _X, _X),
+                               BinOp("*", Num(2.0), BinOp("*", _X, _Y))),
+                    BinOp("*", _Y, _Y))),
+    AxiomRule(RealAxiom.LINEARITY,
+             BinOp("+", BinOp("+", _X, _X), _X),
+             BinOp("*", Num(3.0), _X)),
+    # transcendental
+    AxiomRule(RealAxiom.EXP_ADD,
+             BinOp("*", FnCall("tl.exp", (_A,)), FnCall("tl.exp", (_B,))),
+             FnCall("tl.exp", (BinOp("+", _A, _B),))),
+    AxiomRule(RealAxiom.MAX_ALG,
+             FnCall("tl.maximum", (_X, _Y)),
+             BinOp("/", BinOp("+", BinOp("+", _X, _Y),
+                               FnCall("tl.abs", (BinOp("-", _X, _Y),))),
+                    Num(2.0))),
+    # conditional
+    AxiomRule(RealAxiom.MAX_AS_WHERE,
+             FnCall("tl.maximum", (_X, Num(0.0))),
+             Cond(BinOp(">", _X, Num(0.0)), _X, Num(0.0))),
+]
 
-    @staticmethod
-    def _call_name(node: ast.Call) -> str:
-        if isinstance(node.func, ast.Attribute):
-            if isinstance(node.func.value, ast.Name):
-                return f"{node.func.value.id}.{node.func.attr}"
-            return node.func.attr
-        if isinstance(node.func, ast.Name):
-            return node.func.id
-        return ""
+AXIOM_FAILURES: Dict[RealAxiom, AxiomFailureSpec] = {
+    RealAxiom.SUB_SELF: AxiomFailureSpec(
+        (InputStratum.NAN, InputStratum.INFINITY), EdgeCaseCategory.FP_IDENTITY,
+        "x - x != 0 for NaN/Inf", {"x": "float('nan')"}, "NaN", "0.0"),
+    RealAxiom.DIV_SELF: AxiomFailureSpec(
+        (InputStratum.ZERO, InputStratum.NAN), EdgeCaseCategory.DIVISION_HAZARD,
+        "x / x != 1 for 0/NaN", {"x": "0.0"}, "NaN", "1.0"),
+    RealAxiom.MUL_ZERO: AxiomFailureSpec(
+        (InputStratum.INFINITY, InputStratum.NAN), EdgeCaseCategory.FP_IDENTITY,
+        "Inf * 0 = NaN", {"x": "float('inf')"}, "NaN", "0.0"),
+    RealAxiom.ADD_ZERO: AxiomFailureSpec(
+        (InputStratum.ZERO,), EdgeCaseCategory.SIGN_LOSS,
+        "-0 + 0 = +0 != -0", {"x": "-0.0"}, "+0.0", "-0.0"),
+    RealAxiom.ADD_ASSOC: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE, InputStratum.PRECISION_BOUNDARY),
+        EdgeCaseCategory.FP_ASSOCIATIVITY,
+        "FP addition not associative", {"a": "1e16", "b": "1.0", "c": "-1e16"},
+        "0.0", "1.0"),
+    RealAxiom.MUL_ASSOC: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.FP_ASSOCIATIVITY,
+        "FP multiplication not associative near overflow",
+        {"a": "1e200", "b": "1e200", "c": "1e-200"}, "Inf", "1e200"),
+    RealAxiom.DISTRIBUTE: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE, InputStratum.PRECISION_BOUNDARY),
+        EdgeCaseCategory.FP_DISTRIBUTIVITY,
+        "a*(b+c) != a*b+a*c", {"a": "1e15", "b": "1.0000001", "c": "-1.0"},
+        "differs by ULP(s)", "differs by ULP(s)"),
+    RealAxiom.MUL_DIV_CANCEL: AxiomFailureSpec(
+        (InputStratum.ZERO, InputStratum.NAN), EdgeCaseCategory.DIVISION_HAZARD,
+        "(x*y)/y != x when y=0", {"y": "0.0", "x": "1.0"}, "NaN", "1.0"),
+    RealAxiom.ADD_SUB_CANCEL: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY, InputStratum.LARGE_MAGNITUDE),
+        EdgeCaseCategory.CANCELLATION,
+        "(x+y)-y != x: catastrophic cancellation",
+        {"x": "1e-16", "y": "1e16"}, "0.0", "1e-16"),
+    RealAxiom.SUB_ADD_CANCEL: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY, InputStratum.LARGE_MAGNITUDE),
+        EdgeCaseCategory.CANCELLATION,
+        "(x-y)+y != x: catastrophic cancellation",
+        {"x": "1e-16", "y": "1e16"}, "0.0", "1e-16"),
+    RealAxiom.DIV_MUL_CANCEL: AxiomFailureSpec(
+        (InputStratum.ZERO, InputStratum.PRECISION_BOUNDARY),
+        EdgeCaseCategory.DIVISION_HAZARD,
+        "(x/y)*y != x when y=0", {"x": "1.0", "y": "0.0"}, "NaN", "1.0"),
+    RealAxiom.SQ_SELF_DIV: AxiomFailureSpec(
+        (InputStratum.ZERO,), EdgeCaseCategory.DIVISION_HAZARD,
+        "(x*x)/x != x when x=0", {"x": "0.0"}, "NaN", "0.0"),
+    RealAxiom.DIV_MUL_RECIP: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY,), EdgeCaseCategory.DIVISION_HAZARD,
+        "a/b != a*(1/b): double rounding", {"a": "1.0", "b": "3.0"},
+        "correctly rounded", "double rounded"),
+    RealAxiom.RECIP_INVOL: AxiomFailureSpec(
+        (InputStratum.SUBNORMAL,), EdgeCaseCategory.OVERFLOW,
+        "1/(1/x) != x for subnormal x", {"x": "5e-324"},
+        "0.0 (round-trip via Inf)", "5e-324"),
+    RealAxiom.DIV_CHAIN: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY,), EdgeCaseCategory.DIVISION_HAZARD,
+        "a/b/c != a/(b*c): intermediate precision",
+        {"a": "1.0", "b": "3.0", "c": "7.0"},
+        "differs at ULP", "differs at ULP"),
+    RealAxiom.COMPLEX_FRACTION: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.OVERFLOW,
+        "a/(b/c) != (a*c)/b: overflow path differs",
+        {"a": "1.0", "b": "1e-300", "c": "1e-300"},
+        "Inf (b/c underflow)", "different overflow"),
+    RealAxiom.FRACTION_ADD: AxiomFailureSpec(
+        (InputStratum.ZERO,), EdgeCaseCategory.DIVISION_HAZARD,
+        "1/a+1/b != (a+b)/(a*b) when a=0",
+        {"a": "0.0", "b": "1.0"}, "Inf", "NaN"),
+    RealAxiom.POW_EXPAND: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.OVERFLOW,
+        "x*x*x != x**3: intermediate overflow",
+        {"x": "1e200"}, "Inf (x*x overflow)", "pow() path"),
+    RealAxiom.SQ_DIFF: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.CANCELLATION,
+        "a^2-b^2 != (a+b)(a-b): catastrophic cancellation",
+        {"a": "1e8+1", "b": "1e8"}, "different rounding", "different rounding"),
+    RealAxiom.SQ_EXPAND: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE, InputStratum.PRECISION_BOUNDARY),
+        EdgeCaseCategory.FP_DISTRIBUTIVITY,
+        "(a+b)^2 != a^2+2ab+b^2: expansion rounding",
+        {"a": "1e15", "b": "1.0"}, "differs", "differs"),
+    RealAxiom.LINEARITY: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY,), EdgeCaseCategory.FP_ASSOCIATIVITY,
+        "a+a+a != 3*a: intermediate rounding",
+        {"a": "large odd near 2^53"}, "rounded differently", "rounded differently"),
+    RealAxiom.EXP_ADD: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.OVERFLOW,
+        "exp(a)*exp(b) overflows individually",
+        {"a": "500.0", "b": "-499.0"}, "Inf", "exp(1) approx 2.718"),
+    RealAxiom.MAX_ALG: AxiomFailureSpec(
+        (InputStratum.NAN,), EdgeCaseCategory.NAN_PROPAGATION,
+        "max(a,b) via arithmetic propagates NaN differently",
+        {"x": "float('nan')"}, "NaN", "NaN (arithmetic)"),
+    RealAxiom.MAX_AS_WHERE: AxiomFailureSpec(
+        (InputStratum.NAN,), EdgeCaseCategory.NAN_PROPAGATION,
+        "tl.maximum propagates NaN; tl.where may not",
+        {"x": "float('nan')"}, "NaN", "0.0"),
+    RealAxiom.ABS_MAX_MIN: AxiomFailureSpec(
+        (InputStratum.NAN,), EdgeCaseCategory.NAN_PROPAGATION,
+        "max-min != |a-b| for NaN", {"a": "float('nan')"}, "NaN", "NaN"),
+    RealAxiom.WHERE_AS_MUL: AxiomFailureSpec(
+        (InputStratum.INFINITY,), EdgeCaseCategory.CONDITIONAL_EDGE,
+        "where(c,x,0)!=x*c: Inf*0=NaN",
+        {"x": "float('inf')", "c": "False"}, "0.0", "NaN"),
+    RealAxiom.CLAMP_ORDER: AxiomFailureSpec(
+        (InputStratum.NAN,), EdgeCaseCategory.NAN_PROPAGATION,
+        "Clamp order differs for NaN",
+        {"x": "float('nan')"}, "NaN path A", "NaN path B"),
+    RealAxiom.SUM_ABS: AxiomFailureSpec(
+        (InputStratum.NEGATIVE,), EdgeCaseCategory.FP_IDENTITY,
+        "sum|x| > |sum x| for mixed signs",
+        {"x": "[1,-1,1,-1]"}, "4.0", "0.0"),
+    RealAxiom.SOFTPLUS_GUARD: AxiomFailureSpec(
+        (InputStratum.LARGE_MAGNITUDE,), EdgeCaseCategory.OVERFLOW,
+        "log(1+exp(x)) overflows for large x",
+        {"x": "1000.0"}, "Inf", "1000.0"),
+    RealAxiom.SIGN_DIV: AxiomFailureSpec(
+        (InputStratum.ZERO,), EdgeCaseCategory.DIVISION_HAZARD,
+        "x/|x| != sign(x) when x=0", {"x": "0.0"}, "NaN", "0.0"),
+    RealAxiom.SAFE_DIV: AxiomFailureSpec(
+        (InputStratum.NEGATIVE,), EdgeCaseCategory.DIVISION_HAZARD,
+        "a/(b+eps)!=safe when b=-eps", {"b": "-eps"}, "NaN/Inf", "0.0"),
+    RealAxiom.MEAN_EXPAND: AxiomFailureSpec(
+        (InputStratum.PRECISION_BOUNDARY,), EdgeCaseCategory.REDUCTION_ORDER,
+        "sum(x)/N != sum(x/N): precision",
+        {"x_i": "large spread"}, "sum-then-div", "div-then-sum"),
+    RealAxiom.PROD_EXP_LOG: AxiomFailureSpec(
+        (InputStratum.NEGATIVE,), EdgeCaseCategory.OVERFLOW,
+        "prod(x)!=exp(sum(log(x))) for x<0",
+        {"x": "[-1,2,3]"}, "-6.0", "NaN"),
+}
 
-    def _is_tl_call(self, node: ast.expr, method: str) -> bool:
-        if not isinstance(node, ast.Call):
-            return False
-        name = self._call_name(node)
-        return name in (f"tl.{method}", method)
 
-    def _is_tl_reduction(self, node: ast.expr) -> bool:
-        if not isinstance(node, ast.Call):
-            return False
-        name = self._call_name(node)
-        return name in (
-            "tl.sum", "tl.max", "tl.min", "tl.reduce",
-            "sum", "max", "min",
-        )
-
-    # ── load info extraction ─────────────────────────────────────────────
-
-    def _extract_load_info(self, var: str, call: ast.Call) -> None:
-        mask = None
-        other = None
-        for kw in call.keywords:
-            if kw.arg == "mask":
-                mask = self._expr_str(kw.value)
-            elif kw.arg == "other":
-                other = self._expr_str(kw.value)
-        # Positional: tl.load(ptr, mask, other)
-        if mask is None and len(call.args) > 1:
-            mask = self._expr_str(call.args[1])
-        if other is None and len(call.args) > 2:
-            other = self._expr_str(call.args[2])
-        self.load_masks[var] = mask
-        self.load_others[var] = other
-
-    # ── store extraction ─────────────────────────────────────────────────
-
-    def _extract_store(self, call: ast.Call) -> None:
-        if len(call.args) < 2:
-            return
-        ptr_str = self._expr_str(call.args[0])
-        value = call.args[1]
-        self.stores.append((ptr_str, value))
-        # Mask
-        mask = None
-        for kw in call.keywords:
-            if kw.arg == "mask":
-                mask = self._expr_str(kw.value)
-        if mask is None and len(call.args) > 2:
-            mask = self._expr_str(call.args[2])
-        self.store_masks.append(mask)
-
-    # ── expression resolution ────────────────────────────────────────────
-
-    def resolve(self, node: ast.expr, depth: int = 0) -> str:
-        """Resolve an AST expression to a canonical string form.
-
-        Load variables are wrapped as  «LOAD:varname»  so that
-        pattern matchers can identify them.
-        """
-        if depth > 50:
-            return "⟨deep⟩"
-
-        if isinstance(node, ast.Name):
-            name = node.id
-            if name in self.loads:
-                return f"{_LOAD_PREFIX}{name}{_LOAD_SUFFIX}"
-            if name in self.reductions:
-                return self._resolve_reduction(name, depth)
-            if name in self.env:
-                return self.resolve(self.env[name], depth + 1)
-            return name
-
-        if isinstance(node, ast.Constant):
-            v = node.value
-            if isinstance(v, float):
-                if math.isnan(v):
-                    return "nan"
-                if math.isinf(v):
-                    return "inf" if v > 0 else "-inf"
-                if v == 0.0:
-                    return "-0.0" if math.copysign(1.0, v) < 0 else "0.0"
-            return repr(v)
-
-        if isinstance(node, ast.BinOp):
-            left = self.resolve(node.left, depth + 1)
-            right = self.resolve(node.right, depth + 1)
-            op = _binop_str(node.op)
-            return f"({left} {op} {right})"
-
-        if isinstance(node, ast.UnaryOp):
-            operand = self.resolve(node.operand, depth + 1)
-            op = _unaryop_str(node.op)
-            return f"({op}{operand})"
-
-        if isinstance(node, ast.Call):
-            cname = self._call_name(node)
-            args = [self.resolve(a, depth + 1) for a in node.args]
-            # keyword args
-            kw_parts = []
-            for kw in node.keywords:
-                kv = self.resolve(kw.value, depth + 1)
-                kw_parts.append(f"{kw.arg}={kv}")
-            all_args = args + kw_parts
-            return f"{cname}({', '.join(all_args)})"
-
-        if isinstance(node, ast.Compare):
-            left = self.resolve(node.left, depth + 1)
-            parts = [left]
-            for op, comp in zip(node.ops, node.comparators):
-                parts.append(_cmpop_str(op))
-                parts.append(self.resolve(comp, depth + 1))
-            return f"({' '.join(parts)})"
-
-        if isinstance(node, ast.IfExp):
-            test = self.resolve(node.test, depth + 1)
-            body = self.resolve(node.body, depth + 1)
-            orelse = self.resolve(node.orelse, depth + 1)
-            return f"({body} if {test} else {orelse})"
-
-        if isinstance(node, ast.Subscript):
-            val = self.resolve(node.value, depth + 1)
-            if isinstance(node.slice, ast.Constant):
-                return f"{val}[{node.slice.value}]"
-            return f"{val}[...]"
-
-        if isinstance(node, ast.Attribute):
-            val = self.resolve(node.value, depth + 1)
-            return f"{val}.{node.attr}"
-
-        return ast.dump(node)
-
-    def _resolve_reduction(self, name: str, depth: int) -> str:
-        call = self.reductions[name]
-        cname = self._call_name(call)
-        args = [self.resolve(a, depth + 1) for a in call.args]
-        kw_parts = []
-        for kw in call.keywords:
-            kv = self.resolve(kw.value, depth + 1)
-            kw_parts.append(f"{kw.arg}={kv}")
-        all_args = args + kw_parts
-        return f"{cname}({', '.join(all_args)})"
-
-    @staticmethod
-    def _expr_str(node: ast.expr) -> str:
-        """Quick expression → string for mask/other params."""
-        if isinstance(node, ast.Constant):
-            return repr(node.value)
-        if isinstance(node, ast.Name):
-            return node.id
-        return ast.dump(node)
-
-    # ── public: resolved store expressions ───────────────────────────────
-
-    def resolved_stores(self) -> List[str]:
-        """Return resolved expression strings for each store."""
-        return [self.resolve(val) for _, val in self.stores]
+# ═══════════════════════════════════════════════════════════════════════════════
+# §4  Expression extraction from Triton kernel AST
+# ═══════════════════════════════════════════════════════════════════════════════
 
 
 def _binop_str(op: ast.operator) -> str:
@@ -425,1343 +576,762 @@ def _binop_str(op: ast.operator) -> str:
     return _MAP.get(type(op), "?")
 
 
-def _unaryop_str(op: ast.unaryop) -> str:
-    _MAP = {ast.USub: "-", ast.UAdd: "+", ast.Not: "not ", ast.Invert: "~"}
-    return _MAP.get(type(op), "?")
-
-
 def _cmpop_str(op: ast.cmpop) -> str:
     _MAP = {
         ast.Eq: "==", ast.NotEq: "!=", ast.Lt: "<", ast.LtE: "<=",
-        ast.Gt: ">", ast.GtE: ">=", ast.Is: "is", ast.IsNot: "is not",
-        ast.In: "in", ast.NotIn: "not in",
+        ast.Gt: ">", ast.GtE: ">=",
     }
     return _MAP.get(type(op), "??")
 
 
+class _ExprExtractor(ast.NodeVisitor):
+    """Extracts computation expressions from a Triton kernel as Expr trees."""
+
+    def __init__(self) -> None:
+        self.env: Dict[str, ast.expr] = {}
+        self.loads: Dict[str, ast.Call] = {}
+        self.stores: List[Tuple[str, ast.expr]] = []
+        self.store_masks: List[Optional[str]] = []
+        self.load_others: Dict[str, Optional[str]] = {}
+        self.load_masks: Dict[str, Optional[str]] = {}
+        self.reductions: Dict[str, ast.Call] = {}
+
+    def extract(self, source: str) -> None:
+        tree = ast.parse(textwrap.dedent(source))
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                self._walk_body(node.body)
+                break
+
+    def _walk_body(self, body: List[ast.stmt]) -> None:
+        for stmt in body:
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                tgt = stmt.targets[0]
+                if isinstance(tgt, ast.Name):
+                    name = tgt.id
+                    self.env[name] = stmt.value
+                    if self._is_tl_call(stmt.value, "load"):
+                        self.loads[name] = stmt.value
+                        self._extract_load_info(name, stmt.value)
+                    elif self._is_tl_reduction(stmt.value):
+                        self.reductions[name] = stmt.value
+            elif isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Call):
+                if self._is_tl_call(stmt.value, "store"):
+                    self._extract_store(stmt.value)
+            elif isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+                name = stmt.target.id
+                self.env[name] = ast.BinOp(
+                    left=ast.Name(id=name, ctx=ast.Load()),
+                    op=stmt.op, right=stmt.value)
+            elif isinstance(stmt, ast.If):
+                self._walk_body(stmt.body)
+                if stmt.orelse:
+                    self._walk_body(stmt.orelse)
+            elif isinstance(stmt, ast.For):
+                self._walk_body(stmt.body)
+
+    @staticmethod
+    def _call_name(node: ast.Call) -> str:
+        if isinstance(node.func, ast.Attribute):
+            if isinstance(node.func.value, ast.Name):
+                return f"{node.func.value.id}.{node.func.attr}"
+            return node.func.attr
+        if isinstance(node.func, ast.Name):
+            return node.func.id
+        return ""
+
+    def _is_tl_call(self, node: ast.expr, method: str) -> bool:
+        return isinstance(node, ast.Call) and self._call_name(node) in (f"tl.{method}", method)
+
+    def _is_tl_reduction(self, node: ast.expr) -> bool:
+        return isinstance(node, ast.Call) and self._call_name(node) in (
+            "tl.sum", "tl.max", "tl.min", "tl.reduce", "sum", "max", "min")
+
+    def _extract_load_info(self, var: str, call: ast.Call) -> None:
+        mask = other = None
+        for kw in call.keywords:
+            if kw.arg == "mask":
+                mask = self._quick_str(kw.value)
+            elif kw.arg == "other":
+                other = self._quick_str(kw.value)
+        if mask is None and len(call.args) > 1:
+            mask = self._quick_str(call.args[1])
+        if other is None and len(call.args) > 2:
+            other = self._quick_str(call.args[2])
+        self.load_masks[var] = mask
+        self.load_others[var] = other
+
+    def _extract_store(self, call: ast.Call) -> None:
+        if len(call.args) < 2:
+            return
+        self.stores.append((self._quick_str(call.args[0]), call.args[1]))
+        mask = None
+        for kw in call.keywords:
+            if kw.arg == "mask":
+                mask = self._quick_str(kw.value)
+        if mask is None and len(call.args) > 2:
+            mask = self._quick_str(call.args[2])
+        self.store_masks.append(mask)
+
+    @staticmethod
+    def _quick_str(node: ast.expr) -> str:
+        if isinstance(node, ast.Constant):
+            return repr(node.value)
+        if isinstance(node, ast.Name):
+            return node.id
+        return ast.dump(node)
+
+    def resolve_expr(self, node: ast.expr, depth: int = 0) -> Expr:
+        """Resolve an AST node into an Expr tree through the environment."""
+        if depth > 50:
+            return Var("deep")
+        if isinstance(node, ast.Name):
+            name = node.id
+            if name in self.loads:
+                return Var(name)
+            if name in self.reductions:
+                return self._resolve_reduction_expr(name, depth)
+            if name in self.env:
+                return self.resolve_expr(self.env[name], depth + 1)
+            return Var(name)
+        if isinstance(node, ast.Constant):
+            v = node.value
+            if isinstance(v, (int, float)):
+                return Num(float(v))
+            return Var(repr(v))
+        if isinstance(node, ast.BinOp):
+            return BinOp(_binop_str(node.op),
+                         self.resolve_expr(node.left, depth + 1),
+                         self.resolve_expr(node.right, depth + 1))
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
+            return Neg(self.resolve_expr(node.operand, depth + 1))
+        if isinstance(node, ast.Call):
+            cname = self._call_name(node)
+            args = tuple(self.resolve_expr(a, depth + 1) for a in node.args)
+            if cname in ("tl.where", "where") and len(args) >= 3:
+                return Cond(args[0], args[1], args[2])
+            kw = tuple((k.arg, self.resolve_expr(k.value, depth + 1))
+                       for k in node.keywords if k.arg is not None)
+            return FnCall(cname, args, kw)
+        if isinstance(node, ast.Compare) and len(node.ops) == 1:
+            return BinOp(_cmpop_str(node.ops[0]),
+                         self.resolve_expr(node.left, depth + 1),
+                         self.resolve_expr(node.comparators[0], depth + 1))
+        if isinstance(node, ast.IfExp):
+            return Cond(self.resolve_expr(node.test, depth + 1),
+                        self.resolve_expr(node.body, depth + 1),
+                        self.resolve_expr(node.orelse, depth + 1))
+        if isinstance(node, ast.Attribute):
+            val = self.resolve_expr(node.value, depth + 1)
+            return Var(f"{_expr_to_str(val)}.{node.attr}")
+        return Var(ast.dump(node))
+
+    def _resolve_reduction_expr(self, name: str, depth: int) -> Expr:
+        call = self.reductions[name]
+        cname = self._call_name(call)
+        args = tuple(self.resolve_expr(a, depth + 1) for a in call.args)
+        kw = tuple((k.arg, self.resolve_expr(k.value, depth + 1))
+                   for k in call.keywords if k.arg is not None)
+        return FnCall(cname, args, kw)
+
+    def resolved_store_exprs(self) -> List[Expr]:
+        return [self.resolve_expr(val) for _, val in self.stores]
+
+    def resolved_stores_str(self) -> List[str]:
+        return [_expr_to_str(e) for e in self.resolved_store_exprs()]
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
-# Pattern-based edge-case classifiers
+# §5  Algebraic comparison engine
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
-def _is_load(s: str) -> bool:
-    return s.startswith(_LOAD_PREFIX) and s.endswith(_LOAD_SUFFIX)
+_COMPARE_BUDGET_KEY = "__budget__"
+_MAX_COMPARE_CALLS = 5000
 
 
-def _load_name(s: str) -> str:
-    if _is_load(s):
-        return s[len(_LOAD_PREFIX):-len(_LOAD_SUFFIX)]
-    return s
+def _compare(
+    a: Expr, b: Expr, depth: int = 12,
+    _cache: Optional[Dict] = None,
+) -> Optional[FrozenSet[RealAxiom]]:
+    """Check whether a and b are R-equivalent modulo axioms.
 
+    Returns the set of axioms needed, or None if not unifiable.
+    Uses a call budget to bound exponential search.
+    """
+    if _cache is None:
+        _cache = {_COMPARE_BUDGET_KEY: _MAX_COMPARE_CALLS}
+    # Check budget
+    budget = _cache.get(_COMPARE_BUDGET_KEY, 0)
+    if budget <= 0:
+        return None
+    _cache[_COMPARE_BUDGET_KEY] = budget - 1
 
-def _is_const(s: str, val: Optional[float] = None) -> bool:
-    s = s.strip()
+    key = (a, b)
+    if key in _cache:
+        return _cache[key]
+    if a == b:
+        _cache[key] = frozenset()
+        return frozenset()
+    if depth <= 0:
+        _cache[key] = None
+        return None
+    _cache[key] = None  # prevent infinite recursion
+
     try:
-        v = float(s)
-        if val is not None:
-            return v == val
-        return True
-    except (ValueError, OverflowError):
-        return False
-
-
-def _const_val(s: str) -> Optional[float]:
-    s = s.strip()
-    try:
-        return float(s)
-    except (ValueError, OverflowError):
+        return _compare_inner(a, b, depth, _cache, key)
+    except RecursionError:
+        _cache[key] = None
         return None
 
 
-# ── Individual pattern matchers ──────────────────────────────────────────
+def _compare_inner(
+    a: Expr, b: Expr, depth: int, _cache: Dict, key: tuple,
+) -> Optional[FrozenSet[RealAxiom]]:
+    # Phase 1: Direct (non-recursive) rule match — one rewrite step away
+    for rule in AXIOM_RULES:
+        result = _try_rule_direct(rule, a, b)
+        if result is not None:
+            _cache[key] = result
+            return result
 
-def _check_self_cancellation(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x - x  vs  0  (NaN/Inf → NaN vs 0)."""
-    # Pattern: (LOAD - LOAD) where both refer to same variable vs const 0
-    m = re.match(r'^\((.+) - (.+)\)$', a)
-    if m and _is_load(m.group(1)) and m.group(1) == m.group(2) and _is_const(b, 0.0):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_IDENTITY,
-            input_stratum=InputStratum.NAN,
-            description=f"{var} - {var} ≠ 0 when {var} is NaN or ±Inf",
-            trigger_values={var: "float('nan')"},
-            kernel_a_output="NaN",
-            kernel_b_output="0.0",
-        )
-    # Reversed
-    m = re.match(r'^\((.+) - (.+)\)$', b)
-    if m and _is_load(m.group(1)) and m.group(1) == m.group(2) and _is_const(a, 0.0):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_IDENTITY,
-            input_stratum=InputStratum.NAN,
-            description=f"{var} - {var} ≠ 0 when {var} is NaN or ±Inf",
-            trigger_values={var: "float('nan')"},
-            kernel_a_output="0.0",
-            kernel_b_output="NaN",
-        )
+    # Phase 2: SOP normalization (fast, handles polynomial identities)
+    result = _try_sop(a, b)
+    if result is not None:
+        _cache[key] = result
+        return result
+
+    # Phase 3: Commutativity — decrement depth to bound recursion
+    result = _try_commutative(a, b, depth - 1, _cache)
+    if result is not None:
+        _cache[key] = result
+        return result
+
+    # Phase 4: Same top-level op (recursive into sub-expressions)
+    result = _try_same_op(a, b, depth, _cache)
+    if result is not None:
+        _cache[key] = result
+        return result
+
+    # Phase 5: Full recursive rule match
+    for rule in AXIOM_RULES:
+        result = _try_rule(rule, a, b, depth, _cache)
+        if result is not None:
+            _cache[key] = result
+            return result
+
+    _cache[key] = None
     return None
 
 
-def _check_self_division(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x / x  vs  1  (0 → NaN vs 1)."""
-    m = re.match(r'^\((.+) / (.+)\)$', a)
-    if m and _is_load(m.group(1)) and m.group(1) == m.group(2) and _is_const(b, 1.0):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.ZERO,
-            description=f"{var} / {var} ≠ 1 when {var} = 0 (produces NaN)",
-            trigger_values={var: "0.0"},
-            kernel_a_output="NaN",
-            kernel_b_output="1.0",
-        )
-    m = re.match(r'^\((.+) / (.+)\)$', b)
-    if m and _is_load(m.group(1)) and m.group(1) == m.group(2) and _is_const(a, 1.0):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.ZERO,
-            description=f"{var} / {var} ≠ 1 when {var} = 0 (produces NaN)",
-            trigger_values={var: "0.0"},
-            kernel_a_output="1.0",
-            kernel_b_output="NaN",
-        )
+def _try_commutative(a: Expr, b: Expr, depth: int, _cache: Dict) -> Optional[FrozenSet[RealAxiom]]:
+    if isinstance(a, BinOp) and a.op in ("+", "*"):
+        swapped = BinOp(a.op, a.right, a.left)
+        r = _compare(swapped, b, depth, _cache)
+        if r is not None:
+            return r
+    if isinstance(b, BinOp) and b.op in ("+", "*"):
+        swapped = BinOp(b.op, b.right, b.left)
+        r = _compare(a, swapped, depth, _cache)
+        if r is not None:
+            return r
     return None
 
 
-def _check_zero_multiply(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x * 0  vs  0  (Inf → NaN vs 0)."""
-    patterns = [
-        (r'^\((.+) \* 0\.0\)$', r'0\.0$'),
-        (r'^\(0\.0 \* (.+)\)$', r'0\.0$'),
-    ]
-    for pat, const_pat in patterns:
-        m = re.match(pat, a)
-        if m and _is_load(m.group(1)) and _is_const(b, 0.0):
-            var = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_IDENTITY,
-                input_stratum=InputStratum.INFINITY,
-                description=f"{var} * 0.0 ≠ 0 when {var} = Inf (produces NaN)",
-                trigger_values={var: "float('inf')"},
-                kernel_a_output="NaN",
-                kernel_b_output="0.0",
-            )
-    # reversed
-    for pat, const_pat in patterns:
-        m = re.match(pat, b)
-        if m and _is_load(m.group(1)) and _is_const(a, 0.0):
-            var = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_IDENTITY,
-                input_stratum=InputStratum.INFINITY,
-                description=f"{var} * 0.0 ≠ 0 when {var} = Inf (produces NaN)",
-                trigger_values={var: "float('inf')"},
-                kernel_a_output="0.0",
-                kernel_b_output="NaN",
-            )
+def _try_same_op(a: Expr, b: Expr, depth: int, _cache: Dict) -> Optional[FrozenSet[RealAxiom]]:
+    if isinstance(a, BinOp) and isinstance(b, BinOp) and a.op == b.op:
+        rl = _compare(a.left, b.left, depth - 1, _cache)
+        if rl is not None:
+            rr = _compare(a.right, b.right, depth - 1, _cache)
+            if rr is not None:
+                return rl | rr
+    if isinstance(a, Neg) and isinstance(b, Neg):
+        return _compare(a.arg, b.arg, depth - 1, _cache)
+    if isinstance(a, FnCall) and isinstance(b, FnCall):
+        if a.func == b.func and len(a.args) == len(b.args):
+            axioms: FrozenSet[RealAxiom] = frozenset()
+            for xa, xb in zip(a.args, b.args):
+                r = _compare(xa, xb, depth - 1, _cache)
+                if r is None:
+                    return None
+                axioms = axioms | r
+            return axioms
+    if isinstance(a, Cond) and isinstance(b, Cond):
+        rt = _compare(a.test, b.test, depth - 1, _cache)
+        if rt is not None:
+            ry = _compare(a.if_true, b.if_true, depth - 1, _cache)
+            if ry is not None:
+                rn = _compare(a.if_false, b.if_false, depth - 1, _cache)
+                if rn is not None:
+                    return rt | ry | rn
     return None
 
 
-def _check_zero_addition(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x + 0.0  vs  x  (−0 + 0 = +0 ≠ −0)."""
-    # (LOAD + 0.0) vs LOAD
-    m = re.match(r'^\((.+) \+ 0\.0\)$', a)
-    if m and _is_load(m.group(1)) and _is_load(b) and _load_name(m.group(1)) == _load_name(b):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.SIGN_LOSS,
-            input_stratum=InputStratum.ZERO,
-            description=f"{var} + 0.0 ≠ {var} when {var} = -0.0 (produces +0.0)",
-            trigger_values={var: "-0.0"},
-            kernel_a_output="+0.0",
-            kernel_b_output="-0.0",
-        )
-    # reversed
-    m = re.match(r'^\((.+) \+ 0\.0\)$', b)
-    if m and _is_load(m.group(1)) and _is_load(a) and _load_name(m.group(1)) == _load_name(a):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.SIGN_LOSS,
-            input_stratum=InputStratum.ZERO,
-            description=f"{var} + 0.0 ≠ {var} when {var} = -0.0 (produces +0.0)",
-            trigger_values={var: "-0.0"},
-            kernel_a_output="-0.0",
-            kernel_b_output="+0.0",
-        )
+def _has_division(e: Expr) -> bool:
+    """Check if an expression contains a division operator."""
+    if isinstance(e, BinOp):
+        if e.op == "/":
+            return True
+        return _has_division(e.left) or _has_division(e.right)
+    if isinstance(e, Neg):
+        return _has_division(e.arg)
+    if isinstance(e, FnCall):
+        return any(_has_division(a) for a in e.args)
+    if isinstance(e, Cond):
+        return _has_division(e.test) or _has_division(e.if_true) or _has_division(e.if_false)
+    return False
+
+
+def _collect_metavars(p: Pattern) -> Set[str]:
+    """Collect all MetaVar names in a pattern."""
+    if isinstance(p, MetaVar):
+        return {p.name}
+    if isinstance(p, (Var, Num)):
+        return set()
+    if isinstance(p, BinOp):
+        return _collect_metavars(p.left) | _collect_metavars(p.right)
+    if isinstance(p, Neg):
+        return _collect_metavars(p.arg)
+    if isinstance(p, FnCall):
+        s: Set[str] = set()
+        for a in p.args:
+            s |= _collect_metavars(a)
+        return s
+    if isinstance(p, Cond):
+        return _collect_metavars(p.test) | _collect_metavars(p.if_true) | _collect_metavars(p.if_false)
+    return set()
+
+
+def _try_rule_direct(rule: AxiomRule, a: Expr, b: Expr) -> Optional[FrozenSet[RealAxiom]]:
+    """Non-recursive rule match: one rewrite step directly yields the target."""
+    lhs_vars = _collect_metavars(rule.lhs)
+    rhs_vars = _collect_metavars(rule.rhs)
+
+    for src, tgt in [(a, b), (b, a)]:
+        bindings = unify(rule.lhs, src)
+        if bindings is not None and rhs_vars <= set(bindings):
+            rhs = instantiate(rule.rhs, bindings)
+            if rhs == tgt:
+                return frozenset({rule.axiom})
+        bindings = unify(rule.rhs, src)
+        if bindings is not None and lhs_vars <= set(bindings):
+            lhs = instantiate(rule.lhs, bindings)
+            if lhs == tgt:
+                return frozenset({rule.axiom})
     return None
 
 
-def _check_multiply_divide_cancel(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(x * y) / y  vs  x  (y=0 → NaN)."""
-    m = re.match(r'^\(\((.+) \* (.+)\) / (.+)\)$', a)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(b):
-        if _load_name(m.group(1)) == _load_name(b):
-            y_var = _load_name(m.group(2))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description=f"(x * {y_var}) / {y_var} ≠ x when {y_var} = 0",
-                trigger_values={y_var: "0.0", _load_name(m.group(1)): "1.0"},
-                kernel_a_output="NaN",
-                kernel_b_output="1.0",
-            )
-    # Reversed
-    m = re.match(r'^\(\((.+) \* (.+)\) / (.+)\)$', b)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(a):
-        if _load_name(m.group(1)) == _load_name(a):
-            y_var = _load_name(m.group(2))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description=f"(x * {y_var}) / {y_var} ≠ x when {y_var} = 0",
-                trigger_values={y_var: "0.0", _load_name(m.group(1)): "1.0"},
-                kernel_a_output="1.0",
-                kernel_b_output="NaN",
-            )
+def _try_rule(rule: AxiomRule, a: Expr, b: Expr, depth: int, _cache: Dict) -> Optional[FrozenSet[RealAxiom]]:
+    # DIV_MUL_RECIP is very general (matches any a/b) — only try it
+    # when both sides involve division to avoid runaway rewriting.
+    if rule.axiom == RealAxiom.DIV_MUL_RECIP:
+        if not (_has_division(a) and _has_division(b)):
+            return None
+
+    lhs_vars = _collect_metavars(rule.lhs)
+    rhs_vars = _collect_metavars(rule.rhs)
+
+    # If RHS has strictly fewer MetaVars than LHS, the reverse direction
+    # (matching RHS against any expression, then expanding to LHS) always
+    # succeeds and creates unhelpful new expressions → skip reverse.
+    allow_reverse = not (rhs_vars < lhs_vars)
+
+    for src, tgt in [(a, b), (b, a)]:
+        # Forward: match LHS, instantiate RHS
+        bindings = unify(rule.lhs, src)
+        if bindings is not None and rhs_vars <= set(bindings):
+            rhs = instantiate(rule.rhs, bindings)
+            sub = _compare(rhs, tgt, depth - 1, _cache)
+            if sub is not None:
+                return frozenset({rule.axiom}) | sub
+        # Reverse: match RHS, instantiate LHS (only if safe)
+        if allow_reverse:
+            bindings = unify(rule.rhs, src)
+            if bindings is not None and lhs_vars <= set(bindings):
+                lhs = instantiate(rule.lhs, bindings)
+                sub = _compare(lhs, tgt, depth - 1, _cache)
+                if sub is not None:
+                    return frozenset({rule.axiom}) | sub
     return None
 
 
-def _check_add_subtract_cancel(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(x + y) - y  vs  x  (catastrophic cancellation)."""
-    m = re.match(r'^\(\((.+) \+ (.+)\) - (.+)\)$', a)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(b):
-        if _load_name(m.group(1)) == _load_name(b):
-            y_var = _load_name(m.group(2))
-            x_var = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description=(
-                    f"({x_var} + {y_var}) - {y_var} ≠ {x_var} due to "
-                    f"catastrophic cancellation when |{y_var}| >> |{x_var}|"
-                ),
-                trigger_values={x_var: "1e-16", y_var: "1e16"},
-                kernel_a_output="0.0 (precision lost)",
-                kernel_b_output="1e-16",
-            )
-    # Reversed
-    m = re.match(r'^\(\((.+) \+ (.+)\) - (.+)\)$', b)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(a):
-        if _load_name(m.group(1)) == _load_name(a):
-            y_var = _load_name(m.group(2))
-            x_var = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description=(
-                    f"({x_var} + {y_var}) - {y_var} ≠ {x_var} due to "
-                    f"catastrophic cancellation when |{y_var}| >> |{x_var}|"
-                ),
-                trigger_values={x_var: "1e-16", y_var: "1e16"},
-                kernel_a_output="1e-16",
-                kernel_b_output="0.0 (precision lost)",
-            )
-    return None
+# sum-of-products normalization
+
+@dataclass(frozen=True, order=True)
+class _Factor:
+    key: str
+    power: int = 1
 
 
-def _check_reciprocal_roundtrip(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """1/(1/x)  vs  x  (denormals, precision loss)."""
-    pat = r'^\(1\.0 / \(1\.0 / (.+)\)\)$'
-    m = re.match(pat, a)
-    if m and _is_load(m.group(1)) and _is_load(b) and _load_name(m.group(1)) == _load_name(b):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.SUBNORMAL,
-            description=f"1/(1/{var}) ≠ {var} for subnormal {var} (1/{var} overflows to Inf)",
-            trigger_values={var: "5e-324"},
-            kernel_a_output="0.0 (Inf→0 round-trip)",
-            kernel_b_output="5e-324",
-        )
-    m = re.match(pat, b)
-    if m and _is_load(m.group(1)) and _is_load(a) and _load_name(m.group(1)) == _load_name(a):
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.SUBNORMAL,
-            description=f"1/(1/{var}) ≠ {var} for subnormal {var} (1/{var} overflows to Inf)",
-            trigger_values={var: "5e-324"},
-            kernel_a_output="5e-324",
-            kernel_b_output="0.0 (Inf→0 round-trip)",
-        )
-    return None
+@dataclass(frozen=True)
+class _Mono:
+    coeff: float
+    factors: Tuple[_Factor, ...]
 
 
-def _check_associativity(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(x + y) + z  vs  x + (y + z)  (FP associativity)."""
-    # Pattern: ((A + B) + C) vs (A + (B + C))
-    m_left = re.match(r'^\(\((.+?) \+ (.+?)\) \+ (.+)\)$', a)
-    m_right = re.match(r'^\((.+?) \+ \((.+?) \+ (.+)\)\)$', b)
-    if m_left and m_right:
-        la, lb, lc = m_left.group(1), m_left.group(2), m_left.group(3)
-        ra, rb, rc = m_right.group(1), m_right.group(2), m_right.group(3)
-        if la == ra and lb == rb and lc == rc:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "FP addition is not associative: "
-                    "(a + b) + c ≠ a + (b + c) for values with large magnitude differences"
-                ),
-                trigger_values={"a": "1e16", "b": "1.0", "c": "-1e16"},
-                kernel_a_output="0.0 ((1e16 + 1) rounds to 1e16, then - 1e16 = 0)",
-                kernel_b_output="1.0 (1 + (-1e16 + 1e16) = 1 + 0 = 1)",
-            )
-    # Reversed
-    m_left = re.match(r'^\(\((.+?) \+ (.+?)\) \+ (.+)\)$', b)
-    m_right = re.match(r'^\((.+?) \+ \((.+?) \+ (.+)\)\)$', a)
-    if m_left and m_right:
-        la, lb, lc = m_left.group(1), m_left.group(2), m_left.group(3)
-        ra, rb, rc = m_right.group(1), m_right.group(2), m_right.group(3)
-        if la == ra and lb == rb and lc == rc:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "FP addition is not associative: "
-                    "(a + b) + c ≠ a + (b + c) for values with large magnitude differences"
-                ),
-                trigger_values={"a": "1e16", "b": "1.0", "c": "-1e16"},
-                kernel_a_output="1.0",
-                kernel_b_output="0.0",
-            )
-    return None
+def _canonical_key(e: Expr) -> str:
+    if isinstance(e, Var):
+        return e.name
+    if isinstance(e, Num):
+        return repr(e.value)
+    if isinstance(e, BinOp) and e.op in ("+", "*"):
+        parts = sorted([_canonical_key(e.left), _canonical_key(e.right)])
+        return f"({parts[0]}{e.op}{parts[1]})"
+    if isinstance(e, BinOp):
+        return f"({_canonical_key(e.left)}{e.op}{_canonical_key(e.right)})"
+    if isinstance(e, Neg):
+        return f"(-{_canonical_key(e.arg)})"
+    if isinstance(e, FnCall):
+        a = ",".join(_canonical_key(x) for x in e.args)
+        return f"{e.func}({a})"
+    if isinstance(e, Cond):
+        return f"where({_canonical_key(e.test)},{_canonical_key(e.if_true)},{_canonical_key(e.if_false)})"
+    return "?"
 
 
-def _check_mult_associativity(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(x * y) * z  vs  x * (y * z)  (FP mult associativity near overflow)."""
-    m_left = re.match(r'^\(\((.+?) \* (.+?)\) \* (.+)\)$', a)
-    m_right = re.match(r'^\((.+?) \* \((.+?) \* (.+)\)\)$', b)
-    if m_left and m_right:
-        la, lb, lc = m_left.group(1), m_left.group(2), m_left.group(3)
-        ra, rb, rc = m_right.group(1), m_right.group(2), m_right.group(3)
-        if la == ra and lb == rb and lc == rc:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "FP multiplication is not associative near overflow: "
-                    "(a*b)*c ≠ a*(b*c) when intermediate products overflow"
-                ),
-                trigger_values={"a": "1e200", "b": "1e200", "c": "1e-200"},
-                kernel_a_output="Inf (1e200*1e200=Inf, Inf*1e-200=Inf)",
-                kernel_b_output="1e200 (1e200*1e-200=1, 1e200*1=1e200)",
-            )
-    # Reversed
-    m_left = re.match(r'^\(\((.+?) \* (.+?)\) \* (.+)\)$', b)
-    m_right = re.match(r'^\((.+?) \* \((.+?) \* (.+)\)\)$', a)
-    if m_left and m_right:
-        la, lb, lc = m_left.group(1), m_left.group(2), m_left.group(3)
-        ra, rb, rc = m_right.group(1), m_right.group(2), m_right.group(3)
-        if la == ra and lb == rb and lc == rc:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="FP multiplication not associative near overflow boundary",
-                trigger_values={"a": "1e200", "b": "1e200", "c": "1e-200"},
-                kernel_a_output="1e200",
-                kernel_b_output="Inf",
-            )
-    return None
+def _mul_mono(a: _Mono, b: _Mono) -> _Mono:
+    fmap: Dict[str, int] = {}
+    for f in a.factors:
+        fmap[f.key] = fmap.get(f.key, 0) + f.power
+    for f in b.factors:
+        fmap[f.key] = fmap.get(f.key, 0) + f.power
+    factors = tuple(sorted(_Factor(k, p) for k, p in fmap.items() if p != 0))
+    return _Mono(a.coeff * b.coeff, factors)
 
 
-def _check_distributivity(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """a*(b+c)  vs  a*b + a*c  (FP distributivity)."""
-    # a * (b + c)
-    m_dist = re.match(r'^\((.+?) \* \((.+?) \+ (.+?)\)\)$', a)
-    # a*b + a*c
-    m_expand = re.match(r'^\(\((.+?) \* (.+?)\) \+ \((.+?) \* (.+?)\)\)$', b)
-    if m_dist and m_expand:
-        da, db, dc = m_dist.group(1), m_dist.group(2), m_dist.group(3)
-        ea1, eb, ea2, ec = (m_expand.group(1), m_expand.group(2),
-                            m_expand.group(3), m_expand.group(4))
-        if da == ea1 == ea2 and db == eb and dc == ec:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_DISTRIBUTIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "FP distributivity fails: a*(b+c) ≠ a*b + a*c "
-                    "when intermediate products have different magnitudes"
-                ),
-                trigger_values={"a": "1e15", "b": "1.0000001", "c": "-1.0"},
-                kernel_a_output="differs by ULP(s)",
-                kernel_b_output="differs by ULP(s)",
-            )
-    # Reversed
-    m_dist = re.match(r'^\((.+?) \* \((.+?) \+ (.+?)\)\)$', b)
-    m_expand = re.match(r'^\(\((.+?) \* (.+?)\) \+ \((.+?) \* (.+?)\)\)$', a)
-    if m_dist and m_expand:
-        da, db, dc = m_dist.group(1), m_dist.group(2), m_dist.group(3)
-        ea1, eb, ea2, ec = (m_expand.group(1), m_expand.group(2),
-                            m_expand.group(3), m_expand.group(4))
-        if da == ea1 == ea2 and db == eb and dc == ec:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.FP_DISTRIBUTIVITY,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="FP distributivity fails: a*(b+c) ≠ a*b + a*c",
-                trigger_values={"a": "1e15", "b": "1.0000001", "c": "-1.0"},
-                kernel_a_output="differs by ULP(s)",
-                kernel_b_output="differs by ULP(s)",
-            )
-    return None
+def _expand_to_sop(e: Expr, axioms: Set[RealAxiom]) -> List[_Mono]:
+    if isinstance(e, Num):
+        return [_Mono(e.value, ())]
+    if isinstance(e, Var):
+        return [_Mono(1.0, (_Factor(e.name),))]
+    if isinstance(e, Neg):
+        return [_Mono(-m.coeff, m.factors) for m in _expand_to_sop(e.arg, axioms)]
+    if isinstance(e, BinOp):
+        if e.op == "+":
+            axioms.add(RealAxiom.ADD_ASSOC)
+            return _expand_to_sop(e.left, axioms) + _expand_to_sop(e.right, axioms)
+        if e.op == "-":
+            axioms.add(RealAxiom.ADD_ASSOC)
+            lm = _expand_to_sop(e.left, axioms)
+            rm = _expand_to_sop(e.right, axioms)
+            return lm + [_Mono(-m.coeff, m.factors) for m in rm]
+        if e.op == "*":
+            axioms.add(RealAxiom.DISTRIBUTE)
+            axioms.add(RealAxiom.MUL_ASSOC)
+            lm = _expand_to_sop(e.left, axioms)
+            rm = _expand_to_sop(e.right, axioms)
+            return [_mul_mono(a, b) for a in lm for b in rm]
+        if e.op == "/":
+            axioms.add(RealAxiom.DIV_MUL_RECIP)
+            lm = _expand_to_sop(e.left, axioms)
+            rm = _expand_to_sop(e.right, axioms)
+            if len(rm) == 1 and rm[0].coeff != 0.0:
+                inv = _Mono(1.0 / rm[0].coeff,
+                            tuple(_Factor(f.key, -f.power) for f in rm[0].factors))
+                return [_mul_mono(l, inv) for l in lm]
+            rkey = _canonical_key(e.right)
+            inv_f = _Factor(rkey, -1)
+            return [_Mono(m.coeff, m.factors + (inv_f,)) for m in lm]
+        if e.op == "**":
+            if isinstance(e.right, Num) and e.right.value == int(e.right.value) and 1 < e.right.value <= 4:
+                axioms.add(RealAxiom.POW_EXPAND)
+                n = int(e.right.value)
+                bm = _expand_to_sop(e.left, axioms)
+                result = [_Mono(1.0, ())]
+                for _ in range(n):
+                    result = [_mul_mono(a, b) for a in result for b in bm]
+                return result
+    key = _canonical_key(e)
+    return [_Mono(1.0, (_Factor(key),))]
 
 
-def _check_division_chain(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """a/b/c  vs  a/(b*c)  (intermediate division precision)."""
-    m1 = re.match(r'^\(\((.+?) / (.+?)\) / (.+)\)$', a)
-    m2 = re.match(r'^\((.+?) / \((.+?) \* (.+)\)\)$', b)
-    if m1 and m2:
-        a1, b1, c1 = m1.group(1), m1.group(2), m1.group(3)
-        a2, b2, c2 = m2.group(1), m2.group(2), m2.group(3)
-        if a1 == a2 and b1 == b2 and c1 == c2:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description="a/b/c ≠ a/(b*c): intermediate division loses precision",
-                trigger_values={"a": "1.0", "b": "3.0", "c": "7.0"},
-                kernel_a_output="differs at ULP level",
-                kernel_b_output="differs at ULP level",
-            )
-    # Reversed
-    m1 = re.match(r'^\(\((.+?) / (.+?)\) / (.+)\)$', b)
-    m2 = re.match(r'^\((.+?) / \((.+?) \* (.+)\)\)$', a)
-    if m1 and m2:
-        a1, b1, c1 = m1.group(1), m1.group(2), m1.group(3)
-        a2, b2, c2 = m2.group(1), m2.group(2), m2.group(3)
-        if a1 == a2 and b1 == b2 and c1 == c2:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description="a/b/c ≠ a/(b*c): intermediate division loses precision",
-                trigger_values={"a": "1.0", "b": "3.0", "c": "7.0"},
-                kernel_a_output="differs at ULP level",
-                kernel_b_output="differs at ULP level",
-            )
-    return None
-
-
-def _check_divide_multiply_roundtrip(
-    a: str, b: str,
-) -> Optional[EdgeCaseCounterexample]:
-    """(a/b)*b  vs  a  (round-trip fails for b=0, precision loss)."""
-    m = re.match(r'^\(\((.+?) / (.+?)\) \* (.+)\)$', a)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(b):
-        if _load_name(m.group(1)) == _load_name(b):
-            v = _load_name(m.group(2))
-            x = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description=f"({x}/{v})*{v} ≠ {x} when {v}=0 (NaN) or precision loss",
-                trigger_values={x: "1.0", v: "0.0"},
-                kernel_a_output="NaN",
-                kernel_b_output="1.0",
-            )
-    m = re.match(r'^\(\((.+?) / (.+?)\) \* (.+)\)$', b)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(a):
-        if _load_name(m.group(1)) == _load_name(a):
-            v = _load_name(m.group(2))
-            x = _load_name(m.group(1))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description=f"({x}/{v})*{v} ≠ {x} when {v}=0 (NaN) or precision loss",
-                trigger_values={x: "1.0", v: "0.0"},
-                kernel_a_output="1.0",
-                kernel_b_output="NaN",
-            )
-    return None
-
-
-def _check_reciprocal_multiply(
-    a: str, b: str,
-) -> Optional[EdgeCaseCounterexample]:
-    """a/b  vs  a*(1/b)  (reciprocal precision loss)."""
-    m_div = re.match(r'^\((.+?) / (.+)\)$', a)
-    m_recip = re.match(r'^\((.+?) \* \(1\.0 / (.+)\)\)$', b)
-    if m_div and m_recip:
-        if m_div.group(1) == m_recip.group(1) and m_div.group(2) == m_recip.group(2):
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description="a/b ≠ a*(1/b): reciprocal approximation introduces error",
-                trigger_values={"a": "1.0", "b": "3.0"},
-                kernel_a_output="0.3333... (correctly rounded)",
-                kernel_b_output="0.3333... (double rounding)",
-            )
-    m_div = re.match(r'^\((.+?) / (.+)\)$', b)
-    m_recip = re.match(r'^\((.+?) \* \(1\.0 / (.+)\)\)$', a)
-    if m_div and m_recip:
-        if m_div.group(1) == m_recip.group(1) and m_div.group(2) == m_recip.group(2):
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description="a/b ≠ a*(1/b): reciprocal approximation introduces error",
-                trigger_values={"a": "1.0", "b": "3.0"},
-                kernel_a_output="double-rounded",
-                kernel_b_output="correctly rounded",
-            )
-    return None
-
-
-def _check_square_diff_vs_product(
-    a: str, b: str,
-) -> Optional[EdgeCaseCounterexample]:
-    """a²−b²  vs  (a+b)(a−b)  (algebraic identity, FP differs)."""
-    m_sq = re.match(r'^\(\((.+?) \* \1\) - \((.+?) \* \2\)\)$', a)
-    m_prod = re.match(r'^\(\((.+?) \+ (.+?)\) \* \((.+?) - (.+?)\)\)$', b)
-    if m_sq and m_prod:
-        a_var, b_var = m_sq.group(1), m_sq.group(2)
-        pa, pb, pc, pd = (m_prod.group(1), m_prod.group(2),
-                          m_prod.group(3), m_prod.group(4))
-        if a_var == pa == pc and b_var == pb == pd:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="a²−b² ≠ (a+b)(a−b) for large a,b (catastrophic cancellation in a²−b²)",
-                trigger_values={"a": "1e8+1", "b": "1e8"},
-                kernel_a_output="different rounding",
-                kernel_b_output="different rounding",
-            )
-    # Reversed
-    m_sq = re.match(r'^\(\((.+?) \* \1\) - \((.+?) \* \2\)\)$', b)
-    m_prod = re.match(r'^\(\((.+?) \+ (.+?)\) \* \((.+?) - (.+?)\)\)$', a)
-    if m_sq and m_prod:
-        a_var, b_var = m_sq.group(1), m_sq.group(2)
-        pa, pb, pc, pd = (m_prod.group(1), m_prod.group(2),
-                          m_prod.group(3), m_prod.group(4))
-        if a_var == pa == pc and b_var == pb == pd:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="a²−b² ≠ (a+b)(a−b) for large values",
-                trigger_values={"a": "1e8+1", "b": "1e8"},
-                kernel_a_output="different rounding",
-                kernel_b_output="different rounding",
-            )
-    return None
-
-
-def _check_subtract_add_cancel(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(x - y) + y  vs  x  (catastrophic cancellation, subtraction variant)."""
-    m = re.match(r'^\(\((.+) - (.+)\) \+ (.+)\)$', a)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(b):
-        if _load_name(m.group(1)) == _load_name(b):
-            x_var = _load_name(m.group(1))
-            y_var = _load_name(m.group(2))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description=(
-                    f"({x_var} - {y_var}) + {y_var} ≠ {x_var} due to "
-                    f"catastrophic cancellation when |{y_var}| >> |{x_var}|"
-                ),
-                trigger_values={x_var: "1e-16", y_var: "1e16"},
-                kernel_a_output="0.0 (precision lost)",
-                kernel_b_output="1e-16",
-            )
-    m = re.match(r'^\(\((.+) - (.+)\) \+ (.+)\)$', b)
-    if m and m.group(2) == m.group(3) and _is_load(m.group(1)) and _is_load(a):
-        if _load_name(m.group(1)) == _load_name(a):
-            x_var = _load_name(m.group(1))
-            y_var = _load_name(m.group(2))
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description=(
-                    f"({x_var} - {y_var}) + {y_var} ≠ {x_var} due to "
-                    f"catastrophic cancellation when |{y_var}| >> |{x_var}|"
-                ),
-                trigger_values={x_var: "1e-16", y_var: "1e16"},
-                kernel_a_output="1e-16",
-                kernel_b_output="0.0 (precision lost)",
-            )
-    return None
-
-
-def _check_complex_fraction(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """a/(b/c) vs (a*c)/b  (complex fraction simplification)."""
-    m1 = re.match(r'^\((.+?) / \((.+?) / (.+?)\)\)$', a)
-    m2 = re.match(r'^\(\((.+?) \* (.+?)\) / (.+?)\)$', b)
-    if m1 and m2:
-        a1, b1, c1 = m1.group(1), m1.group(2), m1.group(3)
-        a2, c2, b2 = m2.group(1), m2.group(2), m2.group(3)
-        if a1 == a2 and b1 == b2 and c1 == c2:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "a/(b/c) ≠ (a*c)/b: when b is small, b/c underflows to 0 "
-                    "(giving Inf/NaN), while a*c may overflow differently"
-                ),
-                trigger_values={"a": "1.0", "b": "1e-300", "c": "1e-300"},
-                kernel_a_output="Inf or NaN (b/c underflow)",
-                kernel_b_output="different overflow path",
-            )
-    m1 = re.match(r'^\((.+?) / \((.+?) / (.+?)\)\)$', b)
-    m2 = re.match(r'^\(\((.+?) \* (.+?)\) / (.+?)\)$', a)
-    if m1 and m2:
-        a1, b1, c1 = m1.group(1), m1.group(2), m1.group(3)
-        a2, c2, b2 = m2.group(1), m2.group(2), m2.group(3)
-        if a1 == a2 and b1 == b2 and c1 == c2:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="a/(b/c) ≠ (a*c)/b: different overflow/underflow paths",
-                trigger_values={"a": "1.0", "b": "1e-300", "c": "1e-300"},
-                kernel_a_output="different overflow path",
-                kernel_b_output="Inf or NaN (b/c underflow)",
-            )
-    return None
-
-
-def _check_fraction_addition(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """1/a + 1/b  vs  (a+b)/(a*b)  (fraction addition identity)."""
-    m_sum = re.match(r'^\(\(1\.0 / (.+?)\) \+ \(1\.0 / (.+?)\)\)$', a)
-    m_frac = re.match(r'^\(\((.+?) \+ (.+?)\) / \((.+?) \* (.+?)\)\)$', b)
-    if m_sum and m_frac:
-        sa, sb = m_sum.group(1), m_sum.group(2)
-        fa, fb, fc, fd = m_frac.group(1), m_frac.group(2), m_frac.group(3), m_frac.group(4)
-        if sa == fa == fc and sb == fb == fd:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description=(
-                    "1/a + 1/b ≠ (a+b)/(a*b): when a or b = 0, "
-                    "1/0 = Inf vs 0/(0*b) = NaN"
-                ),
-                trigger_values={"a": "0.0", "b": "1.0"},
-                kernel_a_output="Inf + 1.0 = Inf",
-                kernel_b_output="NaN (0*1=0, 1/0=Inf... actually depends on eval order)",
-            )
-    m_sum = re.match(r'^\(\(1\.0 / (.+?)\) \+ \(1\.0 / (.+?)\)\)$', b)
-    m_frac = re.match(r'^\(\((.+?) \+ (.+?)\) / \((.+?) \* (.+?)\)\)$', a)
-    if m_sum and m_frac:
-        sa, sb = m_sum.group(1), m_sum.group(2)
-        fa, fb, fc, fd = m_frac.group(1), m_frac.group(2), m_frac.group(3), m_frac.group(4)
-        if sa == fa == fc and sb == fb == fd:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description="1/a + 1/b ≠ (a+b)/(a*b): different division-by-zero behavior",
-                trigger_values={"a": "0.0", "b": "1.0"},
-                kernel_a_output="NaN path",
-                kernel_b_output="Inf path",
-            )
-    return None
-
-
-def _check_power_vs_multiply(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x*x*x vs x**3  (intermediate overflow for large x)."""
-    # ((x * x) * x) vs (x ** 3)
-    m_mul = re.match(r'^\(\((.+?) \* \1\) \* \1\)$', a)
-    m_pow = re.match(r'^\((.+?) \*\* 3\)$', b)
-    if m_mul and m_pow and m_mul.group(1) == m_pow.group(1):
-        var = _load_name(m_mul.group(1)) if _is_load(m_mul.group(1)) else "x"
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.LARGE_MAGNITUDE,
-            description=(
-                f"{var}*{var}*{var} ≠ {var}**3: intermediate {var}*{var} may "
-                f"overflow to Inf while pow({var},3) uses a different code path"
-            ),
-            trigger_values={var: "1e200"},
-            kernel_a_output="Inf (x*x overflows)",
-            kernel_b_output="Inf or different rounding via pow()",
-        )
-    m_mul = re.match(r'^\(\((.+?) \* \1\) \* \1\)$', b)
-    m_pow = re.match(r'^\((.+?) \*\* 3\)$', a)
-    if m_mul and m_pow and m_mul.group(1) == m_pow.group(1):
-        var = _load_name(m_mul.group(1)) if _is_load(m_mul.group(1)) else "x"
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.LARGE_MAGNITUDE,
-            description=f"{var}**3 vs {var}*{var}*{var}: different overflow behavior",
-            trigger_values={var: "1e200"},
-            kernel_a_output="Inf or different rounding via pow()",
-            kernel_b_output="Inf (x*x overflows)",
-        )
-    return None
-
-
-def _check_exp_product_vs_exp_sum(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """exp(a)*exp(b) vs exp(a+b) — one overflows, other doesn't."""
-    m_prod = re.match(r'^\(tl\.exp\((.+?)\) \* tl\.exp\((.+?)\)\)$', a)
-    m_sum = re.match(r'^tl\.exp\(\((.+?) \+ (.+?)\)\)$', b)
-    if m_prod and m_sum:
-        pa, pb = m_prod.group(1), m_prod.group(2)
-        sa, sb = m_sum.group(1), m_sum.group(2)
-        if pa == sa and pb == sb:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description=(
-                    "exp(a)*exp(b) ≠ exp(a+b): exp(a) overflows for large a "
-                    "even if a+b is moderate (e.g. a=500, b=-499)"
-                ),
-                trigger_values={"a": "500.0", "b": "-499.0"},
-                kernel_a_output="Inf * exp(-499) (Inf)",
-                kernel_b_output="exp(1) ≈ 2.718",
-            )
-    m_prod = re.match(r'^\(tl\.exp\((.+?)\) \* tl\.exp\((.+?)\)\)$', b)
-    m_sum = re.match(r'^tl\.exp\(\((.+?) \+ (.+?)\)\)$', a)
-    if m_prod and m_sum:
-        pa, pb = m_prod.group(1), m_prod.group(2)
-        sa, sb = m_sum.group(1), m_sum.group(2)
-        if pa == sa and pb == sb:
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="exp(a)*exp(b) ≠ exp(a+b): individual exp() may overflow",
-                trigger_values={"a": "500.0", "b": "-499.0"},
-                kernel_a_output="exp(1) ≈ 2.718",
-                kernel_b_output="Inf * exp(-499) (Inf)",
-            )
-    return None
-
-
-def _check_function_composition_order(
-    a: str, b: str,
-) -> Optional[EdgeCaseCounterexample]:
-    """Detect f(g(x)) vs g(f(x)) patterns — e.g. sum(|x|) vs |sum(x)|."""
-    # tl.sum(tl.abs(x)) vs tl.abs(tl.sum(x))
-    m1 = re.search(r'tl\.sum\(tl\.abs\(', a)
-    m2 = re.search(r'tl\.abs\(tl\.sum\(', b)
-    if m1 and m2:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_IDENTITY,
-            input_stratum=InputStratum.NEGATIVE,
-            description=(
-                "sum(|x|) ≠ |sum(x)|: for mixed-sign inputs, "
-                "sum of absolute values > absolute value of sum"
-            ),
-            trigger_values={"x": "[1.0, -1.0, 1.0, -1.0, ...]"},
-            kernel_a_output="4.0 (sum of abs values)",
-            kernel_b_output="0.0 (abs of cancellation)",
-        )
-    m1 = re.search(r'tl\.sum\(tl\.abs\(', b)
-    m2 = re.search(r'tl\.abs\(tl\.sum\(', a)
-    if m1 and m2:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_IDENTITY,
-            input_stratum=InputStratum.NEGATIVE,
-            description="sum(|x|) ≠ |sum(x)|: triangle inequality is strict for mixed signs",
-            trigger_values={"x": "[1.0, -1.0, ...]"},
-            kernel_a_output="0.0",
-            kernel_b_output="4.0",
-        )
-    # tl.reduce(..., combine_fn=product) vs tl.exp(tl.sum(tl.log(x)))
-    has_reduce = re.search(r'tl\.reduce\(', a) or re.search(r'tl\.reduce\(', b)
-    has_exp_sum_log = (
-        re.search(r'tl\.exp\(tl\.sum\(tl\.log\(', a)
-        or re.search(r'tl\.exp\(tl\.sum\(tl\.log\(', b)
+def _combine_sop(monos: List[_Mono]) -> List[_Mono]:
+    by_factors: Dict[Tuple[_Factor, ...], float] = {}
+    for m in monos:
+        fs = tuple(sorted(m.factors))
+        by_factors[fs] = by_factors.get(fs, 0.0) + m.coeff
+    return sorted(
+        (_Mono(c, fs) for fs, c in by_factors.items() if abs(c) > 1e-15),
+        key=lambda m: (m.factors, m.coeff),
     )
-    if has_reduce and has_exp_sum_log:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.NEGATIVE,
-            description=(
-                "prod(x) ≠ exp(sum(log(x))): log(x) is NaN for x<0 and "
-                "-Inf for x=0, so exp(sum(log(x))) fails for non-positive inputs"
-            ),
-            trigger_values={"x": "[-1.0, 2.0, 3.0]"},
-            kernel_a_output="-6.0 (actual product)",
-            kernel_b_output="NaN (log of negative)",
-        )
+
+
+def _try_sop(a: Expr, b: Expr) -> Optional[FrozenSet[RealAxiom]]:
+    try:
+        ax_a: Set[RealAxiom] = set()
+        ax_b: Set[RealAxiom] = set()
+        sop_a = _combine_sop(_expand_to_sop(a, ax_a))
+        sop_b = _combine_sop(_expand_to_sop(b, ax_b))
+        if sop_a == sop_b:
+            all_ax = ax_a | ax_b
+            all_ax.discard(RealAxiom.ADD_ASSOC)
+            if not all_ax:
+                all_ax = {RealAxiom.DISTRIBUTE}
+            return frozenset(all_ax)
+    except Exception:
+        pass
     return None
 
 
-# ── Heuristic / generic matchers ─────────────────────────────────────────
+def _derive_counterexamples(axioms: FrozenSet[RealAxiom]) -> List[EdgeCaseCounterexample]:
+    cexs: List[EdgeCaseCounterexample] = []
+    for ax in axioms:
+        spec = AXIOM_FAILURES.get(ax)
+        if spec is None:
+            continue
+        for stratum in spec.strata:
+            cexs.append(EdgeCaseCounterexample(
+                category=spec.category,
+                input_stratum=stratum,
+                description=f"[{ax.value}] {spec.description}",
+                trigger_values=dict(spec.trigger),
+                kernel_a_output=spec.output_a,
+                kernel_b_output=spec.output_b,
+            ))
+    return cexs
 
 
-def _find_loads_in_expr(expr: str) -> Set[str]:
-    """Extract all load variable names from a resolved expression."""
-    return set(re.findall(r'«LOAD:(\w+)»', expr))
+# ═══════════════════════════════════════════════════════════════════════════════
+# §6  Load / mask parameter analysis
+# ═══════════════════════════════════════════════════════════════════════════════
 
 
-def _heuristic_arithmetic_diff(
-    a: str, b: str,
-) -> List[EdgeCaseCounterexample]:
-    """Generic heuristic: if expressions share the same loads but differ
-    in arithmetic structure, flag potential FP edge cases."""
+def _check_load_other_diff(ext_a: _ExprExtractor, ext_b: _ExprExtractor) -> List[EdgeCaseCounterexample]:
     results: List[EdgeCaseCounterexample] = []
-    loads_a = _find_loads_in_expr(a)
-    loads_b = _find_loads_in_expr(b)
-
-    if not loads_a or not loads_b:
-        return results
-
-    # Same variables, different computation → likely FP edge case
-    if loads_a == loads_b and a != b:
-        # Count operators
-        ops_a = re.findall(r'[\+\-\*/]', a)
-        ops_b = re.findall(r'[\+\-\*/]', b)
-
-        # Check for division in one but not the other
-        if '/' in a and '/' not in b:
+    for i, (la, lb) in enumerate(zip(ext_a.loads, ext_b.loads)):
+        oa, ob = ext_a.load_others.get(la), ext_b.load_others.get(lb)
+        if oa != ob:
             results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description="Kernel A uses division, kernel B does not — diverges when divisor is 0",
-                trigger_values={v: "0.0" for v in loads_a},
-                kernel_a_output="possible NaN/Inf",
-                kernel_b_output="finite",
-                confidence=0.7,
-            ))
-        elif '/' in b and '/' not in a:
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.DIVISION_HAZARD,
-                input_stratum=InputStratum.ZERO,
-                description="Kernel B uses division, kernel A does not — diverges when divisor is 0",
-                trigger_values={v: "0.0" for v in loads_b},
-                kernel_a_output="finite",
-                kernel_b_output="possible NaN/Inf",
-                confidence=0.7,
-            ))
-
-        # Different number of operations → different rounding behavior
-        if len(ops_a) != len(ops_b):
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description=(
-                    f"Different operation counts ({len(ops_a)} vs {len(ops_b)}): "
-                    f"different intermediate roundings"
-                ),
-                trigger_values={v: "1e15" for v in loads_a},
-                kernel_a_output="precision-dependent",
-                kernel_b_output="precision-dependent",
-                confidence=0.5,
-            ))
-
-        # Check for subtraction with same-magnitude operands
-        if '-' in a or '-' in b:
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CANCELLATION,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="Subtraction present — potential catastrophic cancellation for large inputs",
-                trigger_values={v: "1e15" for v in loads_a},
-                kernel_a_output="precision-dependent",
-                kernel_b_output="precision-dependent",
-                confidence=0.4,
-            ))
-
+                EdgeCaseCategory.MASK_BOUNDARY, InputStratum.TILING_BOUNDARY,
+                f"Load {i}: different other= ({oa!r} vs {ob!r})",
+                {"N": "not multiple of BLOCK_SIZE"},
+                f"boundary = {oa}", f"boundary = {ob}"))
     return results
 
 
-# ── Mask / load parameter diff analysis ──────────────────────────────────
-
-
-def _check_load_other_diff(
-    ext_a: _ExprExtractor,
-    ext_b: _ExprExtractor,
-) -> List[EdgeCaseCounterexample]:
-    """Detect different ``other=`` defaults in masked loads."""
+def _check_mask_presence_diff(ext_a: _ExprExtractor, ext_b: _ExprExtractor) -> List[EdgeCaseCounterexample]:
     results: List[EdgeCaseCounterexample] = []
-
-    # Map loads by position (order of appearance)
-    loads_a = list(ext_a.loads.keys())
-    loads_b = list(ext_b.loads.keys())
-
-    for i, (la, lb) in enumerate(zip(loads_a, loads_b)):
-        other_a = ext_a.load_others.get(la)
-        other_b = ext_b.load_others.get(lb)
-
-        if other_a != other_b:
-            # At least one has an other= value
+    for i, (la, lb) in enumerate(zip(ext_a.loads, ext_b.loads)):
+        ma, mb = ext_a.load_masks.get(la), ext_b.load_masks.get(lb)
+        if bool(ma) != bool(mb):
+            who = "A" if ma else "B"
             results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.MASK_BOUNDARY,
-                input_stratum=InputStratum.TILING_BOUNDARY,
-                description=(
-                    f"Load {i}: different other= defaults "
-                    f"({other_a!r} vs {other_b!r}) — "
-                    f"masked-out elements get different values at tile boundary"
-                ),
-                trigger_values={"N": "not a multiple of BLOCK_SIZE"},
-                kernel_a_output=f"boundary elements = {other_a}",
-                kernel_b_output=f"boundary elements = {other_b}",
-            ))
-
-    return results
-
-
-def _check_mask_presence_diff(
-    ext_a: _ExprExtractor,
-    ext_b: _ExprExtractor,
-) -> List[EdgeCaseCounterexample]:
-    """Detect one kernel masking loads/stores while the other doesn't."""
-    results: List[EdgeCaseCounterexample] = []
-
-    loads_a = list(ext_a.loads.keys())
-    loads_b = list(ext_b.loads.keys())
-    for i, (la, lb) in enumerate(zip(loads_a, loads_b)):
-        mask_a = ext_a.load_masks.get(la)
-        mask_b = ext_b.load_masks.get(lb)
-        if bool(mask_a) != bool(mask_b):
-            masked = "A" if mask_a else "B"
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.MASK_BOUNDARY,
-                input_stratum=InputStratum.TILING_BOUNDARY,
-                description=(
-                    f"Load {i}: kernel {masked} is masked, other is not — "
-                    f"unmasked load reads garbage at tile boundary"
-                ),
-                trigger_values={"N": "N % BLOCK_SIZE != 0"},
-                kernel_a_output="masked: safe" if mask_a else "unmasked: OOB read",
-                kernel_b_output="masked: safe" if mask_b else "unmasked: OOB read",
-            ))
-
+                EdgeCaseCategory.MASK_BOUNDARY, InputStratum.TILING_BOUNDARY,
+                f"Load {i}: kernel {who} masked, other not",
+                {"N": "N % BLOCK_SIZE != 0"},
+                "masked: safe" if ma else "unmasked: OOB",
+                "masked: safe" if mb else "unmasked: OOB"))
     for i in range(min(len(ext_a.store_masks), len(ext_b.store_masks))):
-        mask_a = ext_a.store_masks[i]
-        mask_b = ext_b.store_masks[i]
-        if bool(mask_a) != bool(mask_b):
-            masked = "A" if mask_a else "B"
+        ma, mb = ext_a.store_masks[i], ext_b.store_masks[i]
+        if bool(ma) != bool(mb):
+            who = "A" if ma else "B"
             results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.MASK_BOUNDARY,
-                input_stratum=InputStratum.TILING_BOUNDARY,
-                description=(
-                    f"Store {i}: kernel {masked} is masked, other is not — "
-                    f"unmasked store writes beyond boundary"
-                ),
-                trigger_values={"N": "N % BLOCK_SIZE != 0"},
-                kernel_a_output="masked: safe" if mask_a else "unmasked: OOB write",
-                kernel_b_output="masked: safe" if mask_b else "unmasked: OOB write",
-            ))
-
+                EdgeCaseCategory.MASK_BOUNDARY, InputStratum.TILING_BOUNDARY,
+                f"Store {i}: kernel {who} masked, other not",
+                {"N": "N % BLOCK_SIZE != 0"},
+                "masked: safe" if ma else "unmasked: OOB",
+                "masked: safe" if mb else "unmasked: OOB"))
     return results
 
 
-# ── tl.where / conditional pattern analysis ──────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════════════
+# §7  Source-level pattern analysis
+# ═══════════════════════════════════════════════════════════════════════════════
 
 
-def _check_where_vs_arithmetic(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """tl.where(m, x, 0) vs x * m  (Inf * 0 = NaN)."""
-    # tl.where(cond, val, 0.0) vs val * cond
-    m_where = re.search(r'tl\.where\((.+?), (.+?), 0\.0\)', a)
-    if m_where:
-        cond, val = m_where.group(1), m_where.group(2)
-        # Check if b is like val * cond or (val * cond_float)
-        if '*' in b and _is_load(val.strip()):
-            return EdgeCaseCounterexample(
-                category=EdgeCaseCategory.CONDITIONAL_EDGE,
-                input_stratum=InputStratum.INFINITY,
-                description=(
-                    "tl.where(c, x, 0) ≠ x * c.float(): "
-                    "when x=Inf and c=False, first gives 0, second gives Inf*0=NaN"
-                ),
-                trigger_values={"x": "float('inf')", "c": "False"},
-                kernel_a_output="0.0",
-                kernel_b_output="NaN",
-            )
-    m_where = re.search(r'tl\.where\((.+?), (.+?), 0\.0\)', b)
-    if m_where and '*' in a:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.CONDITIONAL_EDGE,
-            input_stratum=InputStratum.INFINITY,
-            description=(
-                "tl.where(c, x, 0) ≠ x * c.float(): "
-                "when x=Inf and c=False, where gives 0, multiply gives NaN"
-            ),
-            trigger_values={"x": "float('inf')", "c": "False"},
-            kernel_a_output="NaN",
-            kernel_b_output="0.0",
-        )
-    return None
-
-
-def _check_max_vs_where(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """tl.maximum(x, 0) vs tl.where(x > 0, x, 0.0) — NaN behavior."""
-    has_max_a = re.search(r'tl\.(maximum|math\.max)\(', a)
-    has_where_b = re.search(r'tl\.where\(', b)
-    if has_max_a and has_where_b:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.NAN_PROPAGATION,
-            input_stratum=InputStratum.NAN,
-            description=(
-                "tl.maximum(x, 0) propagates NaN, but "
-                "tl.where(x > 0, x, 0.0) returns 0.0 for NaN (NaN > 0 is False)"
-            ),
-            trigger_values={"x": "float('nan')"},
-            kernel_a_output="NaN",
-            kernel_b_output="0.0",
-        )
-    has_max_b = re.search(r'tl\.(maximum|math\.max)\(', b)
-    has_where_a = re.search(r'tl\.where\(', a)
-    if has_max_b and has_where_a:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.NAN_PROPAGATION,
-            input_stratum=InputStratum.NAN,
-            description=(
-                "tl.maximum propagates NaN; tl.where returns 0 for NaN input"
-            ),
-            trigger_values={"x": "float('nan')"},
-            kernel_a_output="0.0",
-            kernel_b_output="NaN",
-        )
-    return None
-
-
-def _check_sign_function(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """x / abs(x)  vs  where(x>0, 1, where(x<0, -1, 0))  — x=0 diverges."""
-    has_div_abs = re.search(r'/ tl\.(abs|math\.fabs)\(', a) or re.search(r'/ tl\.(abs|math\.fabs)\(', b)
-    has_where = 'tl.where' in a or 'tl.where' in b
-    if has_div_abs and has_where:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.ZERO,
-            description="x/|x| ≠ sign(x) when x=0: division gives NaN, sign gives 0",
-            trigger_values={"x": "0.0"},
-            kernel_a_output="NaN (if division)",
-            kernel_b_output="0.0 (if conditional)",
-        )
-    return None
-
-
-def _check_safe_division(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """a/(b+eps)  vs  where(|b|>eps, a/b, 0)  — b=-eps makes first blow up."""
-    has_eps_div = re.search(r'/ \(.+? \+ .+?\)', a) or re.search(r'/ \(.+? \+ .+?\)', b)
-    has_where = 'tl.where' in a or 'tl.where' in b
-    if has_eps_div and has_where:
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.NEGATIVE,
-            description="a/(b+eps) ≠ safe_div: when b = -eps, denominator is 0",
-            trigger_values={"b": "-eps"},
-            kernel_a_output="NaN or ±Inf",
-            kernel_b_output="0.0 (guarded)",
-        )
-    return None
-
-
-def _check_triple_sum_vs_multiply(
-    a: str, b: str,
-) -> Optional[EdgeCaseCounterexample]:
-    """a + a + a  vs  3.0 * a  (triple addition vs multiplication)."""
-    # ((LOAD + LOAD) + LOAD) same var vs (3.0 * LOAD)
-    m_add = re.match(r'^\(\((.+?) \+ \1\) \+ \1\)$', a)
-    m_mul = re.match(r'^\(3\.0 \* (.+)\)$', b)
-    if m_add and m_mul and m_add.group(1) == m_mul.group(1):
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-            input_stratum=InputStratum.PRECISION_BOUNDARY,
-            description="a + a + a ≠ 3*a due to different intermediate rounding",
-            trigger_values={"a": "large odd value near 2^53"},
-            kernel_a_output="different ULP rounding",
-            kernel_b_output="different ULP rounding",
-        )
-    m_add = re.match(r'^\(\((.+?) \+ \1\) \+ \1\)$', b)
-    m_mul = re.match(r'^\(3\.0 \* (.+)\)$', a)
-    if m_add and m_mul and m_add.group(1) == m_mul.group(1):
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.FP_ASSOCIATIVITY,
-            input_stratum=InputStratum.PRECISION_BOUNDARY,
-            description="a + a + a ≠ 3*a due to different intermediate rounding",
-            trigger_values={"a": "large odd value near 2^53"},
-            kernel_a_output="different ULP rounding",
-            kernel_b_output="different ULP rounding",
-        )
-    return None
-
-
-def _check_square_self_div(a: str, b: str) -> Optional[EdgeCaseCounterexample]:
-    """(a*a)/a  vs  a  (a=0 → NaN)."""
-    m = re.match(r'^\(\((.+?) \* \1\) / \1\)$', a)
-    if m and _is_load(m.group(1)) and _is_load(b) and m.group(1) == b:
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.ZERO,
-            description=f"({var}*{var})/{var} ≠ {var} when {var}=0 (0/0=NaN)",
-            trigger_values={var: "0.0"},
-            kernel_a_output="NaN",
-            kernel_b_output="0.0",
-        )
-    m = re.match(r'^\(\((.+?) \* \1\) / \1\)$', b)
-    if m and _is_load(m.group(1)) and _is_load(a) and m.group(1) == a:
-        var = _load_name(m.group(1))
-        return EdgeCaseCounterexample(
-            category=EdgeCaseCategory.DIVISION_HAZARD,
-            input_stratum=InputStratum.ZERO,
-            description=f"({var}*{var})/{var} ≠ {var} when {var}=0 (0/0=NaN)",
-            trigger_values={var: "0.0"},
-            kernel_a_output="0.0",
-            kernel_b_output="NaN",
-        )
-    return None
-
-
-# ── Reduction-level analysis ─────────────────────────────────────────────
-
-
-def _check_reduction_differences(
-    ext_a: _ExprExtractor,
-    ext_b: _ExprExtractor,
-    resolved_a: List[str],
-    resolved_b: List[str],
-) -> List[EdgeCaseCounterexample]:
-    """Detect semantic differences in reduction expressions."""
+def _check_source_patterns(src_a: str, src_b: str) -> List[EdgeCaseCounterexample]:
     results: List[EdgeCaseCounterexample] = []
+    sa, sb = textwrap.dedent(src_a), textwrap.dedent(src_b)
 
-    # Check if one kernel sums then divides, other divides then sums
-    for ra, rb in zip(resolved_a, resolved_b):
-        has_sum_div_a = re.search(r'tl\.sum\(.*\).*/', ra)
-        has_div_sum_b = re.search(r'tl\.sum\(.*[*/]', rb)
-        if has_sum_div_a and has_div_sum_b:
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.REDUCTION_ORDER,
-                input_stratum=InputStratum.PRECISION_BOUNDARY,
-                description="sum(x)/N ≠ sum(x/N): different intermediate precision",
-                trigger_values={"x_i": "values with large magnitude spread"},
-                kernel_a_output="sum-then-divide precision",
-                kernel_b_output="divide-then-sum precision",
-            ))
-
-    return results
-
-
-# ── Raw source-level pattern checks ─────────────────────────────────────
-
-def _check_source_patterns(
-    source_a: str, source_b: str,
-) -> List[EdgeCaseCounterexample]:
-    """Check source-level patterns that may not survive expression resolution."""
-    results: List[EdgeCaseCounterexample] = []
-
-    src_a = textwrap.dedent(source_a)
-    src_b = textwrap.dedent(source_b)
-
-    # tl.where vs tl.maximum/tl.minimum
-    if ('tl.maximum' in src_a or 'tl.minimum' in src_a) and 'tl.where' in src_b:
+    # tl.where vs tl.maximum/minimum
+    if ('tl.maximum' in sa or 'tl.minimum' in sa) and 'tl.where' in sb:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.NAN_PROPAGATION,
-            input_stratum=InputStratum.NAN,
-            description="tl.maximum/minimum propagates NaN; tl.where may not",
-            trigger_values={"x": "float('nan')"},
-            kernel_a_output="NaN (max/min propagation)",
-            kernel_b_output="depends on condition (NaN comparison is False)",
-        ))
-    elif ('tl.maximum' in src_b or 'tl.minimum' in src_b) and 'tl.where' in src_a:
+            EdgeCaseCategory.NAN_PROPAGATION, InputStratum.NAN,
+            "tl.maximum/minimum propagates NaN; tl.where may not",
+            {"x": "float('nan')"}, "NaN", "condition-dependent"))
+    elif ('tl.maximum' in sb or 'tl.minimum' in sb) and 'tl.where' in sa:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.NAN_PROPAGATION,
-            input_stratum=InputStratum.NAN,
-            description="tl.maximum/minimum propagates NaN; tl.where may not",
-            trigger_values={"x": "float('nan')"},
-            kernel_a_output="depends on condition",
-            kernel_b_output="NaN (max/min propagation)",
-        ))
+            EdgeCaseCategory.NAN_PROPAGATION, InputStratum.NAN,
+            "tl.maximum/minimum propagates NaN; tl.where may not",
+            {"x": "float('nan')"}, "condition-dependent", "NaN"))
 
-    # Different nesting order of tl.minimum/tl.maximum (clamp order)
-    min_max_a = re.search(r'tl\.minimum\(tl\.maximum\(', src_a)
-    max_min_a = re.search(r'tl\.maximum\(tl\.minimum\(', src_a)
-    min_max_b = re.search(r'tl\.minimum\(tl\.maximum\(', src_b)
-    max_min_b = re.search(r'tl\.maximum\(tl\.minimum\(', src_b)
-    if (min_max_a and max_min_b) or (max_min_a and min_max_b):
+    # clamp order
+    if (re.search(r'tl\.minimum\(tl\.maximum\(', sa) and re.search(r'tl\.maximum\(tl\.minimum\(', sb)) or \
+       (re.search(r'tl\.maximum\(tl\.minimum\(', sa) and re.search(r'tl\.minimum\(tl\.maximum\(', sb)):
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.NAN_PROPAGATION,
-            input_stratum=InputStratum.NAN,
-            description=(
-                "min(max(x, lo), hi) ≠ max(min(x, hi), lo) for NaN: "
-                "NaN propagates through inner op, outer op may clamp differently"
-            ),
-            trigger_values={"x": "float('nan')"},
-            kernel_a_output="NaN (propagates through max, then min)",
-            kernel_b_output="NaN (propagates differently through min, then max)",
-        ))
+            EdgeCaseCategory.NAN_PROPAGATION, InputStratum.NAN,
+            "min(max(x,lo),hi) != max(min(x,hi),lo) for NaN",
+            {"x": "float('nan')"}, "NaN path A", "NaN path B"))
 
-    # Softplus: one uses tl.where guard, other doesn't
-    has_exp_log_a = 'tl.exp(' in src_a and 'tl.log(' in src_a
-    has_exp_log_b = 'tl.exp(' in src_b and 'tl.log(' in src_b
-    has_where_guard_a = 'tl.where' in src_a and has_exp_log_a
-    has_where_guard_b = 'tl.where' in src_b and has_exp_log_b
-    if has_exp_log_a and has_where_guard_b and not has_where_guard_a:
+    # softplus guard
+    exp_log_a = 'tl.exp(' in sa and 'tl.log(' in sa
+    exp_log_b = 'tl.exp(' in sb and 'tl.log(' in sb
+    guard_a = 'tl.where' in sa and exp_log_a
+    guard_b = 'tl.where' in sb and exp_log_b
+    if exp_log_a and guard_b and not guard_a:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.LARGE_MAGNITUDE,
-            description=(
-                "Unguarded exp(x) overflows for large x (>~709): "
-                "log(1+exp(x)) → log(Inf) = Inf ≠ x. "
-                "Guarded version bypasses exp for large x"
-            ),
-            trigger_values={"x": "1000.0"},
-            kernel_a_output="Inf (exp overflow)",
-            kernel_b_output="1000.0 (guarded)",
-        ))
-    elif has_exp_log_b and has_where_guard_a and not has_where_guard_b:
+            EdgeCaseCategory.OVERFLOW, InputStratum.LARGE_MAGNITUDE,
+            "Unguarded exp(x) overflows; guarded version safe",
+            {"x": "1000.0"}, "Inf", "1000.0"))
+    elif exp_log_b and guard_a and not guard_b:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.OVERFLOW,
-            input_stratum=InputStratum.LARGE_MAGNITUDE,
-            description="Unguarded exp(x) overflows for large x; guarded version avoids overflow",
-            trigger_values={"x": "1000.0"},
-            kernel_a_output="1000.0 (guarded)",
-            kernel_b_output="Inf (exp overflow)",
-        ))
+            EdgeCaseCategory.OVERFLOW, InputStratum.LARGE_MAGNITUDE,
+            "Unguarded exp(x) overflows; guarded version safe",
+            {"x": "1000.0"}, "1000.0", "Inf"))
 
-    # exp(a)*exp(b) vs exp(a+b) at source level
-    if re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', src_a):
-        if not re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', src_b) and 'tl.exp(' in src_b:
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="exp(a)*exp(b) overflows individually even when a+b is moderate",
-                trigger_values={"a": "500.0", "b": "-499.0"},
-                kernel_a_output="Inf*small = Inf",
-                kernel_b_output="exp(1) ≈ 2.718",
-            ))
-    elif re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', src_b):
-        if not re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', src_a) and 'tl.exp(' in src_a:
-            results.append(EdgeCaseCounterexample(
-                category=EdgeCaseCategory.OVERFLOW,
-                input_stratum=InputStratum.LARGE_MAGNITUDE,
-                description="exp(a)*exp(b) overflows individually even when a+b is moderate",
-                trigger_values={"a": "500.0", "b": "-499.0"},
-                kernel_a_output="exp(1) ≈ 2.718",
-                kernel_b_output="Inf*small = Inf",
-            ))
+    # exp product
+    ep_a = re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', sa)
+    ep_b = re.search(r'tl\.exp\(.+?\)\s*\*\s*tl\.exp\(', sb)
+    if ep_a and not ep_b and 'tl.exp(' in sb:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.OVERFLOW, InputStratum.LARGE_MAGNITUDE,
+            "exp(a)*exp(b) overflows individually",
+            {"a": "500.0", "b": "-499.0"}, "Inf", "exp(1)"))
+    elif ep_b and not ep_a and 'tl.exp(' in sa:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.OVERFLOW, InputStratum.LARGE_MAGNITUDE,
+            "exp(a)*exp(b) overflows individually",
+            {"a": "500.0", "b": "-499.0"}, "exp(1)", "Inf"))
 
-    # abs() vs manual abs via where/multiplication
-    has_abs_a = 'tl.abs(' in src_a or 'tl.math.fabs(' in src_a
-    has_abs_b = 'tl.abs(' in src_b or 'tl.math.fabs(' in src_b
-    has_manual_abs_a = re.search(r'tl\.where\(.+?>=?\s*0', src_a) and '-' in src_a
-    has_manual_abs_b = re.search(r'tl\.where\(.+?>=?\s*0', src_b) and '-' in src_b
-    if has_abs_a and has_manual_abs_b and not has_abs_b:
+    # where vs multiply mask
+    if 'tl.where' in sa and '*' in sb and 'tl.where' not in sb:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.SIGN_LOSS,
-            input_stratum=InputStratum.ZERO,
-            description="tl.abs(-0.0) may give +0.0; where(x>=0, x, -x) preserves -0.0 sign",
-            trigger_values={"x": "-0.0"},
-            kernel_a_output="+0.0",
-            kernel_b_output="-0.0 or +0.0 depending on condition",
-        ))
-    if has_abs_b and has_manual_abs_a and not has_abs_a:
+            EdgeCaseCategory.CONDITIONAL_EDGE, InputStratum.INFINITY,
+            "where(c,x,0)!=x*c: Inf*0=NaN",
+            {"x": "float('inf')", "c": "False"}, "0.0", "NaN"))
+    elif 'tl.where' in sb and '*' in sa and 'tl.where' not in sa:
         results.append(EdgeCaseCounterexample(
-            category=EdgeCaseCategory.SIGN_LOSS,
-            input_stratum=InputStratum.ZERO,
-            description="tl.abs(-0.0) may give +0.0; where(x>=0, x, -x) preserves -0.0 sign",
-            trigger_values={"x": "-0.0"},
-            kernel_a_output="-0.0 or +0.0 depending on condition",
-            kernel_b_output="+0.0",
-        ))
+            EdgeCaseCategory.CONDITIONAL_EDGE, InputStratum.INFINITY,
+            "where(c,x,0)!=x*c: Inf*0=NaN",
+            {"x": "float('inf')", "c": "False"}, "NaN", "0.0"))
+
+    # abs vs manual abs
+    abs_a = 'tl.abs(' in sa or 'tl.math.fabs(' in sa
+    abs_b = 'tl.abs(' in sb or 'tl.math.fabs(' in sb
+    manual_a = re.search(r'tl\.where\(.+?>=?\s*0', sa) and '-' in sa
+    manual_b = re.search(r'tl\.where\(.+?>=?\s*0', sb) and '-' in sb
+    if abs_a and manual_b and not abs_b:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.SIGN_LOSS, InputStratum.ZERO,
+            "tl.abs(-0)->+0; manual abs may differ",
+            {"x": "-0.0"}, "+0.0", "depends on condition"))
+    elif abs_b and manual_a and not abs_a:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.SIGN_LOSS, InputStratum.ZERO,
+            "tl.abs(-0)->+0; manual abs may differ",
+            {"x": "-0.0"}, "depends on condition", "+0.0"))
+
+    # sign function
+    div_abs = re.search(r'/\s*tl\.(abs|math\.fabs)\(', sa) or re.search(r'/\s*tl\.(abs|math\.fabs)\(', sb)
+    if div_abs and ('tl.where' in sa or 'tl.where' in sb):
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.DIVISION_HAZARD, InputStratum.ZERO,
+            "x/|x|!=sign(x) when x=0", {"x": "0.0"}, "NaN", "0.0"))
+
+    # safe division
+    eps_div = re.search(r'/\s*\(.+?\+.+?\)', sa) or re.search(r'/\s*\(.+?\+.+?\)', sb)
+    if eps_div and ('tl.where' in sa or 'tl.where' in sb):
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.DIVISION_HAZARD, InputStratum.NEGATIVE,
+            "a/(b+eps)!=safe when b=-eps", {"b": "-eps"}, "NaN/Inf", "0.0"))
+
+    # sum|x| vs |sum x|
+    sum_abs = re.search(r'tl\.sum\(tl\.abs\(', sa) or re.search(r'tl\.sum\(tl\.abs\(', sb)
+    abs_sum = re.search(r'tl\.abs\(tl\.sum\(', sa) or re.search(r'tl\.abs\(tl\.sum\(', sb)
+    if sum_abs and abs_sum:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.FP_IDENTITY, InputStratum.NEGATIVE,
+            "sum|x|!=|sum x| for mixed signs",
+            {"x": "[1,-1,1,-1]"}, "4.0", "0.0"))
+
+    # prod vs exp(sum(log))
+    has_reduce = 'tl.reduce(' in sa or 'tl.reduce(' in sb
+    has_esl = re.search(r'tl\.exp\(tl\.sum\(tl\.log\(', sa) or re.search(r'tl\.exp\(tl\.sum\(tl\.log\(', sb)
+    if has_reduce and has_esl:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.OVERFLOW, InputStratum.NEGATIVE,
+            "prod(x)!=exp(sum(log(x))) for x<0",
+            {"x": "[-1,2,3]"}, "-6.0", "NaN"))
+
+    # max-min vs |a-b|
+    has_mm = ('tl.maximum' in sa and 'tl.minimum' in sa and '-' in sa) or \
+             ('tl.maximum' in sb and 'tl.minimum' in sb and '-' in sb)
+    has_ad = ('tl.abs(' in sa and '-' in sa) or ('tl.abs(' in sb and '-' in sb)
+    if has_mm and has_ad:
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.NAN_PROPAGATION, InputStratum.NAN,
+            "max(a,b)-min(a,b)!=|a-b| for NaN",
+            {"a": "float('nan')"}, "NaN", "NaN"))
+
+    # sum/divide order — detect sum-then-divide vs divide-then-sum in either order
+    sum_then_div_a = re.search(r'tl\.sum\(.*\).*/', sa)
+    sum_then_div_b = re.search(r'tl\.sum\(.*\).*/', sb)
+    div_in_sum_a = re.search(r'tl\.sum\(.*[*/]', sa)
+    div_in_sum_b = re.search(r'tl\.sum\(.*[*/]', sb)
+    if (sum_then_div_a and div_in_sum_b) or (sum_then_div_b and div_in_sum_a):
+        results.append(EdgeCaseCounterexample(
+            EdgeCaseCategory.REDUCTION_ORDER, InputStratum.PRECISION_BOUNDARY,
+            "sum(x)/N != sum(x/N)", {"x_i": "large spread"},
+            "sum-then-divide", "divide-then-sum"))
 
     return results
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Main synthesizer
+# §8  Main synthesizer
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
 class CounterexampleSynthesizer:
-    """Synthesizes edge-case counterexamples for Triton kernel pairs.
+    """Synthesises edge-case counterexamples for Triton kernel pairs.
 
-    Given two Triton kernel sources that produce identical results on
-    *most* random inputs, this synthesizer identifies boundary strata
-    of the IEEE 754 input space where the kernels diverge.
-
-    Sheaf-theoretically, this checks whether the natural transformation
-    η : Sem_f ⇒ Sem_g extends from the open interior of the input space
-    (where both presheaves agree) to its **compactification** including
-    special values (NaN, ±Inf, ±0, denormals) and tiling boundaries.
+    Architecture: Extract Expr trees -> axiom-modulo comparison ->
+    derive counterexamples from IEEE 754 failure catalog.
     """
 
-    def synthesize(
-        self,
-        source_a: str,
-        source_b: str,
-    ) -> CounterexampleReport:
-        """Synthesize counterexamples for a pair of Triton kernels.
-
-        Returns a report containing all detected edge cases where the
-        kernels produce different outputs.
-        """
-        ext_a = _ExprExtractor()
-        ext_b = _ExprExtractor()
+    def synthesize(self, source_a: str, source_b: str) -> CounterexampleReport:
+        ext_a, ext_b = _ExprExtractor(), _ExprExtractor()
         ext_a.extract(source_a)
         ext_b.extract(source_b)
 
-        resolved_a = ext_a.resolved_stores()
-        resolved_b = ext_b.resolved_stores()
+        exprs_a = ext_a.resolved_store_exprs()
+        exprs_b = ext_b.resolved_store_exprs()
+        strs_a = [_expr_to_str(e) for e in exprs_a]
+        strs_b = [_expr_to_str(e) for e in exprs_b]
 
         report = CounterexampleReport(
-            kernel_a_expr="; ".join(resolved_a),
-            kernel_b_expr="; ".join(resolved_b),
-            n_stores_a=len(resolved_a),
-            n_stores_b=len(resolved_b),
-            structurally_identical=(resolved_a == resolved_b),
+            kernel_a_expr="; ".join(strs_a),
+            kernel_b_expr="; ".join(strs_b),
+            n_stores_a=len(exprs_a),
+            n_stores_b=len(exprs_b),
+            structurally_identical=(exprs_a == exprs_b),
         )
 
-        if resolved_a == resolved_b:
-            # Expressions are identical — check parameter-level differences
-            report.counterexamples.extend(
-                _check_load_other_diff(ext_a, ext_b)
-            )
-            report.counterexamples.extend(
-                _check_mask_presence_diff(ext_a, ext_b)
-            )
+        if exprs_a == exprs_b:
+            report.counterexamples.extend(_check_load_other_diff(ext_a, ext_b))
+            report.counterexamples.extend(_check_mask_presence_diff(ext_a, ext_b))
             return report
 
-        # ── Expression-level pattern matching ────────────────────────────
         all_cex: List[EdgeCaseCounterexample] = []
 
-        for ra, rb in zip(resolved_a, resolved_b):
-            # Apply each specific pattern matcher
-            matchers = [
-                _check_self_cancellation,
-                _check_self_division,
-                _check_zero_multiply,
-                _check_zero_addition,
-                _check_multiply_divide_cancel,
-                _check_add_subtract_cancel,
-                _check_subtract_add_cancel,
-                _check_reciprocal_roundtrip,
-                _check_associativity,
-                _check_mult_associativity,
-                _check_distributivity,
-                _check_division_chain,
-                _check_divide_multiply_roundtrip,
-                _check_reciprocal_multiply,
-                _check_square_diff_vs_product,
-                _check_complex_fraction,
-                _check_fraction_addition,
-                _check_power_vs_multiply,
-                _check_exp_product_vs_exp_sum,
-                _check_function_composition_order,
-                _check_where_vs_arithmetic,
-                _check_max_vs_where,
-                _check_sign_function,
-                _check_safe_division,
-                _check_triple_sum_vs_multiply,
-                _check_square_self_div,
-            ]
-            for matcher in matchers:
-                cex = matcher(ra, rb)
-                if cex is not None:
-                    all_cex.append(cex)
+        # algebraic comparison
+        for ea, eb in zip(exprs_a, exprs_b):
+            axioms = _compare(ea, eb)
+            if axioms is not None and len(axioms) > 0:
+                all_cex.extend(_derive_counterexamples(axioms))
 
-            # Heuristic fallback for unmatched differences
-            if not any(matcher(ra, rb) is not None for matcher in matchers):
-                all_cex.extend(_heuristic_arithmetic_diff(ra, rb))
-
-        # ── Parameter-level checks ───────────────────────────────────────
+        # infrastructure checks
         all_cex.extend(_check_load_other_diff(ext_a, ext_b))
         all_cex.extend(_check_mask_presence_diff(ext_a, ext_b))
 
-        # ── Reduction-level checks ───────────────────────────────────────
-        all_cex.extend(
-            _check_reduction_differences(ext_a, ext_b, resolved_a, resolved_b)
-        )
-
-        # ── Source-level pattern checks ──────────────────────────────────
+        # source-level fallback
         all_cex.extend(_check_source_patterns(source_a, source_b))
 
-        # Deduplicate by (category, stratum) — keep highest confidence
+        # deduplicate
         seen: Dict[Tuple[EdgeCaseCategory, InputStratum], EdgeCaseCounterexample] = {}
         for cex in all_cex:
-            key = (cex.category, cex.input_stratum)
-            if key not in seen or cex.confidence > seen[key].confidence:
-                seen[key] = cex
+            k = (cex.category, cex.input_stratum)
+            if k not in seen or cex.confidence > seen[k].confidence:
+                seen[k] = cex
         report.counterexamples = list(seen.values())
-
         return report

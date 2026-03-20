@@ -105,8 +105,10 @@ class TestTritonStructuralChecker(unittest.TestCase):
     def test_add_vs_mul_different(self):
         checker = TritonStructuralChecker()
         result = checker.compare(ADD_KERNEL_A, MUL_KERNEL)
-        # Same memory pattern but different operation
         self.assertIsInstance(result, KernelComparisonResult)
+        self.assertFalse(result.structural_match)
+        self.assertFalse(result.computation_match)
+        self.assertIn("store computation", result.explanation.lower())
 
     def test_add_vs_sum_different_structure(self):
         checker = TritonStructuralChecker()
@@ -147,8 +149,7 @@ class TestTritonEquivalenceChecker(unittest.TestCase):
         spec_add = build_kernel_spec(ADD_KERNEL_A)
         spec_mul = build_kernel_spec(MUL_KERNEL)
         j = checker.check_site(spec_add, spec_mul, _sid("add_mul"))
-        # Could be equivalent structurally even if semantically different
-        self.assertIsNotNone(j.verdict)
+        self.assertEqual(j.verdict, EquivalenceVerdict.INEQUIVALENT)
 
     def test_add_vs_sum_inequivalent(self):
         checker = self._make_checker()

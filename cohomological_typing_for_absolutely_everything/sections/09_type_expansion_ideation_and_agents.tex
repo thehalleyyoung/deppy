@@ -1,0 +1,114 @@
+\chapter{Type Expansion, Ideation, and Agents}
+
+The repository's prompt-driven agent is not an accidental extra on top of the typing
+system. It is one of the clearest demonstrations that the same semantic stance can govern
+planning and generation as well as checking.
+
+\section*{Type expansion}
+The type-expansion modules in the hybrid package take a short natural-language description
+and elaborate it into a much richer plan: modules, covers, dependencies, obligations,
+interfaces, and eventually code-generation structure. This process is easiest to interpret
+as growth in a presheaf. The intent layer starts with sparse, natural-language local
+sections. Structural, semantic, proof, and code layers gradually acquire more content as
+the plan becomes more explicit.
+
+The important conceptual shift is that generation is not described as free-form text
+completion followed by a verifier. It is described as typed elaboration. The prompt gives
+an intent section. Expansion grows a cover. Local generation produces candidate sections.
+Verification checks whether they glue. Repair loops try to resolve obstructions. Assembly
+produces a global artifact.
+
+\section*{Ideation as typing}
+The ideation machinery is even more unusual. The repository includes a large mathematical
+ontology and domain-selection logic intended to enrich prompts by analogy to concepts from
+many mathematical areas. The right way to phrase this in the paper is not that the system
+has a magical creativity engine. It is that it tries to treat ideation itself as a typed
+search over richer local descriptions.
+
+If a prompt about trading is enriched by analogy to algebraic geometry, order theory,
+signal processing, or topology, the resulting design search space is larger but also more
+structured. Ideation becomes a pre-typing phase that improves the quality of the later
+cover and the plausibility of the resulting local sections.
+
+\section*{Scalar-valued typing}
+The ideation pipeline can be sharpened still further by introducing what the repository now
+calls \emph{scalar-valued typing}. The idea is simple: before committing to a full
+elaboration, assign a scalar to the candidate elaboration that measures how strongly the
+current domain evidence supports it. In implementation terms, \repo{agent/cli.py} already
+tracks an LLM belief score, a mathematically-derived score based on validated analogies and
+certifiable structure, and per-area strengths. Scalar-valued typing packages these into a
+single typed quantity attached to the elaboration.
+
+If $E$ is a type elaboration and $d$ is a target domain, then the scalar-valued typing
+score can be written schematically as
+\[
+  \Score(E,d) =
+  \alpha \, \Score_{\mathrm{LLM}}(E,d)
+  + (1-\alpha)\, \Score_{\mathrm{Math}}(E,d)
+  + \varepsilon \, \max_i \Score_i(E,d),
+\]
+with \(\alpha = 0.55\) and \(\varepsilon = 0.05\) in the current implementation. The
+first term measures how strongly the language model believes the idea explains the problem
+in the chosen domain. The second term measures structural richness: validated analogies,
+deep connections, theorem schemas, certification targets, and penalties for unresolved
+\(H^1\)-mass. The final term lets especially strong local mathematical areas gently boost a
+globally promising elaboration.
+
+This is a useful addition because it makes ideation behave less like unranked brainstorming
+and more like typed search. Scalar-valued typing does not replace ordinary type checking.
+Instead it orders candidate elaborations before the expensive downstream steps of full
+module expansion, proof planning, and code generation. The score is therefore neither a
+proof nor a mere UX flourish; it is a typed prioritization signal.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  node distance=1.15cm,
+  box/.style={draw=chapterblue, rounded corners=2pt, fill=chapterblue!6, minimum width=3.1cm, minimum height=0.9cm, align=center},
+  sum/.style={draw=accentgold, rounded corners=2pt, fill=accentgold!12, minimum width=3.5cm, minimum height=0.95cm, align=center},
+  >=Latex
+]
+\node[box] (intent) {prompt / intent section};
+\node[box, right=of intent] (llm) {LLM belief \\ \(\Score_{\mathrm{LLM}}\)};
+\node[box, right=of llm] (math) {math-model evidence \\ \(\Score_{\mathrm{Math}}\)};
+\node[box, below=of llm] (areas) {area strengths \\ \(\max_i \Score_i\)};
+\node[sum, below=of math] (overall) {scalar-valued typing \\ \(\Score(E,d)\)};
+\draw[->, thick, chapterblue] (intent) -- (llm);
+\draw[->, thick, chapterblue] (intent.east) .. controls +(1.5,-0.4) and +(-1.4,0.6) .. (math.west);
+\draw[->, thick, chapterblue] (llm) -- (overall);
+\draw[->, thick, chapterblue] (math) -- (overall);
+\draw[->, thick, chapterblue] (areas) -- (overall);
+\end{tikzpicture}
+\caption{Scalar-valued typing adds a numeric layer over ideation: type elaborations are scored by domain fit before full expansion.}
+\end{figure}
+
+\section*{The orchestration agent}
+The agent orchestrator in \repo{agent/orchestrator.py} embodies a multi-stage state
+machine: parsing, expanding, planning, generating, verifying, and assembling. The code is
+therefore easier to understand after one adopts the hybrid type picture. Each stage is not
+simply passing strings to the next. It is refining what kind of section exists, which
+layer it inhabits, and which trust-bearing obligations must be checked before the next
+stage is allowed to treat the result as global enough.
+
+\begin{algorithm}[h]
+\caption{Cohomological generation loop}
+\begin{algorithmic}[1]
+\State Resolve user prompt into intent sections.
+\State Expand intent into a typed cover of local module obligations.
+\For{each local module site}
+  \State Synthesize candidate code and local contracts.
+  \State Check structural, semantic, and proof obligations.
+  \If{an obstruction remains}
+    \State refine the local section and retry
+  \EndIf
+\EndFor
+\State Attempt to glue the verified local sections into a project.
+\State Emit residual obstructions if gluing fails.
+\end{algorithmic}
+\end{algorithm}
+
+The importance of this loop is that it places generation inside the same semantics as
+checking. A paper that really integrates the repository should emphasize this strongly. In
+the current repository story, scalar-valued typing sits just before the expensive center of
+this loop, biasing the search toward elaborations whose local mathematical evidence most
+strongly supports the target domain.

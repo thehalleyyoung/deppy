@@ -175,6 +175,21 @@ def compute_tensor_cohomology(
     try:
         _result, tensor_classes = compute_cohomology_via_base(local_result.judgments)
         if tensor_classes:
+            if (
+                any(j.verdict == EquivalenceVerdict.INEQUIVALENT for j in local_result.judgments)
+                and not any(not c.is_trivial for c in tensor_classes)
+            ):
+                for j in local_result.judgments:
+                    if j.verdict == EquivalenceVerdict.INEQUIVALENT:
+                        tensor_classes.append(TensorCohomologyClass(
+                            degree=1,
+                            representative_sites=[j.site_id],
+                            is_trivial=False,
+                            obstruction_description=(
+                                f"{j.tensor_site_kind.name}: {j.explanation}"
+                            ),
+                            numerical_obstruction=j.max_abs_diff,
+                        ))
             # Augment with descent violations as H² classes
             for v in descent.cocycle_violations:
                 tensor_classes.append(TensorCohomologyClass(

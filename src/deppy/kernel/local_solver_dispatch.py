@@ -911,11 +911,23 @@ class LocalSolverDispatch:
                     pack, site_id, carrier_schema, None, context,
                 )
             except Exception as exc:
-                local_result = LocalSolveResult(
-                    status=SolverStatus.ERROR,
-                    detail=f"exception: {exc}",
-                    theory_pack_name=pn,
-                )
+                # ── Sheaf-theoretic fallback: error → default pack ──
+                # When a theory pack crashes on a site it registered for,
+                # we fall through to the default pack to produce a ⊤
+                # section.  This ensures the presheaf is COMPLETE (every
+                # site has a fiber), preventing false H¹ obstructions
+                # from "missing section" at overlaps.
+                try:
+                    local_result = self._call_solve_local(
+                        self._default_pack, site_id, carrier_schema, None, context,
+                    )
+                    local_result.detail = f"fallback after {pn} error: {exc}"
+                except Exception:
+                    local_result = LocalSolveResult(
+                        status=SolverStatus.ERROR,
+                        detail=f"exception: {exc}",
+                        theory_pack_name=pn,
+                    )
             elapsed = (time.monotonic() - start) * 1000.0
 
             # Check timeout

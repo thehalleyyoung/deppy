@@ -1,0 +1,54 @@
+\chapter{Appendix: Candidate Definitions and Results}
+
+This appendix collects paper-ready definitions and results that fit the repository's
+current architecture.
+
+\begin{definition}[Hybrid global section]
+Let $P$ be a program and let $\Layer$ be the ordered set
+$\mathrm{INTENT} < \mathrm{STRUCTURAL} < \mathrm{SEMANTIC} < \mathrm{PROOF} < \mathrm{CODE}$.
+A hybrid global section for $P$ is a section of the presheaf
+\[
+  \HybridTy : (\Site(P) \times \Layer)^{\op} \to \mathsf{RefinementLattice} \times \mathsf{TrustLattice}
+\]
+that is compatible under every adjacent restriction map.
+\end{definition}
+
+\begin{definition}[Oracle-valued semantic predicate]
+An oracle-valued semantic predicate on a carrier $A$ is a map
+\[
+  \varphi_s : A \to \TO(\Bool)
+\]
+where
+\[
+  \TO(B) = B \times \mathsf{TrustLevel} \times \mathsf{Confidence} \times \mathsf{Provenance}.
+\]
+\end{definition}
+
+\begin{theorem}[Weakest-link trust composition]
+If semantic computations are composed by monadic bind in $\TO$, then the trust of the
+composite is bounded above by the meet of the trust levels of the constituents.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The monadic structure is defined to propagate trust via meet. Therefore every downstream
+semantic result inherits the weakest trust level seen along the path. This is exactly the
+engineering behavior desired by the repository, since high-trust stages should not erase
+low-trust inputs.
+\end{proof}
+
+\begin{theorem}[Obstruction criterion for hybrid coherence]
+If $\Hc{1}(\Layer, \HybridTy) = 0$, then every adjacent pair of layer sections glues to a
+coherent hybrid type over the chosen cover.
+\end{theorem}
+
+\begin{remark}
+This theorem should always be read relative to a chosen cover and chosen restriction maps.
+The repository's mature position is strongest when it makes such relativity explicit.
+\end{remark}
+
+\begin{proposition}[Mixed-mode compilation as a bridge]
+Every mixed-mode surface fragment can be understood as producing either a plain type-level
+obligation, a hybrid trust-bearing contract, or both. In particular, user-facing syntax is
+not a parallel semantics but a bridge into the existing object language and layered
+semantics.
+\end{proposition}

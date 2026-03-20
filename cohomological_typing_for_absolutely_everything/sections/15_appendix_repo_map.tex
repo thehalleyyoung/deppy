@@ -1,0 +1,33 @@
+\chapter{Appendix: Repository Map}
+
+\begin{longtable}{p{0.28\textwidth}p{0.64\textwidth}}
+\toprule
+\textbf{Path or namespace} & \textbf{Role in the cohomological typing story} \\
+\midrule
+\endhead
+\repo{src/deppy/types/base.py} & Foundational carrier hierarchy for plain typing. \\
+\repo{src/deppy/types/refinement.py} & Refinement predicates and the type-level shape of local facts. \\
+\repo{src/deppy/types/dependent.py} & Dependent function and pair formers, identity-like objects, indexed families. \\
+\repo{src/deppy/types/subtyping.py} & Ordering and obligation structure for the refinement lattice. \\
+\repo{src/deppy/hybrid/core/types.py} & Hybrid type semantics, layer order, trust-facing hybrid type formers. \\
+\repo{src/deppy/hybrid/core/checker.py} & Bidirectional hybrid checking and semantic-cache logic. \\
+\repo{src/deppy/hybrid/core/algebraic_geometry.py} & Layered presheaves, Cech complexes, cohomological obstruction machinery. \\
+\repo{src/deppy/hybrid/core/trust.py} & Trust lattice, evidence classification, provenance plumbing. \\
+\repo{src/deppy/hybrid/mixed_mode/syntax.py} & Gracefully degrading user-facing syntax for hybrid programming. \\
+\repo{src/deppy/hybrid/discharge/cascade.py} & Staged obligation discharge from trivial proofs to residuals. \\
+\repo{src/deppy/hybrid/lean_translation/} & Translation of typed and proof-bearing artifacts into Lean-facing forms. \\
+\repo{src/deppy/hybrid/type_expansion/} & Elaboration of prompt or intent material into typed plans and covers. \\
+\repo{src/deppy/hybrid/anti_hallucination/} & Artifact typing and structural / semantic hallucination classification. \\
+\repo{src/deppy/hybrid/zero_change/} & Inference over existing Python without annotation-first workflows. \\
+\repo{src/deppy/equivalence/} & Local-to-global equivalence, semantic diffing, and descent-style reasoning. \\
+\repo{src/deppy/render/} & Turning typed results, residuals, and trust labels into readable surfaces. \\
+\repo{src/deppy/theory_packs/} & Domain-local solver geometries and library-facing semantics. \\
+\repo{agent/orchestrator.py} & Prompt-driven cover growth, generation, verification, and assembly. \\
+\repo{web/} & Human-facing explanation layer summarizing the mathematics and APIs. \\
+\bottomrule
+\end{longtable}
+
+This table should not be read as a dependency graph with one single topological order. It
+is a semantic map. The repository's pieces feed one another in multiple directions, but the
+map makes clear that the plain and hybrid type systems remain central reference points for
+most of the interesting work.

@@ -1,0 +1,88 @@
+\chapter{The Plain Type System}
+
+The plain type system is the foundational language of \DepPy{}. Its home is
+\repo{src/deppy/types/}, and its central role is to define the semantic objects that later
+passes manipulate. The file \repo{src/deppy/types/base.py} opens by describing itself as a
+base hierarchy for \DepPy{}'s sheaf-descent semantic typing system. That phrase is easy to
+overlook, but it says something important: the foundational system is already interpreted
+semantically and geometrically.
+
+\section*{TypeBase and the carrier language}
+Every concrete plain type inherits from \py{TypeBase}. The abstract interface requires
+substitution, free-variable computation, structural traversal, equality, hashing, and a
+human-readable representation. Those are the operations one needs if types are to be
+symbolic objects in a real formal language rather than inert runtime labels.
+
+The concrete hierarchy covers primitive Python types, top and bottom types,
+container-oriented types, callables, protocols, classes, and modules. This breadth matters
+because it means the plain system aims to be a semantic typing language for native Python,
+not a separate toy calculus with only theorem-prover examples.
+
+\section*{Refinement types}
+The refinement layer in \repo{src/deppy/types/refinement.py} defines the familiar shape
+\[
+  \{v : \tau \mid \varphi(v)\}
+\]
+and then invests serious engineering effort in making predicates behave like real symbolic
+objects. Predicates support free-variable analysis, substitution, negation, conjunction,
+disjunction, implication, comparison, and named qualifiers. This is the first place where
+one sees the repository's long-term ambition: specifications are not meant to be English
+comments left floating around; they are intended to be structured semantic objects.
+
+The crucial point for later chapters is that the plain refinement layer has no trust
+metadata. A refinement is simply a predicate-bearing type. There is no confidence score,
+no provenance, and no solver-versus-oracle distinction internal to the object itself. This
+absence is deliberate. It is one of the reasons the hybrid layer later becomes necessary.
+
+\section*{Dependent formers}
+The file \repo{src/deppy/types/dependent.py} gives the foundational system four of the
+most important ingredients for the whole repository:
+\begin{itemize}[leftmargin=2em]
+  \item \py{PiType} for dependent functions $\Pi(x : A).B(x)$,
+  \item \py{SigmaType} for dependent pairs $\Sigma(x : A).B(x)$,
+  \item \py{IdentityType} for equality-like objects,
+  \item indexed and quantified families for parameterized semantic structure.
+\end{itemize}
+These are not decorative imports from dependent type theory. They are what allow the rest
+of the repository to speak concretely about APIs whose outputs depend on inputs,
+witness-bearing results, transport of equalities, and theorem-carrying program fragments.
+
+\begin{definition}[Plain dependent function]
+A plain dependent function type is a triple $(x, A, B)$ represented in code as
+\py{PiType(param_name, param_type, return_type)}, with substitution and free-variable
+operations respecting binder hygiene.
+\end{definition}
+
+\begin{definition}[Plain dependent pair]
+A plain dependent pair type is a triple $(x, A, B)$ represented as
+\py{SigmaType(fst_name, fst_type, snd_type)}, where the second component type may depend on
+the first component.
+\end{definition}
+
+\section*{Subtyping and obligations}
+The plain system does not stop at representation. The subtype checker in
+\repo{src/deppy/types/subtyping.py} produces subtype answers and verification conditions.
+This is what turns the type hierarchy into an ordered refinement lattice rather than a mere
+syntax tree. When later hybrid code says it values types in a refinement lattice, this is
+the layer providing the foundational meaning of that phrase.
+
+\paragraph{Why the plain system still matters after hybridization.}
+It is tempting to think the hybrid system replaces the plain one. That reading is wrong.
+The mixed-mode compiler still lowers user-facing syntax into plain obligations such as
+refinements and Sigma-like witness forms. Lean translation still needs a foundational
+type-level language. The agent and checkers still benefit from a symbolic substrate with
+substitution and binder structure. The correct statement is therefore:
+\begin{quote}
+The plain system is the object language; the hybrid system is a richer semantics for how
+objects of that language are layered, checked, and trusted.
+\end{quote}
+
+\begin{proposition}
+If the hybrid system were removed but the plain type system retained, \DepPy{} would still
+have a meaningful dependent-and-refinement type language. If the plain system were
+removed but the hybrid packaging retained, the repository would lose the exact symbolic
+objects that many higher-level workflows require.
+\end{proposition}
+
+The proof is architectural rather than formal: the code base repeatedly compiles into,
+imports from, or conceptually depends on the plain hierarchy.

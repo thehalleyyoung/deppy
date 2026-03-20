@@ -1,0 +1,111 @@
+\chapter{The Hybrid Type System}
+
+The hybrid system in \repo{src/deppy/hybrid/} is best understood as a lift of the plain
+system into a layered, trust-bearing semantics. The key file is
+\repo{src/deppy/hybrid/core/types.py}, whose opening documentation states the central
+mathematical object directly:
+\[
+  \HybridTy : (\Site(P) \times \Layer)^{\op} \to \mathsf{RefinementLattice} \times \mathsf{TrustLattice}.
+\]
+This formula does a large amount of conceptual work. It says that a hybrid type is not
+just a base type plus an extra annotation. It is a section defined over a product site
+whose second coordinate ranges over the ordered set
+\[
+  \mathrm{INTENT} < \mathrm{STRUCTURAL} < \mathrm{SEMANTIC} < \mathrm{PROOF} < \mathrm{CODE}.
+\]
+
+\section*{Layered sections}
+The hybrid core defines separate section-like structures for each layer. Intent sections
+store natural-language descriptions and structured claims. Structural sections store
+machine-checkable predicates, often tied to Z3 or runtime evaluation. Semantic sections
+store oracle-judged predicates with prompts, rubrics, and confidence thresholds. Proof
+sections store Lean-facing theorem content. Code sections store executable source and
+structural program representations.
+
+The result is a model in which one and the same semantic object can be described at
+multiple levels without collapsing those levels into one another. This is the central
+advantage of the hybrid formulation. It gives \DepPy{} a disciplined answer to the
+problem of mixed evidence.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw=chapterblue, rounded corners=2pt, fill=chapterblue!6, minimum width=6.2cm, minimum height=0.8cm, align=center},
+  score/.style={draw=accentgold, rounded corners=2pt, fill=accentgold!12, minimum width=3.4cm, minimum height=0.8cm, align=center},
+  >=Latex
+]
+\node[layer] (intent) {INTENT \\ natural-language thesis and desired behavior};
+\node[layer, below=0.45cm of intent] (structural) {STRUCTURAL \\ decidable predicates, Z3 obligations, runtime checks};
+\node[layer, below=0.45cm of structural] (semantic) {SEMANTIC \\ oracle-judged rubrics, confidence, provenance};
+\node[layer, below=0.45cm of semantic] (proof) {PROOF \\ Lean translations, theorem objects, residual assumptions};
+\node[layer, below=0.45cm of proof] (code) {CODE \\ executable Python, extracted artifacts, assembled modules};
+\node[score, right=1.7cm of semantic] (trust) {trust lattice \\ weakest-link composition};
+\foreach \a/\b in {intent/structural,structural/semantic,semantic/proof,proof/code} {
+  \draw[->, thick, chapterblue] (\a) -- (\b);
+}
+\draw[->, thick, accentgold] (semantic) -- (trust);
+\draw[->, thick, accentgold] (proof.east) .. controls +(1.1,0.0) and +(0.0,-0.8) .. (trust.south);
+\end{tikzpicture}
+\caption{The layered object behind hybrid typing in \DepPy{}. The system keeps intent, structure, semantics, proof, and code distinct while forcing them to cohere under restriction and trust composition.}
+\end{figure}
+
+\begin{definition}[Hybrid type]
+A hybrid type is a tuple of layer sections
+\[
+  \tau = (\tau_I, \tau_S, \tau_M, \tau_P, \tau_C)
+\]
+with components for intent, structural, semantic, proof, and code layers, together with
+restriction maps between adjacent layers and a trust label that records the strongest
+validated interpretation currently available.
+\end{definition}
+
+\section*{Dependent formers survive the lift}
+The hybrid layer does not abandon the ordinary dependent type formers. Instead it defines
+hybrid analogues of them. The repository names \py{HybridPiType}, \py{HybridSigmaType},
+and \py{HybridRefinementType}. Their point is not to replace $\Pi$ and $\Sigma$ with new
+syntax, but to reinterpret them in a setting where domain and codomain can themselves carry
+structural and semantic predicates, provenance, and trust labels.
+
+This is why the hybrid system should be read as an extension rather than a fork. A hybrid
+$\Pi$-type is still fundamentally a dependent function. A hybrid $\Sigma$-type is still a
+witness-bearing or decomposition-bearing pair. A hybrid refinement type still says
+``values of this type satisfy this predicate,'' except that the predicate may now split into
+a decidable part and a semantic part:
+\[
+  \{x : T \mid \varphi_d(x) \land \varphi_s(x)\}.
+\]
+
+\section*{Coherence as vanishing first cohomology}
+The hybrid core says a type is coherent when first cohomology vanishes:
+\[
+  \Hc{1}(\Layer, \HybridTy) = 0.
+\]
+Operationally, this means adjacent layers agree on their overlaps. A function whose code
+runs but whose semantic layer rejects its behavior is not coherent. A proof artifact that
+postulates a theorem stronger than what the structural layer can justify is not coherent.
+A natural-language intent that is never realized by any code or proof is not coherent.
+
+This criterion is philosophically valuable because it makes mismatch visible without
+pretending every mismatch is the same kind of failure. Some failures are structural. Some
+are semantic. Some are proof-level. The language of layered cocycles keeps those failures
+organized.
+
+The hybrid geometry can also be pictured as a commutative square: restrictions in the site
+dimension should commute with forgetful transport between layers. For a local chart overlap
+$U \subseteq V$, one wants a square of the form
+\[
+\begin{tikzcd}[column sep=large, row sep=large]
+\tau_S(V) \arrow[r, "\rho_{I \leftarrow S}"] \arrow[d, "\mathrm{res}_{U,V}"'] &
+\tau_I(V) \arrow[d, "\mathrm{res}_{U,V}"] \\
+\tau_S(U) \arrow[r, "\rho_{I \leftarrow S}"] &
+\tau_I(U)
+\end{tikzcd}
+\]
+to commute. When such squares fail to commute across a cover, the mismatch is precisely
+the sort of obstruction that the hybrid cohomology language is meant to expose.
+
+\begin{remark}
+The repository sometimes introduces convenience trust enums in one file and richer trust
+structures in another. A precise reading is that the hybrid package exposes a lightweight
+public face and a heavier core. The paper should acknowledge this rather than flatten it.
+\end{remark}

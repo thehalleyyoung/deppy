@@ -128,11 +128,13 @@ __all__ = [
     "MLIRLoweringStep",
     # ── tensor equivalence judgments ─────────────────────────────────────
     "TensorLocalJudgment",
+    "LocalCheckResult",
     "TensorGlobalJudgment",
     "TensorObstructionKind",
     "TensorObstruction",
     "TensorDescentDatum",
     "TensorCohomologyClass",
+    "DescentResult",
     # ── protocols ────────────────────────────────────────────────────────
     "TensorEquivalenceChecker",
     "TensorPresheafBuilder",
@@ -946,6 +948,9 @@ class TensorLocalJudgment:
     output_f: Optional[Any] = None
     output_g: Optional[Any] = None
     max_abs_diff: Optional[float] = None
+    max_rel_diff: Optional[float] = None
+    test_cases_run: int = 0
+    test_cases_passed: int = 0
 
     @property
     def is_equivalent(self) -> bool:
@@ -964,6 +969,24 @@ class TensorLocalJudgment:
             obligation=obligation,
             explanation=self.explanation,
         )
+
+
+@dataclass
+class LocalCheckResult:
+    """Compatibility wrapper for torch local-check outputs."""
+
+    judgments: List[TensorLocalJudgment]
+    short_circuited_at: Optional[TensorStratum] = None
+    all_equivalent: bool = False
+
+
+@dataclass
+class DescentResult:
+    """Compatibility wrapper for torch descent outputs."""
+
+    is_effective: bool = False
+    cocycle_violations: List[str] = field(default_factory=list)
+    glued_verdict: EquivalenceVerdict = EquivalenceVerdict.UNKNOWN
 
 
 @dataclass

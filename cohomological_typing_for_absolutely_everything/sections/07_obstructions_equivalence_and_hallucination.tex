@@ -1,0 +1,63 @@
+\chapter{Obstructions, Equivalence, and Hallucination}
+
+One of the repository's strongest unifying ideas is that several seemingly different
+problems become gluing problems once the right local sections are chosen.
+
+\section*{Bugs as obstruction classes}
+In the sheaf-cohomological line of work, a bug is represented as a non-gluing local fact.
+A local section at one site may allow a state that another site's viability condition
+forbids. The disagreement lives on an overlap and can be collected into a $1$-cocycle.
+When that cocycle is not a coboundary, it determines a nonzero class in first cohomology.
+This is the precise sense in which the repository says ``bugs are $H^1$ classes.''
+
+\begin{example}[Normalization bug]
+Suppose an argument site allows an empty list while a downstream division site requires a
+nonzero sum. The call and error sites disagree on their overlap. The mismatch is a
+$1$-cocycle; if no local strengthening already present in the cover resolves it, the class
+is nonzero and the bug is genuinely obstructive.
+\end{example}
+
+The slogan becomes especially valuable once it is quantified. The repository's older paper
+material argues that the rank of $\Hc{1}$ over $\mathbb{F}_2$ corresponds to the minimum
+number of independent fixes required to resolve the current family of gluing failures.
+Whether or not every implementation path computes that exact number in the same way, the
+architectural point is powerful: non-gluing is not just yes/no, it has structure and can
+be decomposed.
+
+\section*{Equivalence as gluing of local isomorphisms}
+The equivalence machinery in \repo{src/deppy/equivalence/} makes the same move for program
+comparison. Two programs are not compared by one magical global theorem from nowhere.
+Instead, one constructs local correspondences, local semantic differences, and overlap
+conditions. If the local isomorphisms glue, one obtains a global equivalence verdict. If
+they do not, one obtains a localized reason for failure.
+
+This reuse of the same geometry is one of the best reasons to take the repository's
+mathematical self-description seriously. It would be much easier to implement bug finding
+and equivalence with unrelated vocabularies. The decision not to do so shows that the
+local-to-global picture is doing real architectural work.
+
+\section*{Hallucination as type inhabitation failure}
+Anti-hallucination is where the hybrid split between structural and semantic predicates
+becomes especially visible. A fabricated API is a structural failure: the relevant symbol,
+signature, or object does not exist. A semantic drift is a meaning failure: the code might
+be structurally well-formed while still failing the intended rubric or behavior. A
+contradiction between multiple checks is an inconsistency failure.
+
+This is a very strong and very repository-specific claim. It says that hallucination should
+not be treated as mystical stochastic misbehavior. It should be treated as typed failure.
+The artifact has a required hybrid type. Structural checks attempt to inhabit the
+structural component. Semantic checks attempt to inhabit the semantic component. Proof and
+code layers contribute their own evidence. If the object fails to inhabit the required
+space, the failure can be named precisely.
+
+\begin{definition}[Hallucination as inhabitation failure]
+Given an expected hybrid type $T$, a generated artifact $a$ hallucinates when $a$ fails to
+inhabit $T$ at some required layer. Structural hallucinations fail structural inhabitation;
+semantic hallucinations fail semantic inhabitation; contradictory hallucinations produce
+incompatible evidence across layers.
+\end{definition}
+
+This is one of the clearest examples of the paper's title. Once local-to-global typed
+structure is the common language, hallucination, equivalence, and bug finding are not
+unrelated downstream products. They are different ways for a typed section to succeed or
+fail to glue.
