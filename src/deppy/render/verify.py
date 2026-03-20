@@ -759,6 +759,16 @@ def _split_refinement_clauses(text: str) -> List[str]:
     if len(parts) > 1:
         return parts
 
+    # Split on sentence boundaries for clause-style docstrings such as
+    # "result is sorted. result is unique."
+    parts = [
+        part.strip()
+        for part in _re.split(r'(?<!\d)\.\s+(?=[A-Za-z_])', text.rstrip())
+        if part.strip()
+    ]
+    if len(parts) > 1:
+        return [part.rstrip(".") for part in parts]
+
     # Split on " and " when it's a connective (not part of "X and Y")
     # Heuristic: split if both sides look like predicates (contain verbs/ops)
     parts = _re.split(r'\s+and\s+', text)
@@ -795,7 +805,7 @@ def _split_refinement_clauses(text: str) -> List[str]:
 
 def _parse_single_clause(clause: str, params: List[str]) -> List[_RefinementSpec]:
     """Parse one refinement clause into one or more _RefinementSpec objects."""
-    cl = clause.strip().lower()
+    cl = clause.strip().lower().rstrip(".")
 
     # ── Pattern: "X and Y are sorted" → Sorted(X), Sorted(Y) ──
     m = _re.match(r'^(\w+(?:\s+and\s+\w+)*)\s+(?:are|is)\s+sorted$', cl)

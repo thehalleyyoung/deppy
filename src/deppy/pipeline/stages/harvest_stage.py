@@ -406,6 +406,77 @@ def _harvest_contracts(scope: ScopeInfo) -> List[HarvestedGuard]:
     return guards
 
 
+def _harvest_docstring_contracts(scope: ScopeInfo) -> List[HarvestedGuard]:
+    """Harvest synthesized contracts from docstring text."""
+    if not scope.docstring or scope.kind not in {"function", "method", "async_function"}:
+        return []
+    from deppy.nl_synthesis.docstring_parser import parse_docstring_fragments
+    from deppy.nl_synthesis.verifier import verify_synthesized_constraints
+
+    params = [
+        param.name
+        for param in scope.parameters
+        if param.name and not param.is_self and not param.is_cls
+    ]
+    fragments = parse_docstring_fragments(scope.docstring)
+    constraints = verify_synthesized_constraints(
+        fragments,
+        params,
+    )
+    fragment_texts: Dict[Tuple[str, Optional[str]], List[str]] = {}
+    for fragment in fragments:
+        key = (fragment.kind, fragment.target or ("result" if fragment.kind == "ensures" else None))
+        fragment_texts.setdefault(key, []).append(fragment.normalized_text or fragment.text)
+
+    kind_map = {
+        "requires": GuardKind.CONTRACT_REQUIRES,
+        "ensures": GuardKind.CONTRACT_ENSURES,
+        "invariant": GuardKind.CONTRACT_INVARIANT,
+    }
+    guards: List[HarvestedGuard] = []
+    for constraint in constraints:
+        if constraint.verification_status != "accepted":
+            continue
+        kind = kind_map.get(constraint.kind)
+        if kind is None:
+            continue
+        target = constraint.target
+        variable_name = "<return>" if constraint.kind == "ensures" else target
+        fragment_key = (constraint.kind, target)
+        fragment_source = " && ".join(fragment_texts.get(fragment_key, ()))
+        predicate_text = constraint.predicate_text or constraint.description
+        if (
+            target
+            and constraint.kind in {"requires", "invariant"}
+            and "result" in predicate_text
+            and target not in predicate_text
+        ):
+            predicate_text = predicate_text.replace("result", target)
+        source_text = fragment_source or predicate_text
+        if fragment_source and predicate_text and predicate_text not in fragment_source:
+            source_text = f"{fragment_source} [{predicate_text}]"
+        guards.append(
+            HarvestedGuard(
+                _kind=kind,
+                _scope_name=scope.qualified_name,
+                _line=scope.line_start,
+                _col=0,
+                _source_text=source_text,
+                _variable_name=variable_name,
+                _trust=constraint.trust,
+                _metadata={
+                    "source": "docstring",
+                    "fragment_text": fragment_source,
+                    "description": constraint.description,
+                    "predicate_text": predicate_text,
+                    "template_name": constraint.template_name,
+                    "verification_status": constraint.verification_status,
+                },
+            )
+        )
+    return guards
+
+
 # ===================================================================
 #  HarvestStage
 # ===================================================================
@@ -465,6 +536,11 @@ class HarvestStage(Stage):
             con_guards = _harvest_contracts(scope)
             scope_guards.extend(con_guards)
             contract_count += len(con_guards)
+
+            # Harvest docstring-derived contracts
+            doc_guards = _harvest_docstring_contracts(scope)
+            scope_guards.extend(doc_guards)
+            contract_count += len(doc_guards)
 
             # Harvest guards from AST if we have the tree
             if ir.ast_tree is not None:

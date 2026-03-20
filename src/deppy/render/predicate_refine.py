@@ -6437,3 +6437,522 @@ def verify_with_spec(
     """
     verifier = SheafSpecVerifier(z3_timeout_ms=z3_timeout_ms)
     return verifier.verify(source, spec, input_overrides=input_overrides)
+
+
+def is_sorted(values):
+    return all(values[i] <= values[i + 1] for i in range(len(values) - 1))
+
+
+def preserves_multiset(left, right):
+    return collections.Counter(left) == collections.Counter(right)
+
+
+def is_permutation(left, right):
+    return preserves_multiset(left, right)
+
+
+def is_stable_sorted(original, result):
+    return is_sorted(result) and is_permutation(original, result)
+
+
+def is_heap(values):
+    if not values:
+        return True
+    max_heap = all(values[(i - 1) // 2] >= values[i] for i in range(1, len(values)))
+    min_heap = all(values[(i - 1) // 2] <= values[i] for i in range(1, len(values)))
+    return max_heap or min_heap
+
+
+def search_correct(arr, target, result):
+    if result == -1:
+        return target not in arr
+    return 0 <= result < len(arr) and arr[result] == target
+
+
+def search_leftmost(arr, target, result):
+    return search_correct(arr, target, result) and (result == -1 or result == arr.index(target))
+
+
+def nth_element_correct(arr, n, result):
+    return 0 <= n < len(arr) and result == sorted(arr)[n]
+
+
+def distances_correct(adj, source, result):
+    import heapq
+
+    dist = {node: math.inf for node in adj}
+    if source not in dist:
+        return False
+    dist[source] = 0
+    heap = [(0, source)]
+    while heap:
+        cur_dist, node = heapq.heappop(heap)
+        if cur_dist != dist[node]:
+            continue
+        neighbors = adj[node]
+        items = neighbors.items() if isinstance(neighbors, dict) else ((nbr, 1) for nbr in neighbors)
+        for neighbor, weight in items:
+            cand = cur_dist + weight
+            if cand < dist.get(neighbor, math.inf):
+                dist[neighbor] = cand
+                heapq.heappush(heap, (cand, neighbor))
+    return all(
+        (math.isinf(dist.get(node, math.inf)) and math.isinf(result.get(node, math.inf)))
+        or dist.get(node, math.inf) == result.get(node, math.inf)
+        for node in set(dist) | set(result)
+    )
+
+
+def is_topological_order(adj, result):
+    if set(result) != set(adj):
+        return False
+    order = {node: idx for idx, node in enumerate(result)}
+    return all(order[u] < order[v] for u, nbrs in adj.items() for v in nbrs)
+
+
+def _normalize_weighted_edges(graph_or_n, edges=None):
+    if edges is None and isinstance(graph_or_n, dict):
+        weighted = []
+        for u, nbrs in graph_or_n.items():
+            if isinstance(nbrs, dict):
+                weighted.extend((u, v, w) for v, w in nbrs.items())
+            else:
+                weighted.extend((u, v, 1) for v in nbrs)
+        return weighted
+    if edges is None:
+        return []
+    return [(u, v, w) for u, v, w in edges]
+
+
+def is_spanning_tree(graph_or_n, edges_or_tree, maybe_tree=None):
+    if maybe_tree is None:
+        weighted_edges = _normalize_weighted_edges(graph_or_n)
+        tree = edges_or_tree
+        nodes = set()
+        for u, v, _ in weighted_edges:
+            nodes.add(u)
+            nodes.add(v)
+    else:
+        nodes = set(range(graph_or_n))
+        weighted_edges = _normalize_weighted_edges(graph_or_n, edges_or_tree)
+        tree = maybe_tree
+    tree_edges = [tuple(edge[:2]) for edge in tree]
+    if len(tree_edges) != max(len(nodes) - 1, 0):
+        return False
+    parent = {node: node for node in nodes}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra == rb:
+            return False
+        parent[rb] = ra
+        return True
+
+    valid_edges = {tuple(sorted((u, v))) for u, v, _ in weighted_edges}
+    for u, v in tree_edges:
+        if tuple(sorted((u, v))) not in valid_edges or not union(u, v):
+            return False
+    roots = {find(node) for node in nodes}
+    return len(roots) <= 1
+
+
+def is_minimum_spanning_tree(n, edges, tree):
+    if not is_spanning_tree(n, edges, tree):
+        return False
+
+    parent = list(range(n))
+    rank = [0] * n
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra == rb:
+            return False
+        if rank[ra] < rank[rb]:
+            parent[ra] = rb
+        elif rank[ra] > rank[rb]:
+            parent[rb] = ra
+        else:
+            parent[rb] = ra
+            rank[ra] += 1
+        return True
+
+    mst_weight = 0
+    for u, v, w in sorted(edges, key=lambda edge: edge[2]):
+        if union(u, v):
+            mst_weight += w
+    tree_weight = sum(edge[2] for edge in tree)
+    return tree_weight == mst_weight
+
+
+def all_pairs_shortest(adj, n, result):
+    dist = [[math.inf] * n for _ in range(n)]
+    for i in range(n):
+        dist[i][i] = 0
+    for u, nbrs in adj.items():
+        items = nbrs.items() if isinstance(nbrs, dict) else ((v, 1) for v in nbrs)
+        for v, w in items:
+            dist[u][v] = min(dist[u][v], w)
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                cand = dist[i][k] + dist[k][j]
+                if cand < dist[i][j]:
+                    dist[i][j] = cand
+    return result == dist
+
+
+def is_scc_decomposition(adj, result):
+    seen = set()
+    nodes = set(adj)
+    for comp in result:
+        comp_set = set(comp)
+        if seen & comp_set:
+            return False
+        seen |= comp_set
+    return seen == nodes
+
+
+def max_flow_correct(capacity, source, sink, result):
+    from collections import deque
+
+    residual = {u: dict(v) if isinstance(v, dict) else {x: 1 for x in v} for u, v in capacity.items()}
+    for u in list(residual):
+        for v in list(residual[u]):
+            residual.setdefault(v, {})
+            residual[v].setdefault(u, 0)
+    flow = 0
+    while True:
+        parent = {source: None}
+        queue = deque([source])
+        while queue and sink not in parent:
+            node = queue.popleft()
+            for nbr, cap in residual[node].items():
+                if cap > 0 and nbr not in parent:
+                    parent[nbr] = node
+                    queue.append(nbr)
+        if sink not in parent:
+            break
+        aug = math.inf
+        node = sink
+        while parent[node] is not None:
+            aug = min(aug, residual[parent[node]][node])
+            node = parent[node]
+        node = sink
+        while parent[node] is not None:
+            prev = parent[node]
+            residual[prev][node] -= aug
+            residual[node][prev] += aug
+            node = prev
+        flow += aug
+    return result == flow
+
+
+def is_subsequence(candidate, sequence):
+    it = iter(sequence)
+    return all(any(item == needle for item in it) for needle in candidate)
+
+
+def is_common_subsequence(a, b, candidate):
+    return is_subsequence(candidate, a) and is_subsequence(candidate, b)
+
+
+def lcs_length_correct(a, b, result):
+    dp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]
+    for i in range(len(a) - 1, -1, -1):
+        for j in range(len(b) - 1, -1, -1):
+            if a[i] == b[j]:
+                dp[i][j] = 1 + dp[i + 1][j + 1]
+            else:
+                dp[i][j] = max(dp[i + 1][j], dp[i][j + 1])
+    return result == dp[0][0]
+
+
+def edit_distance_correct(a, b, result):
+    dp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]
+    for i in range(len(a) + 1):
+        dp[i][0] = i
+    for j in range(len(b) + 1):
+        dp[0][j] = j
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            cost = 0 if a[i - 1] == b[j - 1] else 1
+            dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost)
+    return result == dp[-1][-1]
+
+
+def all_pattern_occurrences(text, pattern, result):
+    expected = [idx for idx in range(len(text) - len(pattern) + 1) if text[idx : idx + len(pattern)] == pattern]
+    return list(result) == expected
+
+
+def is_suffix_array(text, result):
+    suffixes = sorted(range(len(text)), key=lambda idx: text[idx:])
+    return list(result) == suffixes
+
+
+def z_array_correct(text, result):
+    z = [0] * len(text)
+    left = right = 0
+    for i in range(1, len(text)):
+        if i <= right:
+            z[i] = min(right - i + 1, z[i - left])
+        while i + z[i] < len(text) and text[z[i]] == text[i + z[i]]:
+            z[i] += 1
+        if i + z[i] - 1 > right:
+            left, right = i, i + z[i] - 1
+    return list(result) == z
+
+
+def longest_palindrome_correct(text, result):
+    return result == result[::-1] and result in text and len(result) == max(
+        (j - i for i in range(len(text)) for j in range(i + 1, len(text) + 1) if text[i:j] == text[i:j][::-1]),
+        default=0,
+    )
+
+
+def knapsack_correct(weights, values, capacity, result):
+    dp = [0] * (capacity + 1)
+    for weight, value in zip(weights, values):
+        for cap in range(capacity, weight - 1, -1):
+            dp[cap] = max(dp[cap], dp[cap - weight] + value)
+    return result == dp[capacity]
+
+
+def lis_length_correct(arr, result):
+    if not arr:
+        return result == 0
+    dp = [1] * len(arr)
+    for i in range(len(arr)):
+        for j in range(i):
+            if arr[j] < arr[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return result == max(dp)
+
+
+def coin_change_correct(coins, amount, result):
+    dp = [math.inf] * (amount + 1)
+    dp[0] = 0
+    for coin in coins:
+        for value in range(coin, amount + 1):
+            dp[value] = min(dp[value], dp[value - coin] + 1)
+    expected = -1 if math.isinf(dp[amount]) else dp[amount]
+    return result == expected
+
+
+def matrix_chain_correct(dims, result):
+    n = len(dims) - 1
+    dp = [[0] * n for _ in range(n)]
+    for length in range(2, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            dp[i][j] = min(
+                dp[i][k] + dp[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1]
+                for k in range(i, j)
+            )
+    return result == (dp[0][n - 1] if n > 0 else 0)
+
+
+def max_subarray_correct(arr, result):
+    best = cur = arr[0]
+    for value in arr[1:]:
+        cur = max(value, cur + value)
+        best = max(best, cur)
+    return result == best
+
+
+def rod_cutting_correct(prices, n, result):
+    dp = [0] * (n + 1)
+    for length in range(1, n + 1):
+        dp[length] = max(prices[cut - 1] + dp[length - cut] for cut in range(1, length + 1))
+    return result == dp[n]
+
+
+def is_prime(value):
+    if value < 2:
+        return False
+    for divisor in range(2, int(value ** 0.5) + 1):
+        if value % divisor == 0:
+            return False
+    return True
+
+
+def gcd_correct(a, b, result):
+    return result == math.gcd(a, b)
+
+
+def extended_gcd_correct(a, b, result):
+    if len(result) != 3:
+        return False
+    g, x, y = result
+    return g == math.gcd(a, b) and a * x + b * y == g
+
+
+def mod_exp_correct(base, exp, mod, result):
+    return result == pow(base, exp, mod)
+
+
+def sieve_correct(n, result):
+    return list(result) == [value for value in range(2, n + 1) if is_prime(value)]
+
+
+def crt_correct(remainders, moduli, result):
+    return all(result % modulus == remainder % modulus for remainder, modulus in zip(remainders, moduli))
+
+
+def _cross(o, a, b):
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+
+def is_convex_hull(points, hull):
+    hull = list(hull)
+    if any(point not in points for point in hull):
+        return False
+    if len(hull) <= 2:
+        return True
+    orientation = None
+    for i in range(len(hull)):
+        turn = _cross(hull[i - 2], hull[i - 1], hull[i])
+        if turn == 0:
+            continue
+        sign = turn > 0
+        if orientation is None:
+            orientation = sign
+        elif orientation != sign:
+            return False
+    return True
+
+
+def closest_pair_correct(points, result):
+    expected = min(
+        math.dist(points[i], points[j])
+        for i in range(len(points))
+        for j in range(i + 1, len(points))
+    )
+    if isinstance(result, (tuple, list)) and len(result) == 2 and all(point in points for point in result):
+        return math.isclose(math.dist(result[0], result[1]), expected, rel_tol=1e-9, abs_tol=1e-9)
+    return math.isclose(result, expected, rel_tol=1e-9, abs_tol=1e-9)
+
+
+def _tree_children(node):
+    if node is None:
+        return None, None, None
+    if isinstance(node, tuple) and len(node) == 3:
+        return node[0], node[1], node[2]
+    if isinstance(node, dict):
+        return node.get('value'), node.get('left'), node.get('right')
+    return node, None, None
+
+
+def is_bst(tree, low=-math.inf, high=math.inf):
+    if tree is None:
+        return True
+    value, left, right = _tree_children(tree)
+    if not (low <= value <= high):
+        return False
+    return is_bst(left, low, value) and is_bst(right, value, high)
+
+
+def is_balanced(tree):
+    def height(node):
+        if node is None:
+            return 0
+        _, left, right = _tree_children(node)
+        hl = height(left)
+        hr = height(right)
+        if hl < 0 or hr < 0 or abs(hl - hr) > 1:
+            return -1
+        return 1 + max(hl, hr)
+
+    return height(tree) >= 0
+
+
+def trie_contains_all(trie, words):
+    for word in words:
+        node = trie
+        for char in word:
+            if char not in node:
+                return False
+            node = node[char]
+        if not node.get('_end') and not node.get('$') and True not in node.values():
+            return False
+    return True
+
+
+def fenwick_prefix_correct(arr, result):
+    expected = []
+    total = 0
+    for value in arr:
+        total += value
+        expected.append(total)
+    return list(result) == expected
+
+
+def interval_schedule_correct(intervals, result):
+    if not result:
+        return True
+    selected = list(result)
+    for interval in selected:
+        if interval not in intervals:
+            return False
+    selected.sort(key=lambda item: item[1])
+    if any(selected[i][1] > selected[i + 1][0] for i in range(len(selected) - 1)):
+        return False
+    greedy = []
+    end = -math.inf
+    for interval in sorted(intervals, key=lambda item: item[1]):
+        if interval[0] >= end:
+            greedy.append(interval)
+            end = interval[1]
+    return len(selected) == len(greedy)
+
+
+def sqrt_correct(n, result, tolerance=1e-6):
+    return result >= 0 and abs(result * result - n) <= tolerance * max(1.0, n)
+
+
+def gaussian_elim_correct(A, b, result, tol=1e-3):
+    if len(result) != len(A):
+        return False
+    return all(abs(sum(row[i] * result[i] for i in range(len(result))) - target) <= tol for row, target in zip(A, b))
+
+
+def union_find_correct(n, edges, result):
+    parent = list(range(n))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a, b):
+        parent[find(a)] = find(b)
+
+    for u, v in edges:
+        union(u, v)
+    expected = [find(i) for i in range(n)]
+    if isinstance(result, dict):
+        observed = [find(result[i]) if i in result else None for i in range(n)]
+    else:
+        observed = [find(value) for value in result]
+    return len(observed) == n and all((expected[i] == expected[j]) == (observed[i] == observed[j]) for i in range(n) for j in range(n))
+
+
+def bipartite_matching_correct(graph, result):
+    matched_left = {u for u, _ in result}
+    matched_right = {v for _, v in result}
+    if len(matched_left) != len(result) or len(matched_right) != len(result):
+        return False
+    return all(v in graph.get(u, ()) for u, v in result)

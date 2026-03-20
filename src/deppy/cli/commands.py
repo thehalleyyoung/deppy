@@ -10,6 +10,9 @@ Each command class handles a specific subcommand:
 
 from __future__ import annotations
 
+from collections import Counter
+from html import escape as _html_escape
+import json
 import os
 import sys
 import time
@@ -42,7 +45,16 @@ from deppy.cli.formatters import (
     JsonFormatter,
     create_formatter,
 )
+from deppy.scan_scope import iter_default_python_files
 
+try:
+    from deppy.hybrid.diagnostics.localization import (
+        DiagnosticFormatter as _HybridDiagnosticFormatter,
+        ExistingCodeChecker as _HybridExistingCodeChecker,
+    )
+except ImportError:
+    _HybridDiagnosticFormatter = None
+    _HybridExistingCodeChecker = None
 
 # ===================================================================
 #  Command base
@@ -104,13 +116,8 @@ class Command(ABC):
             if path.is_file():
                 files.append(str(path.resolve()))
             elif path.is_dir():
-                for py_file in sorted(path.rglob("*.py")):
-                    name = py_file.name
-                    if not any(
-                        pattern in str(py_file)
-                        for pattern in ("__pycache__", ".git", ".tox", ".venv")
-                    ):
-                        files.append(str(py_file.resolve()))
+                for py_file in iter_default_python_files(path):
+                    files.append(str(py_file))
             else:
                 print(f"Warning: {path_str} not found", file=sys.stderr)
         return files
@@ -149,8 +156,15 @@ class CheckCommand(Command):
             print("No source files to analyze.", file=sys.stderr)
             return 2
 
+        if (
+            _HybridExistingCodeChecker is not None
+            and _HybridDiagnosticFormatter is not None
+        ):
+            return self._run_hybrid_check(files, cli_config)
+
         pipeline = self._create_pipeline(cli_config)
         formatter = self._create_formatter(cli_config)
+        html_mode = cli_config.output_format == "html"
 
         total_errors = 0
         total_warnings = 0
@@ -163,37 +177,613 @@ class CheckCommand(Command):
             result = pipeline.run(file_path)
             all_results.append(result)
 
-            # Print diagnostics
-            for diag in result.diagnostics:
-                formatted = formatter.format_diagnostic(diag)
-                if diag.severity == DiagnosticSeverity.ERROR:
-                    print(formatted, file=sys.stderr)
-                else:
-                    print(formatted, file=sys.stdout)
+            if not html_mode:
+                for diag in result.diagnostics:
+                    formatted = formatter.format_diagnostic(diag)
+                    if diag.severity == DiagnosticSeverity.ERROR:
+                        print(formatted, file=sys.stderr)
+                    else:
+                        print(formatted, file=sys.stdout)
 
             total_errors += result.error_count
             total_warnings += result.warning_count
 
-        # Print combined summary if multiple files
-        if len(files) > 1:
-            self._print_multi_file_summary(
-                files, all_results, formatter, cli_config
+        if html_mode:
+            report_path = self._write_report(
+                self._render_pipeline_html_report(files, all_results),
+                cli_config,
+                default_name="deppy-report.html",
             )
-        elif all_results:
-            summary = formatter.format_summary(all_results[0])
-            print(summary, file=sys.stdout)
+            print(f"Wrote HTML report to {report_path}", file=sys.stdout)
+        else:
+            if len(files) > 1:
+                self._print_multi_file_summary(
+                    files, all_results, formatter, cli_config
+                )
+            elif all_results:
+                summary = formatter.format_summary(all_results[0])
+                print(summary, file=sys.stdout)
 
-        # Print contracts if requested
-        if cli_config.verbosity >= 1:
-            for result in all_results:
-                if result.contracts:
-                    contracts_str = formatter.format_contracts(result.contracts)
-                    if contracts_str:
-                        print(contracts_str, file=sys.stdout)
+            if cli_config.verbosity >= 1:
+                for result in all_results:
+                    if result.contracts:
+                        contracts_str = formatter.format_contracts(result.contracts)
+                        if contracts_str:
+                            print(contracts_str, file=sys.stdout)
 
         if total_errors > 0:
             return 1
         return 0
+
+    def _run_hybrid_check(self, files: List[str], cli_config: CLIConfig) -> int:
+        """Run the zero-change hybrid checker on existing code."""
+        checker = _HybridExistingCodeChecker(
+            include_h1_names=cli_config.verbosity >= 3
+        )
+        formatter = _HybridDiagnosticFormatter(
+            show_detail=cli_config.verbosity >= 2,
+            show_fix=cli_config.verbosity >= 1,
+            show_trust=cli_config.verbosity >= 1,
+            colour=cli_config.color and cli_config.output_format != "plain",
+        )
+
+        results = []
+        all_diagnostics = []
+        error_files = 0
+
+        for file_path in files:
+            if cli_config.verbosity >= 1:
+                print(f"Checking {file_path}...", file=sys.stderr)
+
+            result = checker.check_file(file_path)
+            results.append(result)
+            all_diagnostics.extend(result.diagnostics)
+            if result.has_errors():
+                error_files += 1
+
+            if cli_config.output_format in {"terminal", "plain"}:
+                rendered = formatter.format_terminal(result.diagnostics)
+                print(rendered, file=sys.stdout, end="")
+                print(result.summary(), file=sys.stdout)
+
+        if cli_config.output_format == "json":
+            print(
+                json.dumps([result.to_dict() for result in results], indent=2),
+                file=sys.stdout,
+            )
+        elif cli_config.output_format == "sarif":
+            print(
+                json.dumps(formatter.format_sarif(all_diagnostics), indent=2),
+                file=sys.stdout,
+            )
+        elif cli_config.output_format == "html":
+            report_path = self._write_report(
+                self._render_hybrid_html_report(results),
+                cli_config,
+                default_name="deppy-report.html",
+            )
+            print(f"Wrote HTML report to {report_path}", file=sys.stdout)
+        elif len(results) > 1:
+            total_h1 = sum(result.h1_dimension for result in results)
+            total_issues = sum(len(result.diagnostics) for result in results)
+            print(f"\nSummary ({len(results)} files):", file=sys.stdout)
+            print(f"  Files with errors: {error_files}", file=sys.stdout)
+            print(f"  Issues: {total_issues}", file=sys.stdout)
+            print(f"  H¹ dimension: {total_h1}", file=sys.stdout)
+
+        return 1 if error_files else 0
+
+    def _write_report(
+        self,
+        content: str,
+        cli_config: CLIConfig,
+        *,
+        default_name: str,
+    ) -> Path:
+        output_name = getattr(cli_config, "generate_output", None) or default_name
+        output_path = Path(output_name).expanduser()
+        if not output_path.is_absolute():
+            output_path = (Path.cwd() / output_path).resolve()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content, encoding="utf-8")
+        return output_path
+
+    @staticmethod
+    def _issue_code_family(code: str) -> str:
+        parts = code.split("-")
+        return parts[1] if len(parts) >= 3 else ""
+
+    @classmethod
+    def _warning_likelihood(
+        cls,
+        *,
+        severity: str,
+        code: str,
+        trust_level: Optional[str] = None,
+    ) -> str:
+        if severity != "warning":
+            return ""
+        family = cls._issue_code_family(code)
+        trust = trust_level or ""
+        if family == "SC" or trust in {"Z3_PROVEN", "LEAN_VERIFIED"}:
+            return "high"
+        if family == "IS" and trust in {"LLM_JUDGED", "UNTRUSTED", ""}:
+            return "low"
+        return "medium"
+
+    @classmethod
+    def _hybrid_issue_score(cls, diag: Any) -> int:
+        severity_weight = {
+            "error": 3000,
+            "warning": 1500,
+            "info": 400,
+            "hint": 200,
+        }
+        trust_weight = {
+            "LEAN_VERIFIED": 500,
+            "Z3_PROVEN": 420,
+            "PROPERTY_CHECKED": 320,
+            "RUNTIME_CHECKED": 250,
+            "LLM_JUDGED": 120,
+            "UNTRUSTED": 40,
+        }
+        family_weight = {
+            "SC": 350,
+            "IC": 260,
+            "IS": -180,
+        }
+        severity = getattr(diag.severity, "value", "warning")
+        family = cls._issue_code_family(getattr(diag, "code", ""))
+        trust = getattr(diag, "trust_level", "")
+        score = severity_weight.get(severity, 0)
+        score += trust_weight.get(trust, 0)
+        score += family_weight.get(family, 0)
+        score += min(len(getattr(diag, "detail", "") or ""), 400) // 20
+        return score
+
+    @staticmethod
+    def _describe_issue_group_count(count: int) -> str:
+        return f"{count} issue group{'s' if count != 1 else ''}"
+
+    @classmethod
+    def _pipeline_issue_score(cls, diag: Diagnostic) -> int:
+        severity_weight = {
+            "error": 3000,
+            "warning": 1500,
+            "info": 400,
+            "hint": 200,
+        }
+        family_weight = {
+            "SC": 350,
+            "IC": 260,
+            "IS": -180,
+        }
+        severity = diag.severity.value
+        family = cls._issue_code_family(diag.code or "")
+        score = severity_weight.get(severity, 0)
+        score += family_weight.get(family, 0)
+        score += min(len(diag.message or ""), 200) // 20
+        return score
+
+    def _render_hybrid_html_report(self, results: Sequence[Any]) -> str:
+        issue_results = [result for result in results if result.diagnostics]
+        ranked_results = sorted(
+            issue_results,
+            key=lambda result: (
+                max((self._hybrid_issue_score(diag) for diag in result.diagnostics), default=0),
+                len(result.diagnostics),
+                result.h1_dimension,
+            ),
+            reverse=True,
+        )
+        all_diagnostics = sorted(
+            (
+                diag
+                for result in ranked_results
+                for diag in result.diagnostics
+            ),
+            key=self._hybrid_issue_score,
+            reverse=True,
+        )
+        error_count = sum(1 for diag in all_diagnostics if diag.is_error())
+        warning_count = sum(1 for diag in all_diagnostics if diag.is_warning())
+        info_count = len(all_diagnostics) - error_count - warning_count
+        total_h1 = sum(result.h1_dimension for result in ranked_results)
+        code_counts = Counter(
+            diag.code for diag in all_diagnostics if getattr(diag, "code", "")
+        )
+        likely_low_signal = [
+            diag
+            for diag in all_diagnostics
+            if diag.code.startswith("DEPPY-IS-") and diag.trust_level == "LLM_JUDGED"
+        ]
+        file_rows = []
+        detail_sections = []
+        for result in ranked_results:
+            file_errors = sum(1 for diag in result.diagnostics if diag.is_error())
+            file_warnings = sum(1 for diag in result.diagnostics if diag.is_warning())
+            file_infos = len(result.diagnostics) - file_errors - file_warnings
+            file_rows.append(
+                "<tr>"
+                f"<td>{_html_escape(result.file_path)}</td>"
+                f"<td>{len(result.diagnostics)}</td>"
+                f"<td>{file_errors}</td>"
+                f"<td>{file_warnings}</td>"
+                f"<td>{file_infos}</td>"
+                f"<td>{result.h1_dimension}</td>"
+                "</tr>"
+            )
+            ranked_file_diagnostics = sorted(
+                result.diagnostics,
+                key=self._hybrid_issue_score,
+                reverse=True,
+            )
+            cards = "\n".join(
+                self._render_hybrid_diagnostic_card(diag)
+                for diag in ranked_file_diagnostics
+            )
+            detail_sections.append(
+                "<section class=\"file-section\">"
+                f"<h2>{_html_escape(result.file_path)}</h2>"
+                f"<p class=\"file-summary\">"
+                f"{file_errors} errors, {file_warnings} warnings, {file_infos} info/hints"
+                f" across {self._describe_issue_group_count(result.h1_dimension)}."
+                f"</p>"
+                f"{cards}"
+                "</section>"
+            )
+
+        code_rows = "\n".join(
+            "<tr>"
+            f"<td>{_html_escape(code)}</td>"
+            f"<td>{count}</td>"
+            "</tr>"
+            for code, count in code_counts.most_common(12)
+        )
+        if not code_rows:
+            code_rows = '<tr><td colspan="2">No issues found.</td></tr>'
+        top_issue_cards = "\n".join(
+            self._render_hybrid_diagnostic_card(diag)
+            for diag in all_diagnostics[:25]
+        ) or '<p class="empty-state">No issues found.</p>'
+
+        return (
+            "<!DOCTYPE html>\n"
+            "<html lang=\"en\">\n"
+            "<head>\n"
+            "  <meta charset=\"utf-8\">\n"
+            "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+            "  <title>deppy check dashboard</title>\n"
+            "  <style>\n"
+            "    body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; background: #0b1020; color: #e8ecf3; }\n"
+            "    main { max-width: 1240px; margin: 0 auto; padding: 32px 24px 56px; }\n"
+            "    h1, h2, h3 { margin: 0 0 12px; }\n"
+            "    p { line-height: 1.5; }\n"
+            "    .hero { margin-bottom: 24px; }\n"
+            "    .hero p { color: #aab4c8; max-width: 70ch; }\n"
+            "    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 20px 0 24px; }\n"
+            "    .stat { background: #121a30; border: 1px solid #24304f; border-radius: 12px; padding: 16px; }\n"
+            "    .stat .label { display: block; color: #91a0bd; font-size: 0.9rem; margin-bottom: 6px; }\n"
+            "    .stat .value { font-size: 1.9rem; font-weight: 700; }\n"
+            "    .panel { background: #121a30; border: 1px solid #24304f; border-radius: 14px; padding: 18px; margin-bottom: 22px; }\n"
+            "    table { width: 100%; border-collapse: collapse; }\n"
+            "    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #24304f; vertical-align: top; }\n"
+            "    th { color: #8fa1c8; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.04em; }\n"
+            "    .note { color: #aab4c8; margin-top: 8px; }\n"
+            "    .file-section { margin-bottom: 28px; }\n"
+            "    .file-summary { color: #9eacc8; margin-bottom: 14px; }\n"
+            "    .diag-card { background: #0f1629; border: 1px solid #263253; border-left-width: 5px; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }\n"
+            "    .diag-card.error { border-left-color: #f87171; }\n"
+            "    .diag-card.warning { border-left-color: #fbbf24; }\n"
+            "    .diag-card.warning.warning-high { background: #3a1616; border-left-color: #ef4444; }\n"
+            "    .diag-card.warning.warning-medium { background: #3b230f; border-left-color: #f97316; }\n"
+            "    .diag-card.warning.warning-low { background: #3a3113; border-left-color: #eab308; }\n"
+            "    .diag-card.info { border-left-color: #60a5fa; }\n"
+            "    .diag-card.hint { border-left-color: #34d399; }\n"
+            "    .diag-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }\n"
+            "    .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 10px; font-size: 0.8rem; font-weight: 600; }\n"
+            "    .severity-error { background: rgba(248, 113, 113, 0.15); color: #fca5a5; }\n"
+            "    .severity-warning { background: rgba(251, 191, 36, 0.16); color: #fcd34d; }\n"
+            "    .severity-info { background: rgba(96, 165, 250, 0.16); color: #93c5fd; }\n"
+            "    .severity-hint { background: rgba(52, 211, 153, 0.16); color: #6ee7b7; }\n"
+            "    .likelihood-high { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }\n"
+            "    .likelihood-medium { background: rgba(249, 115, 22, 0.18); color: #fdba74; }\n"
+            "    .likelihood-low { background: rgba(234, 179, 8, 0.18); color: #fde68a; }\n"
+            "    .trust { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }\n"
+            "    .trust.llm-judged { background: rgba(245, 158, 11, 0.16); color: #fcd34d; }\n"
+            "    .trust.z3-proven { background: rgba(96, 165, 250, 0.16); color: #93c5fd; }\n"
+            "    .trust.property-checked { background: rgba(52, 211, 153, 0.16); color: #6ee7b7; }\n"
+            "    .location { color: #93c5fd; font-family: ui-monospace, SFMono-Regular, monospace; }\n"
+            "    .diag-title { font-size: 1.05rem; margin: 6px 0 8px; }\n"
+            "    .diag-detail, .diag-code, .diag-fix { margin-top: 10px; }\n"
+            "    pre { white-space: pre-wrap; word-break: break-word; background: #0a1020; border: 1px solid #24304f; border-radius: 10px; padding: 12px; color: #cbd5e1; }\n"
+            "    code { font-family: ui-monospace, SFMono-Regular, monospace; }\n"
+            "    .empty-state { color: #91a0bd; }\n"
+            "  </style>\n"
+            "</head>\n"
+            "<body>\n"
+            "<main>\n"
+            "<section class=\"hero\">\n"
+            "  <h1>deppy check dashboard</h1>\n"
+            "  <p>This static dashboard hides clean files, ranks findings by likely actionability, and shades warnings by likelihood so the strongest signals rise first.</p>\n"
+            "</section>\n"
+            "<section class=\"grid\">\n"
+            f"  <div class=\"stat\"><span class=\"label\">Files with issues</span><span class=\"value\">{len(ranked_results)}</span></div>\n"
+            f"  <div class=\"stat\"><span class=\"label\">Issues</span><span class=\"value\">{len(all_diagnostics)}</span></div>\n"
+            f"  <div class=\"stat\"><span class=\"label\">Errors</span><span class=\"value\">{error_count}</span></div>\n"
+            f"  <div class=\"stat\"><span class=\"label\">Warnings</span><span class=\"value\">{warning_count}</span></div>\n"
+            f"  <div class=\"stat\"><span class=\"label\">Info / hints</span><span class=\"value\">{info_count}</span></div>\n"
+            f"  <div class=\"stat\"><span class=\"label\">Independent issue groups</span><span class=\"value\">{total_h1}</span></div>\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Signal quality</h2>\n"
+            f"  <p><strong>{len(likely_low_signal)}</strong> diagnostics look like likely low-signal heuristic intent warnings (`DEPPY-IS-*` + `LLM_JUDGED`). These are the first candidates to down-rank or hide by default when you want a bug-focused view.</p>\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Likelihood legend</h2>\n"
+            "  <p><span class=\"badge likelihood-high\">High-likelihood warning</span> proof-backed or structurally strong warning</p>\n"
+            "  <p><span class=\"badge likelihood-medium\">Medium-likelihood warning</span> mixed evidence that still deserves review</p>\n"
+            "  <p><span class=\"badge likelihood-low\">Low-likelihood warning</span> heuristic/docstring-heavy signal likely to include false positives</p>\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Most likely issues</h2>\n"
+            f"{top_issue_cards}\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Files</h2>\n"
+            "  <table><thead><tr><th>File</th><th>Issues</th><th>Errors</th><th>Warnings</th><th>Info</th><th>Groups</th></tr></thead><tbody>\n"
+            f"{''.join(file_rows)}\n"
+            "  </tbody></table>\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Top diagnostic codes</h2>\n"
+            "  <table><thead><tr><th>Code</th><th>Count</th></tr></thead><tbody>\n"
+            f"{code_rows}\n"
+            "  </tbody></table>\n"
+            "  <p class=\"note\">A high share of repeated `DEPPY-IS-*` warnings usually indicates documentation/intent heuristics outrunning structural or code-level bug evidence.</p>\n"
+            "</section>\n"
+            "<section class=\"panel\">\n"
+            "  <h2>Diagnostics by file</h2>\n"
+            f"{''.join(detail_sections)}\n"
+            "</section>\n"
+            "</main>\n"
+            "</body>\n"
+            "</html>\n"
+        )
+
+    def _render_hybrid_diagnostic_card(self, diag: Any) -> str:
+        severity = diag.severity.value
+        trust_class = diag.trust_level.lower().replace("_", "-")
+        warning_likelihood = self._warning_likelihood(
+            severity=severity,
+            code=diag.code,
+            trust_level=diag.trust_level,
+        )
+        card_class = f"diag-card {severity}"
+        likelihood_badge = ""
+        if warning_likelihood:
+            card_class += f" warning-{warning_likelihood}"
+            likelihood_badge = (
+                f"<span class=\"badge likelihood-{warning_likelihood}\">"
+                f"{_html_escape(warning_likelihood.title())} likelihood"
+                "</span>"
+            )
+        detail_html = (
+            f"<div class=\"diag-detail\"><strong>Why:</strong><pre>{_html_escape(diag.detail)}</pre></div>"
+            if diag.detail
+            else ""
+        )
+        code_html = (
+            f"<div class=\"diag-code\"><strong>Code:</strong><pre>{_html_escape(diag.code_fragment)}</pre></div>"
+            if diag.code_fragment
+            else ""
+        )
+        intent_html = (
+            f"<div class=\"diag-detail\"><strong>Intent:</strong> {_html_escape(diag.intent_fragment)}</div>"
+            if diag.intent_fragment
+            else ""
+        )
+        fix_html = ""
+        if diag.suggested_fix is not None:
+            fix_html = (
+                "<div class=\"diag-fix\">"
+                f"<strong>Suggested fix:</strong> {_html_escape(diag.suggested_fix.description)} "
+                f"({_html_escape(f'{diag.suggested_fix.confidence:.0%}')} / {_html_escape(diag.suggested_fix.provenance)})"
+                "</div>"
+            )
+        return (
+            f"<article class=\"{card_class}\">"
+            "<div class=\"diag-meta\">"
+            f"<span class=\"badge severity-{severity}\">{_html_escape(severity.upper())}</span>"
+            f"{likelihood_badge}"
+            f"<span class=\"badge trust {trust_class}\">{_html_escape(diag.trust_level)}</span>"
+            f"<span class=\"badge\">{_html_escape(diag.code)}</span>"
+            f"<span class=\"location\">{_html_escape(diag.location_str)}</span>"
+            "</div>"
+            f"<h3 class=\"diag-title\">{_html_escape(diag.message)}</h3>"
+            f"{intent_html}"
+            f"{detail_html}"
+            f"{code_html}"
+            f"{fix_html}"
+            "</article>"
+        )
+
+    def _render_pipeline_html_report(
+        self,
+        files: Sequence[str],
+        results: Sequence[PipelineResult],
+    ) -> str:
+        issue_results = [
+            (file_path, result)
+            for file_path, result in zip(files, results)
+            if result.diagnostics
+        ]
+        issue_results.sort(
+            key=lambda item: (
+                max((self._pipeline_issue_score(diag) for diag in item[1].diagnostics), default=0),
+                item[1].error_count,
+                item[1].warning_count,
+            ),
+            reverse=True,
+        )
+        diagnostics = sorted([
+            (file_path, diag)
+            for file_path, result in issue_results
+            for diag in result.diagnostics
+        ], key=lambda item: self._pipeline_issue_score(item[1]), reverse=True)
+        error_count = sum(1 for _, diag in diagnostics if diag.severity == DiagnosticSeverity.ERROR)
+        warning_count = sum(1 for _, diag in diagnostics if diag.severity == DiagnosticSeverity.WARNING)
+        info_count = len(diagnostics) - error_count - warning_count
+        file_rows = []
+        detail_sections = []
+        for file_path, result in issue_results:
+            file_rows.append(
+                "<tr>"
+                f"<td>{_html_escape(file_path)}</td>"
+                f"<td>{len(result.diagnostics)}</td>"
+                f"<td>{result.error_count}</td>"
+                f"<td>{result.warning_count}</td>"
+                f"<td>{result.obstruction_count}</td>"
+                "</tr>"
+            )
+            cards = []
+            for diag in sorted(result.diagnostics, key=self._pipeline_issue_score, reverse=True):
+                severity = diag.severity.value
+                location = diag.location.pretty() if diag.location else file_path
+                warning_likelihood = self._warning_likelihood(
+                    severity=severity,
+                    code=diag.code or "",
+                )
+                card_class = f"diag-card {severity}"
+                likelihood_badge = ""
+                if warning_likelihood:
+                    card_class += f" warning-{warning_likelihood}"
+                    likelihood_badge = (
+                        f"<span class=\"badge likelihood-{warning_likelihood}\">"
+                        f"{_html_escape(warning_likelihood.title())} likelihood"
+                        "</span>"
+                    )
+                suggestion = (
+                    f"<div class=\"diag-fix\"><strong>Suggested fix:</strong> {_html_escape(diag.suggestion)}</div>"
+                    if diag.suggestion
+                    else ""
+                )
+                related = ""
+                if diag.related:
+                    related = "<div class=\"diag-detail\"><strong>Related:</strong><ul>" + "".join(
+                        f"<li>{_html_escape(rel.pretty())}</li>" for rel in diag.related
+                    ) + "</ul></div>"
+                cards.append(
+                    f"<article class=\"{card_class}\">"
+                    "<div class=\"diag-meta\">"
+                    f"<span class=\"badge severity-{severity}\">{_html_escape(severity.upper())}</span>"
+                    f"{likelihood_badge}"
+                    f"<span class=\"badge\">{_html_escape(diag.code or 'DEPPY')}</span>"
+                    f"<span class=\"location\">{_html_escape(location)}</span>"
+                    "</div>"
+                    f"<h3 class=\"diag-title\">{_html_escape(diag.message)}</h3>"
+                    f"{suggestion}"
+                    f"{related}"
+                    "</article>"
+                )
+            section_body = "".join(cards) if cards else '<p class="empty-state">No issues in this file.</p>'
+            detail_sections.append(
+                "<section class=\"file-section\">"
+                f"<h2>{_html_escape(file_path)}</h2>"
+                f"{section_body}"
+                "</section>"
+            )
+        top_issue_cards = "".join(
+            self._render_pipeline_issue_card(file_path, diag)
+            for file_path, diag in diagnostics[:25]
+        ) or '<p class="empty-state">No issues found.</p>'
+
+        return (
+            "<!DOCTYPE html>\n"
+            "<html lang=\"en\">\n"
+            "<head>\n"
+            "  <meta charset=\"utf-8\">\n"
+            "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+            "  <title>deppy check dashboard</title>\n"
+            "  <style>\n"
+            "    body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; background: #0b1020; color: #e8ecf3; }\n"
+            "    main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 56px; }\n"
+            "    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 20px 0 24px; }\n"
+            "    .stat, .panel { background: #121a30; border: 1px solid #24304f; border-radius: 12px; padding: 16px; }\n"
+            "    table { width: 100%; border-collapse: collapse; }\n"
+            "    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #24304f; }\n"
+            "    .diag-card { background: #0f1629; border: 1px solid #263253; border-left-width: 5px; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }\n"
+            "    .diag-card.error { border-left-color: #f87171; }\n"
+            "    .diag-card.warning { border-left-color: #fbbf24; }\n"
+            "    .diag-card.warning.warning-high { background: #3a1616; border-left-color: #ef4444; }\n"
+            "    .diag-card.warning.warning-medium { background: #3b230f; border-left-color: #f97316; }\n"
+            "    .diag-card.warning.warning-low { background: #3a3113; border-left-color: #eab308; }\n"
+            "    .diag-card.info, .diag-card.hint { border-left-color: #60a5fa; }\n"
+            "    .badge { display: inline-flex; border-radius: 999px; padding: 3px 10px; font-size: 0.8rem; font-weight: 600; background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }\n"
+            "    .severity-error { background: rgba(248, 113, 113, 0.15); color: #fca5a5; }\n"
+            "    .severity-warning { background: rgba(251, 191, 36, 0.16); color: #fcd34d; }\n"
+            "    .severity-info, .severity-hint { background: rgba(96, 165, 250, 0.16); color: #93c5fd; }\n"
+            "    .likelihood-high { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }\n"
+            "    .likelihood-medium { background: rgba(249, 115, 22, 0.18); color: #fdba74; }\n"
+            "    .likelihood-low { background: rgba(234, 179, 8, 0.18); color: #fde68a; }\n"
+            "    .diag-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }\n"
+            "    .location { color: #93c5fd; font-family: ui-monospace, SFMono-Regular, monospace; }\n"
+            "    .diag-fix, .diag-detail { margin-top: 10px; }\n"
+            "    .empty-state { color: #91a0bd; }\n"
+            "  </style>\n"
+            "</head>\n"
+            "<body><main>\n"
+            "  <h1>deppy check dashboard</h1>\n"
+            "  <div class=\"grid\">"
+            f"<div class=\"stat\"><strong>Files with issues</strong><div>{len(issue_results)}</div></div>"
+            f"<div class=\"stat\"><strong>Issues</strong><div>{len(diagnostics)}</div></div>"
+            f"<div class=\"stat\"><strong>Errors</strong><div>{error_count}</div></div>"
+            f"<div class=\"stat\"><strong>Warnings</strong><div>{warning_count}</div></div>"
+            f"<div class=\"stat\"><strong>Info / hints</strong><div>{info_count}</div></div>"
+            "</div>\n"
+            "  <section class=\"panel\"><h2>Most likely issues</h2>"
+            f"{top_issue_cards}</section>\n"
+            "  <section class=\"panel\"><h2>Files</h2><table><thead><tr><th>File</th><th>Issues</th><th>Errors</th><th>Warnings</th><th>Groups</th></tr></thead><tbody>"
+            f"{''.join(file_rows)}</tbody></table></section>\n"
+            "  <section class=\"panel\"><h2>Diagnostics by file</h2>"
+            f"{''.join(detail_sections)}</section>\n"
+            "</main></body>\n"
+            "</html>\n"
+        )
+
+    def _render_pipeline_issue_card(self, file_path: str, diag: Diagnostic) -> str:
+        severity = diag.severity.value
+        warning_likelihood = self._warning_likelihood(
+            severity=severity,
+            code=diag.code or "",
+        )
+        card_class = f"diag-card {severity}"
+        likelihood_badge = ""
+        if warning_likelihood:
+            card_class += f" warning-{warning_likelihood}"
+            likelihood_badge = (
+                f"<span class=\"badge likelihood-{warning_likelihood}\">"
+                f"{_html_escape(warning_likelihood.title())} likelihood"
+                "</span>"
+            )
+        location = diag.location.pretty() if diag.location else file_path
+        suggestion = (
+            f"<div class=\"diag-fix\"><strong>Suggested fix:</strong> {_html_escape(diag.suggestion)}</div>"
+            if diag.suggestion
+            else ""
+        )
+        return (
+            f"<article class=\"{card_class}\">"
+            "<div class=\"diag-meta\">"
+            f"<span class=\"badge severity-{severity}\">{_html_escape(severity.upper())}</span>"
+            f"{likelihood_badge}"
+            f"<span class=\"badge\">{_html_escape(diag.code or 'DEPPY')}</span>"
+            f"<span class=\"location\">{_html_escape(location)}</span>"
+            "</div>"
+            f"<h3 class=\"diag-title\">{_html_escape(diag.message)}</h3>"
+            f"{suggestion}"
+            "</article>"
+        )
 
     def _print_multi_file_summary(
         self,

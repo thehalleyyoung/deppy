@@ -178,11 +178,39 @@ class _CoverSynthesizer:
         scope_name = scope.qualified_name
         guards = harvest.guards_for_scope(scope_name)
 
+        def _boundary_sources(
+            *,
+            kinds: Sequence[GuardKind],
+            variable_names: Sequence[str],
+        ) -> Tuple[List[str], List[HarvestedGuard]]:
+            matched: List[HarvestedGuard] = []
+            for guard in guards:
+                if guard.kind not in kinds:
+                    continue
+                if guard.variable_name in variable_names:
+                    matched.append(guard)
+                    continue
+                metadata = guard.metadata or {}
+                if metadata.get("is_return") and "<return>" in variable_names:
+                    matched.append(guard)
+            sources = [guard.source_text for guard in matched if guard.source_text]
+            return sources, matched
+
         # Step 1: Argument-boundary sites
         arg_sites: List[SiteId] = []
         for param in scope.parameters:
             if param.is_self or param.is_cls:
                 continue
+            source_constraints, matched_guards = _boundary_sources(
+                kinds=(GuardKind.TYPE_ANNOTATION, GuardKind.CONTRACT_REQUIRES),
+                variable_names=(param.name,),
+            )
+            carrier_schema = {"param": param.name}
+            if source_constraints:
+                carrier_schema["source"] = " && ".join(source_constraints)
+                carrier_schema["guard_kind"] = ",".join(
+                    sorted({guard.kind.value for guard in matched_guards})
+                )
             site_id = SiteId(
                 kind=SiteKind.ARGUMENT_BOUNDARY,
                 name=self._namer.name_for(
@@ -196,11 +224,12 @@ class _CoverSynthesizer:
             )
             site = ConcreteSite(
                 _site_id=site_id,
-                _carrier_schema={"param": param.name},
+                _carrier_schema=carrier_schema,
                 _metadata={
                     "scope": scope_name,
                     "param": param.name,
                     "has_annotation": param.has_annotation,
+                    "guard_sources": tuple(source_constraints),
                 },
             )
             self._register_site(site, scope_name)
@@ -210,6 +239,16 @@ class _CoverSynthesizer:
                 self._variable_sites[f"{scope_name}:{param.name}"].append(site_id)
 
         # Step 2: Return-boundary site
+        return_sources, return_guards = _boundary_sources(
+            kinds=(GuardKind.TYPE_ANNOTATION, GuardKind.CONTRACT_ENSURES),
+            variable_names=("<return>", "result"),
+        )
+        return_carrier_schema = {"return": True}
+        if return_sources:
+            return_carrier_schema["source"] = " && ".join(return_sources)
+            return_carrier_schema["guard_kind"] = ",".join(
+                sorted({guard.kind.value for guard in return_guards})
+            )
         ret_site_id = SiteId(
             kind=SiteKind.RETURN_OUTPUT_BOUNDARY,
             name=self._namer.name_for(
@@ -219,8 +258,11 @@ class _CoverSynthesizer:
         )
         ret_site = ConcreteSite(
             _site_id=ret_site_id,
-            _carrier_schema={"return": True},
-            _metadata={"scope": scope_name},
+            _carrier_schema=return_carrier_schema,
+            _metadata={
+                "scope": scope_name,
+                "guard_sources": tuple(return_sources),
+            },
         )
         self._register_site(ret_site, scope_name)
         self._builder.mark_output(ret_site_id)
