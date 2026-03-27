@@ -1258,6 +1258,9 @@ class EquivalencePipeline:
                         return False
             except Exception:
                 pass
+            # Functions with loops/recursion fall through to the empirical
+            # sheaf condition (Stage 6), which evaluates the Iso presheaf
+            # at concrete observation sites in the input-space cover.
             return None
 
         except Exception:
@@ -1449,56 +1452,17 @@ class EquivalencePipeline:
         return None  # Same mutation behavior → inconclusive
 
     def _func_to_z3(self, func_node: Any, vars_: dict) -> Any:
-        """Encode a multi-return function as a Z3 expression.
+        """Encode a Python function as a Z3 expression.
 
-        Sheaf-theoretically: each branch of the function defines a LOCAL
-        SECTION (the return value on that branch).  The branch condition
-        defines the SITE (the open set where that section is valid).
-        The full function is the GLUING of all local sections:
-
-            f(x) = If(guard_1, section_1, If(guard_2, section_2, ... default))
-
-        This is the presheaf restriction map composed with the gluing axiom:
-        each If-Then-Else corresponds to restricting the global section to a
-        sub-cover defined by the branch guard.
+        Handles if/else branching and assignments via nested ITE
+        (presheaf gluing). Loops and recursion return None — these
+        fall through to the empirical sheaf condition (runtime sampling).
         """
-        import ast, z3
-
-        def _stmts_to_z3(stmts: list, vars_: dict) -> Any:
-            """Convert a statement list to a Z3 expression via nested ITE."""
-            for stmt in stmts:
-                if isinstance(stmt, ast.Return) and stmt.value is not None:
-                    return self._ast_to_z3(stmt.value, vars_)
-                if isinstance(stmt, ast.If):
-                    cond = self._ast_to_z3(stmt.test, vars_)
-                    if cond is None:
-                        return None
-                    then_val = _stmts_to_z3(stmt.body, vars_)
-                    else_val = _stmts_to_z3(stmt.orelse, vars_) if stmt.orelse else None
-                    if then_val is None:
-                        return None
-                    # If no else branch, fall through to remaining statements
-                    if else_val is None:
-                        rest = stmts[stmts.index(stmt) + 1:]
-                        else_val = _stmts_to_z3(rest, vars_) if rest else None
-                    if else_val is None:
-                        return None
-                    return z3.If(cond, then_val, else_val)
-                if isinstance(stmt, ast.Assign):
-                    # Simple assignment: x = expr → substitute into vars
-                    if (len(stmt.targets) == 1
-                            and isinstance(stmt.targets[0], ast.Name)):
-                        val = self._ast_to_z3(stmt.value, vars_)
-                        if val is not None:
-                            vars_ = dict(vars_)
-                            vars_[stmt.targets[0].id] = val
-                            continue
-                    return None
-            return None
-
+        import z3
         try:
-            return _stmts_to_z3(func_node.body, vars_)
-        except Exception:
+            from deppy.render.verify import _z3_encode_func_simple
+            return _z3_encode_func_simple(func_node, vars_, z3)
+        except ImportError:
             return None
 
     def _parse_and_harvest(

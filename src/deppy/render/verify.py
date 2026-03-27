@@ -256,10 +256,384 @@ def _z3_encode_expr(expr: ast.AST, vars_: dict, z3: Any) -> Any:
 
 
 def _z3_encode_func(func_node: ast.AST, vars_: dict, z3: Any) -> Any:
-    """Encode a multi-return function as nested Z3 If-Then-Else.
+    """Encode a Python function as a Z3 expression.
 
-    Each branch is a site in the presheaf; the ITE is the gluing.
+    Sheaf-theoretically, this computes the GLOBAL SECTION of the semantic
+    presheaf by gluing local sections (branch returns) and summarizing
+    loops as recursive Z3 function definitions.
+
+    Handles:
+      - if/else branching → nested Z3 If-Then-Else (presheaf gluing)
+      - recursive functions → Z3 RecFunction definitions
+      - accumulator loops → Z3 RecFunction via loop summarization
+      - assignments → variable substitution in the section environment
     """
+    fn = func_node  # type: ignore[attr-defined]
+    fn_name = getattr(fn, 'name', '_f')
+    params = [a.arg for a in fn.args.args]
+
+    # --- Detect self-recursion ---
+    _has_self_call = False
+    for node in ast.walk(fn):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id == fn_name:
+                _has_self_call = True
+                break
+
+    # --- Detect accumulator for-loop pattern ---
+    # Pattern: acc = init; for VAR in range(...): acc OP= expr; return acc
+    _accum_loop = _detect_accumulator_loop(fn)
+
+    # --- Strategy 1: Recursive function → Z3 RecFunction ---
+    if _has_self_call:
+        return _z3_encode_recursive(fn, fn_name, params, vars_, z3)
+
+    # --- Strategy 2: Accumulator loop → Z3 RecFunction ---
+    if _accum_loop is not None:
+        return _z3_encode_accum_loop(fn, fn_name, params, _accum_loop, vars_, z3)
+
+    # --- Strategy 3: Pure if/else/assign → nested ITE ---
+    def _stmts_to_z3(stmts: list, v: dict) -> Any:
+        for i, stmt in enumerate(stmts):
+            if isinstance(stmt, ast.Return) and stmt.value is not None:
+                return _z3_encode_expr(stmt.value, v, z3)
+            if isinstance(stmt, ast.If):
+                cond = _z3_encode_expr(stmt.test, v, z3)
+                if cond is None:
+                    return None
+                then_val = _stmts_to_z3(stmt.body, v)
+                else_val = (_stmts_to_z3(stmt.orelse, v) if stmt.orelse
+                            else _stmts_to_z3(stmts[i + 1:], v))
+                if then_val is None or else_val is None:
+                    return None
+                return z3.If(cond, then_val, else_val)
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                if isinstance(stmt.targets[0], ast.Name):
+                    val = _z3_encode_expr(stmt.value, v, z3)
+                    if val is not None:
+                        v = dict(v)
+                        v[stmt.targets[0].id] = val
+                        continue
+                return None
+            # Skip for-loops we can't summarize, tuple assignments, etc.
+            if isinstance(stmt, (ast.For, ast.While)):
+                return None
+        return None
+
+    try:
+        return _stmts_to_z3(fn.body, dict(vars_))
+    except Exception:
+        return None
+
+
+def _detect_accumulator_loop(fn: ast.AST) -> Optional[dict]:
+    """Detect accumulator for-loop pattern:
+        acc = init
+        for _ in range(start, end):
+            acc OP= expr  (or a, b = b, a OP b for fibonacci)
+        return acc
+    """
+    body = fn.body  # type: ignore[attr-defined]
+    # Find: assignment, for-loop, return
+    assigns = []
+    for_loop = None
+    ret = None
+    for stmt in body:
+        if isinstance(stmt, ast.Assign):
+            assigns.append(stmt)
+        elif isinstance(stmt, ast.For):
+            for_loop = stmt
+        elif isinstance(stmt, ast.Return):
+            ret = stmt
+
+    if for_loop is None or ret is None:
+        return None
+
+    # Check for range() iterator
+    if not (isinstance(for_loop.iter, ast.Call)
+            and isinstance(for_loop.iter.func, ast.Name)
+            and for_loop.iter.func.id == 'range'):
+        return None
+
+    # Simple accumulator: single AugAssign in loop body
+    aug_assigns = [s for s in for_loop.body if isinstance(s, ast.AugAssign)]
+    if len(aug_assigns) == 1 and len(for_loop.body) == 1:
+        aug = aug_assigns[0]
+        if isinstance(aug.target, ast.Name):
+            return {
+                'type': 'simple',
+                'acc_var': aug.target.id,
+                'op': aug.op,
+                'rhs': aug.value,
+                'loop_var': for_loop.target.id if isinstance(for_loop.target, ast.Name) else None,
+                'range_args': for_loop.iter.args,
+                'init_assigns': assigns,
+                'return_var': ret.value,
+            }
+
+    # Fibonacci-style: tuple assignment a, b = b, a + b
+    tuple_assigns = [s for s in for_loop.body
+                     if isinstance(s, ast.Assign) and isinstance(s.targets[0], ast.Tuple)]
+    if len(tuple_assigns) == 1 and len(for_loop.body) == 1:
+        ta = tuple_assigns[0]
+        targets = ta.targets[0].elts
+        if isinstance(ta.value, ast.Tuple) and len(targets) == len(ta.value.elts) == 2:
+            return {
+                'type': 'tuple_swap',
+                'targets': [t.id for t in targets if isinstance(t, ast.Name)],
+                'values': ta.value.elts,
+                'loop_var': for_loop.target.id if isinstance(for_loop.target, ast.Name) else None,
+                'range_args': for_loop.iter.args,
+                'init_assigns': assigns,
+                'return_var': ret.value,
+            }
+
+    return None
+
+
+def _z3_encode_recursive(fn: ast.AST, fn_name: str, params: list,
+                         vars_: dict, z3: Any) -> Any:
+    """Encode a recursive function as a Z3 RecFunction.
+
+    Sheaf-theoretically: the recursive definition defines the presheaf
+    by its DESCENT DATA — the local sections at each recursive level
+    glue via the recursion structure (the Grothendieck transitivity axiom
+    applied to the call-site cover).
+    """
+    # Create Z3 recursive function
+    param_sorts = [z3.IntSort() for _ in params]
+    rec_fn = z3.RecFunction(fn_name, *param_sorts, z3.IntSort())
+
+    # Create parameter variables for the definition
+    z3_params = [z3.Int(f'{fn_name}_{p}') for p in params]
+    param_env = dict(zip(params, z3_params))
+
+    # Encode the function body, replacing self-calls with rec_fn
+    def _encode_with_rec(stmts: list, v: dict) -> Any:
+        for i, stmt in enumerate(stmts):
+            if isinstance(stmt, ast.Return) and stmt.value is not None:
+                return _z3_encode_expr_with_rec(stmt.value, v, z3, fn_name, rec_fn)
+            if isinstance(stmt, ast.If):
+                cond = _z3_encode_expr_with_rec(stmt.test, v, z3, fn_name, rec_fn)
+                if cond is None:
+                    return None
+                then_val = _encode_with_rec(stmt.body, v)
+                else_val = (_encode_with_rec(stmt.orelse, v) if stmt.orelse
+                            else _encode_with_rec(stmts[i + 1:], v))
+                if then_val is None or else_val is None:
+                    return None
+                return z3.If(cond, then_val, else_val)
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                if isinstance(stmt.targets[0], ast.Name):
+                    val = _z3_encode_expr_with_rec(stmt.value, v, z3, fn_name, rec_fn)
+                    if val is not None:
+                        v = dict(v)
+                        v[stmt.targets[0].id] = val
+                        continue
+                return None
+        return None
+
+    try:
+        body_expr = _encode_with_rec(fn.body, param_env)  # type: ignore[attr-defined]
+        if body_expr is None:
+            return None
+        z3.RecAddDefinition(rec_fn, z3_params, body_expr)
+        # Return the application of rec_fn to the original variables
+        orig_args = [vars_[p] for p in params]
+        return rec_fn(*orig_args)
+    except Exception:
+        return None
+
+
+def _z3_encode_accum_loop(fn: ast.AST, fn_name: str, params: list,
+                          accum: dict, vars_: dict, z3: Any) -> Any:
+    """Encode an accumulator loop as a Z3 RecFunction.
+
+    The loop `acc = init; for i in range(s, e): acc OP= expr; return acc`
+    becomes the recursive function:
+        f(i, acc) = if i >= e then acc else f(i+1, acc OP expr)
+    """
+    try:
+        if accum['type'] == 'simple':
+            # Create a recursive helper: _loop(i, acc) → result
+            loop_fn = z3.RecFunction(f'{fn_name}_loop', z3.IntSort(), z3.IntSort(), z3.IntSort())
+            i_var = z3.Int(f'{fn_name}_i')
+            acc_var = z3.Int(f'{fn_name}_acc')
+
+            # Parse range args
+            range_args = accum['range_args']
+            v = dict(vars_)
+            if len(range_args) == 1:
+                start_z3 = z3.IntVal(0)
+                end_z3 = _z3_encode_expr(range_args[0], v, z3)
+            elif len(range_args) >= 2:
+                start_z3 = _z3_encode_expr(range_args[0], v, z3)
+                end_z3 = _z3_encode_expr(range_args[1], v, z3)
+            else:
+                return None
+            if start_z3 is None or end_z3 is None:
+                return None
+
+            # Encode the accumulation operation
+            loop_var = accum['loop_var']
+            loop_env = dict(v)
+            loop_env[accum['acc_var']] = acc_var
+            if loop_var:
+                loop_env[loop_var] = i_var
+            rhs = _z3_encode_expr(accum['rhs'], loop_env, z3)
+            if rhs is None:
+                return None
+
+            op = accum['op']
+            if isinstance(op, ast.Add):
+                new_acc = acc_var + rhs
+            elif isinstance(op, ast.Mult):
+                new_acc = acc_var * rhs
+            elif isinstance(op, ast.Sub):
+                new_acc = acc_var - rhs
+            else:
+                return None
+
+            # Define: _loop(i, acc) = if i >= end then acc else _loop(i+1, new_acc)
+            z3.RecAddDefinition(loop_fn, [i_var, acc_var],
+                                z3.If(i_var >= end_z3, acc_var, loop_fn(i_var + 1, new_acc)))
+
+            # Find initial value of accumulator
+            init_val = None
+            for assign in accum['init_assigns']:
+                if (len(assign.targets) == 1
+                        and isinstance(assign.targets[0], ast.Name)
+                        and assign.targets[0].id == accum['acc_var']):
+                    init_val = _z3_encode_expr(assign.value, v, z3)
+            if init_val is None:
+                return None
+
+            return loop_fn(start_z3, init_val)
+
+        elif accum['type'] == 'tuple_swap':
+            # Fibonacci-style: a, b = b, a + b
+            targets = accum['targets']
+            if len(targets) != 2:
+                return None
+
+            # Create two recursive helpers
+            fn_a = z3.RecFunction(f'{fn_name}_a', z3.IntSort(), z3.IntSort())
+            fn_b = z3.RecFunction(f'{fn_name}_b', z3.IntSort(), z3.IntSort())
+            i_var = z3.Int(f'{fn_name}_i')
+
+            # Parse range
+            range_args = accum['range_args']
+            v = dict(vars_)
+            if len(range_args) == 1:
+                start_z3 = z3.IntVal(0)
+                end_z3 = _z3_encode_expr(range_args[0], v, z3)
+            elif len(range_args) >= 2:
+                start_z3 = _z3_encode_expr(range_args[0], v, z3)
+                end_z3 = _z3_encode_expr(range_args[1], v, z3)
+            else:
+                return None
+            if start_z3 is None or end_z3 is None:
+                return None
+
+            # Encode the tuple swap: a, b = val0, val1
+            val_exprs = accum['values']
+            swap_env = {targets[0]: fn_a(i_var), targets[1]: fn_b(i_var)}
+            swap_env.update(v)
+            new_a = _z3_encode_expr(val_exprs[0], swap_env, z3)
+            new_b = _z3_encode_expr(val_exprs[1], swap_env, z3)
+            if new_a is None or new_b is None:
+                return None
+
+            # Find initial values
+            init_a = init_b = None
+            for assign in accum['init_assigns']:
+                if isinstance(assign.targets[0], ast.Tuple):
+                    elts = assign.targets[0].elts
+                    if (len(elts) == 2
+                            and isinstance(elts[0], ast.Name) and elts[0].id == targets[0]
+                            and isinstance(elts[1], ast.Name) and elts[1].id == targets[1]
+                            and isinstance(assign.value, ast.Tuple)):
+                        init_a = _z3_encode_expr(assign.value.elts[0], v, z3)
+                        init_b = _z3_encode_expr(assign.value.elts[1], v, z3)
+            if init_a is None or init_b is None:
+                return None
+
+            # Define: fn_a(i) = if i <= start then init_a else new_a(fn_a(i-1), fn_b(i-1))
+            z3.RecAddDefinition(fn_a, [i_var],
+                                z3.If(i_var <= start_z3, init_a,
+                                      _z3_sub_rec(new_a, i_var, fn_a, fn_b, targets, z3)))
+            z3.RecAddDefinition(fn_b, [i_var],
+                                z3.If(i_var <= start_z3, init_b,
+                                      _z3_sub_rec(new_b, i_var, fn_a, fn_b, targets, z3)))
+
+            # Return the variable mentioned in the return statement
+            ret = accum['return_var']
+            if isinstance(ret, ast.Name):
+                if ret.id == targets[0]:
+                    return fn_a(end_z3)
+                elif ret.id == targets[1]:
+                    return fn_b(end_z3)
+            return None
+
+    except Exception:
+        return None
+    return None
+
+
+def _z3_sub_rec(expr: Any, i_var: Any, fn_a: Any, fn_b: Any,
+                targets: list, z3: Any) -> Any:
+    """Substitute fn_a(i) → fn_a(i-1) and fn_b(i) → fn_b(i-1) in a Z3 expr."""
+    # This is a workaround: we rebuild the expression with i-1 references
+    return z3.substitute(expr,
+                         (fn_a(i_var), fn_a(i_var - 1)),
+                         (fn_b(i_var), fn_b(i_var - 1)))
+
+
+def _z3_encode_expr_with_rec(expr: ast.AST, vars_: dict, z3: Any,
+                             fn_name: str, rec_fn: Any) -> Any:
+    """Like _z3_encode_expr but replaces calls to fn_name with rec_fn."""
+    if isinstance(expr, ast.Call) and isinstance(expr.func, ast.Name):
+        if expr.func.id == fn_name:
+            args = [_z3_encode_expr_with_rec(a, vars_, z3, fn_name, rec_fn)
+                    for a in expr.args]
+            if any(a is None for a in args):
+                return None
+            return rec_fn(*args)
+    # For all other expressions, delegate to _z3_encode_expr but intercept
+    # sub-expressions that might contain recursive calls
+    if isinstance(expr, ast.BinOp):
+        left = _z3_encode_expr_with_rec(expr.left, vars_, z3, fn_name, rec_fn)
+        right = _z3_encode_expr_with_rec(expr.right, vars_, z3, fn_name, rec_fn)
+        if left is None or right is None:
+            return None
+        ops = {ast.Add: lambda: left + right, ast.Sub: lambda: left - right,
+               ast.Mult: lambda: left * right, ast.FloorDiv: lambda: left / right,
+               ast.Mod: lambda: left % right}
+        fn = ops.get(type(expr.op))
+        return fn() if fn else None
+    if isinstance(expr, ast.UnaryOp) and isinstance(expr.op, ast.USub):
+        operand = _z3_encode_expr_with_rec(expr.operand, vars_, z3, fn_name, rec_fn)
+        return -operand if operand is not None else None
+    # Fall back to non-recursive encoding for leaves
+    return _z3_encode_expr(expr, vars_, z3)
+
+
+def _z3_encode_func_simple(func_node: ast.AST, vars_: dict, z3: Any) -> Any:
+    """Encode a non-recursive, non-loop function as nested Z3 ITE.
+
+    Returns None for functions with loops or recursion (these fall
+    through to the empirical sheaf condition).
+    """
+    fn = func_node  # type: ignore[attr-defined]
+    # Reject loops and recursion immediately
+    fn_name = getattr(fn, 'name', '')
+    for node in ast.walk(fn):
+        if isinstance(node, (ast.For, ast.While)):
+            return None
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id == fn_name:
+                return None
+
     def _stmts_to_z3(stmts: list, v: dict) -> Any:
         for i, stmt in enumerate(stmts):
             if isinstance(stmt, ast.Return) and stmt.value is not None:
@@ -285,7 +659,7 @@ def _z3_encode_func(func_node: ast.AST, vars_: dict, z3: Any) -> Any:
         return None
 
     try:
-        return _stmts_to_z3(func_node.body, dict(vars_))  # type: ignore[attr-defined]
+        return _stmts_to_z3(fn.body, dict(vars_))
     except Exception:
         return None
 
