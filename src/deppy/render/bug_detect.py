@@ -4886,6 +4886,29 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         ),
                         line=node.lineno, col=node.col_offset, ast_node=node,
                     ))
+            # AugAssign on shared attribute (``shared.value += 1``)
+            # Sheaf-theoretically: the synchronization presheaf assigns
+            # to each mutation site a section requiring lock_held.
+            # Without a lock, the restriction map from the concurrent
+            # fiber to the mutation site is undefined → obstruction.
+            if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Attribute):
+                obj_name = _expr_to_var_name(node.target.value, "")
+                attr_name = node.target.attr
+                full_name = f"{obj_name}.{attr_name}"
+                if obj_name and obj_name not in _thread_safe_vars:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                       name=f"race_attr_L{node.lineno}"),
+                        bug_type="DATA_RACE",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"lock_held_{obj_name}"), right=IntLit(1)
+                        ),
+                        description=(
+                            f"AugAssign `{full_name} {ast.dump(node.op)}= …` on shared "
+                            f"attribute in threading-enabled module requires lock held"
+                        ),
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
             # Method-call mutation on module-level mutable (list.append, etc.)
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
                 method = node.func.attr
@@ -4924,6 +4947,31 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                                 ),
                                 line=node.lineno, col=node.col_offset, ast_node=node,
                             ))
+
+        # ── SYNCHRONIZATION_GAP: AugAssign on shared attribute inside thread ──
+        # When ``import threading`` and a function mutates a shared attribute
+        # (e.g., ``shared.value += 1``), this is a data race regardless of
+        # whether the mutation is inside or outside the thread target.
+        # Sheaf-theoretically: the concurrent fiber's synchronization presheaf
+        # requires a lock section at the mutation site.
+        if _threading_imported_flag and isinstance(node, ast.AugAssign):
+            if isinstance(node.target, ast.Attribute):
+                obj_name = _expr_to_var_name(node.target.value, "")
+                attr_name = node.target.attr
+                if obj_name and obj_name not in _thread_safe_vars:
+                    reqs.append(SectionRequirement(
+                        site_id=SiteId(kind=SiteKind.HEAP_PROTOCOL,
+                                       name=f"race_attr_L{node.lineno}"),
+                        bug_type="DATA_RACE",
+                        required_predicate=Comparison(
+                            op='==', left=Var(f"lock_held_{obj_name}"), right=IntLit(1)
+                        ),
+                        description=(
+                            f"AugAssign `{obj_name}.{attr_name}` in concurrent context "
+                            f"requires synchronization (lock section absent)"
+                        ),
+                        line=node.lineno, col=node.col_offset, ast_node=node,
+                    ))
 
         # ── SECRECY_GAP: Information leak ──
         if isinstance(node, ast.Raise) and node.exc is not None:
