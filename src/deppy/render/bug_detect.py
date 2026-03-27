@@ -449,6 +449,12 @@ class SectionRequirement:
     line: int = 0
     col: int = 0
     ast_node: Optional[ast.AST] = None
+    # When True, this requirement has evidence from the nullable presheaf
+    # (e.g., variable assigned from a function that returns None on some paths).
+    # Stalk subsumption should NOT override this — the presheaf forward analysis
+    # may not track interprocedural nullability, but the nullable fiber evidence
+    # is definitive.
+    nullable_evidence: bool = False
 
 
 @dataclass
@@ -3185,19 +3191,22 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         pass  # .get(key, default) → not nullable
 
     # ── Factory-returns-None pre-pass (intra-module None propagation) ──
-    # If a locally-defined function has all return paths returning None
-    # (or assigns None and returns it), the caller's variable is nullable.
+    # If a locally-defined function returns None on ANY path (including
+    # mixed return: some paths return a value, some return None), the
+    # caller's variable is on the NULLABLE FIBER of the presheaf.
+    # Sheaf-theoretically: the return-site section has carrier V ∪ {None},
+    # and the restriction to the caller site inherits this nullable fiber.
     _factory_none_funcs: Set[str] = set()
     for fnode in ast.walk(tree):
         if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            returns = [n for n in ast.walk(fnode) if isinstance(n, ast.Return) and n.value is not None]
-            if returns:
-                all_return_none = all(
-                    isinstance(r.value, ast.Constant) and r.value.value is None
-                    for r in returns
-                )
-                if all_return_none:
-                    _factory_none_funcs.add(fnode.name)
+            returns = [n for n in ast.walk(fnode) if isinstance(n, ast.Return)]
+            has_none_return = any(
+                r.value is None or
+                (isinstance(r.value, ast.Constant) and r.value.value is None)
+                for r in returns
+            )
+            if has_none_return:
+                _factory_none_funcs.add(fnode.name)
     _factory_none_vars: Set[str] = set()
     for fnode in ast.walk(tree):
         if isinstance(fnode, ast.Assign) and len(fnode.targets) == 1:
@@ -3484,6 +3493,7 @@ def _extract_requirements(source: str) -> List[SectionRequirement]:
                         required_predicate=Comparison(op='!=', left=Var(f"{obj_var}_is_none"), right=IntLit(1)),
                         description=f"`{_expr_repr(node.value)}.{node.attr}` — object must not be None",
                         line=node.lineno, col=node.col_offset, ast_node=node,
+                        nullable_evidence=True,
                     ))
             elif isinstance(node.value, ast.Subscript):
                 # dict_result[key].attr — the dict result might be None
@@ -9186,6 +9196,12 @@ def detect_bugs(
     stalk_resolutions: Set[int] = set()
     for i, req in enumerate(requirements):
         if i not in resolutions:
+            # Skip stalk subsumption when the requirement has definitive
+            # nullable fiber evidence (interprocedural null propagation).
+            # The presheaf forward analysis may not track this, but the
+            # nullable evidence from _extract_requirements is authoritative.
+            if getattr(req, 'nullable_evidence', False):
+                continue
             stalk = presheaf.stalk_at(req.line)
             if stalk.subsumes_requirement(req):
                 stalk_resolutions.add(i)
@@ -9252,6 +9268,14 @@ def detect_bugs(
             z3_status, confidence, z3_ms = _discharge_obstruction(req, avail)
 
         gap = And(conjuncts=[avail.predicate, Not(req.required_predicate)]) if avail else Not(req.required_predicate)
+
+        # Boost confidence if the requirement has nullable fiber evidence.
+        # The Z3 solver may return UNSAT because it can't encode inter-
+        # procedural null propagation, but the nullable presheaf analysis
+        # (from _extract_requirements) provides definitive evidence.
+        if getattr(req, 'nullable_evidence', False) and confidence <= 0:
+            confidence = 0.85
+            z3_status += " + nullable fiber evidence (interprocedural)"
 
         # Boost confidence if sheaf condition checker found a conflict
         # at this requirement's site — independent corroboration.

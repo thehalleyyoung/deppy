@@ -1044,6 +1044,32 @@ class EquivalencePipeline:
                     )
             self._stage_end("z3_equivalence")
 
+        # Stage 5b: Structural mutation analysis (side-effect presheaf)
+        # In sheaf terms: the SIDE-EFFECT PRESHEAF assigns to each site
+        # the set of state mutations performed.  If one function mutates
+        # its input parameters and the other does not, the side-effect
+        # sections disagree — an obstruction in H¹(U, SideEffect).
+        if raw_source_f and raw_source_g:
+            from deppy.equivalence._protocols import EquivalenceVerdict as _EV
+            if global_result.verdict != _EV.INEQUIVALENT:
+                self._stage_start("mutation_analysis")
+                mutation_verdict = self._structural_mutation_check(
+                    raw_source_f, raw_source_g
+                )
+                if mutation_verdict is not None and not mutation_verdict:
+                    global_result = type(global_result)(
+                        verdict=_EV.INEQUIVALENT,
+                        local_judgments=global_result.local_judgments,
+                        sheaf_morphism=global_result.sheaf_morphism,
+                        descent_result=global_result.descent_result,
+                        obstructions=global_result.obstructions,
+                        explanation=(
+                            "Side-effect presheaf obstruction: one function mutates "
+                            "its input, the other does not (H¹(U, SideEffect) ≠ 0)"
+                        ),
+                    )
+                self._stage_end("mutation_analysis")
+
         if raw_source_f and raw_source_g and self._config.use_runtime_sampling:
             self._stage_start("runtime_sampling")
             runtime_evidence = self._runtime_equivalence_check(
@@ -1197,10 +1223,24 @@ class EquivalencePipeline:
                     return False
                 return None
 
-            # Multi-return functions are too complex for simple value comparison
-            # because the GUARD CONDITIONS determine which return is taken.
-            # We would need to encode the full control flow as a Z3 formula,
-            # which requires SSA conversion. Fall through to structural check.
+            # Multi-return: encode as nested Z3 If-Then-Else by walking the
+            # function body and converting each if/return into a guarded expr.
+            # This is the sheaf-theoretic encoding: each branch is a site,
+            # and the return value is the section restricted to that site.
+            try:
+                expr_f = self._func_to_z3(func_f, z3_vars)
+                expr_g = self._func_to_z3(func_g, z3_vars)
+                if expr_f is not None and expr_g is not None:
+                    solver = z3.Solver()
+                    solver.set("timeout", int(self._config.solver_timeout_ms))
+                    solver.add(expr_f != expr_g)
+                    result = solver.check()
+                    if result == z3.unsat:
+                        return True
+                    elif result == z3.sat:
+                        return False
+            except Exception:
+                pass
             return None
 
         except Exception:
@@ -1334,6 +1374,115 @@ class EquivalencePipeline:
                     return z3.If(a >= 0, a, -a)
             return None
         return None
+
+    def _structural_mutation_check(
+        self, source_f: str, source_g: str,
+    ) -> Optional[bool]:
+        """Check if two functions have different mutation behavior.
+
+        Sheaf-theoretically: the SIDE-EFFECT PRESHEAF Eff assigns to each
+        site the set of in-place mutations on input parameters.  If one
+        function has Eff(s) = ∅ (pure) and the other has Eff(s) ≠ ∅
+        (mutating), the restriction maps disagree on the shared input site,
+        producing a non-trivial 1-cocycle in H¹(U, Eff).
+
+        Returns True if mutation behavior matches, False if it differs,
+        None if undetermined.
+        """
+        import ast
+
+        _MUTATING_METHODS = frozenset({
+            'append', 'extend', 'insert', 'remove', 'pop', 'clear',
+            'sort', 'reverse', 'update', 'add', 'discard',
+        })
+
+        def _has_param_mutation(source: str) -> Optional[bool]:
+            try:
+                tree = ast.parse(textwrap.dedent(source))
+            except SyntaxError:
+                return None
+            funcs = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
+            if not funcs:
+                return None
+            func = funcs[-1]
+            params = {a.arg for a in func.args.args}
+            for node in ast.walk(func):
+                # param.method() where method is mutating
+                if (isinstance(node, ast.Call)
+                        and isinstance(node.func, ast.Attribute)
+                        and isinstance(node.func.value, ast.Name)
+                        and node.func.value.id in params
+                        and node.func.attr in _MUTATING_METHODS):
+                    return True
+                # param[key] = value (item assignment)
+                if isinstance(node, ast.Assign):
+                    for target in node.targets:
+                        if (isinstance(target, ast.Subscript)
+                                and isinstance(target.value, ast.Name)
+                                and target.value.id in params):
+                            return True
+            return False
+
+        mut_f = _has_param_mutation(source_f)
+        mut_g = _has_param_mutation(source_g)
+        if mut_f is None or mut_g is None:
+            return None
+        if mut_f != mut_g:
+            return False  # Different mutation behavior → inequivalent
+        return None  # Same mutation behavior → inconclusive
+
+    def _func_to_z3(self, func_node: Any, vars_: dict) -> Any:
+        """Encode a multi-return function as a Z3 expression.
+
+        Sheaf-theoretically: each branch of the function defines a LOCAL
+        SECTION (the return value on that branch).  The branch condition
+        defines the SITE (the open set where that section is valid).
+        The full function is the GLUING of all local sections:
+
+            f(x) = If(guard_1, section_1, If(guard_2, section_2, ... default))
+
+        This is the presheaf restriction map composed with the gluing axiom:
+        each If-Then-Else corresponds to restricting the global section to a
+        sub-cover defined by the branch guard.
+        """
+        import ast, z3
+
+        def _stmts_to_z3(stmts: list, vars_: dict) -> Any:
+            """Convert a statement list to a Z3 expression via nested ITE."""
+            for stmt in stmts:
+                if isinstance(stmt, ast.Return) and stmt.value is not None:
+                    return self._ast_to_z3(stmt.value, vars_)
+                if isinstance(stmt, ast.If):
+                    cond = self._ast_to_z3(stmt.test, vars_)
+                    if cond is None:
+                        return None
+                    then_val = _stmts_to_z3(stmt.body, vars_)
+                    else_val = _stmts_to_z3(stmt.orelse, vars_) if stmt.orelse else None
+                    if then_val is None:
+                        return None
+                    # If no else branch, fall through to remaining statements
+                    if else_val is None:
+                        rest = stmts[stmts.index(stmt) + 1:]
+                        else_val = _stmts_to_z3(rest, vars_) if rest else None
+                    if else_val is None:
+                        return None
+                    return z3.If(cond, then_val, else_val)
+                if isinstance(stmt, ast.Assign):
+                    # Simple assignment: x = expr → substitute into vars
+                    if (len(stmt.targets) == 1
+                            and isinstance(stmt.targets[0], ast.Name)):
+                        val = self._ast_to_z3(stmt.value, vars_)
+                        if val is not None:
+                            vars_ = dict(vars_)
+                            vars_[stmt.targets[0].id] = val
+                            continue
+                    return None
+            return None
+
+        try:
+            return _stmts_to_z3(func_node.body, vars_)
+        except Exception:
+            return None
 
     def _parse_and_harvest(
         self,
