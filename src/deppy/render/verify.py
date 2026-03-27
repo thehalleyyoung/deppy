@@ -181,6 +181,115 @@ class VerificationResult:
 # Site kinds relevant to proof (skip error sites)
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Z3 encoding helpers (self-contained, no circular imports)
+# ---------------------------------------------------------------------------
+
+def _z3_encode_expr(expr: ast.AST, vars_: dict, z3: Any) -> Any:
+    """Encode a Python AST expression as a Z3 formula."""
+    if isinstance(expr, ast.Name):
+        return vars_.get(expr.id)
+    if isinstance(expr, ast.Constant):
+        if isinstance(expr.value, int):
+            return z3.IntVal(expr.value)
+        if isinstance(expr.value, float):
+            return z3.RealVal(expr.value)
+        if isinstance(expr.value, bool):
+            return z3.BoolVal(expr.value)
+        return None
+    if isinstance(expr, ast.BinOp):
+        left = _z3_encode_expr(expr.left, vars_, z3)
+        right = _z3_encode_expr(expr.right, vars_, z3)
+        if left is None or right is None:
+            return None
+        ops = {ast.Add: lambda: left + right, ast.Sub: lambda: left - right,
+               ast.Mult: lambda: left * right, ast.FloorDiv: lambda: left / right,
+               ast.Mod: lambda: left % right}
+        fn = ops.get(type(expr.op))
+        return fn() if fn else None
+    if isinstance(expr, ast.UnaryOp):
+        operand = _z3_encode_expr(expr.operand, vars_, z3)
+        if operand is None:
+            return None
+        if isinstance(expr.op, ast.USub):
+            return -operand
+        if isinstance(expr.op, ast.UAdd):
+            return operand
+        return None
+    if isinstance(expr, ast.IfExp):
+        test = _z3_encode_expr(expr.test, vars_, z3)
+        body = _z3_encode_expr(expr.body, vars_, z3)
+        orelse = _z3_encode_expr(expr.orelse, vars_, z3)
+        if test is None or body is None or orelse is None:
+            return None
+        return z3.If(test, body, orelse)
+    if isinstance(expr, ast.Compare) and len(expr.ops) == 1:
+        left = _z3_encode_expr(expr.left, vars_, z3)
+        right = _z3_encode_expr(expr.comparators[0], vars_, z3)
+        if left is None or right is None:
+            return None
+        op_map = {ast.Gt: lambda: left > right, ast.GtE: lambda: left >= right,
+                  ast.Lt: lambda: left < right, ast.LtE: lambda: left <= right,
+                  ast.Eq: lambda: left == right, ast.NotEq: lambda: left != right}
+        fn = op_map.get(type(expr.ops[0]))
+        return fn() if fn else None
+    if isinstance(expr, ast.BoolOp):
+        vals = [_z3_encode_expr(v, vars_, z3) for v in expr.values]
+        if any(v is None for v in vals):
+            return None
+        if isinstance(expr.op, ast.And):
+            return z3.And(*vals)
+        if isinstance(expr.op, ast.Or):
+            return z3.Or(*vals)
+    if isinstance(expr, ast.Call) and isinstance(expr.func, ast.Name):
+        name = expr.func.id
+        if name in ('max', 'min') and len(expr.args) == 2:
+            a = _z3_encode_expr(expr.args[0], vars_, z3)
+            b = _z3_encode_expr(expr.args[1], vars_, z3)
+            if a is not None and b is not None:
+                return z3.If(a >= b, a, b) if name == 'max' else z3.If(a <= b, a, b)
+        if name == 'abs' and len(expr.args) == 1:
+            a = _z3_encode_expr(expr.args[0], vars_, z3)
+            if a is not None:
+                return z3.If(a >= 0, a, -a)
+    return None
+
+
+def _z3_encode_func(func_node: ast.AST, vars_: dict, z3: Any) -> Any:
+    """Encode a multi-return function as nested Z3 If-Then-Else.
+
+    Each branch is a site in the presheaf; the ITE is the gluing.
+    """
+    def _stmts_to_z3(stmts: list, v: dict) -> Any:
+        for i, stmt in enumerate(stmts):
+            if isinstance(stmt, ast.Return) and stmt.value is not None:
+                return _z3_encode_expr(stmt.value, v, z3)
+            if isinstance(stmt, ast.If):
+                cond = _z3_encode_expr(stmt.test, v, z3)
+                if cond is None:
+                    return None
+                then_val = _stmts_to_z3(stmt.body, v)
+                else_val = (_stmts_to_z3(stmt.orelse, v) if stmt.orelse
+                            else _stmts_to_z3(stmts[i + 1:], v))
+                if then_val is None or else_val is None:
+                    return None
+                return z3.If(cond, then_val, else_val)
+            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+                if isinstance(stmt.targets[0], ast.Name):
+                    val = _z3_encode_expr(stmt.value, v, z3)
+                    if val is not None:
+                        v = dict(v)
+                        v[stmt.targets[0].id] = val
+                        continue
+                return None
+        return None
+
+    try:
+        return _stmts_to_z3(func_node.body, dict(vars_))  # type: ignore[attr-defined]
+    except Exception:
+        return None
+
+
 _PROOF_RELEVANT = frozenset({
     SiteKind.ARGUMENT_BOUNDARY,
     SiteKind.SSA_VALUE,
@@ -2414,6 +2523,89 @@ def verify(
             method=f"decreases checker ({termination.reason})",
         ))
 
+    # Phase 5b: Z3 symbolic postcondition discharge
+    #
+    # Sheaf-theoretically: encode the ENTIRE function as a Z3 expression
+    # (the global section of the semantic presheaf) and the postcondition
+    # as a predicate on that section.  The verification condition is:
+    #
+    #   ∀ params. postcond(params, f(params))
+    #
+    # which is valid iff its negation is UNSAT.  This is the ALGEBRAIC
+    # SHEAF CONDITION: the spec presheaf is a sheaf (sections agree at
+    # all stalks) iff the Z3 formula is valid.
+    #
+    # This handles: if/else branching, arithmetic, comparisons, ternary.
+    # Falls through to empirical for: loops, recursion, builtins.
+    undischarged_pre_z3 = [vc for vc in vcs if not vc.proved and "postcondition" in vc.name]
+    if undischarged_pre_z3 and postcondition:
+        # Z3 symbolic discharge of postconditions
+        try:
+            from deppy.solver.z3_backend import z3_available
+            if z3_available():
+                import z3 as _z3
+
+                func_node = None
+                for n in ast.walk(tree):
+                    if isinstance(n, ast.FunctionDef):
+                        func_node = n
+                        break
+
+                if func_node is not None:
+                    # Create Z3 variables for each parameter
+                    z3_vars: dict = {}
+                    for p in params:
+                        z3_vars[p] = _z3.Int(p)
+
+                    # Encode function body as Z3 expression
+                    func_expr = _z3_encode_func(func_node, z3_vars, _z3)
+
+                    if func_expr is not None:
+                        # Encode postcondition with result = func_expr
+                        result_var = z3_vars.copy()
+                        result_var["result"] = func_expr
+
+                        # Parse postcondition as Z3 formula
+                        post_z3 = _z3_encode_expr(
+                            ast.parse(postcondition, mode="eval").body,
+                            result_var, _z3,
+                        )
+
+                        if post_z3 is not None:
+                            solver = _z3.Solver()
+                            solver.set("timeout", 5000)
+                            # Check ∀ params. postcond(params, f(params))
+                            # = check UNSAT of ¬postcond
+                            solver.add(_z3.Not(post_z3))
+                            result_z3 = solver.check()
+
+                            if result_z3 == _z3.unsat:
+                                # PROVED: postcondition holds for all inputs
+                                for vc in undischarged_pre_z3:
+                                    vc.proved = True
+                                    vc.method = (
+                                        "Z3-verified: ∀ params. postcond(params, f(params)) "
+                                        "(algebraic sheaf condition on the spec presheaf)"
+                                    )
+                            elif result_z3 == _z3.sat:
+                                # REFUTED: Z3 found a counterexample
+                                try:
+                                    model = solver.model()
+                                    witness = {p: str(model.evaluate(z3_vars[p]))
+                                               for p in params if p in z3_vars}
+                                except Exception:
+                                    witness = {}
+                                for vc in undischarged_pre_z3:
+                                    vc.proved = False
+                                    vc.method = (
+                                        f"Z3-refuted: counterexample {witness} "
+                                        f"(algebraic obstruction in spec presheaf)"
+                                    )
+        except ImportError:
+            pass  # Z3 not available
+        except Exception:
+            pass  # Z3 encoding failed; fall through to empirical
+
     # Phase 6: Empirical sheaf condition on the spec presheaf
     #
     # CONSTRUCTION.  The input space I = dom(f) carries a presheaf:
@@ -2446,7 +2638,8 @@ def verify(
     #   sheaf condition holds.  Finite covers are empirically complete
     #   for the sampled input domain.
     #
-    undischarged = [vc for vc in vcs if not vc.proved and "postcondition" in vc.name]
+    undischarged = [vc for vc in vcs if not vc.proved and "postcondition" in vc.name
+                    and "Z3" not in vc.method]  # Skip VCs already handled by Z3
     if undischarged and postcondition:
         try:
             from deppy.equivalence._runtime_sampling import (
