@@ -14,7 +14,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 427.906459022779
+        "raw_detected_bugs": [
+          "DIV_ZERO"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 38.56650000670925
       },
       {
         "name": "div_zero_guarded",
@@ -25,7 +29,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 5.132374993991107
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 4.891459015198052
       },
       {
         "name": "div_zero_interprocedural",
@@ -40,7 +46,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 15.233917045406997
+        "raw_detected_bugs": [
+          "DIV_ZERO"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 4.398665972985327
       },
       {
         "name": "div_zero_multi_path",
@@ -57,7 +67,12 @@
         "true_positives": 2,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 25.58616700116545
+        "raw_detected_bugs": [
+          "DIV_ZERO",
+          "DIV_ZERO"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 4.705791012383997
       },
       {
         "name": "index_oob_simple",
@@ -72,7 +87,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 14.298709051217884
+        "raw_detected_bugs": [
+          "INDEX_OOB"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.279750013258308
       },
       {
         "name": "index_oob_guarded",
@@ -83,7 +102,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 3.5274589899927378
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 2.465625002514571
       },
       {
         "name": "index_oob_off_by_one",
@@ -98,20 +119,24 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 13.835749996360391
+        "raw_detected_bugs": [
+          "INDEX_OOB"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.621874969918281
       },
       {
         "name": "index_oob_binary_search",
         "expected_bugs": [],
-        "detected_bugs": [
-          "DIV_ZERO"
-        ],
+        "detected_bugs": [],
         "expected_fix_count": 0,
-        "h1_rank": 1,
+        "h1_rank": 0,
         "true_positives": 0,
-        "false_positives": 1,
+        "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 42.323666042648256
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 1778.0726660275832
       },
       {
         "name": "none_deref_simple",
@@ -126,7 +151,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 35.6816669809632
+        "raw_detected_bugs": [
+          "NULL_PTR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 3.6807500291615725
       },
       {
         "name": "none_deref_guarded",
@@ -137,7 +166,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 3.7667499855160713
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 3.1285000150091946
       },
       {
         "name": "none_deref_chain",
@@ -145,15 +176,18 @@
           "NULL_PTR"
         ],
         "detected_bugs": [
-          "TYPE_CONFUSION",
           "NULL_PTR"
         ],
         "expected_fix_count": 1,
-        "h1_rank": 2,
+        "h1_rank": 1,
         "true_positives": 1,
-        "false_positives": 1,
+        "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 17.798666027374566
+        "raw_detected_bugs": [
+          "NULL_PTR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 3.5177500103600323
       },
       {
         "name": "type_error_concat",
@@ -164,7 +198,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 3.6686669918708503
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 1.4448339934460819
       },
       {
         "name": "type_error_explicit",
@@ -175,7 +211,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 7.210166018921882
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 2.00008403044194
       },
       {
         "name": "key_error_simple",
@@ -190,7 +228,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 17.496875021606684
+        "raw_detected_bugs": [
+          "KEY_ERROR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.766541962046176
       },
       {
         "name": "key_error_guarded",
@@ -201,7 +243,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 89.86220898805186
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 2.5668329908512533
       },
       {
         "name": "unbound_conditional",
@@ -216,7 +260,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 13.995999994222075
+        "raw_detected_bugs": [
+          "UNBOUND_VAR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.3883749963715672
       },
       {
         "name": "multi_bug_two_independent",
@@ -233,7 +281,12 @@
         "true_positives": 2,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 42.93804202461615
+        "raw_detected_bugs": [
+          "INDEX_OOB",
+          "KEY_ERROR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 5.606249964330345
       },
       {
         "name": "multi_bug_three_independent",
@@ -252,18 +305,30 @@
         "true_positives": 3,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 47.046583029441535
+        "raw_detected_bugs": [
+          "INDEX_OOB",
+          "DIV_ZERO",
+          "KEY_ERROR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 6.491957989055663
       },
       {
         "name": "iterator_exhaustion",
         "expected_bugs": [],
-        "detected_bugs": [],
+        "detected_bugs": [
+          "USE_AFTER_FREE"
+        ],
         "expected_fix_count": 0,
-        "h1_rank": 0,
+        "h1_rank": 1,
         "true_positives": 0,
-        "false_positives": 0,
+        "false_positives": 1,
         "false_negatives": 0,
-        "elapsed_ms": 4.491458006668836
+        "raw_detected_bugs": [
+          "USE_AFTER_FREE"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.74266698397696
       },
       {
         "name": "file_use_after_close",
@@ -279,7 +344,12 @@
         "true_positives": 1,
         "false_positives": 1,
         "false_negatives": 0,
-        "elapsed_ms": 18.926416989415884
+        "raw_detected_bugs": [
+          "MEMORY_LEAK",
+          "USE_AFTER_FREE"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 4.203916992992163
       },
       {
         "name": "dict_missing_key_pattern",
@@ -288,28 +358,39 @@
           "KEY_ERROR"
         ],
         "detected_bugs": [
-          "NULL_PTR",
+          "KEY_ERROR",
           "KEY_ERROR"
         ],
         "expected_fix_count": 2,
         "h1_rank": 2,
-        "true_positives": 1,
-        "false_positives": 1,
-        "false_negatives": 1,
-        "elapsed_ms": 29.374916979577392
+        "true_positives": 2,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "raw_detected_bugs": [
+          "KEY_ERROR",
+          "KEY_ERROR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.9256659909151495
       },
       {
         "name": "none_from_find",
         "expected_bugs": [
           "NULL_PTR"
         ],
-        "detected_bugs": [],
+        "detected_bugs": [
+          "NULL_PTR"
+        ],
         "expected_fix_count": 1,
-        "h1_rank": 0,
-        "true_positives": 0,
+        "h1_rank": 1,
+        "true_positives": 1,
         "false_positives": 0,
-        "false_negatives": 1,
-        "elapsed_ms": 6.110999966040254
+        "false_negatives": 0,
+        "raw_detected_bugs": [
+          "NULL_PTR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 4.984999948646873
       },
       {
         "name": "empty_list_pop",
@@ -318,14 +399,19 @@
         ],
         "detected_bugs": [
           "KEY_ERROR",
-          "TYPE_CONFUSION"
+          "INDEX_OOB"
         ],
         "expected_fix_count": 1,
         "h1_rank": 2,
-        "true_positives": 0,
-        "false_positives": 2,
-        "false_negatives": 1,
-        "elapsed_ms": 16.32987498305738
+        "true_positives": 1,
+        "false_positives": 1,
+        "false_negatives": 0,
+        "raw_detected_bugs": [
+          "KEY_ERROR",
+          "INDEX_OOB"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.8067909879609942
       },
       {
         "name": "string_to_int_unsafe",
@@ -340,7 +426,11 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 13.017499994020909
+        "raw_detected_bugs": [
+          "VALUE_ERROR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.1950420341454446
       },
       {
         "name": "division_in_comprehension",
@@ -355,20 +445,30 @@
         "true_positives": 1,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 14.911249978467822
+        "raw_detected_bugs": [
+          "DIV_ZERO"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.962250029668212
       },
       {
         "name": "chained_attribute_none",
         "expected_bugs": [
           "NULL_PTR"
         ],
-        "detected_bugs": [],
+        "detected_bugs": [
+          "NULL_PTR"
+        ],
         "expected_fix_count": 1,
-        "h1_rank": 0,
-        "true_positives": 0,
+        "h1_rank": 1,
+        "true_positives": 1,
         "false_positives": 0,
-        "false_negatives": 1,
-        "elapsed_ms": 3.1589589780196548
+        "false_negatives": 0,
+        "raw_detected_bugs": [
+          "NULL_PTR"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 2.125042024999857
       },
       {
         "name": "safe_defaultdict",
@@ -381,7 +481,11 @@
         "true_positives": 0,
         "false_positives": 1,
         "false_negatives": 0,
-        "elapsed_ms": 29.915833962149918
+        "raw_detected_bugs": [
+          "INDEX_OOB"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 4.709500004537404
       },
       {
         "name": "safe_enumerate",
@@ -392,7 +496,9 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 6.873958976939321
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 3.5137500381097198
       },
       {
         "name": "safe_dict_get",
@@ -403,20 +509,22 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 2.26116698468104
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 1.6803749604150653
       },
       {
         "name": "safe_list_slice",
         "expected_bugs": [],
-        "detected_bugs": [
-          "BOUNDS"
-        ],
+        "detected_bugs": [],
         "expected_fix_count": 0,
-        "h1_rank": 1,
+        "h1_rank": 0,
         "true_positives": 0,
-        "false_positives": 1,
+        "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 15.745416982099414
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 1.3805419439449906
       },
       {
         "name": "safe_fibonacci",
@@ -427,47 +535,53 @@
         "true_positives": 0,
         "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 9.06750001013279
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 5.89954195311293
       },
       {
         "name": "safe_merge_sort",
         "expected_bugs": [],
-        "detected_bugs": [
-          "STACK_OVERFLOW"
-        ],
+        "detected_bugs": [],
         "expected_fix_count": 0,
-        "h1_rank": 1,
+        "h1_rank": 0,
         "true_positives": 0,
-        "false_positives": 1,
+        "false_positives": 0,
         "false_negatives": 0,
-        "elapsed_ms": 84.33383295778185
+        "raw_detected_bugs": [],
+        "alias_matches": [],
+        "elapsed_ms": 18.707457988057286
       },
       {
         "name": "safe_matrix_mult",
         "expected_bugs": [],
         "detected_bugs": [
           "INDEX_OOB",
-          "INDEX_OOB",
-          "NULL_PTR"
+          "INDEX_OOB"
         ],
         "expected_fix_count": 0,
-        "h1_rank": 2,
+        "h1_rank": 1,
         "true_positives": 0,
-        "false_positives": 3,
+        "false_positives": 2,
         "false_negatives": 0,
-        "elapsed_ms": 75.11204201728106
+        "raw_detected_bugs": [
+          "INDEX_OOB",
+          "INDEX_OOB"
+        ],
+        "alias_matches": [],
+        "elapsed_ms": 17.347624991089106
       }
     ],
     "metrics": {
-      "true_positives": 19,
-      "false_positives": 12,
-      "false_negatives": 4,
-      "precision": 0.613,
-      "recall": 0.826,
-      "f1": 0.704,
-      "h1_rank_correct": 23,
+      "true_positives": 23,
+      "false_positives": 6,
+      "false_negatives": 0,
+      "precision": 0.793,
+      "recall": 1.0,
+      "f1": 0.885,
+      "h1_rank_correct": 28,
       "h1_rank_total": 33,
-      "h1_rank_accuracy": 0.697
+      "h1_rank_accuracy": 0.848
     }
   },
   "rq3_equivalence": {
@@ -477,243 +591,243 @@
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 5.409375007729977
+        "elapsed_ms": 1.4016249915584922
       },
       {
         "name": "early_return_refactor",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.6436660080216825
+        "elapsed_ms": 1.0395419667474926
       },
       {
         "name": "variable_rename",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.4954999787732959
+        "elapsed_ms": 1.11008295789361
       },
       {
         "name": "guard_reorder",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 2.801624999847263
+        "elapsed_ms": 1.1105829617008567
       },
       {
         "name": "inline_helper",
         "expected_equivalent": true,
-        "verdict": "inequivalent",
-        "correct": false,
-        "elapsed_ms": 2.0619590068235993
+        "verdict": "equivalent",
+        "correct": true,
+        "elapsed_ms": 0.8939169929362833
       },
       {
         "name": "accumulator_to_sum",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 0.7852920098230243
+        "elapsed_ms": 1.0541669907979667
       },
       {
         "name": "swap_commutative",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 12.218958989251405
+        "elapsed_ms": 1.3041250058449805
       },
       {
         "name": "ternary_to_ifelse",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.2462919694371521
+        "elapsed_ms": 0.8350829593837261
       },
       {
         "name": "enumerate_refactor",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.0673330398276448
+        "elapsed_ms": 1.599416951648891
       },
       {
         "name": "sort_stable",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.5002500149421394
+        "elapsed_ms": 1.2525420170277357
       },
       {
         "name": "max_refactor",
         "expected_equivalent": true,
-        "verdict": "equivalent",
-        "correct": true,
-        "elapsed_ms": 1.6406659851782024
+        "verdict": "inequivalent",
+        "correct": false,
+        "elapsed_ms": 1.2337499647401273
       },
       {
         "name": "filter_refactor",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.7637910204939544
+        "elapsed_ms": 1.274790964089334
       },
       {
         "name": "dict_comprehension",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 1.1618330026976764
+        "elapsed_ms": 0.9984169737435877
       },
       {
         "name": "string_join",
         "expected_equivalent": true,
-        "verdict": "inequivalent",
-        "correct": false,
-        "elapsed_ms": 1.236791955307126
+        "verdict": "equivalent",
+        "correct": true,
+        "elapsed_ms": 0.8927079616114497
       },
       {
         "name": "any_all_refactor",
         "expected_equivalent": true,
-        "verdict": "inequivalent",
-        "correct": false,
-        "elapsed_ms": 1.9232910126447678
+        "verdict": "equivalent",
+        "correct": true,
+        "elapsed_ms": 1.1039170203730464
       },
       {
         "name": "torch_relu_variants",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 39.911707979626954
+        "elapsed_ms": 2.564915979746729
       },
       {
         "name": "torch_softmax_order",
         "expected_equivalent": false,
-        "verdict": "equivalent",
-        "correct": false,
-        "elapsed_ms": 1.3076249742880464
+        "verdict": "inequivalent",
+        "correct": true,
+        "elapsed_ms": 1.4096669619902968
       },
       {
         "name": "torch_linear_equivalent",
         "expected_equivalent": true,
         "verdict": "equivalent",
         "correct": true,
-        "elapsed_ms": 12.349458003882319
+        "elapsed_ms": 2.3508340236730874
       },
       {
         "name": "torch_norm_different",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 0.9563750354573131
+        "elapsed_ms": 1.1509170290082693
       },
       {
         "name": "off_by_one",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.1802500230260193
+        "elapsed_ms": 1.0693749645724893
       },
       {
         "name": "wrong_operator",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 33.50574994692579
+        "elapsed_ms": 3.2929169829003513
       },
       {
         "name": "missing_guard",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.0441659833304584
+        "elapsed_ms": 0.8291670237667859
       },
       {
         "name": "different_base_case",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 0.9495829581283033
+        "elapsed_ms": 0.8557499968446791
       },
       {
         "name": "reversed_comparison",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.6077919863164425
+        "elapsed_ms": 1.1123750009573996
       },
       {
         "name": "wrong_reduction",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.953749975655228
+        "elapsed_ms": 0.9195419843308628
       },
       {
         "name": "swapped_args",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 6.450125016272068
+        "elapsed_ms": 2.376208023633808
       },
       {
         "name": "changed_default",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 0.8464580168947577
+        "elapsed_ms": 0.8605409529991448
       },
       {
         "name": "floor_vs_ceil",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 13.625374995172024
+        "elapsed_ms": 1.406166993547231
       },
       {
         "name": "inclusive_vs_exclusive",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.1309169931337237
+        "elapsed_ms": 0.9044999605976045
       },
       {
         "name": "wrong_index",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 0.4767499631270766
+        "elapsed_ms": 0.6900000153109431
       },
       {
         "name": "missing_edge_case",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 0.5805420223623514
+        "elapsed_ms": 0.8694170392118394
       },
       {
         "name": "wrong_boolean_logic",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 6.918333994690329
+        "elapsed_ms": 2.7684170054271817
       },
       {
         "name": "mutation_vs_copy",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 1.5945410123094916
+        "elapsed_ms": 1.0211659828200936
       },
       {
         "name": "different_iteration_order",
         "expected_equivalent": false,
         "verdict": "inequivalent",
         "correct": true,
-        "elapsed_ms": 2.629457972943783
+        "elapsed_ms": 1.4716250007040799
       }
     ],
-    "correct": 30,
+    "correct": 33,
     "total": 34,
-    "accuracy": 0.882
+    "accuracy": 0.971
   },
   "rq4_spec_satisfaction": {
     "results": [
@@ -721,11 +835,11 @@
         "name": "binary_search_spec",
         "spec_description": "Binary search on sorted array",
         "expected_satisfies": true,
-        "actual_satisfies": false,
-        "correct": false,
+        "actual_satisfies": true,
+        "correct": true,
         "vcs_total": 42,
-        "vcs_after_reduction": 3,
-        "elapsed_ms": 46.83320899493992
+        "vcs_after_reduction": 2,
+        "elapsed_ms": 13.053332979325205
       },
       {
         "name": "sqrt_spec",
@@ -735,7 +849,7 @@
         "correct": true,
         "vcs_total": 38,
         "vcs_after_reduction": 2,
-        "elapsed_ms": 10.908500000368804
+        "elapsed_ms": 10.978459031321108
       },
       {
         "name": "gcd_spec",
@@ -745,7 +859,7 @@
         "correct": true,
         "vcs_total": 20,
         "vcs_after_reduction": 2,
-        "elapsed_ms": 5.020999989937991
+        "elapsed_ms": 6.3306670053862035
       },
       {
         "name": "reverse_spec",
@@ -755,27 +869,27 @@
         "correct": true,
         "vcs_total": 4,
         "vcs_after_reduction": 1,
-        "elapsed_ms": 2.3951250477693975
+        "elapsed_ms": 2.899124985560775
       },
       {
         "name": "failing_spec",
         "spec_description": "Absolute value (buggy: missing negation)",
         "expected_satisfies": false,
-        "actual_satisfies": true,
-        "correct": false,
+        "actual_satisfies": false,
+        "correct": true,
         "vcs_total": 7,
         "vcs_after_reduction": 1,
-        "elapsed_ms": 4.916165955364704
+        "elapsed_ms": 1.8355829524807632
       },
       {
         "name": "partial_spec",
         "spec_description": "Clamp value to range",
         "expected_satisfies": true,
-        "actual_satisfies": true,
-        "correct": true,
+        "actual_satisfies": false,
+        "correct": false,
         "vcs_total": 28,
-        "vcs_after_reduction": 2,
-        "elapsed_ms": 2.868084004148841
+        "vcs_after_reduction": 3,
+        "elapsed_ms": 2.7884169830940664
       },
       {
         "name": "sort_spec",
@@ -785,7 +899,7 @@
         "correct": true,
         "vcs_total": 27,
         "vcs_after_reduction": 1,
-        "elapsed_ms": 56.88483401900157
+        "elapsed_ms": 15.947500010952353
       },
       {
         "name": "fibonacci_spec",
@@ -795,16 +909,16 @@
         "correct": true,
         "vcs_total": 20,
         "vcs_after_reduction": 1,
-        "elapsed_ms": 28.500290994998068
+        "elapsed_ms": 8.458250027615577
       }
     ],
-    "correct": 6,
+    "correct": 7,
     "total": 8
   },
   "rq5_incremental": {
-    "full_analysis_ms": 6.157124997116625,
-    "incremental_analysis_ms": 6.054583005607128,
-    "speedup": 1.016936259923191,
+    "full_analysis_ms": 2.913457981776446,
+    "incremental_analysis_ms": 2.9520830139517784,
+    "speedup": 0.9869160074453234,
     "functions_total": 3,
     "functions_reanalyzed": 3,
     "note": "Used full re-analysis (incremental API: Workspace.__init__() missing 1 required positional argument: 'root')"
@@ -829,12 +943,12 @@
       "note": "No type annotations \u2192 no findings"
     },
     "deppy": {
-      "true_positives": 19,
-      "false_positives": 12,
-      "false_negatives": 4,
-      "precision": 0.613,
-      "recall": 0.826,
-      "f1": 0.704,
+      "true_positives": 23,
+      "false_positives": 6,
+      "false_negatives": 0,
+      "precision": 0.793,
+      "recall": 1.0,
+      "f1": 0.885,
       "note": "Sheaf-cohomological analysis, no annotations needed"
     }
   }

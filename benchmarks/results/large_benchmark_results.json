@@ -1,12 +1,12 @@
 {
   "bugs": {
-    "tp": 61,
-    "fp": 25,
-    "fn": 6,
-    "precision": 0.709,
-    "recall": 0.91,
-    "f1": 0.797,
-    "h1_correct": 72,
+    "tp": 67,
+    "fp": 35,
+    "fn": 0,
+    "precision": 0.657,
+    "recall": 1.0,
+    "f1": 0.793,
+    "h1_correct": 74,
     "total": 100,
     "details": [
       {
@@ -90,17 +90,19 @@
           "INDEX_OOB"
         ],
         "detected": [
-          "DIV_ZERO"
+          "DIV_ZERO",
+          "INDEX_OOB"
         ],
         "scored_detected": [
-          "DIV_ZERO"
+          "DIV_ZERO",
+          "INDEX_OOB"
         ],
         "alias_matches": [],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 1,
-        "tp": 0,
+        "tp": 1,
         "fp": 1,
-        "fn": 1
+        "fn": 0
       },
       {
         "name": "index_oob_matrix",
@@ -286,6 +288,26 @@
           "TYPE_ERROR"
         ],
         "detected": [
+          "TYPE_ERROR",
+          "TYPE_ERROR"
+        ],
+        "scored_detected": [
+          "TYPE_ERROR",
+          "TYPE_ERROR"
+        ],
+        "alias_matches": [],
+        "h1": 2,
+        "exp_fixes": 1,
+        "tp": 1,
+        "fp": 1,
+        "fn": 0
+      },
+      {
+        "name": "type_error_compare",
+        "expected": [
+          "TYPE_ERROR"
+        ],
+        "detected": [
           "TYPE_ERROR"
         ],
         "scored_detected": [
@@ -297,20 +319,6 @@
         "tp": 1,
         "fp": 0,
         "fn": 0
-      },
-      {
-        "name": "type_error_compare",
-        "expected": [
-          "TYPE_ERROR"
-        ],
-        "detected": [],
-        "scored_detected": [],
-        "alias_matches": [],
-        "h1": 0,
-        "exp_fixes": 1,
-        "tp": 0,
-        "fp": 0,
-        "fn": 1
       },
       {
         "name": "unbound_var_cond",
@@ -568,14 +576,20 @@
         "expected": [
           "SQL_INJECTION"
         ],
-        "detected": [],
-        "scored_detected": [],
+        "detected": [
+          "SQL_INJECTION",
+          "TYPE_ERROR"
+        ],
+        "scored_detected": [
+          "SQL_INJECTION",
+          "TYPE_ERROR"
+        ],
         "alias_matches": [],
-        "h1": 0,
+        "h1": 2,
         "exp_fixes": 1,
-        "tp": 0,
-        "fp": 0,
-        "fn": 1
+        "tp": 1,
+        "fp": 1,
+        "fn": 0
       },
       {
         "name": "sql_injection_percent",
@@ -605,16 +619,18 @@
           "COMMAND_INJECTION"
         ],
         "detected": [
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "alias_matches": [],
-        "h1": 0,
+        "h1": 1,
         "exp_fixes": 1,
         "tp": 1,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -623,16 +639,18 @@
           "COMMAND_INJECTION"
         ],
         "detected": [
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "alias_matches": [],
-        "h1": 0,
+        "h1": 1,
         "exp_fixes": 1,
         "tp": 1,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -664,10 +682,12 @@
           "XSS"
         ],
         "detected": [
-          "REFLECTED_XSS"
+          "REFLECTED_XSS",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
-          "XSS"
+          "XSS",
+          "TYPE_ERROR"
         ],
         "alias_matches": [
           [
@@ -675,10 +695,10 @@
             "REFLECTED_XSS"
           ]
         ],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 1,
         "tp": 1,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -1103,17 +1123,19 @@
           "NULL_PTR"
         ],
         "detected": [
-          "INDEX_OOB"
+          "INDEX_OOB",
+          "NULL_PTR"
         ],
         "scored_detected": [
-          "INDEX_OOB"
+          "INDEX_OOB",
+          "NULL_PTR"
         ],
         "alias_matches": [],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 2,
-        "tp": 1,
+        "tp": 2,
         "fp": 0,
-        "fn": 1
+        "fn": 0
       },
       {
         "name": "multi_sqli_xss",
@@ -1123,11 +1145,15 @@
         ],
         "detected": [
           "SQL_INJECTION",
-          "REFLECTED_XSS"
+          "REFLECTED_XSS",
+          "TYPE_ERROR",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
           "SQL_INJECTION",
-          "XSS"
+          "XSS",
+          "TYPE_ERROR",
+          "TYPE_ERROR"
         ],
         "alias_matches": [
           [
@@ -1135,10 +1161,10 @@
             "REFLECTED_XSS"
           ]
         ],
-        "h1": 1,
+        "h1": 3,
         "exp_fixes": 2,
         "tp": 2,
-        "fp": 0,
+        "fp": 2,
         "fn": 0
       },
       {
@@ -1148,17 +1174,19 @@
           "TYPE_ERROR"
         ],
         "detected": [
-          "UNBOUND_VAR"
+          "UNBOUND_VAR",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
-          "UNBOUND_VAR"
+          "UNBOUND_VAR",
+          "TYPE_ERROR"
         ],
         "alias_matches": [],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 2,
-        "tp": 1,
+        "tp": 2,
         "fp": 0,
-        "fn": 1
+        "fn": 0
       },
       {
         "name": "multi_leak_injection",
@@ -1168,17 +1196,19 @@
         ],
         "detected": [
           "MEMORY_LEAK",
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "scored_detected": [
           "MEMORY_LEAK",
-          "COMMAND_INJECTION"
+          "COMMAND_INJECTION",
+          "TYPE_ERROR"
         ],
         "alias_matches": [],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 2,
         "tp": 2,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -1188,17 +1218,19 @@
           "INTEGER_OVERFLOW"
         ],
         "detected": [
-          "INTEGER_OVERFLOW"
+          "INTEGER_OVERFLOW",
+          "RACE_CONDITION"
         ],
         "scored_detected": [
-          "INTEGER_OVERFLOW"
+          "INTEGER_OVERFLOW",
+          "RACE_CONDITION"
         ],
         "alias_matches": [],
-        "h1": 1,
+        "h1": 2,
         "exp_fixes": 2,
-        "tp": 1,
+        "tp": 2,
         "fp": 0,
-        "fn": 1
+        "fn": 0
       },
       {
         "name": "safe_mean_guarded",
@@ -1363,13 +1395,17 @@
       {
         "name": "safe_html_template",
         "expected": [],
-        "detected": [],
-        "scored_detected": [],
+        "detected": [
+          "TYPE_ERROR"
+        ],
+        "scored_detected": [
+          "TYPE_ERROR"
+        ],
         "alias_matches": [],
-        "h1": 0,
+        "h1": 1,
         "exp_fixes": 0,
         "tp": 0,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -1545,13 +1581,17 @@
       {
         "name": "safe_stringify",
         "expected": [],
-        "detected": [],
-        "scored_detected": [],
+        "detected": [
+          "TYPE_ERROR"
+        ],
+        "scored_detected": [
+          "TYPE_ERROR"
+        ],
         "alias_matches": [],
-        "h1": 0,
+        "h1": 1,
         "exp_fixes": 0,
         "tp": 0,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {
@@ -2408,7 +2448,7 @@
         "expected_sat": true,
         "actual_sat": true,
         "correct": true,
-        "n_bugs": 0,
+        "n_bugs": 1,
         "static_sat": true,
         "dynamic_sat": true
       },
@@ -2687,8 +2727,8 @@
         "expected_sat": true,
         "actual_sat": false,
         "correct": false,
-        "n_bugs": 0,
-        "static_sat": true,
+        "n_bugs": 1,
+        "static_sat": false,
         "dynamic_sat": false
       },
       {

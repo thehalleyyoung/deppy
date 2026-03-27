@@ -1576,6 +1576,7 @@ class ExistingCodeChecker:
         fragments = ()
         accepted_constraints = []
 
+        params: List[str] = []
         if docstring:
             from deppy.nl_synthesis.docstring_parser import parse_docstring_fragments
             from deppy.nl_synthesis.verifier import verify_synthesized_constraints
@@ -1670,9 +1671,10 @@ class ExistingCodeChecker:
                         "intent_text": constraint.description,
                         "property_name": predicate_text,
                         "h1_name": f"H1_IC_{func_name}_{index}",
-                        "counterexample": (
-                            "The docstring-induced local section does not glue to the code layer; "
-                            "no supporting implementation evidence was found."
+                        "counterexample": _synthesize_counterexample_input(
+                            predicate_text,
+                            params,
+                            implementation_text,
                         ),
                     })
                 if (
@@ -1986,6 +1988,64 @@ def _extract_contract_intent(docstring: str) -> Optional[str]:
             return first
 
     return None
+
+
+def _synthesize_counterexample_input(
+    predicate_text: str,
+    params: Sequence[str],
+    implementation_text: str,
+) -> str:
+    """Generate a plain witness-style counterexample description when possible."""
+    lowered_pred = predicate_text.lower()
+    lowered_code = implementation_text.lower()
+    list_param = next(
+        (
+            name
+            for name in params
+            if re.search(r"(items|values|nums|numbers|xs|ys|arr|array|lst|list)", name)
+        ),
+        params[0] if params else "items",
+    )
+
+    if "sorted(result)" in lowered_pred or "result is sorted" in lowered_pred:
+        if "dict.fromkeys" in lowered_code:
+            return (
+                f"Try {list_param}=[2, 1, 2]. This implementation can return [2, 1], "
+                "which is unique but not sorted."
+            )
+        return (
+            f"Try {list_param}=[2, 1]. A result like [2, 1] would violate the documented sorted output."
+        )
+
+    if "unique(result)" in lowered_pred or "result is unique" in lowered_pred:
+        return (
+            f"Try {list_param}=[1, 1]. A result like [1, 1] would violate the documented uniqueness requirement."
+        )
+
+    if "len(result) > 0" in lowered_pred or "result is non-empty" in lowered_pred:
+        if "return []" in lowered_code:
+            return (
+                f"Try {list_param}=[]. This implementation returns [], which violates the documented non-empty output."
+            )
+        return (
+            f"Try an input such as {list_param}=[]. If the function returns an empty collection, "
+            "it would violate the documented non-empty output."
+        )
+
+    param_match = re.search(r"len\((\w+)\)\s*>\s*0", lowered_pred)
+    if param_match:
+        param_name = param_match.group(1)
+        return (
+            f"Try {param_name}=[]. The documented precondition says this input is out of scope, "
+            "but the implementation has no clear guard or assertion for it."
+        )
+
+    if "not none" in lowered_pred:
+        target_match = re.search(r"(\w+)\s+is\s+not\s+none", lowered_pred)
+        target_name = target_match.group(1) if target_match else (params[0] if params else "value")
+        return f"Try {target_name}=None."
+
+    return "Try a small edge-case input that violates the documented condition."
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

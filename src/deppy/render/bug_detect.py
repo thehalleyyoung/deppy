@@ -9709,6 +9709,248 @@ def _supplemental_obstructions(
                     )
                     break
 
+    # ── Chained .get() NULL_PTR detection ──
+    # x.get(key).method() is NULL_PTR when .get() returns None.
+    # Also: any call chain where .get() without default is followed by
+    # attribute access or method call.
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Attribute) or (
+            isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        ):
+            # Walk the value chain looking for .get() without default
+            val = node.value if isinstance(node, ast.Attribute) else node.func.value
+            if isinstance(val, ast.Call) and isinstance(val.func, ast.Attribute):
+                if val.func.attr == 'get' and len(val.args) <= 1:
+                    add(
+                        "NULL_PTR",
+                        node.lineno,
+                        f"`.get()` may return None; subsequent access is unsafe",
+                        confidence=0.85,
+                        status="supplemental chained-get NULL_PTR",
+                        ast_node=node,
+                    )
+
+    # ── Interprocedural NULL_PTR: function returns None on some paths ──
+    # If a locally defined function has MIXED returns (some None, some value)
+    # and the caller dereferences the result, that's a NULL_PTR.
+    _mixed_return_funcs: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            returns = [n for n in ast.walk(fnode) if isinstance(n, ast.Return)]
+            has_none_return = any(
+                (r.value is None) or
+                (isinstance(r.value, ast.Constant) and r.value.value is None)
+                for r in returns
+            )
+            has_value_return = any(
+                r.value is not None and not (
+                    isinstance(r.value, ast.Constant) and r.value.value is None
+                )
+                for r in returns
+            )
+            if has_none_return and has_value_return:
+                _mixed_return_funcs.add(fnode.name)
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            # Check if the variable was assigned from a mixed-return function
+            var_name = node.value.id
+            for assign_node in ast.walk(tree):
+                if (isinstance(assign_node, ast.Assign)
+                        and len(assign_node.targets) == 1
+                        and isinstance(assign_node.targets[0], ast.Name)
+                        and assign_node.targets[0].id == var_name
+                        and isinstance(assign_node.value, ast.Call)):
+                    call_name = _get_call_name(assign_node.value)
+                    if call_name in _mixed_return_funcs:
+                        add(
+                            "NULL_PTR",
+                            node.lineno,
+                            f"`{var_name}` may be None (from `{call_name}` which returns None on some paths)",
+                            confidence=0.85,
+                            status="supplemental interprocedural NULL_PTR",
+                            ast_node=node,
+                        )
+                        break
+
+    # ── Parameter subscript on parameter dict → KEY_ERROR ──
+    # users[user_id] where both are params: caller may pass non-existent key.
+    fn_params: Set[str] = set()
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for a in fnode.args.args:
+                fn_params.add(a.arg)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Subscript):
+            obj_name = _expr_to_var_name(node.value, "")
+            idx_name = _expr_to_var_name(node.slice, "") if isinstance(node.slice, ast.Name) else ""
+            if (obj_name in fn_params and idx_name in fn_params
+                    and obj_name != idx_name):
+                add(
+                    "KEY_ERROR",
+                    node.lineno,
+                    f"`{obj_name}[{idx_name}]` — key `{idx_name}` may not exist",
+                    confidence=0.8,
+                    status="supplemental param-subscript KEY_ERROR",
+                    ast_node=node,
+                )
+
+    # ── Computed index (i + j, i * k, etc.) on sequence → INDEX_OOB ──
+    # data[i + j] where i and j come from separate ranges can exceed bounds.
+    # This overrides existing guard resolutions because range(len(data)) only
+    # bounds `i`, not `i + j`.
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.BinOp):
+            # Computed index like data[i + j]
+            slice_op = node.slice
+            if isinstance(slice_op.op, (ast.Add, ast.Mult)):
+                obj_name = _expr_to_var_name(node.value, "")
+                _ci_fn_params = set()
+                for fnode in ast.walk(tree):
+                    if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        for a in fnode.args.args:
+                            _ci_fn_params.add(a.arg)
+                if obj_name in _ci_fn_params:
+                    # Force-add: remove existing resolved key to allow re-adding
+                    existing_keys.discard(("INDEX_OOB", node.lineno))
+                    add(
+                        "INDEX_OOB",
+                        node.lineno,
+                        f"Computed index on `{obj_name}` may exceed bounds",
+                        confidence=0.8,
+                        status="supplemental computed-index INDEX_OOB",
+                        ast_node=node,
+                    )
+
+    # ── .pop() on potentially empty list → INDEX_OOB ──
+    for node in ast.walk(tree):
+        if (isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == 'pop'
+                and not node.args):  # .pop() with no args = pop last
+            obj = node.func.value
+            obj_name = _expr_to_var_name(obj, "")
+            # Check if the object is a parameter (could be empty)
+            fn_params = set()
+            for fnode in ast.walk(tree):
+                if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    for a in fnode.args.args:
+                        fn_params.add(a.arg)
+            if obj_name in fn_params:
+                add(
+                    "INDEX_OOB",
+                    node.lineno,
+                    f"`{obj_name}.pop()` raises IndexError on empty sequence",
+                    confidence=0.85,
+                    status="supplemental empty-pop INDEX_OOB",
+                    ast_node=node,
+                )
+
+    # ── SQL injection via string concatenation ──
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            call_name = _get_call_name(node)
+            if "execute" in call_name and node.args:
+                sql_arg = node.args[0]
+                # Check for string concatenation (BinOp with Add on strings)
+                if isinstance(sql_arg, ast.Name):
+                    # Find the assignment — is it built by concatenation?
+                    for n2 in ast.walk(tree):
+                        if (isinstance(n2, ast.Assign)
+                                and len(n2.targets) == 1
+                                and isinstance(n2.targets[0], ast.Name)
+                                and n2.targets[0].id == sql_arg.id
+                                and isinstance(n2.value, ast.BinOp)
+                                and isinstance(n2.value.op, ast.Add)):
+                            # String concat building a query
+                            add(
+                                "SQL_INJECTION",
+                                node.lineno,
+                                f"{call_name} executes a concatenated query",
+                                confidence=0.9,
+                                status="supplemental SQL concat analysis",
+                                ast_node=node,
+                            )
+                            break
+
+    # ── TYPE_ERROR: comparison with potentially incomparable types ──
+    # Functions that compare parameters with <, >, <=, >= without type checks
+    # can raise TypeError if given incomparable types.
+    for fnode in ast.walk(tree):
+        if isinstance(fnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            fn_params = {a.arg for a in fnode.args.args}
+            has_isinstance = any(
+                isinstance(n, ast.Call) and _get_call_name(n) == 'isinstance'
+                for n in ast.walk(fnode)
+            )
+            if has_isinstance:
+                continue  # Has type checking — skip
+            for cmp_node in ast.walk(fnode):
+                if isinstance(cmp_node, ast.Compare):
+                    for op in cmp_node.ops:
+                        if isinstance(op, (ast.Lt, ast.Gt, ast.LtE, ast.GtE)):
+                            # Check if comparing parameters to each other
+                            operands = [cmp_node.left] + cmp_node.comparators
+                            param_count = sum(
+                                1 for o in operands
+                                if isinstance(o, ast.Name) and o.id in fn_params
+                            )
+                            if param_count >= 2:
+                                add(
+                                    "TYPE_ERROR",
+                                    cmp_node.lineno,
+                                    "Comparison of parameters may raise TypeError for incomparable types",
+                                    confidence=0.7,
+                                    status="supplemental type-error comparison",
+                                    ast_node=cmp_node,
+                                )
+                                break
+                    else:
+                        continue
+                    break
+
+    # ── TYPE_ERROR: string + numeric or mixed-type concatenation ──
+    # `result + "suffix"` where result might be int → TypeError
+    for node in ast.walk(tree):
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            left_is_str = (isinstance(node.left, ast.Constant) and isinstance(node.left.value, str))
+            right_is_str = (isinstance(node.right, ast.Constant) and isinstance(node.right.value, str))
+            left_is_num = (isinstance(node.left, ast.Constant) and isinstance(node.left.value, (int, float)))
+            right_is_num = (isinstance(node.right, ast.Constant) and isinstance(node.right.value, (int, float)))
+            if (left_is_str and not right_is_str and not right_is_num) or \
+               (right_is_str and not left_is_str and not left_is_num):
+                # One side is a string literal, other is a variable — potential TypeError
+                add(
+                    "TYPE_ERROR",
+                    node.lineno,
+                    "Addition of string literal with non-string variable may raise TypeError",
+                    confidence=0.7,
+                    status="supplemental type-error string-add",
+                    ast_node=node,
+                )
+
+    # ── RACE_CONDITION: threading with shared mutable state ──
+    _has_threading = any(
+        isinstance(n, (ast.Import, ast.ImportFrom))
+        and any('threading' in (a.name if hasattr(a, 'name') else '')
+                for a in getattr(n, 'names', []))
+        for n in ast.walk(tree)
+    )
+    if _has_threading:
+        for node in ast.walk(tree):
+            if isinstance(node, ast.AugAssign):
+                # += on shared state in a function called by threads
+                if isinstance(node.target, ast.Attribute):
+                    target_repr = _expr_repr(node.target)
+                    add(
+                        "RACE_CONDITION",
+                        node.lineno,
+                        f"Unsynchronized mutation of `{target_repr}` in threaded context",
+                        confidence=0.85,
+                        status="supplemental race-condition analysis",
+                        ast_node=node,
+                    )
+
     return findings
 
 

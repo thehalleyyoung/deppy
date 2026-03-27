@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
+import os
 import re
+from io import StringIO
 
 from deppy.hybrid.ideation.math_ontology_loader import (
     all_math_areas,
@@ -132,6 +135,7 @@ class _ShallowCopilotLLM(CopilotCLIInterface):
     def __init__(self) -> None:
         super().__init__(model="copilot", executable="/usr/bin/copilot", timeout_seconds=5)
         self.calls = 0
+        self.prompts: list[str] = []
 
     def complete(
         self,
@@ -142,6 +146,40 @@ class _ShallowCopilotLLM(CopilotCLIInterface):
         del prompt, max_tokens, temperature
         self.calls += 1
         return '"""shallow"""\n\ndef helper() -> int:\n    return 1\n'
+
+    def write_module_file(
+        self,
+        prompt: str,
+        target_path: str,
+    ) -> str:
+        self.calls += 1
+        self.prompts.append(prompt)
+        os.makedirs(os.path.dirname(target_path), exist_ok=True)
+        source = '"""shallow"""\n\ndef helper() -> int:\n    return 1\n'
+        with open(target_path, "w", encoding="utf-8") as handle:
+            handle.write(source)
+        return source
+
+    def write_module_files(
+        self,
+        prompt: str,
+        target_paths: list[str],
+    ) -> dict[str, str]:
+        self.calls += 1
+        self.prompts.append(prompt)
+        results: dict[str, str] = {}
+        for target_path in target_paths:
+            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            source = (
+                '"""phase module"""\n\n'
+                "from __future__ import annotations\n\n"
+                "def phase_entry(payload: dict[str, object]) -> dict[str, object]:\n"
+                f"    return {{'path': {target_path!r}, 'payload': payload}}\n"
+            )
+            with open(target_path, "w", encoding="utf-8") as handle:
+                handle.write(source)
+            results[os.path.abspath(target_path)] = source
+        return results
 
     def complete_json(
         self,
@@ -294,6 +332,8 @@ def test_generate_module_prompt_includes_ideation_and_orchestration_context() ->
     assert "Desired functions:" in prompt
     assert "SignalGeometryState" in prompt
     assert "compute_signal_geometry" in prompt
+    assert "Inspect other files in the current directory for this module's obligations" in prompt
+    assert "Shared signature context:" in prompt
 
 
 def test_module_plan_carries_typed_surface_specs_from_full_expansion() -> None:
@@ -329,6 +369,59 @@ def test_module_plan_carries_typed_surface_specs_from_full_expansion() -> None:
 
     assert module_plan["class_specs"][0]["name"] == "RiskEngineState"
     assert module_plan["function_specs"][0]["name"] == "evaluate_risk"
+
+
+def test_module_plan_collects_signature_context_from_full_expansion() -> None:
+    cli = AgentCLI()
+    intent = {
+        "full_expansion": {
+            "global_plan": {
+                "modules": [
+                    {
+                        "name": "market_data",
+                        "summary": "market data",
+                        "depends_on": [],
+                        "exports": ["load_market_data"],
+                        "imports": [],
+                        "function_specs": [
+                            {
+                                "name": "load_market_data",
+                                "signature": "(series: list[float], window: int) -> dict[str, float]",
+                                "purpose": "Load market data.",
+                            }
+                        ],
+                    },
+                    {
+                        "name": "signal_geometry",
+                        "summary": "signal geometry",
+                        "depends_on": ["market_data"],
+                        "exports": ["compute_signal_geometry"],
+                        "imports": ["load_market_data"],
+                        "function_specs": [
+                            {
+                                "name": "compute_signal_geometry",
+                                "signature": "(series: list[float]) -> dict[str, float]",
+                                "purpose": "Compute signals.",
+                            }
+                        ],
+                    },
+                ],
+                "phases": [
+                    {"index": 1, "module_names": ["market_data"], "gate_checks": []},
+                    {"index": 2, "module_names": ["signal_geometry"], "gate_checks": []},
+                ],
+            }
+        }
+    }
+
+    module_plan = cli._module_plan(intent, "signal_geometry")
+
+    signature_context = module_plan["signature_context"]
+    assert signature_context["phase_index"] == 2
+    assert signature_context["phase_modules"] == ["signal_geometry"]
+    assert signature_context["import_contracts"][0]["import_name"] == "load_market_data"
+    assert signature_context["import_contracts"][0]["provider"] == "market_data"
+    assert signature_context["import_contracts"][0]["param_names"] == ["series", "window"]
 
 
 def test_resolve_intent_normalizes_empty_llm_payload_for_trading_prompt() -> None:
@@ -477,10 +570,11 @@ def test_generate_module_summarizes_large_full_mode_module_order() -> None:
     assert str(module_order) not in prompt
 
 
-def test_generate_module_limits_full_mode_refinements_for_copilot_backend() -> None:
+def test_generate_module_limits_full_mode_refinements_for_copilot_backend(tmp_path) -> None:
     cli = AgentCLI()
     llm = _ShallowCopilotLLM()
     cli._llm = llm
+    cli._config = CLIConfig(output_dir=str(tmp_path))
 
     intent = {
         "description": "example system",
@@ -496,14 +590,95 @@ def test_generate_module_limits_full_mode_refinements_for_copilot_backend() -> N
 
     assert "Autonomous typed scaffold" in artifact["source"]
     assert llm.calls == 1
+    assert llm.prompts
+    assert "You may take as many turns as needed" in llm.prompts[0]
+    assert "Inspect other files in the current directory for this module's obligations" in llm.prompts[0]
 
 
-def test_copilot_backend_uses_single_cegar_round_budget() -> None:
+def test_generate_phase_modules_batches_files_for_copilot(tmp_path) -> None:
+    cli = AgentCLI()
+    llm = _ShallowCopilotLLM()
+    cli._llm = llm
+    cli._config = CLIConfig(output_dir=str(tmp_path))
+
+    intent = {
+        "description": "example system",
+        "domain": "general",
+        "full_expansion": {
+            "global_plan": {
+                "modules": [
+                    {
+                        "name": "alpha",
+                        "summary": "alpha module",
+                        "depends_on": [],
+                        "exports": ["build_alpha"],
+                        "imports": [],
+                        "function_specs": [
+                            {
+                                "name": "build_alpha",
+                                "signature": "(context: dict[str, object]) -> dict[str, object]",
+                                "purpose": "Build alpha.",
+                            }
+                        ],
+                    },
+                    {
+                        "name": "beta",
+                        "summary": "beta module",
+                        "depends_on": [],
+                        "exports": ["build_beta"],
+                        "imports": ["build_alpha"],
+                        "function_specs": [
+                            {
+                                "name": "build_beta",
+                                "signature": "(context: dict[str, object]) -> dict[str, object]",
+                                "purpose": "Build beta.",
+                            }
+                        ],
+                    },
+                ],
+                "phases": [
+                    {"index": 1, "module_names": ["alpha", "beta"], "gate_checks": []},
+                ],
+            }
+        },
+    }
+
+    artifacts = cli._generate_phase_modules(intent, ["alpha", "beta"])
+
+    assert set(artifacts.keys()) == {"alpha", "beta"}
+    assert llm.calls == 1
+    assert "Phase modules: alpha, beta" in llm.prompts[0]
+    assert "Shared phase signature registry:" in llm.prompts[0]
+    assert "shared imported/exported functions use the same names" in llm.prompts[0]
+
+
+def test_progress_display_reports_generation_and_verification_timings() -> None:
+    output = StringIO()
+    from agent.cli import ProgressDisplay
+
+    display = ProgressDisplay(output=output, verbose=True, use_color=False)
+    display.module_start("main", 1, 1, pattern="typed core")
+    display.verification_start("main")
+    display.module_done("main", "Z3_PROVEN")
+
+    rendered = output.getvalue()
+    assert "Generation time:" in rendered
+    assert "Verification time:" in rendered
+    assert "Total module time:" in rendered
+
+
+def test_copilot_backend_uses_repair_budget_for_strict_or_lean_runs() -> None:
     cli = AgentCLI()
     cli._config = CLIConfig(prompt="example", full=True, max_iterations=5)
     cli._llm = _ShallowCopilotLLM()
 
     assert cli._cegar_round_budget() == 1
+
+    cli._config = CLIConfig(prompt="example", full=True, max_iterations=5, strict=True)
+    assert cli._cegar_round_budget() == 2
+
+    cli._config = CLIConfig(prompt="example", full=True, max_iterations=5, lean=True)
+    assert cli._cegar_round_budget() == 2
 
 
 def test_write_generation_prompts_exports_markdown(tmp_path) -> None:
@@ -522,6 +697,129 @@ def test_write_generation_prompts_exports_markdown(tmp_path) -> None:
     contents = prompt_path.read_text(encoding="utf-8")
     assert "# Generation prompt for `main`" in contents
     assert "Write a complete Python module named 'main'." in contents
+
+
+def test_write_ideation_report_exports_mathjax_html(tmp_path) -> None:
+    intent = {
+        "description": "verified trading system",
+        "domain": "trading",
+        "ideation": {
+            "novel_idea": "Use sheaf-style regime gluing.",
+            "domains": ["formal_verification", "machine_learning"],
+            "unified_insights": ["Signals can be glued across local regime charts."],
+            "deep_analogies": ["Analogy(type_theory↔algebraic_geometry)"],
+            "selected_math_areas": ["robust statistics"],
+            "selected_math_area_details": [
+                {
+                    "name": "robust statistics",
+                    "summary": "Handle outliers while preserving stable estimates.",
+                    "category": "statistics",
+                    "family": "inference",
+                    "bridge_domains": ["machine_learning"],
+                    "key_invariants": ["bounded influence"],
+                    "canonical_equations": [
+                        {
+                            "latex": r"\hat{\theta} = \arg\min_\theta \sum_i \rho(x_i - \theta)",
+                            "meaning": "Robust estimator objective.",
+                        }
+                    ],
+                }
+            ],
+            "novel_idea_structured": {
+                "headline": "robust-regime-gluing",
+                "thesis": "Use robust local charts and glue only coherent sections.",
+                "proof_target": "Preserve leverage and drawdown invariants.",
+            },
+            "selection_strategy": {
+                "mode": "llm_guided",
+                "baseline_domains": ["software_engineering"],
+                "guided_domains": ["formal_verification", "machine_learning"],
+            },
+            "benefit_evaluation": {
+                "baseline_score": 3,
+                "guided_score": 7,
+                "score_delta": 4,
+                "validated_delta": 1,
+                "deep_analogies_delta": 1,
+                "novel_connections_delta": 2,
+                "h1_improvement": 1,
+                "framework_certificate": "LLM-guided selection improved deppy ideation metrics over the typical baseline.",
+            },
+            "scalar_valued_typing": {
+                "overall": 0.91,
+                "llm_belief": 0.84,
+                "math_model": 0.97,
+                "label": "scalar-valued typing",
+                "definition": "Scores the fit of the elaboration.",
+                "scoring_rule": r"\sigma = 0.4 \cdot b + 0.6 \cdot m",
+                "area_strengths": [
+                    {
+                        "area": "robust statistics",
+                        "overall": 0.93,
+                        "score": 0.93,
+                        "rationale": "Supports noisy market regimes.",
+                    }
+                ],
+            },
+        },
+    }
+
+    AgentCLI._write_ideation_report(str(tmp_path), intent, {"main": {"source": "print('ok')\n"}})
+
+    report_path = tmp_path / "ideation_improvements_report.html"
+    contents = report_path.read_text(encoding="utf-8")
+    assert report_path.exists()
+    assert "MathJax" in contents
+    assert "LLM-guided selection improved deppy ideation metrics" in contents
+    assert r"\Delta_{score}" in contents
+    assert "robust statistics" in contents
+
+
+def test_generate_module_writes_prompt_markdown_immediately(tmp_path) -> None:
+    cli = AgentCLI()
+    fake = _FakeLLM()
+    fake.responses = ['"""module"""\n\ndef helper() -> int:\n    return 1\n']
+    cli._llm = fake
+    cli._config = CLIConfig(output_dir=str(tmp_path))
+
+    intent = {
+        "project_name": "market",
+        "description": "build a verified trading system",
+        "domain": "trading",
+        "constraints": ["must be robust"],
+        "modules": ["main"],
+        "module_roles": {"main": "global section"},
+        "orchestration": {"module_order": ["main"], "overlaps": [], "gluing_obligations": []},
+    }
+
+    cli._generate_module(intent, "main")
+
+    project_root = tmp_path / "market"
+    prompt_path = project_root / "prompts" / "main.generation_prompt.md"
+    assert prompt_path.exists()
+
+    report_path = project_root / "ideation_improvements_report.html"
+    assert report_path.exists()
+    report = report_path.read_text(encoding="utf-8")
+    assert "This report summarizes how ideation changed the generated system" in report
+    assert "Write a complete Python module named 'main'." in prompt_path.read_text(encoding="utf-8")
+
+    source_path = project_root / "generated_modules" / "main.py"
+    assert source_path.exists()
+    assert source_path.read_text(encoding="utf-8").strip()
+
+    snapshot_path = project_root / "generation_record_sources" / "main.py"
+    assert snapshot_path.exists()
+    assert snapshot_path.read_text(encoding="utf-8") == source_path.read_text(encoding="utf-8")
+
+    record_path = project_root / "generation_records" / "main.json"
+    assert record_path.exists()
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    assert record["module_name"] == "main"
+    assert record["stage"] == "generated"
+    assert record["source_path"] == "generated_modules/main.py"
+    assert record["source_snapshot_path"] == "generation_record_sources/main.py"
+    assert record["prompt_path"] == "prompts/main.generation_prompt.md"
 
 
 def test_module_generation_pattern_prefers_module_specific_plan_details() -> None:

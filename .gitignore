@@ -1,1 +1,45 @@
-*__pycache__*
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deppy cache
+.deppy_cache/
+.benchmarks/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# Lean build artifacts
+lean_proofs/.lake/build/
+lean_proofs/.lake/*.olean
+lean_proofs/.lake/*.olean.*
+
+# Python
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Misc
+marketout.log

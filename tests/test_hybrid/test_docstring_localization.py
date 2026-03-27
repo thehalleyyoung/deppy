@@ -110,6 +110,54 @@ def as_tool():
     assert not any(diag.code.startswith("DEPPY-IS-") for diag in result.diagnostics)
 
 
+def test_existing_code_checker_reports_z3_backed_bare_return_mismatch() -> None:
+    source = '''
+def parse_count(text: str) -> int:
+    if not text:
+        return
+    return len(text)
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    structural = [diag for diag in result.diagnostics if diag.code.startswith("DEPPY-SC-")]
+    assert structural
+    assert all(diag.trust_level == "Z3_PROVEN" for diag in structural)
+    assert result.trust_summary == {"Z3_PROVEN": 1}
+
+
+def test_existing_code_checker_reports_mixed_z3_and_llm_findings() -> None:
+    source = '''
+def stable_unique_sorted(items: list[int]) -> list[int]:
+    """Requires:
+        items is non-empty.
+
+    Returns:
+        result is sorted.
+        result is unique.
+    """
+    if not items:
+        return
+    return list(dict.fromkeys(items))
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    assert any(
+        diag.code.startswith("DEPPY-SC-") and diag.trust_level == "Z3_PROVEN"
+        for diag in result.diagnostics
+    )
+    assert any(
+        diag.code.startswith("DEPPY-IC-") and diag.trust_level == "LLM_JUDGED"
+        for diag in result.diagnostics
+    )
+    assert result.trust_summary == {"Z3_PROVEN": 1, "LLM_JUDGED": 1}
+
+
 def test_existing_code_checker_reports_specific_sorted_bug_without_annotation() -> None:
     source = '''
 def stable_unique_sorted(items):
@@ -132,6 +180,8 @@ def stable_unique_sorted(items):
     details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
     assert any("sorted" in detail.lower() for detail in details)
     assert not any("documented behavior says:\n  Returns:" in detail for detail in details)
+    assert any("Try items=[2, 1, 2]" in detail for detail in details)
+    assert not any("docstring-induced local section does not glue" in detail for detail in details)
 
 
 def test_existing_code_checker_reports_specific_sorted_bug_with_annotation() -> None:
@@ -155,3 +205,74 @@ def stable_unique_sorted(items: list[int]) -> list[int]:
 
     details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
     assert any("sorted" in detail.lower() for detail in details)
+    assert any("Try items=[2, 1, 2]" in detail for detail in details)
+
+
+def test_existing_code_checker_synthesizes_unique_counterexample_input() -> None:
+    source = '''
+def preserve_duplicates(items):
+    """Returns:
+        result is unique.
+    """
+    return items
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
+    assert any("Try items=[1, 1]" in detail for detail in details)
+
+
+def test_existing_code_checker_synthesizes_non_empty_result_counterexample_input() -> None:
+    source = '''
+def must_return_items(items):
+    """Returns:
+        result is non-empty.
+    """
+    return []
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
+    assert any("Try items=[]" in detail for detail in details)
+    assert any("returns []" in detail for detail in details)
+
+
+def test_existing_code_checker_synthesizes_precondition_counterexample_input() -> None:
+    source = '''
+def count_items(items):
+    """Requires:
+        items is non-empty.
+    """
+    return 0
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
+    assert any("Try items=[]" in detail for detail in details)
+    assert any("precondition" in detail.lower() for detail in details)
+
+
+def test_existing_code_checker_synthesizes_not_none_counterexample_input() -> None:
+    source = '''
+def echo_name(name):
+    """Requires:
+        name is not None.
+    """
+    return name
+'''
+    result = ExistingCodeChecker(include_h1_names=True).check_source(
+        source,
+        file_path="sample.py",
+    )
+
+    details = [diag.detail or "" for diag in result.diagnostics if diag.code.startswith("DEPPY-IC-")]
+    assert any("Try name=None." in detail for detail in details)

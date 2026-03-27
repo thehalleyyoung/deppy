@@ -132,8 +132,8 @@ theorem h0_lifts_to_section (Sem : SemanticPresheaf α) (s : ProgramSite)
     ∃! σ : LocalSection α,
       ∀ (t : ProgramSite) (ht : t ∈ cf.members),
         (Sem.restrict t s (cf.morphisms t ht)).map σ = fam.localSections t ht := by
-  obtain ⟨⟨σ, hσ⟩⟩ := ⟨sc.existence fam⟩
-  exact ⟨σ, hσ, fun σ' hσ' =>
-    sc.uniqueness fam ⟨σ, hσ⟩ ⟨σ', hσ'⟩⟩
+  let w := sc.existence fam
+  refine ⟨w.section_, w.restricts, fun σ' hσ' => ?_⟩
+  exact (sc.uniqueness fam (GlobalSectionWitness.mk σ' hσ') w)
 
 end DeppyProofs

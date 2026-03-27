@@ -345,6 +345,107 @@ class CheckCommand(Command):
     def _describe_issue_group_count(count: int) -> str:
         return f"{count} issue group{'s' if count != 1 else ''}"
 
+    @staticmethod
+    def _trust_display_label(trust_level: str) -> str:
+        labels = {
+            "LEAN_VERIFIED": "Lean proof",
+            "Z3_PROVEN": "Z3/SMT proof",
+            "PROPERTY_CHECKED": "Property test",
+            "RUNTIME_CHECKED": "Runtime check",
+            "LLM_JUDGED": "LLM semantic check",
+            "UNTRUSTED": "Heuristic signal",
+        }
+        return labels.get(trust_level, trust_level.replace("_", " ").title())
+
+    @classmethod
+    def _render_hybrid_evidence_panel(cls, trust_counts: Counter[str]) -> str:
+        llm_count = trust_counts.get("LLM_JUDGED", 0)
+        z3_count = trust_counts.get("Z3_PROVEN", 0)
+        lean_count = trust_counts.get("LEAN_VERIFIED", 0)
+        property_count = trust_counts.get("PROPERTY_CHECKED", 0)
+        runtime_count = trust_counts.get("RUNTIME_CHECKED", 0)
+        heuristic_count = trust_counts.get("UNTRUSTED", 0)
+
+        summary_bits = []
+        for trust_level in (
+            "LLM_JUDGED",
+            "Z3_PROVEN",
+            "PROPERTY_CHECKED",
+            "RUNTIME_CHECKED",
+            "LEAN_VERIFIED",
+            "UNTRUSTED",
+        ):
+            count = trust_counts.get(trust_level, 0)
+            if count:
+                summary_bits.append(
+                    f"<li><strong>{count}</strong> × {cls._trust_display_label(trust_level)}</li>"
+                )
+        summary_list = (
+            "<ul>" + "".join(summary_bits) + "</ul>"
+            if summary_bits
+            else "<p class=\"empty-state\">No issues found.</p>"
+        )
+
+        if llm_count and z3_count:
+            run_summary = (
+                "This report includes both LLM-guided semantic findings and "
+                "Z3-backed structural findings."
+            )
+        elif z3_count:
+            run_summary = (
+                "This report is dominated by solver-backed findings. The issues shown "
+                "here have Z3 support."
+            )
+        elif llm_count:
+            run_summary = (
+                "This report is dominated by LLM-guided semantic findings. These are "
+                "useful for docstring and intent mismatches, but they are not Z3 proofs."
+            )
+        else:
+            run_summary = (
+                "This report uses the same mixed checker, but none of the current "
+                "findings are tagged as LLM-guided or Z3-backed."
+            )
+
+        absent_bits = []
+        if not z3_count:
+            absent_bits.append("No Z3-backed findings appeared in this run.")
+        if not llm_count:
+            absent_bits.append("No LLM-guided semantic findings appeared in this run.")
+        absent_note = (
+            f"<p class=\"note\">{' '.join(absent_bits)}</p>"
+            if absent_bits
+            else ""
+        )
+
+        engines = []
+        if llm_count:
+            engines.append("LLM semantic checks")
+        if z3_count:
+            engines.append("Z3/SMT proofs")
+        if property_count:
+            engines.append("property tests")
+        if runtime_count:
+            engines.append("runtime checks")
+        if lean_count:
+            engines.append("Lean proofs")
+        if heuristic_count:
+            engines.append("heuristic signals")
+        engine_line = ", ".join(engines) if engines else "no issue evidence"
+
+        return (
+            "<section class=\"panel\">\n"
+            "  <h2>Evidence sources</h2>\n"
+            "  <p>Deppy can combine LLM-guided semantic checks with solver-backed checks. "
+            "Each issue card shows the primary evidence for that finding, not the full set "
+            "of engines available in the system.</p>\n"
+            f"  <p>{_html_escape(run_summary)}</p>\n"
+            f"  <p class=\"note\">This run contains: {_html_escape(engine_line)}.</p>\n"
+            f"  {summary_list}\n"
+            f"  {absent_note}\n"
+            "</section>\n"
+        )
+
     @classmethod
     def _pipeline_issue_score(cls, diag: Diagnostic) -> int:
         severity_weight = {
@@ -391,6 +492,10 @@ class CheckCommand(Command):
         total_h1 = sum(result.h1_dimension for result in ranked_results)
         code_counts = Counter(
             diag.code for diag in all_diagnostics if getattr(diag, "code", "")
+        )
+        trust_counts: Counter[str] = Counter(
+            getattr(diag, "trust_level", "") or "UNTRUSTED"
+            for diag in all_diagnostics
         )
         likely_low_signal = [
             diag
@@ -445,7 +550,18 @@ class CheckCommand(Command):
         top_issue_cards = "\n".join(
             self._render_hybrid_diagnostic_card(diag)
             for diag in all_diagnostics[:25]
-        ) or '<p class="empty-state">No issues found.</p>'
+        )
+        top_issue_section = (
+            "<section class=\"panel\">\n"
+            "  <h2>Most likely issues</h2>\n"
+            f"{top_issue_cards}\n"
+            "</section>\n"
+            if top_issue_cards
+            else "<section class=\"panel\">\n"
+            "  <h2>Overview</h2>\n"
+            "  <p class=\"empty-state\">No issues found.</p>\n"
+            "</section>\n"
+        )
 
         return (
             "<!DOCTYPE html>\n"
@@ -519,16 +635,14 @@ class CheckCommand(Command):
             "  <h2>Signal quality</h2>\n"
             f"  <p><strong>{len(likely_low_signal)}</strong> diagnostics look like likely low-signal heuristic intent warnings (`DEPPY-IS-*` + `LLM_JUDGED`). These are the first candidates to down-rank or hide by default when you want a bug-focused view.</p>\n"
             "</section>\n"
+            f"{self._render_hybrid_evidence_panel(trust_counts)}"
             "<section class=\"panel\">\n"
             "  <h2>Likelihood legend</h2>\n"
             "  <p><span class=\"badge likelihood-high\">High-likelihood warning</span> proof-backed or structurally strong warning</p>\n"
             "  <p><span class=\"badge likelihood-medium\">Medium-likelihood warning</span> mixed evidence that still deserves review</p>\n"
             "  <p><span class=\"badge likelihood-low\">Low-likelihood warning</span> heuristic/docstring-heavy signal likely to include false positives</p>\n"
             "</section>\n"
-            "<section class=\"panel\">\n"
-            "  <h2>Most likely issues</h2>\n"
-            f"{top_issue_cards}\n"
-            "</section>\n"
+            f"{top_issue_section}"
             "<section class=\"panel\">\n"
             "  <h2>Files</h2>\n"
             "  <table><thead><tr><th>File</th><th>Issues</th><th>Errors</th><th>Warnings</th><th>Info</th><th>Groups</th></tr></thead><tbody>\n"
@@ -554,6 +668,7 @@ class CheckCommand(Command):
     def _render_hybrid_diagnostic_card(self, diag: Any) -> str:
         severity = diag.severity.value
         trust_class = diag.trust_level.lower().replace("_", "-")
+        trust_label = self._trust_display_label(diag.trust_level)
         warning_likelihood = self._warning_likelihood(
             severity=severity,
             code=diag.code,
@@ -596,7 +711,7 @@ class CheckCommand(Command):
             "<div class=\"diag-meta\">"
             f"<span class=\"badge severity-{severity}\">{_html_escape(severity.upper())}</span>"
             f"{likelihood_badge}"
-            f"<span class=\"badge trust {trust_class}\">{_html_escape(diag.trust_level)}</span>"
+            f"<span class=\"badge trust {trust_class}\" title=\"{_html_escape(diag.trust_level)}\">{_html_escape(trust_label)}</span>"
             f"<span class=\"badge\">{_html_escape(diag.code)}</span>"
             f"<span class=\"location\">{_html_escape(diag.location_str)}</span>"
             "</div>"
@@ -696,7 +811,14 @@ class CheckCommand(Command):
         top_issue_cards = "".join(
             self._render_pipeline_issue_card(file_path, diag)
             for file_path, diag in diagnostics[:25]
-        ) or '<p class="empty-state">No issues found.</p>'
+        )
+        top_issue_section = (
+            "  <section class=\"panel\"><h2>Most likely issues</h2>"
+            f"{top_issue_cards}</section>\n"
+            if top_issue_cards
+            else "  <section class=\"panel\"><h2>Overview</h2>"
+            "<p class=\"empty-state\">No issues found.</p></section>\n"
+        )
 
         return (
             "<!DOCTYPE html>\n"
@@ -741,8 +863,7 @@ class CheckCommand(Command):
             f"<div class=\"stat\"><strong>Warnings</strong><div>{warning_count}</div></div>"
             f"<div class=\"stat\"><strong>Info / hints</strong><div>{info_count}</div></div>"
             "</div>\n"
-            "  <section class=\"panel\"><h2>Most likely issues</h2>"
-            f"{top_issue_cards}</section>\n"
+            f"{top_issue_section}"
             "  <section class=\"panel\"><h2>Files</h2><table><thead><tr><th>File</th><th>Issues</th><th>Errors</th><th>Warnings</th><th>Groups</th></tr></thead><tbody>"
             f"{''.join(file_rows)}</tbody></table></section>\n"
             "  <section class=\"panel\"><h2>Diagnostics by file</h2>"

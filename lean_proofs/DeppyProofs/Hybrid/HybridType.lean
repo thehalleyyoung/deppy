@@ -34,7 +34,7 @@
 -/
 import Mathlib.CategoryTheory.Category.Basic
 import Mathlib.Order.CompleteLattice
-import Mathlib.Order.BoundedOrder
+import Mathlib.Order.BoundedOrder.Basic
 
 open CategoryTheory
 
@@ -74,7 +74,7 @@ instance : LE Layer where
 instance : LT Layer where
   lt l₁ l₂ := l₁.toNat < l₂.toNat
 
-instance : DecidableEq Layer := Layer.decEq
+-- DecidableEq is derived above via `deriving DecidableEq`
 
 instance (l₁ l₂ : Layer) : Decidable (l₁ ≤ l₂) :=
   inferInstanceAs (Decidable (l₁.toNat ≤ l₂.toNat))
@@ -89,7 +89,8 @@ theorem Layer.le_trans {l₁ l₂ l₃ : Layer} (h₁₂ : l₁ ≤ l₂) (h₂�
   Nat.le_trans h₁₂ h₂₃
 
 theorem Layer.le_antisymm {l₁ l₂ : Layer} (h₁₂ : l₁ ≤ l₂) (h₂₁ : l₂ ≤ l₁) : l₁ = l₂ := by
-  cases l₁ <;> cases l₂ <;> simp [LE.le, Layer.toNat] at h₁₂ h₂₁ <;> rfl
+  have : l₁.toNat = l₂.toNat := Nat.le_antisymm h₁₂ h₂₁
+  cases l₁ <;> cases l₂ <;> simp_all [Layer.toNat]
 
 /-- Every layer pair is comparable (total order). -/
 theorem Layer.le_total (l₁ l₂ : Layer) : l₁ ≤ l₂ ∨ l₂ ≤ l₁ :=
@@ -188,6 +189,16 @@ def TrustLevel.all : List TrustLevel :=
 
 theorem TrustLevel.all_complete (t : TrustLevel) : t ∈ TrustLevel.all := by
   cases t <;> simp [TrustLevel.all]
+
+/-- Min is at most the left argument. -/
+theorem TrustLevel.min_le_left (t₁ t₂ : TrustLevel) :
+    TrustLevel.min t₁ t₂ ≤ t₁ := by
+  simp [TrustLevel.min]; split <;> omega
+
+/-- Min is at most the right argument. -/
+theorem TrustLevel.min_le_right (t₁ t₂ : TrustLevel) :
+    TrustLevel.min t₁ t₂ ≤ t₂ := by
+  simp [TrustLevel.min]; split <;> omega
 
 /-- Min is commutative. -/
 theorem TrustLevel.min_comm (t₁ t₂ : TrustLevel) :
@@ -527,9 +538,30 @@ theorem composed_trust_singleton (t : TrustLevel) :
   simp [composed_trust, List.foldl]
 
 /-- Composed trust is at most any individual component's trust. -/
+private theorem foldl_min_le_init (acc : TrustLevel) (ts : List TrustLevel) :
+    List.foldl TrustLevel.min acc ts ≤ acc := by
+  induction ts generalizing acc with
+  | nil => exact TrustLevel.le_refl _
+  | cons s rest ih =>
+    simp only [List.foldl_cons]
+    exact TrustLevel.le_trans (ih _) (TrustLevel.min_le_left _ _)
+
+private theorem foldl_min_le_mem (acc : TrustLevel) (t : TrustLevel)
+    (ts : List TrustLevel) (h : t ∈ ts) :
+    List.foldl TrustLevel.min acc ts ≤ t := by
+  induction ts generalizing acc with
+  | nil => exact absurd h (List.not_mem_nil _)
+  | cons s rest ih =>
+    simp only [List.foldl_cons]
+    cases List.mem_cons.mp h with
+    | inl heq =>
+      subst heq
+      exact TrustLevel.le_trans (foldl_min_le_init _ _) (TrustLevel.min_le_right _ _)
+    | inr hmem => exact ih _ hmem
+
 theorem composed_trust_le_component (t : TrustLevel) (ts : List TrustLevel)
     (h : t ∈ ts) : composed_trust ts ≤ t := by
-  sorry  -- requires induction over the fold; tedious but straightforward
+  exact foldl_min_le_mem TrustLevel.lean_verified t ts h
 
 /-- Empty composition has maximum trust (vacuous truth). -/
 theorem composed_trust_nil : composed_trust [] = TrustLevel.lean_verified := by

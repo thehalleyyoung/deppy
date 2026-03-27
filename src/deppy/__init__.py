@@ -19,21 +19,34 @@ Legacy API (still supported):
 """
 
 # ── Unified refinement type API (canonical) ──
-from deppy.refinement_engine import (
-    refine,
-    verify,
-    check_equiv,
-    synthesize_refinements,
-    requires,
-    ensures,
-    invariant,
-    decreases,
-    RefinementAnalysis,
-    VerificationResult,
-    EquivalenceResult,
-    VerificationLevel,
-    SynthesizedRefinement,
-)
+try:
+    from deppy.refinement_engine import (
+        DeppyEngine,
+        CandidateReport,
+        FleetResult,
+        GeneratedModule,
+        IdeationResult,
+        ProjectScaffold,
+        refine,
+        verify,
+        check_equiv,
+        generate,
+        ideate,
+        run_fleet,
+        scaffold,
+        synthesize_refinements,
+        requires,
+        ensures,
+        invariant,
+        decreases,
+        RefinementAnalysis,
+        VerificationResult,
+        EquivalenceResult,
+        VerificationLevel,
+        SynthesizedRefinement,
+    )
+except ModuleNotFoundError:
+    pass  # deppy2 not installed; refinement engine API unavailable
 
 # ── Legacy API (backward compatible) ──
 from deppy.incremental import Workspace
@@ -49,11 +62,21 @@ __all__ = [
     "refine",
     "verify",
     "check_equiv",
+    "generate",
+    "ideate",
+    "run_fleet",
+    "scaffold",
     "synthesize_refinements",
     "requires",
     "ensures",
     "invariant",
     "decreases",
+    "DeppyEngine",
+    "CandidateReport",
+    "FleetResult",
+    "GeneratedModule",
+    "IdeationResult",
+    "ProjectScaffold",
     "RefinementAnalysis",
     "VerificationResult",
     "EquivalenceResult",

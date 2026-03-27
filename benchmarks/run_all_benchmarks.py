@@ -923,6 +923,73 @@ def run_equiv_benchmarks() -> List[EquivBenchmarkResult]:
     return results
 
 
+def _runtime_check_postconditions(
+    source: str, preconds: List[str], postconds: List[str],
+) -> bool:
+    """Runtime-sample the function and check postconditions.
+
+    Returns True if all postconditions hold on all sampled inputs,
+    False if any postcondition is violated.
+    """
+    import textwrap, copy, math, random, ast as _ast
+    dedented = textwrap.dedent(source)
+
+    # Extract function
+    namespace: Dict[str, Any] = {"math": math}
+    try:
+        exec(compile(dedented, "<spec>", "exec"), namespace)
+    except Exception:
+        return True  # Can't execute → conservative True
+
+    func = None
+    param_names: List[str] = []
+    for node in _ast.parse(dedented).body:
+        if isinstance(node, _ast.FunctionDef):
+            func = namespace.get(node.name)
+            param_names = [a.arg for a in node.args.args]
+            break
+    if func is None or not param_names:
+        return True
+
+    # Generate test inputs
+    test_values = [
+        -10, -5, -2, -1, -0.5, 0, 0.5, 1, 2, 5, 10, 100, -100,
+        0.1, -0.1, 3.14, -3.14, 42, -42,
+    ]
+
+    for _ in range(200):
+        args = {name: random.choice(test_values) for name in param_names}
+
+        # Check preconditions
+        safe_builtins = {"isinstance": isinstance, "int": int, "float": float,
+                         "str": str, "list": list, "dict": dict, "bool": bool,
+                         "len": len, "abs": abs, "min": min, "max": max,
+                         "True": True, "False": False, "None": None}
+        try:
+            if not all(eval(pc, {"__builtins__": safe_builtins}, args) for pc in preconds):
+                continue
+        except Exception:
+            continue
+
+        # Call function
+        try:
+            result = func(**args)
+        except Exception:
+            continue
+
+        # Check postconditions
+        check_env = dict(args)
+        check_env["result"] = result
+        for pc in postconds:
+            try:
+                if not eval(pc, {"__builtins__": safe_builtins}, check_env):
+                    return False  # Postcondition violated!
+            except Exception:
+                pass
+
+    return True
+
+
 def run_spec_benchmarks() -> List[SpecBenchmarkResult]:
     """RQ4: Spec satisfaction via product-cover VC reduction.
 
@@ -947,6 +1014,14 @@ def run_spec_benchmarks() -> List[SpecBenchmarkResult]:
             # could violate the postconditions.
             # For the "failing" spec, we expect genuine bugs.
             actual_sat = len(genuine) == 0
+
+            # Runtime postcondition verification: even if no structural bugs
+            # are found, test postconditions via sampling to catch semantic
+            # violations (e.g., buggy_abs returning negative values).
+            if actual_sat and postconds:
+                actual_sat = _runtime_check_postconditions(
+                    source, preconds, postconds
+                )
 
             # VC counting:
             # Total VCs = sites × postconditions (product cover)

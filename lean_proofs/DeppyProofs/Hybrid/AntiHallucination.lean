@@ -360,7 +360,30 @@ theorem graded_freedom_monotone {α : Type} (v : α) (T : HybridType)
     (gf : GradedFreedom v T) (t' : TrustLevel)
     (h : t' ≤ gf.trust) :
     ∃ (gf' : GradedFreedom v T), gf'.trust = t' := by
-  sorry  -- Constructive: build a new GradedFreedom with lower trust
+  -- Construct a new GradedFreedom with a synthetic oracle result at trust t'.
+  -- The semantic result is the same value (true), but with trust lowered to t'.
+  let new_semantic : OracleResult Bool := {
+    value := gf.semantic_result.value
+    trust := t'
+    confidence := gf.semantic_result.confidence
+    provenance := gf.semantic_result.provenance
+  }
+  refine ⟨{
+    trust := TrustLevel.min TrustLevel.z3_proven t'
+    structural_ok := gf.structural_ok
+    semantic_result := new_semantic
+    semantic_ok := gf.semantic_ok
+    trust_consistent := rfl
+  }, ?_⟩
+  -- Need: TrustLevel.min z3_proven t' = t'
+  -- Since t' ≤ gf.trust = min(z3_proven, gf.semantic_result.trust) ≤ z3_proven
+  simp only [TrustLevel.min]
+  split
+  · rfl
+  · rename_i hle
+    -- t' ≤ gf.trust ≤ z3_proven, contradiction with ¬(t' ≤ z3_proven)
+    exfalso; apply hle
+    exact TrustLevel.le_trans h (gf.trust_consistent ▸ TrustLevel.min_le_left _ _)
 
 
 /-! ## Hallucination Taxonomy

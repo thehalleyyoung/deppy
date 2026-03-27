@@ -27,6 +27,7 @@ class _RuntimeObservation:
     value: Any = None
     exception_type: Optional[str] = None
     exception_message: str = ""
+    args_after: Optional[Tuple[Any, ...]] = None  # args state after call (mutation detection)
 
 
 @dataclass(frozen=True)
@@ -195,7 +196,7 @@ def _call_with_cloned_args(
 
     try:
         value = fn(*cloned_args)
-        return _RuntimeObservation(args=tuple(args), value=value)
+        return _RuntimeObservation(args=tuple(args), value=value, args_after=tuple(cloned_args))
     except _RuntimeTimeout:
         return _RuntimeObservation(
             args=tuple(args),
@@ -986,7 +987,17 @@ def _observations_equivalent(
 ) -> bool:
     if obs_f.exception_type or obs_g.exception_type:
         return obs_f.exception_type == obs_g.exception_type
-    return _runtime_values_equal(obs_f.value, obs_g.value)
+    if not _runtime_values_equal(obs_f.value, obs_g.value):
+        return False
+    # Check mutation equivalence: if one function mutates its args and the
+    # other doesn't, they are NOT equivalent (different side effects).
+    if obs_f.args_after is not None and obs_g.args_after is not None:
+        for af, ag, orig in zip(obs_f.args_after, obs_g.args_after, obs_f.args):
+            f_mutated = not _runtime_values_equal(af, orig)
+            g_mutated = not _runtime_values_equal(ag, orig)
+            if f_mutated != g_mutated:
+                return False
+    return True
 
 
 def _runtime_values_equal(left: Any, right: Any) -> bool:

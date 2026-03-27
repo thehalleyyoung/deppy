@@ -307,7 +307,23 @@ theorem promotion_chain_monotone (chain : PromotionChain)
     (hs : chain.source = some s)
     (ht : chain.target = some t) :
     s ≤ t := by
-  sorry  -- Follows by induction on the chain, using transitivity of ≤
+  induction chain with
+  | nil => simp [PromotionChain.source] at hs
+  | cons p rest ih =>
+    simp [PromotionChain.source] at hs
+    subst hs
+    cases rest with
+    | nil =>
+      simp [PromotionChain.target] at ht
+      subst ht
+      exact p.monotone
+    | cons q rest' =>
+      simp [PromotionChain.target] at ht
+      simp [PromotionChain.valid] at hvalid
+      have heq := hvalid.1
+      have hvalid' := hvalid.2
+      have ih_result := ih hvalid' q.source t rfl ht
+      exact TrustLevel.le_trans p.monotone (heq ▸ ih_result)
 
 
 /-! ## The Trust Subobject Classifier

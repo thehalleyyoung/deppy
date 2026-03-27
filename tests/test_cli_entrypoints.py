@@ -288,9 +288,11 @@ def test_check_command_writes_hybrid_html_report(
     html = report.read_text(encoding="utf-8")
     assert "<html" in html.lower()
     assert "Signal quality" in html
+    assert "Evidence sources" in html
     assert "Independent issue groups" in html
     assert "H¹" not in html
     assert "Unenforced intent" in html
+    assert "LLM semantic check" in html
     assert "Wrote HTML report to" in captured.out
 
 
@@ -366,4 +368,156 @@ def test_check_command_html_report_prioritizes_issues_and_hides_clean_files(
     assert str(clean) not in html
     assert str(noisy) in html
     assert "Most likely issues" in html
+    assert "This report includes both LLM-guided semantic findings and Z3-backed structural findings." in html
+    assert "LLM semantic check" in html
+    assert "Z3/SMT proof" in html
     assert html.index("Type–code mismatch") < html.index("Unenforced intent")
+
+
+def test_check_command_html_report_hides_issue_heading_when_clean(
+    monkeypatch, tmp_path, capsys
+) -> None:
+    sample = tmp_path / "sample.py"
+    sample.write_text("def ok(x):\n    return x\n", encoding="utf-8")
+    report = tmp_path / "clean-report.html"
+
+    class FakeChecker:
+        def __init__(self, **_kwargs) -> None:
+            pass
+
+        def check_file(self, path: str) -> CheckResult:
+            return CheckResult(file_path=path, diagnostics=[], h1_dimension=0, trust_summary={})
+
+    class FakeFormatter:
+        def __init__(self, **_kwargs) -> None:
+            pass
+
+    monkeypatch.setattr(command_module, "_HybridExistingCodeChecker", FakeChecker)
+    monkeypatch.setattr(command_module, "_HybridDiagnosticFormatter", FakeFormatter)
+
+    cli_config = SimpleNamespace(
+        source_paths=(str(sample),),
+        verbosity=1,
+        output_format="html",
+        color=False,
+        generate_output=str(report),
+    )
+
+    exit_code = CheckCommand().run(cli_config)
+    captured = capsys.readouterr()
+
+    assert exit_code == 0
+    assert "Wrote HTML report to" in captured.out
+    html = report.read_text(encoding="utf-8")
+    assert "No issues found." in html
+    assert "Most likely issues" not in html
+
+
+def test_html_report_surfaces_multiple_faulty_programs(monkeypatch, tmp_path) -> None:
+    suite = tmp_path / "faulty_suite"
+    suite.mkdir()
+    (suite / "sorted_bug.py").write_text(
+        '''def stable_unique_sorted(items: list[int]) -> list[int]:
+    """Requires:
+        items is non-empty.
+
+    Returns:
+        result is sorted.
+        result is unique.
+    """
+    if not items:
+        return []
+    return list(dict.fromkeys(items))
+''',
+        encoding="utf-8",
+    )
+    (suite / "unique_bug.py").write_text(
+        '''def preserve_duplicates(items):
+    """Returns:
+        result is unique.
+    """
+    return items
+''',
+        encoding="utf-8",
+    )
+    (suite / "non_empty_bug.py").write_text(
+        '''def must_return_items(items):
+    """Returns:
+        result is non-empty.
+    """
+    return []
+''',
+        encoding="utf-8",
+    )
+    (suite / "none_bug.py").write_text(
+        '''def echo_name(name):
+    """Requires:
+        name is not None.
+    """
+    return name
+''',
+        encoding="utf-8",
+    )
+    report = tmp_path / "faulty-report.html"
+
+    monkeypatch.setattr(cli_main_module, "find_config_file", lambda: None)
+
+    exit_code = cli_main_module.main(
+        ["--format", "html", "check", str(suite), "--output", str(report)]
+    )
+
+    assert exit_code == 1
+    html = report.read_text(encoding="utf-8")
+    assert "stable_unique_sorted" in html
+    assert "preserve_duplicates" in html
+    assert "must_return_items" in html
+    assert "echo_name" in html
+    assert "This report is dominated by LLM-guided semantic findings." in html
+    assert "No Z3-backed findings appeared in this run." in html
+    assert "Try items=[2, 1, 2]" in html
+    assert "Try items=[1, 1]" in html
+    assert "Try items=[]" in html
+    assert "Try name=None." in html
+
+
+def test_html_report_surfaces_z3_only_and_mixed_programs(monkeypatch, tmp_path) -> None:
+    suite = tmp_path / "evidence_suite"
+    suite.mkdir()
+    (suite / "z3_only.py").write_text(
+        '''def parse_count(text: str) -> int:
+    if not text:
+        return
+    return len(text)
+''',
+        encoding="utf-8",
+    )
+    (suite / "mixed_bug.py").write_text(
+        '''def stable_unique_sorted(items: list[int]) -> list[int]:
+    """Requires:
+        items is non-empty.
+
+    Returns:
+        result is sorted.
+        result is unique.
+    """
+    if not items:
+        return
+    return list(dict.fromkeys(items))
+''',
+        encoding="utf-8",
+    )
+    report = tmp_path / "evidence-report.html"
+
+    monkeypatch.setattr(cli_main_module, "find_config_file", lambda: None)
+
+    exit_code = cli_main_module.main(
+        ["--format", "html", "check", str(suite), "--output", str(report)]
+    )
+
+    assert exit_code == 1
+    html = report.read_text(encoding="utf-8")
+    assert "parse_count" in html
+    assert "stable_unique_sorted" in html
+    assert "This report includes both LLM-guided semantic findings and Z3-backed structural findings." in html
+    assert "Z3/SMT proof" in html
+    assert "LLM semantic check" in html

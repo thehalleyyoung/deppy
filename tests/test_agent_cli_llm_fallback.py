@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import subprocess
 
 from agent.cli import (
     CopilotCLIInterface,
@@ -46,13 +45,10 @@ def test_copilot_cli_interface_builds_noninteractive_prompt_command() -> None:
         "Reply with OK",
         "--output-format",
         "json",
-        "--allow-all-tools",
-        "--no-ask-user",
         "--stream",
         "off",
         "--no-custom-instructions",
         "--disable-builtin-mcps",
-        "--available-tools=",
         "--model",
         "gpt-5.2",
     ]
@@ -64,6 +60,36 @@ def test_copilot_cli_interface_omits_legacy_default_model_flag() -> None:
     command = llm._build_command("Reply with OK")
 
     assert "--model" not in command
+
+
+def test_copilot_cli_interface_builds_tool_enabled_file_command(tmp_path) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+
+    command = llm._build_command(
+        "Write the module file.",
+        output_format="text",
+        tool_mode=True,
+        add_dirs=[str(tmp_path)],
+    )
+
+    assert command == [
+        "/usr/bin/copilot",
+        "-p",
+        "Write the module file.",
+        "--output-format",
+        "text",
+        "--stream",
+        "off",
+        "--no-custom-instructions",
+        "--disable-builtin-mcps",
+        "--allow-all-tools",
+        "--no-ask-user",
+        "--available-tools=report_intent,glob,view,apply_patch,bash",
+        "--add-dir",
+        str(tmp_path),
+        "--model",
+        "gpt-5.2",
+    ]
 
 
 def test_copilot_cli_interface_complete_json_parses_fenced_output(
@@ -107,23 +133,56 @@ def test_copilot_cli_interface_extracts_final_message_from_jsonl(
 ) -> None:
     llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
 
-    class _Completed:
+    class _Process:
         def __init__(self) -> None:
-            self.stdout = (
+            self.stdout = iter(
+                (
                 '{"type":"assistant.turn_start","data":{"turnId":"0"}}\n'
                 '{"type":"assistant.message","data":{"content":"draft"}}\n'
                 '{"type":"assistant.message","data":{"content":"final answer"}}\n'
                 '{"type":"result","exitCode":0}\n'
+                ).splitlines(keepends=True)
             )
 
+        def wait(self) -> int:
+            return 0
+
     monkeypatch.setattr(
-        "agent.cli.subprocess.run",
-        lambda *args, **kwargs: _Completed(),
+        "agent.cli.subprocess.Popen",
+        lambda *args, **kwargs: _Process(),
     )
 
     result = llm.complete("ignored")
 
     assert result == "final answer"
+
+
+def test_copilot_cli_interface_prefers_final_answer_over_tool_loop_messages(
+    monkeypatch,
+) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+
+    class _Process:
+        def __init__(self) -> None:
+            self.stdout = iter(
+                (
+                    '{"type":"assistant.message","data":{"content":"","toolRequests":[{"name":"glob"}],"phase":"commentary"}}\n'
+                    '{"type":"assistant.message","data":{"content":"I made a plan.","toolRequests":[{"name":"view"}],"phase":"commentary"}}\n'
+                    '{"type":"assistant.message","data":{"content":"final module source","toolRequests":[],"phase":"final_answer"}}\n'
+                ).splitlines(keepends=True)
+            )
+
+        def wait(self) -> int:
+            return 0
+
+    monkeypatch.setattr(
+        "agent.cli.subprocess.Popen",
+        lambda *args, **kwargs: _Process(),
+    )
+
+    result = llm.complete("ignored")
+
+    assert result == "final module source"
 
 
 def test_copilot_cli_interface_uses_text_only_prompt_mode(
@@ -132,36 +191,156 @@ def test_copilot_cli_interface_uses_text_only_prompt_mode(
     llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
     captured_kwargs = {}
 
-    class _Completed:
+    class _Process:
         def __init__(self) -> None:
-            self.stdout = '{"type":"assistant.message","data":{"content":"final answer"}}\n'
+            self.stdout = iter(
+                ['{"type":"assistant.message","data":{"content":"final answer"}}\n']
+            )
 
-    def _fake_run(*args, **kwargs):
+        def wait(self) -> int:
+            return 0
+
+    def _fake_popen(*args, **kwargs):
         captured_kwargs.update(kwargs)
         captured_kwargs["command"] = args[0]
-        return _Completed()
+        return _Process()
 
-    monkeypatch.setattr("agent.cli.subprocess.run", _fake_run)
+    monkeypatch.setattr("agent.cli.subprocess.Popen", _fake_popen)
 
     result = llm.complete("ignored")
 
     assert result == "final answer"
-    assert captured_kwargs["timeout"] == 180
+    assert captured_kwargs["stdout"] is not None
+    assert captured_kwargs["stderr"] is not None
     assert "--disable-builtin-mcps" in captured_kwargs["command"]
-    assert "--available-tools=" in captured_kwargs["command"]
+    assert "--allow-all-tools" not in captured_kwargs["command"]
+    assert "--no-ask-user" not in captured_kwargs["command"]
 
 
-def test_copilot_cli_interface_raises_on_timeout(monkeypatch) -> None:
-    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot", timeout_seconds=7)
+def test_copilot_cli_interface_writes_module_file_via_tool_mode(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+    captured_kwargs = {}
+    captured_command = []
+    target_path = tmp_path / "main.py"
 
-    def _fake_run(*args, **kwargs):
-        raise subprocess.TimeoutExpired(cmd=args[0], timeout=kwargs["timeout"])
+    class _Process:
+        def __init__(self) -> None:
+            self.stdout = iter(["copilot wrote main.py\n"])
 
-    monkeypatch.setattr("agent.cli.subprocess.run", _fake_run)
+        def wait(self) -> int:
+            return 0
 
-    try:
-        llm.complete("ignored")
-    except RuntimeError as exc:
-        assert "timed out after 7s" in str(exc)
-    else:
-        raise AssertionError("expected RuntimeError on Copilot timeout")
+    def _fake_popen(*args, **kwargs):
+        captured_kwargs.update(kwargs)
+        captured_command.extend(args[0])
+        target_path.write_text("print('ok')\n", encoding="utf-8")
+        return _Process()
+
+    monkeypatch.setattr("agent.cli.subprocess.Popen", _fake_popen)
+
+    result = llm.write_module_file("Write a module.", str(target_path))
+
+    assert result == "print('ok')\n"
+    assert captured_kwargs["cwd"] == str(tmp_path)
+    assert "--allow-all-tools" in captured_command
+    assert "--autopilot" not in captured_command
+    assert "--available-tools=report_intent,glob,view,apply_patch,bash" in captured_command
+
+
+def test_copilot_cli_interface_writes_multiple_module_files_via_tool_mode(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+    captured_kwargs = {}
+    captured_command = []
+    target_a = tmp_path / "alpha.py"
+    target_b = tmp_path / "beta.py"
+
+    class _Process:
+        def __init__(self) -> None:
+            self.stdout = iter(["copilot wrote alpha.py and beta.py\n"])
+
+        def wait(self) -> int:
+            return 0
+
+    def _fake_popen(*args, **kwargs):
+        captured_kwargs.update(kwargs)
+        captured_command.extend(args[0])
+        target_a.write_text("print('a')\n", encoding="utf-8")
+        target_b.write_text("print('b')\n", encoding="utf-8")
+        return _Process()
+
+    monkeypatch.setattr("agent.cli.subprocess.Popen", _fake_popen)
+
+    result = llm.write_module_files("Write modules.", [str(target_a), str(target_b)])
+
+    assert result[str(target_a)] == "print('a')\n"
+    assert result[str(target_b)] == "print('b')\n"
+    assert captured_kwargs["cwd"] == str(tmp_path)
+    assert "--available-tools=report_intent,glob,view,apply_patch,bash" in captured_command
+
+
+def test_copilot_cli_interface_normalizes_relative_write_paths(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+    captured_kwargs = {}
+    captured_command = []
+
+    class _Process:
+        def __init__(self) -> None:
+            self.stdout = iter(["copilot wrote nested/main.py\n"])
+
+        def wait(self) -> int:
+            return 0
+
+    def _fake_popen(*args, **kwargs):
+        captured_kwargs.update(kwargs)
+        captured_command.extend(args[0])
+        target = tmp_path / "nested" / "main.py"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text("print('ok')\n", encoding="utf-8")
+        return _Process()
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("agent.cli.subprocess.Popen", _fake_popen)
+
+    result = llm.write_module_file("Write a module.", "nested/main.py")
+
+    assert result == "print('ok')\n"
+    assert captured_kwargs["cwd"] == str(tmp_path / "nested")
+    assert "--add-dir" in captured_command
+    add_dir_index = captured_command.index("--add-dir")
+    assert captured_command[add_dir_index + 1] == str(tmp_path / "nested")
+
+
+def test_copilot_cli_interface_removes_empty_stub_before_tool_write(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    llm = CopilotCLIInterface(model="gpt-5.2", executable="/usr/bin/copilot")
+    target_path = tmp_path / "main.py"
+    target_path.write_text("", encoding="utf-8")
+
+    class _Process:
+        def __init__(self) -> None:
+            self.stdout = iter(["copilot wrote main.py\n"])
+
+        def wait(self) -> int:
+            return 0
+
+    def _fake_popen(*args, **kwargs):
+        assert not target_path.exists()
+        target_path.write_text("print('ok')\n", encoding="utf-8")
+        return _Process()
+
+    monkeypatch.setattr("agent.cli.subprocess.Popen", _fake_popen)
+
+    result = llm.write_module_file("Write a module.", str(target_path))
+
+    assert result == "print('ok')\n"
