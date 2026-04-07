@@ -238,7 +238,9 @@ class ObstructionExtractor:
         all_obs = [obs for obs, _ in raw_obstructions]
         basis = extract_obstruction_basis(all_obs, cover)
         result.obstruction_basis = basis
-        result.h1_dimension = len(basis.obstructions)
+        # Use the GF(2) rank (dim H¹) rather than the raw obstruction count.
+        # basis.rank is the minimum number of independent fixes required.
+        result.h1_dimension = basis.rank
 
         # Step 5: Rank obstructions
         ranked = self._rank_obstructions(

@@ -9756,16 +9756,21 @@ def _supplemental_obstructions(
     runtime_line = 0
     if top_level_funcs:
         runtime_line = list(top_level_funcs.values())[-1].lineno
-    runtime_bug = _runtime_bug_witness(source)
-    if runtime_bug is not None and runtime_line:
-        add(
-            runtime_bug,
-            runtime_line,
-            f"Runtime witness produced {runtime_bug}",
-            confidence=0.95,
-            status="supplemental runtime witness",
-            ast_node=list(top_level_funcs.values())[-1],
-        )
+    # Runtime sampling is demoted to opt-in only.
+    # The sheaf pipeline (detect_bugs) is now the primary analysis path.
+    # Set DEPPY_RUNTIME_WITNESS=1 to re-enable sampling-based confirmation.
+    import os as _os
+    if _os.environ.get("DEPPY_RUNTIME_WITNESS") == "1":
+        runtime_bug = _runtime_bug_witness(source)
+        if runtime_bug is not None and runtime_line:
+            add(
+                runtime_bug,
+                runtime_line,
+                f"Runtime witness produced {runtime_bug}",
+                confidence=0.95,
+                status="supplemental runtime witness",
+                ast_node=list(top_level_funcs.values())[-1],
+            )
 
     if "==" in source and any(token in source_lower for token in ("password", "token", "secret", "stored", "given", "provided")):
         for node in ast.walk(tree):

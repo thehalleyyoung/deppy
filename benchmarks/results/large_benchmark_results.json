@@ -1,12 +1,12 @@
 {
   "bugs": {
     "tp": 67,
-    "fp": 35,
+    "fp": 36,
     "fn": 0,
-    "precision": 0.657,
+    "precision": 0.65,
     "recall": 1.0,
-    "f1": 0.793,
-    "h1_correct": 74,
+    "f1": 0.788,
+    "h1_correct": 73,
     "total": 100,
     "details": [
       {
@@ -1219,17 +1219,24 @@
         ],
         "detected": [
           "INTEGER_OVERFLOW",
+          "DATA_RACE",
           "RACE_CONDITION"
         ],
         "scored_detected": [
           "INTEGER_OVERFLOW",
+          "RACE_CONDITION",
           "RACE_CONDITION"
         ],
-        "alias_matches": [],
-        "h1": 2,
+        "alias_matches": [
+          [
+            "RACE_CONDITION",
+            "DATA_RACE"
+          ]
+        ],
+        "h1": 3,
         "exp_fixes": 2,
         "tp": 2,
-        "fp": 0,
+        "fp": 1,
         "fn": 0
       },
       {

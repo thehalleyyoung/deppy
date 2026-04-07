@@ -231,12 +231,18 @@ class FixedPointEngine:
         self,
         cover: Cover,
         theory_packs: Optional[Sequence[Any]] = None,
+        callee_summaries: Optional[Dict[str, "FixedPointResult"]] = None,
     ) -> FixedPointResult:
         """Run the fixed-point engine on a cover.
 
         Args:
             cover: The observation cover to analyze.
             theory_packs: Optional additional theory packs for the solver.
+            callee_summaries: Optional map {callee_name → FixedPointResult}
+                for interprocedural section transport (§4.4 of the paper).
+                When provided, output sections from each callee are transported
+                via actual→formal and return→caller morphisms to the caller's
+                CALL_RESULT sites after each forward synthesis phase.
 
         Returns:
             FixedPointResult with the final state of the analysis.
@@ -292,6 +298,24 @@ class FixedPointEngine:
             )
             snapshot.num_new_sections += new_fwd
             snapshot.num_refined_sections += refined_fwd
+
+            # Phase 3.5: Interprocedural section transport (§4.4)
+            # For each CALL_RESULT site in the cover, if we have a callee
+            # summary, transport the callee's output sections back to the
+            # caller's call-result site via return→caller morphisms.
+            #
+            # This implements Grothendieck transitivity: the global section
+            # assignment must be compatible across function call boundaries.
+            if callee_summaries:
+                transport_secs = self._run_interprocedural_transport(
+                    cover, current_sections, callee_summaries
+                )
+                if transport_secs:
+                    new_t, refined_t = self._merge_sections(
+                        current_sections, transport_secs
+                    )
+                    snapshot.num_new_sections += new_t
+                    snapshot.num_refined_sections += refined_t
 
             # Phase 4: Obstruction extraction
             t0 = time.monotonic()
@@ -477,6 +501,99 @@ class FixedPointEngine:
         result.total_elapsed_ms = (time.monotonic() - overall_start) * 1000.0
 
         return result
+
+    # -- Interprocedural section transport (§4.4) --------------------------
+
+    def _run_interprocedural_transport(
+        self,
+        cover: Cover,
+        current_sections: Dict[SiteId, LocalSection],
+        callee_summaries: Dict[str, "FixedPointResult"],
+    ) -> Dict[SiteId, LocalSection]:
+        """Transport callee output sections onto caller CALL_RESULT sites.
+
+        Implements §4.4 of programcohomology.tex:
+        For each call site in the cover, the callee's output boundary
+        sections are transported to the caller via return→caller morphisms.
+
+        The Grothendieck transitivity axiom requires that the composition
+        of restriction maps across call boundaries must commute.  Any
+        disagreement becomes an H¹ obstruction at the CALL_RESULT site.
+
+        Parameters
+        ----------
+        cover : Cover
+            The caller's cover; CALL_RESULT sites are endpoints.
+        current_sections : dict
+            Current caller sections; input-boundary sections are actuals.
+        callee_summaries : dict
+            {callee_name: FixedPointResult} — pre-computed callee analyses.
+
+        Returns
+        -------
+        dict
+            Transported sections to be merged into current_sections.
+        """
+        try:
+            from deppy.interprocedural.section_transport import SectionTransporter
+            from deppy.interprocedural.call_graph import CallEdge
+        except ImportError:
+            return {}
+
+        transported: Dict[SiteId, LocalSection] = {}
+        transporter = SectionTransporter(trust_policy="downgrade")
+
+        # Identify CALL_RESULT sites in this cover
+        call_result_sites = {
+            sid: site
+            for sid, site in cover.sites.items()
+            if sid.kind == SiteKind.CALL_RESULT
+        }
+
+        for call_site_id, _call_site in call_result_sites.items():
+            # Determine which callee this call-result belongs to.
+            # Convention: CALL_RESULT site name is "<caller>.call_<callee>"
+            # or just "<callee>" if unqualified.
+            name = call_site_id.name
+            callee_name: Optional[str] = None
+            if ".call_" in name:
+                callee_name = name.split(".call_", 1)[1]
+            elif "." in name:
+                callee_name = name.rsplit(".", 1)[1]
+            else:
+                callee_name = name
+
+            summary = callee_summaries.get(callee_name)
+            if summary is None:
+                # Try prefix matching (handles qualified names)
+                for k, v in callee_summaries.items():
+                    if k.endswith(callee_name) or callee_name.endswith(k):
+                        summary = v
+                        callee_name = k
+                        break
+
+            if summary is None or summary.output_section is None:
+                continue
+
+            # Build a minimal CallEdge for the transport morphisms
+            edge = CallEdge(
+                caller=cover.function_name if hasattr(cover, "function_name") else "caller",
+                callee=callee_name,
+                call_site_id=call_site_id,
+            )
+
+            # Transport return→caller
+            try:
+                tr = transporter.transport_return_to_caller(
+                    return_sections=dict(summary.output_section.boundary_sites),
+                    call_edge=edge,
+                )
+                transported.update(tr.sections)
+            except Exception:
+                # Transport failed (missing morphism data) — skip gracefully
+                pass
+
+        return transported
 
     # -- Section merging utility -------------------------------------------
 

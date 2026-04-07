@@ -72,8 +72,8 @@ class EquivalenceTerminalRenderer:
         lines.append("")
 
         # Program info
-        lines.append(f"  Program f: {judgment.program_f.name} ({judgment.program_f.source_file})")
-        lines.append(f"  Program g: {judgment.program_g.name} ({judgment.program_g.source_file})")
+        lines.append(f"  Program f: {judgment.program_f.name} ({judgment.program_f.source_path})")
+        lines.append(f"  Program g: {judgment.program_g.name} ({judgment.program_g.source_path})")
         lines.append("")
 
         # Verdict
@@ -89,7 +89,7 @@ class EquivalenceTerminalRenderer:
             lines.append("  Site-by-Site Analysis:")
             lines.append("  " + "─" * 60)
 
-            for j in judgment.local_judgments:
+            for j in judgment.local_judgments.values():
                 lines.append(self._render_local_judgment(j))
 
             lines.append("")
@@ -123,7 +123,7 @@ class EquivalenceTerminalRenderer:
             lines.append("")
 
         # Timing
-        if judgment.elapsed_seconds is not None:
+        if getattr(judgment, 'elapsed_seconds', None) is not None:
             lines.append(f"  Elapsed: {judgment.elapsed_seconds:.3f}s")
 
         return "\n".join(lines)
@@ -174,11 +174,11 @@ class EquivalenceJsonRenderer:
             "strength": judgment.strength.value,
             "program_f": {
                 "name": judgment.program_f.name,
-                "source_file": judgment.program_f.source_file,
+                "source_file": judgment.program_f.source_path,
             },
             "program_g": {
                 "name": judgment.program_g.name,
-                "source_file": judgment.program_g.source_file,
+                "source_file": judgment.program_g.source_path,
             },
             "local_judgments": [
                 self._local_judgment_to_dict(j)

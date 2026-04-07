@@ -19,9 +19,11 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from deppy.equivalence._protocols import (
+    EquivalenceJudgment,
     EquivalenceStrength,
     EquivalenceVerdict,
     ProgramId,
+    SiteId,
 )
 from deppy.equivalence.pipeline import (
     EquivalencePipeline,
@@ -219,6 +221,18 @@ class EquivCommand:
         try:
             pipeline_config = config.to_pipeline_config()
 
+            # Read source files into strings so the pipeline gets source code,
+            # not file paths (the pipeline expects Python source text).
+            import os
+            source_f = config.source_f
+            source_g = config.source_g
+            if os.path.isfile(source_f):
+                with open(source_f) as fh:
+                    source_f = fh.read()
+            if os.path.isfile(source_g):
+                with open(source_g) as fh:
+                    source_g = fh.read()
+
             # Set up hooks for verbose mode
             hooks = EquivalencePipelineHooks()
             if config.verbose and not config.quiet and not config.json_output:
@@ -233,10 +247,10 @@ class EquivCommand:
             )
 
             result = pipeline.run(
-                source_f=config.source_f,
-                source_g=config.source_g,
-                program_f=ProgramId(name="f", source_file=config.source_f),
-                program_g=ProgramId(name="g", source_file=config.source_g),
+                source_f=source_f,
+                source_g=source_g,
+                program_f=ProgramId(name="f", source_path=config.source_f),
+                program_g=ProgramId(name="g", source_path=config.source_g),
             )
 
             return self._output_result(result, config)
@@ -251,24 +265,51 @@ class EquivCommand:
                 traceback.print_exc(file=sys.stderr)
             return 3
 
+    def _build_judgment(
+        self,
+        result: EquivalencePipelineResult,
+        config: EquivCliConfig,
+    ) -> EquivalenceJudgment:
+        """Build an EquivalenceJudgment from the pipeline result."""
+        pipeline_config = config.to_pipeline_config()
+        gr = result.global_result
+        local_map = {}
+        obstructions = []
+        iso_witness = None
+        if gr is not None:
+            for lj in gr.local_judgments:
+                sid = SiteId(lj.site_id) if isinstance(lj.site_id, str) else lj.site_id
+                local_map[sid] = lj
+            obstructions = list(gr.obstructions) if gr.obstructions else []
+            iso_witness = gr.isomorphism_witness
+        return EquivalenceJudgment(
+            verdict=result.verdict,
+            program_f=ProgramId(name="f", source_path=config.source_f),
+            program_g=ProgramId(name="g", source_path=config.source_g),
+            strength=pipeline_config.strength,
+            local_judgments=local_map,
+            isomorphism_witness=iso_witness,
+        )
+
     def _output_result(
         self,
         result: EquivalencePipelineResult,
         config: EquivCliConfig,
     ) -> int:
         """Format and output the result, returning the exit code."""
+        judgment = self._build_judgment(result, config)
         if config.quiet:
             # Just exit code
             pass
         elif config.json_output:
             renderer = EquivalenceJsonRenderer()
-            print(renderer.render(result.judgment))
+            print(renderer.render(judgment))
         else:
             renderer = EquivalenceTerminalRenderer(
                 use_color=not config.no_color,
                 verbose=config.verbose,
             )
-            print(renderer.render(result.judgment))
+            print(renderer.render(judgment))
 
             # Print timing if verbose
             if config.verbose:

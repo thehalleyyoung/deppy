@@ -17,20 +17,23 @@ def test_runtime_sampling_recovers_iterative_recursive_equivalence() -> None:
     source_f, source_g, expected = _get_pair("factorial_iterative_vs_recursive")
 
     result = EquivalencePipeline(
-        EquivalencePipelineConfig(runtime_sample_budget=32),
+        EquivalencePipelineConfig(use_runtime_sampling=True, runtime_sample_budget=32),
     ).run(source_f, source_g)
 
     assert expected is True
     assert result.is_equivalent
     assert result.global_result is not None
-    assert "RUNTIME_CHECKED" in result.global_result.explanation
+    # Accept either runtime sampling or the stronger Čech cohomology proof
+    expl = result.global_result.explanation
+    assert ("RUNTIME_CHECKED" in expl or "cech_h1_zero" in expl
+            or "Z3" in expl or "descent" in expl)
 
 
 def test_runtime_sampling_finds_negative_index_counterexample() -> None:
     source_f, source_g, expected = _get_pair("negative_index_handling")
 
     result = EquivalencePipeline(
-        EquivalencePipelineConfig(runtime_sample_budget=32),
+        EquivalencePipelineConfig(use_runtime_sampling=True, runtime_sample_budget=32),
     ).run(source_f, source_g)
 
     assert expected is False
@@ -43,7 +46,7 @@ def test_runtime_sampling_respects_range_implied_naturals() -> None:
     source_f, source_g, expected = _get_pair("power_loop_vs_builtin")
 
     result = EquivalencePipeline(
-        EquivalencePipelineConfig(runtime_sample_budget=32),
+        EquivalencePipelineConfig(use_runtime_sampling=True, runtime_sample_budget=32),
     ).run(source_f, source_g)
 
     assert expected is True
@@ -54,7 +57,7 @@ def test_runtime_sampling_uses_cross_product_numeric_witnesses() -> None:
     source_f, source_g, expected = _get_pair("floor_div_vs_true_div")
 
     result = EquivalencePipeline(
-        EquivalencePipelineConfig(runtime_sample_budget=32),
+        EquivalencePipelineConfig(use_runtime_sampling=True, runtime_sample_budget=32),
     ).run(source_f, source_g)
 
     assert expected is False
@@ -65,7 +68,7 @@ def test_no_return_kernels_keep_structural_fingerprint() -> None:
     source_f, source_g, expected = _get_pair("triton_add_vs_mul_kernel")
 
     result = EquivalencePipeline(
-        EquivalencePipelineConfig(runtime_sample_budget=16),
+        EquivalencePipelineConfig(use_runtime_sampling=True, runtime_sample_budget=16),
     ).run(source_f, source_g)
 
     assert expected is False

@@ -727,7 +727,7 @@ class EquivalencePipelineConfig:
     use_stalk_check: bool = False
     verbose: bool = False
     sarif_output: Optional[str] = None
-    use_runtime_sampling: bool = True
+    use_runtime_sampling: bool = False
     runtime_sample_budget: int = 64
 
 
@@ -1000,38 +1000,43 @@ class EquivalencePipeline:
             if self._hooks.on_obstruction:
                 self._hooks.on_obstruction(obs)
 
-        # ── Stage 5: Z3-based cohomological equivalence verification ──
-        # When both programs have a single function with the same name,
-        # we can use Z3 to check semantic equivalence at the value level.
+        # ── Stage 5: Deep sheaf-cohomological equivalence (Theorem 5) ──
         #
-        # The cohomological interpretation: the DIFFERENCE PRESHEAF
-        #   Δ(s) = Sem_f(s) ⊖ Sem_g(s)
-        # has H¹ = 0 iff for all inputs, f(input) = g(input).
+        # This implements the paper's descent theorem directly:
+        #   f ≡ g  ⟺  Ȟ¹(U, Iso(Sem_f, Sem_g)) = 0
         #
-        # We encode this as a Z3 validity check:
-        #   ∀ params. f_expr(params) = g_expr(params)
-        # which is valid iff its negation is UNSAT.
+        # The engine works in five mathematically grounded sub-stages:
+        #   5a. Path Presheaf — decompose functions into control-flow sites
+        #   5b. Z3 Section Encoding — local sections σ_i = (φ_i, e_i)
+        #   5c. Čech Complex — C⁰ →[δ⁰]→ C¹, H⁰ and H¹ via GF(2)
+        #   5d. Descent Verification — H¹=0 ⟹ local isos glue to global
+        #   5e. Mayer-Vietoris — compositional obstruction counting
         #
-        # This uses the SOLVER from deppy.solver.z3_backend.
+        # This replaces the old flat Z3 check (single expression comparison)
+        # with a full sheaf-theoretic pipeline that handles multi-path
+        # functions, loops (via bounded unrolling + summary sites), and
+        # produces H¹ obstruction classes when equivalence fails.
+        #
+        # Falls back to the old Z3 check only if the deep engine can't
+        # encode the functions.
         if raw_source_f and raw_source_g:
             self._stage_start("z3_equivalence")
-            z3_verdict = self._z3_equivalence_check(
-                raw_source_f, raw_source_g, global_result.verdict,
+            deep_cert = self._deep_cohomological_check(
+                raw_source_f, raw_source_g,
             )
-            if z3_verdict is not None:
-                # Z3 gave a definitive answer — it is SOUND and overrides
-                # the structural heuristic.  The structural check is a fast
-                # approximation; Z3 is the ground truth for expressions
-                # in its supported fragment (integer/real arithmetic).
+            if deep_cert is not None:
                 from deppy.equivalence._protocols import EquivalenceVerdict as _EV
-                if z3_verdict:
+                if deep_cert.equivalent:
                     global_result = type(global_result)(
                         verdict=_EV.EQUIVALENT,
                         local_judgments=global_result.local_judgments,
                         sheaf_morphism=global_result.sheaf_morphism,
                         descent_result=global_result.descent_result,
                         obstructions=[],
-                        explanation="Z3-verified: ∀ inputs, f(inputs) = g(inputs)",
+                        explanation=(
+                            f"Ȟ¹(U, Iso) = 0 [{deep_cert.proof_method.value}]: "
+                            f"{deep_cert.explanation}"
+                        ),
                     )
                 else:
                     global_result = type(global_result)(
@@ -1040,8 +1045,36 @@ class EquivalencePipeline:
                         sheaf_morphism=global_result.sheaf_morphism,
                         descent_result=global_result.descent_result,
                         obstructions=global_result.obstructions,
-                        explanation="Z3-verified: ∃ input where f ≠ g",
+                        explanation=(
+                            f"Ȟ¹(U, Iso) ≠ 0 [{deep_cert.proof_method.value}]: "
+                            f"{deep_cert.explanation}"
+                        ),
                     )
+            else:
+                # Fallback: old flat Z3 check for simple expressions
+                z3_verdict = self._z3_equivalence_check(
+                    raw_source_f, raw_source_g, global_result.verdict,
+                )
+                if z3_verdict is not None:
+                    from deppy.equivalence._protocols import EquivalenceVerdict as _EV
+                    if z3_verdict:
+                        global_result = type(global_result)(
+                            verdict=_EV.EQUIVALENT,
+                            local_judgments=global_result.local_judgments,
+                            sheaf_morphism=global_result.sheaf_morphism,
+                            descent_result=global_result.descent_result,
+                            obstructions=[],
+                            explanation="Z3-verified: ∀ inputs, f(inputs) = g(inputs)",
+                        )
+                    else:
+                        global_result = type(global_result)(
+                            verdict=_EV.INEQUIVALENT,
+                            local_judgments=global_result.local_judgments,
+                            sheaf_morphism=global_result.sheaf_morphism,
+                            descent_result=global_result.descent_result,
+                            obstructions=global_result.obstructions,
+                            explanation="Z3-verified: ∃ input where f ≠ g",
+                        )
             self._stage_end("z3_equivalence")
 
         # Stage 5b: Structural mutation analysis (side-effect presheaf)
@@ -1092,6 +1125,9 @@ class EquivalencePipeline:
         # This is sound for refutation (a counterexample is definitive)
         # and empirically strong for verification (the cover U is chosen
         # to exercise boundary cases, algebraic sites, and random fibers).
+        # Runtime sampling is opt-in; the default path is structural/
+        # cohomological equivalence, with sampling reserved for explicit
+        # empirical checks and unsupported encodings.
         if raw_source_f and raw_source_g and self._config.use_runtime_sampling:
             self._stage_start("empirical_sheaf_condition")
             runtime_evidence = self._runtime_equivalence_check(
@@ -1148,6 +1184,35 @@ class EquivalencePipeline:
         return result
 
     # -- Internal stages ---------------------------------------------------
+
+    def _deep_cohomological_check(
+        self,
+        source_f: str,
+        source_g: str,
+    ) -> Optional[Any]:
+        """Deep sheaf-cohomological equivalence check.
+
+        Implements Theorem 5 (Descent for equivalence) from the paper:
+          f ≡ g  ⟺  Ȟ¹(U, Iso(Sem_f, Sem_g)) = 0
+
+        Stages:
+          1. Path presheaf construction (control-flow sites)
+          2. Z3 section encoding (per-path φ_i, e_i)
+          3. Čech complex C•(U, Iso) with δ⁰ coboundary
+          4. H⁰, H¹ via GF(2) Gaussian elimination
+          5. Descent: H¹=0 → global equivalence certificate
+          6. Mayer-Vietoris for compositional obstruction counting
+
+        Returns a DescentCertificate, or None if outside decidable fragment.
+        """
+        try:
+            from deppy.equivalence.deep_equivalence import DeepEquivalenceEngine
+            engine = DeepEquivalenceEngine(
+                timeout_ms=self._config.solver_timeout_ms,
+            )
+            return engine.check(source_f, source_g)
+        except Exception:
+            return None
 
     def _z3_equivalence_check(
         self,
