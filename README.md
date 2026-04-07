@@ -1,49 +1,106 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/Z3_Solver-✓-blue" alt="Z3">
-  <img src="https://img.shields.io/badge/Lean_4-3.5K_LOC-green?logo=data:image/svg+xml;base64," alt="Lean 4">
-  <img src="https://img.shields.io/badge/tests-3093_passing-brightgreen" alt="Tests">
+  <br>
+  <b>deppy</b><br>
+  <i>Sheaf-Cohomological Program Analysis for Python</i><br>
+  <br>
+  <a href="#-quick-start">Quick Start</a> · <a href="#-what-it-catches">What It Catches</a> · <a href="#%EF%B8%8F-equivalence-checking">Equivalence</a> · <a href="#-the-mathematics">The Math</a> · <a href="#-benchmarks">Benchmarks</a>
+  <br><br>
+  <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Z3_solver-✓-blue" alt="Z3">
+  <img src="https://img.shields.io/badge/Lean_4-3.5K_LOC-green" alt="Lean 4">
+  <img src="https://img.shields.io/badge/tests-3%2C093_passing-brightgreen" alt="Tests">
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT">
 </p>
 
-# Deppy: Sheaf-Cohomological Program Analysis
-
-**Bug finding, equivalence checking, and specification verification for Python — via Čech cohomology over program presheaves.**
-
-Deppy treats program analysis as computing the cohomology of a *semantic presheaf* over a program's *site category*. Bugs are gluing obstructions in H¹. Equivalence is descent. Incremental analysis is Mayer-Vietoris. This is not a metaphor — it is the actual algorithm.
-
-> **Paper:** *Sheaf-Cohomological Program Analysis: Unifying Bug Finding, Equivalence, and Verification via Čech Cohomology* — Halley Young (Microsoft Research), POPL 2027
-
 ---
 
-## ✨ Highlights
+Deppy treats program analysis as computing the **Čech cohomology** of a *semantic presheaf* over a program's *site category*. Bugs are gluing obstructions in H¹. Equivalence is descent. Incremental analysis is Mayer-Vietoris.
 
-| Capability | Result |
-|---|---|
-| **Bug detection** | 100% recall on 133 benchmark programs (zero missed bugs) |
-| **Equivalence checking** | Zero false equivalences across 134 pairs |
-| **Specification verification** | Zero false satisfactions across 108 checks |
-| **Input requirements** | Works on **unannotated Python** — no type hints needed |
-| **Formal backing** | Key metatheorems mechanized in **3,500 lines of Lean 4** |
-| **Test suite** | 3,093 tests passing |
+**This is not a metaphor — it is the actual algorithm.**
 
----
-
-## 🚀 Installation
-
-```bash
-pip install -e ".[dev]"
+```
+                     δ⁰              δ¹
+            C⁰(U, Sem) ──→ C¹(U, Sem) ──→ C²(U, Sem)
+               │                │                │
+               ▼                ▼                ▼
+          local type       transition        cocycle
+          assignments      functions g_ij    condition
+               │                │                │
+               ▼                ▼                ▼
+          H⁰ = ker δ⁰    H¹ = ker δ¹/im δ⁰    H² = C²/im δ¹
+               │                │                │
+       global consistent   BUGS / EQUIV       higher
+       type assignments    OBSTRUCTIONS      obstructions
 ```
 
-Requires Python 3.10+ and Z3 (`pip install z3-solver`).
+> **Paper:** *Sheaf-Cohomological Program Analysis* — Halley Young, POPL 2027
 
 ---
 
-## Quick Start
+## Why Deppy?
 
-### Bug Detection
+<table>
+<tr><td>
 
-Deppy finds division-by-zero, null-pointer dereferences, deadlocks, and more — by computing H¹ of the semantic presheaf and locating gluing obstructions:
+**Works on raw Python.** No annotations, no type hints, no contracts. Hand it any `.py` file.
+
+</td><td>
+
+**Finds bugs mypy and pyright miss.** 100% recall on benchmark suite — mypy and pyright score 0% on the same programs.
+
+</td></tr>
+<tr><td>
+
+**Proves equivalence.** Not just testing — a sound and complete criterion via descent (Theorem 5).
+
+</td><td>
+
+**Explains itself mathematically.** Every bug is a 1-cocycle. Every fix count is a GF(2) rank. Every equivalence is a trivial H¹.
+
+</td></tr>
+</table>
+
+---
+
+## 📊 Benchmarks
+
+Evaluated on **375 programs** (133 bug-detection, 134 equivalence, 108 spec-satisfaction):
+
+| | **Deppy** | **mypy** | **pyright** |
+|---|:---:|:---:|:---:|
+| Bug recall | **100%** | 0% | 0% |
+| Bug precision | 69% | — | — |
+| Bug F1 | **81%** | 0% | 0% |
+| Equivalence accuracy | **99%** | — | — |
+| Spec satisfaction accuracy | **98%** | — | — |
+
+<details>
+<summary><b>Per-category breakdown (click to expand)</b></summary>
+
+| Bug Category | Precision | Recall | F1 |
+|---|:---:|:---:|:---:|
+| DIV_ZERO | 100% | 100% | 100% |
+| NULL_PTR | 100% | 100% | 100% |
+| UNBOUND_VAR | 100% | 100% | 100% |
+| VALUE_ERROR | 100% | 100% | 100% |
+| KEY_ERROR | 83% | 100% | 91% |
+| INDEX_OOB | 62% | 100% | 77% |
+| USE_AFTER_FREE | 50% | 100% | 67% |
+
+**Large suite** (300 programs): Bug F1 **79%**, Equivalence **100/100**, Spec **99/100**.
+
+</details>
+
+---
+
+## 🚀 Quick Start
+
+```bash
+pip install -e ".[dev]"   # Python 3.10+, installs z3-solver
+```
+
+### Find a bug in 3 lines
 
 ```python
 from deppy.render.bug_detect import detect_bugs
@@ -59,15 +116,12 @@ for obs in report.obstructions:
         print(f"[{obs.bug_type}] line {obs.line}: {obs.description}")
 # [DIV_ZERO] line 4: [BUG] divisor `total` must be ≠ 0 — SAT (gap exists)
 
-print(f"Sites analyzed: {report.n_sites}")          # 8
-print(f"Minimum independent fixes: {report.minimum_independent_fixes}")  # 1
+print(report.minimum_independent_fixes)  # 1
 ```
 
-The fix count comes from GF(2) Gaussian elimination on the coboundary matrix (Proposition 3) — a polynomial computation that is NP-hard from flat error sets.
+The presheaf section at the division site requires `total ≠ 0`, but the argument-boundary section admits `total = 0`. These disagree on their overlap — a non-trivial element of H¹.
 
-### Equivalence Checking
-
-Two functions are equivalent iff Ȟ¹(U, Iso(Sem_f, Sem_g)) = 0 — the descent theorem (Theorem 5). Deppy checks this by building the full Čech complex C⁰ → C¹ → C² and computing the proper quotient H¹ = ker(δ¹)/im(δ⁰):
+### Check equivalence in 3 lines
 
 ```python
 from deppy.equivalence.pipeline import EquivalencePipeline, EquivalencePipelineConfig
@@ -89,47 +143,188 @@ print(result.verdict.value)   # "equivalent"
 print(result.is_equivalent)   # True
 ```
 
-### Sheaf Analysis Report
+### Or use the CLI
 
-Inspect the full presheaf structure — sites, morphisms, inferred preconditions, and postconditions:
+```
+$ deppy equiv search_a.py search_b.py --verbose
 
-```python
-from deppy.render.report import analyze
+╔══════════════════════════════════════════════════════════════╗
+║                 Sheaf Equivalence Checker                    ║
+╚══════════════════════════════════════════════════════════════╝
 
-report = analyze("""
-def binary_search(arr, target):
-    lo, hi = 0, len(arr) - 1
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            lo = mid + 1
-        else:
-            hi = mid - 1
-    return -1
-""")
+  Program f: search (search_a.py)
+  Program g: search (search_b.py)
 
-print(f"Sites: {report.num_sites}")           # 21
-print(f"Obstructions: {report.num_obstructions}")  # 0
-for p in report.preconditions:
-    print(f"  {p.parameter}: {p.condition}")
-# arr: isinstance(arr, (list, tuple, str, dict, set))
+  Verdict: ✅ equivalent
+  Strength: denotational
+
+  Site-by-Site Analysis:
+  ────────────────────────────────────────────────────────────
+    ✅ common_search_search [call_result]  fwd:✓  bwd:✓
 ```
 
 ---
 
-## 🔬 Deep Cohomological Equivalence Engine
+## 🐛 What It Catches
 
-For maximum mathematical detail, use the radical cohomological engine directly. It implements the full paper framework **plus six beyond-paper extensions**: spectral sequences, derived categories, persistent cohomology, étale cohomology, Galois cohomology, and Betti numbers.
+### Division by zero
+
+```python
+report = detect_bugs("""
+def normalize(values):
+    total = sum(values)
+    return [v / total for v in values]
+""")
+# [DIV_ZERO] line 4: divisor `total` must be ≠ 0
+```
+
+### Null-pointer dereference (interprocedural)
+
+```python
+report = detect_bugs("""
+def first_match(items, predicate):
+    for item in items:
+        if predicate(item):
+            return item
+    return None
+
+def process_match(items, pred):
+    match = first_match(items, pred)
+    return match.value   # bug: match may be None
+""")
+# [NULL_PTR] line 10
+```
+
+Deppy tracks `None` across function boundaries via section transport through the interprocedural call graph. The call site admits `None` from `first_match`'s return-None path, but the dereference site requires `match != None`.
+
+### Deadlock (cyclic lock ordering)
+
+```python
+report = detect_bugs("""
+import threading
+lock_a, lock_b = threading.Lock(), threading.Lock()
+
+def task1():
+    with lock_a:
+        with lock_b:
+            return 1
+
+def task2():
+    with lock_b:
+        with lock_a:
+            return 2
+""")
+# [DEADLOCK]: cyclic lock ordering: lock_a ↔ lock_b —
+#             lock ordering presheaf has no consistent section
+```
+
+### Use-after-close + resource leak
+
+```python
+report = detect_bugs("""
+def read_config(path):
+    f = open(path)
+    data = f.read()
+    f.close()
+    return f.readline()   # bug: use after close
+""")
+# [MEMORY_LEAK] line 3: `f` = open(...) without context manager
+# [USE_AFTER_FREE] line 6: `.readline()` requires lifecycle(f) = OPEN
+```
+
+### Index out of bounds
+
+```python
+report = detect_bugs("""
+def get_middle(lst):
+    return lst[len(lst) // 2]
+""")
+# [INDEX_OOB] line 3: index `len(lst) // 2` must be in [0, len(lst))
+```
+
+### SQL injection
+
+```python
+report = detect_bugs("""
+def find_user(db, username):
+    query = "SELECT * FROM users WHERE name = '" + username + "'"
+    return db.execute(query)
+""")
+# [SQL_INJECTION] line 4: db.execute executes a concatenated query
+```
+
+### TOCTOU race condition
+
+```python
+report = detect_bugs("""
+import os
+def safe_read(path):
+    if os.path.exists(path):
+        return open(path).read()
+""")
+# [DATA_RACE] line 4: Check-then-act file access can race
+#                      between existence test and open
+```
+
+---
+
+## ⚖️ Equivalence Checking
+
+Deppy implements the **descent theorem** (Theorem 5): two functions f, g are equivalent iff Ȟ¹(U, Iso(Sem_f, Sem_g)) = 0.
+
+### Two binary searches — different invariants, same function
+
+```python
+result = pipeline.run("""
+def search(xs, target):
+    lo, hi = 0, len(xs) - 1         # closed interval
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if xs[mid] == target: return mid
+        elif xs[mid] < target: lo = mid + 1
+        else: hi = mid - 1
+    return -1
+""", """
+def search(xs, target):
+    lo, hi = 0, len(xs)             # half-open interval
+    while lo < hi:
+        mid = lo + (hi - lo) // 2   # overflow-safe midpoint
+        if xs[mid] < target: lo = mid + 1
+        elif xs[mid] > target: hi = mid
+        else: return mid
+    return -1
+""")
+
+print(result.verdict.value)   # "equivalent"
+```
+
+### Mutation vs. copy — correctly detected as inequivalent
+
+```python
+result = pipeline.run("""
+def append_a(lst):
+    return lst + [1]
+""", """
+def append_b(lst):
+    lst.append(1)
+    return lst
+""")
+
+print(result.verdict.value)   # "inequivalent"
+```
+
+---
+
+## 🔬 Deep Cohomological Engine
+
+For full mathematical detail, use the radical engine directly. It computes the complete Čech complex C⁰→C¹→C² with proper H¹ = ker(δ¹)/im(δ⁰) quotient, plus **six beyond-paper extensions**:
 
 ```python
 from deppy.equivalence.cohomological_engine import DeepEquivalenceEngine
-
 engine = DeepEquivalenceEngine()
 ```
 
-#### ✅ Equivalent: commutative reorder
+### ✅ Commutative reorder — Galois σ_comm detects the symmetry
 
 ```python
 cert = engine.check(
@@ -137,17 +332,17 @@ cert = engine.check(
     "def g(x, y): return 1 + y + x",
 )
 
-print(cert.equivalent)          # True
-print(cert.proof_method.value)  # "cech_h1_zero"
-print(cert.betti_numbers)       # (1, 0, 0)
-print(cert.euler_characteristic)  # 1
-print(cert.galois_cohomology.symmetry_generators)
-# ['σ_comm (commutative reorder)']
-print(cert.etale_cohomology.parametric)  # True
-print(cert.derived_category.is_quasi_isomorphic)  # True
+cert.equivalent                              # True
+cert.proof_method.value                      # "cech_h1_zero"
+cert.betti_numbers                           # (1, 0, 0) — β₁=0, no obstructions
+cert.euler_characteristic                    # 1
+cert.galois_cohomology.symmetry_generators   # ['σ_comm (commutative reorder)']
+cert.etale_cohomology.parametric             # True — works uniformly on all types
+cert.derived_category.is_quasi_isomorphic    # True
+cert.mayer_vietoris.exact_sequence_verified  # True
 ```
 
-#### ❌ Inequivalent: Fibonacci off-by-one
+### ❌ Fibonacci off-by-one — 8 independent obstructions located
 
 ```python
 cert = engine.check("""
@@ -166,145 +361,31 @@ def fib_b(n):
     return b
 """)
 
-print(cert.equivalent)          # False
-print(cert.proof_method.value)  # "z3_counterexample"
-print(cert.h1_rank)             # 8  (independent obstructions)
-print(cert.counterexample)      # {'p0': 9}  (n=9 witnesses the bug)
-print(cert.obstruction_sites[:3])
-# ['f_path3∩g_path2', 'f_path4∩g_path3', 'f_path5∩g_path4']
+cert.equivalent                   # False
+cert.proof_method.value           # "z3_counterexample"
+cert.h1_rank                      # 8 (independent obstructions)
+cert.counterexample               # {'p0': 9} — n=9 witnesses the bug
+cert.obstruction_sites[:3]        # ['f_path3∩g_path2', 'f_path4∩g_path3', ...]
+cert.betti_numbers                # (1, 0, 84)
+cert.num_sites_checked            # 10
 ```
 
-#### ✅ Equivalent: branch reordering (Galois σ_branch)
+### Beyond-Paper Extensions
 
-```python
-cert = engine.check("""
-def f(x):
-    if x > 0: return x
-    else: return -x
-""", """
-def g(x):
-    if x <= 0: return -x
-    else: return x
-""")
-
-print(cert.equivalent)          # True
-print(cert.proof_method.value)  # "cech_h1_zero"
-```
+| Extension | What it computes |
+|---|---|
+| **Spectral Sequences** | E₂^{p,q} = Ȟᵖ(Y, Rᵍπ₊F) — hierarchical inter-/intra-module bug decomposition |
+| **Derived Categories** | Quasi-isomorphism via mapping cone acyclicity |
+| **Persistent Cohomology** | Birth/death tracking of H¹ classes across filtration depths |
+| **Étale Cohomology** | Ȟ¹\_ét for polymorphic function parametricity verification |
+| **Galois Cohomology** | H¹(G, Aut(Sem)) classifying implementation symmetries (σ\_comm, σ\_branch, σ\_assoc, σ\_loop, σ\_tce) |
+| **Betti Numbers** | β₀, β₁, β₂ and Euler characteristic χ = β₀ − β₁ + β₂ |
 
 ---
 
-## 🔍 More Examples
+## 🏗 Hybrid Dependent Types
 
-### Interprocedural Null-Pointer Detection
-
-Deppy tracks nullable return values across function boundaries via section transport:
-
-```python
-from deppy.render.bug_detect import detect_bugs
-
-report = detect_bugs("""
-def first_match(items, predicate):
-    for item in items:
-        if predicate(item):
-            return item
-    return None
-
-def process_match(items, pred):
-    match = first_match(items, pred)
-    return match.value   # bug: match may be None
-""")
-
-for obs in report.obstructions:
-    if not obs.resolved_by_guard and obs.confidence > 0:
-        print(f"[{obs.bug_type}] line {obs.line}")
-# [NULL_PTR] line 10
-```
-
-The presheaf section at the call site admits `None` (from `first_match`'s return-None path), but the dereference site requires `match != None`. These sections disagree on their overlap — a non-trivial 1-cocycle in H¹.
-
-### Deadlock Detection
-
-```python
-from deppy.render.bug_detect import detect_bugs
-
-report = detect_bugs("""
-import threading
-lock_a, lock_b = threading.Lock(), threading.Lock()
-
-def task1():
-    with lock_a:
-        with lock_b:
-            return 1
-
-def task2():
-    with lock_b:
-        with lock_a:
-            return 2
-""")
-
-for obs in report.obstructions:
-    if not obs.resolved_by_guard and obs.confidence > 0:
-        print(f"[{obs.bug_type}]: {obs.description}")
-# [DEADLOCK]: [BUG] cyclic lock ordering: lock_a ↔ lock_b — lock ordering presheaf O
-#             has no consistent section — SAT (gap exists)
-```
-
-### Equivalence: Two Binary Search Implementations
-
-Different loop invariants (closed vs. half-open interval), different midpoint formulas, different branch structures — same function:
-
-```python
-from deppy.equivalence.pipeline import EquivalencePipeline, EquivalencePipelineConfig
-
-pipeline = EquivalencePipeline(EquivalencePipelineConfig())
-
-result = pipeline.run("""
-def search(xs, target):
-    lo, hi = 0, len(xs) - 1
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if xs[mid] == target: return mid
-        elif xs[mid] < target: lo = mid + 1
-        else: hi = mid - 1
-    return -1
-""", """
-def search(xs, target):
-    lo, hi = 0, len(xs)
-    while lo < hi:
-        mid = lo + (hi - lo) // 2
-        if xs[mid] < target: lo = mid + 1
-        elif xs[mid] > target: hi = mid
-        else: return mid
-    return -1
-""")
-
-print(result.verdict.value)   # "equivalent"
-print(result.is_equivalent)   # True
-```
-
-### Detecting Mutation vs. Copy
-
-```python
-result = pipeline.run("""
-def append_a(lst):
-    return lst + [1]
-""", """
-def append_b(lst):
-    lst.append(1)
-    return lst
-""")
-
-print(result.verdict.value)   # "inequivalent"
-print(result.is_equivalent)   # False
-```
-
-`append_a` creates a new list; `append_b` mutates the original. Deppy's runtime sampling with input-state tracking detects the side-effect difference.
-
----
-
-## 🏗 Hybrid Dependent Type System
-
-Deppy includes a hybrid type system that combines structural (Z3-decidable) and semantic (LLM-oracle-judgeable) predicates. Annotate your code with natural-language specifications:
+Annotate your code with natural-language specifications. Deppy decomposes them into structural (Z3-decidable) and semantic (oracle-judgeable) predicates:
 
 ```python
 from deppy.hybrid import guarantee, assume, check
@@ -316,57 +397,112 @@ def abs_val(x: int) -> int:
         return x
     return -x
 
-print(abs_val(5))    # 5
-print(abs_val(-3))   # 3
+abs_val(5)    # 5
+abs_val(-3)   # 3
 ```
 
-Every `@guarantee` becomes a postcondition verified through the full pipeline. `assume()` generates proof obligations for callers. `check()` verifies internal invariants.
+### Verification Levels
+
+| Level | Meaning |
+|---|---|
+| 🟢 `LEAN_VERIFIED` | Machine-checked by Lean 4 kernel |
+| 🟡 `Z3_PROVEN` | Proved by Z3 SMT solver |
+| 🟠 `LLM_JUDGED` | Oracle says correct with confidence ≥ threshold |
+| 🔴 `UNTRUSTED` | No verification yet |
+
+---
+
+## 📐 Sheaf Analysis Reports
+
+Inspect the full presheaf structure of any function:
+
+```python
+from deppy.render.report import analyze
+
+report = analyze("""
+def binary_search(arr, target):
+    lo, hi = 0, len(arr) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return -1
+""")
+
+report.num_sites          # 21
+report.num_morphisms      # 6
+report.num_obstructions   # 0
+report.convergence        # "global_section_found"
+for p in report.preconditions:
+    print(f"  {p.parameter}: {p.condition}")
+# arr: isinstance(arr, (list, tuple, str, dict, set))
+```
 
 ---
 
 ## 🧮 The Mathematics
 
-Programs are **presheaves** over a **site category**. Each observation point (argument boundary, branch guard, call result, error site) is a site. Data-flow edges are morphisms. The presheaf assigns refinement-type information to each site.
+```
+Program ──parse──→ Site Category S_P ──Sem──→ Presheaf Sem_f : S_P^op → Lat
+                        │                              │
+                   5 site kinds:                 refinement predicates
+                   • ArgBoundary                 on each site
+                   • BranchGuard
+                   • CallResult                  Čech complex C•(U, Sem)
+                   • OutBoundary                 with coboundaries δ⁰, δ¹
+                   • ErrorSite
+                        │                              │
+                        ▼                              ▼
+                   Morphisms =                   H¹ = ker(δ¹)/im(δ⁰)
+                   data-flow edges                    │
+                                                      ▼
+                                              BUGS = obstruction classes
+                                              rk H¹ = minimum fixes
+```
 
-| Concept | Role |
+### Core Theorems
+
+| Theorem | Statement |
 |---|---|
-| **H⁰** | Globally consistent type assignments (compatible families that glue) |
-| **H¹** | Gluing obstructions (bugs, type errors, equivalence failures) |
-| **rk H¹ over GF(2)** | Minimum number of independent fixes needed (Prop 3) |
-| **H¹(U, Iso) = 0** | Two programs are equivalent (descent theorem, Thm 5) |
-| **Mayer-Vietoris** | Compositional, incremental obstruction counting (Thm 7) |
+| **Thm 5** (Descent) | f ≡ g ⟺ Ȟ¹(U, Iso(Sem\_f, Sem\_g)) = 0 |
+| **Thm 7** (Mayer-Vietoris) | ... → Ȟ⁰(A∩B) →[δ]→ Ȟ¹(U) → Ȟ¹(A)⊕Ȟ¹(B) → ... |
+| **Prop 3** (Fix count) | rk H¹ over GF(2) = minimum independent fixes |
 
 ### Three Separation Results vs. Traditional Analysis
 
-1. **Polynomial fix count** — rk H¹ via Gaussian elimination on the coboundary matrix is O(m²n); extracting minimum fixes from flat error sets is NP-hard (Thm 9)
-2. **Exact incremental update** — Mayer-Vietoris gives exact H¹ from sub-analyses; abstract interpretation must re-solve the global fixpoint (Thm 10)
-3. **Complete equivalence** — descent gives a complete criterion; no finite abstract domain can decide all equivalences (Thm 11)
-
-### Beyond-Paper Extensions
-
-The deep cohomological engine extends the paper with six additional constructions:
-
-| Extension | What it computes |
-|---|---|
-| **Spectral Sequences** | E₂^{p,q} = Ȟᵖ(Y, Rᵍπ₊F) — hierarchical inter-/intra-module bug decomposition |
-| **Derived Categories** | Quasi-isomorphism via mapping cone acyclicity |
-| **Persistent Cohomology** | Birth/death tracking of H¹ classes across filtration depths |
-| **Étale Cohomology** | Ȟ¹_ét for polymorphic function parametricity verification |
-| **Galois Cohomology** | H¹(G, Aut(Sem)) classifying implementation symmetries (σ_comm, σ_branch, σ_assoc, σ_loop, σ_tce) |
-| **Betti Numbers** | β₀, β₁, β₂ and Euler characteristic χ = β₀ − β₁ + β₂ |
+| | Cohomological (Deppy) | Traditional |
+|---|---|---|
+| **Minimum fix count** | Polynomial — GF(2) Gaussian elimination on δ-matrix | NP-hard from flat error sets (Thm 9) |
+| **Incremental update** | Exact via Mayer-Vietoris | Must re-solve global fixpoint (Thm 10) |
+| **Equivalence** | Sound and complete (descent) | No finite abstract domain suffices (Thm 11) |
 
 ---
 
-## 💻 CLI
+## 💻 CLI Reference
 
 ```bash
-# Bug detection / sheaf analysis
+# Bug detection and sheaf analysis
 deppy check myfile.py
+deppy check myfile.py --format json
 
 # Equivalence checking
 deppy equiv file_a.py file_b.py
-deppy equiv file_a.py file_b.py --verbose   # site-by-site detail
-deppy equiv file_a.py file_b.py --json      # machine-readable output
+deppy equiv file_a.py file_b.py --verbose     # site-by-site detail
+deppy equiv file_a.py file_b.py --json        # machine-readable
+deppy equiv file_a.py file_b.py --sarif out   # SARIF export
+
+# Explain a specific site
+deppy explain myfile.py --site arg_boundary_x
+
+# Attempt to prove a property
+deppy prove myfile.py --property "x > 0 implies result > 0"
+
+# Generate contract annotations
+deppy generate myfile.py
 
 # Watch mode (re-analyze on save)
 deppy watch myfile.py
@@ -377,39 +513,52 @@ deppy watch myfile.py
 ## 📂 Project Structure
 
 ```
-src/deppy/
-  core/              Site categories, presheaves, sheaf conditions
-  equivalence/       Equivalence pipeline (descent, Čech complex, Z3, runtime sampling)
-    cohomological_engine.py   ← radical engine with all 6 extensions
-    pipeline.py               ← main orchestrator
-  render/            Bug detection, analysis reports, repair synthesis
-  solver/            Z3 backend
-  hybrid/            Hybrid dependent type system (structural + semantic)
-  kernel/            Fixed-point engine
-  library_theories/  Theory packs (arithmetic, collections, nullability)
-  interprocedural/   Call graph, section transport
+src/deppy/                         172K lines across 388 files
+  core/                            Site categories, presheaves, sheaf conditions
+  equivalence/                     Equivalence pipeline
+    cohomological_engine.py        ← radical engine: full Čech + 6 extensions
+    pipeline.py                    ← orchestrator: parse → presheaves → align → Z3
+  render/                          Bug detection, reports, repair synthesis
+  solver/                          Z3 backend
+  hybrid/                          Hybrid dependent types (structural + semantic)
+  kernel/                          Fixed-point engine, Čech, Mayer-Vietoris
+  library_theories/                Theory packs (arithmetic, collections, nullability)
+  interprocedural/                 Call graph, section transport
 
-benchmarks/          375-program evaluation suite
-lean_proofs/         Lean 4 mechanization (~3,500 lines)
-tests/               3,093 tests
+lean_proofs/                       ~3,500 lines of Lean 4
+  DeppyProofs/
+    SiteCategory.lean              Program site categories form a category
+    Presheaf.lean                  Semantic presheaves, sheaf condition
+    CechCohomology.lean            Čech complex, chain complex property ∂₁∘∂₀=0
+    Descent.lean                   Descent theorem (Thm 5): H¹=0 ⟺ equivalence
+    MayerVietoris.lean             Exact sequence, connecting homomorphism
+    Separation.lean                Polynomial fix count, incremental, completeness
+    Soundness.lean                 Framework soundness
+    Hybrid/                        Oracle monad, trust topos, anti-hallucination
+
+benchmarks/                        375-program evaluation suite
+tests/                             3,093 tests across 415 files
 ```
 
 ---
 
-## 🏋️ Running the Benchmarks
+## 🏋️ Running
 
 ```bash
-# Full benchmark suite (375 programs)
+# Install
+pip install -e ".[dev]"
+
+# Run all tests
+PYTHONPATH=src python3 -m pytest -q
+
+# Run benchmarks (375 programs)
 PYTHONPATH=src python3 benchmarks/run_all_benchmarks.py
 
-# Large suite (300 programs: 100 bug, 100 equiv, 100 spec)
+# Large benchmark suite (300 programs)
 PYTHONPATH=src python3 benchmarks/run_large_benchmarks.py
-```
 
-## 🧪 Running Tests
-
-```bash
-PYTHONPATH=src python3 -m pytest -q
+# Build Lean proofs
+cd lean_proofs && lake build
 ```
 
 ---
@@ -418,15 +567,17 @@ PYTHONPATH=src python3 -m pytest -q
 
 The `lean_proofs/` directory contains Lean 4 mechanizations of the core metatheorems:
 
-- `SiteCategory.lean` — program site categories form a category
-- `Presheaf.lean` — semantic presheaves, sheaf condition, H⁰ characterization
-- `CechCohomology.lean` — Čech complex, coboundary operators, H¹ computation
-- `Descent.lean` — descent theorem (Thm 5): H¹ = 0 ⟺ equivalence
-- `MayerVietoris.lean` — exact sequence and connecting homomorphism
-- `Separation.lean` — three separation results (Thms 9–11)
-- `Soundness.lean` — soundness of the overall framework
-- `FixedPoint.lean` — fixed-point convergence
-- `Hybrid/` — hybrid type system proofs (oracle monad, trust topos, anti-hallucination)
+| File | What it proves |
+|---|---|
+| `SiteCategory.lean` | Program site categories form a category |
+| `Presheaf.lean` | Semantic presheaves, sheaf condition, H⁰ characterization |
+| `CechCohomology.lean` | Čech complex, chain complex property ∂₁∘∂₀ = 0, H¹ computation |
+| `Descent.lean` | **Descent theorem**: trivial transitions ⟺ global equivalence |
+| `MayerVietoris.lean` | Exact sequence, connecting homomorphism |
+| `Separation.lean` | `min_fixes_ge_h1_rank`, `incremental_exact`, `descent_sound`, `descent_complete`, `abstraction_separates_implies_incomplete` |
+| `Soundness.lean` | End-to-end framework soundness |
+| `FixedPoint.lean` | Fixed-point convergence |
+| `Hybrid/` | Oracle monad, trust topos, anti-hallucination as type error |
 
 ```bash
 cd lean_proofs && lake build
@@ -434,6 +585,17 @@ cd lean_proofs && lake build
 
 ---
 
+## 🤝 Contributing
+
+Deppy uses a non-standard architecture. A few things to know:
+
+1. **Every public function gets `@guarantee("...")`** in the deppy codebase itself
+2. **Guard Z3 imports**: `try: from z3 import *; _HAS_Z3 = True; except: _HAS_Z3 = False`
+3. **Use `from __future__ import annotations`** in every file
+4. Run `PYTHONPATH=src python3 -m pytest -q` before submitting — all 3,093 tests must pass
+
+---
+
 ## License
 
-MIT
+MIT — Copyright (c) 2026 Halley Young
