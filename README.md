@@ -3,6 +3,7 @@
   <b>deppy</b><br>
   <i>Sheaf-Cohomological Program Analysis for Python</i><br>
   <br>
+  <a href="https://thehalleyyoung.github.io/deppy/">Website</a> ·
   <a href="#-quick-start">Quick Start</a> · <a href="#-what-it-catches">What It Catches</a> · <a href="#%EF%B8%8F-equivalence-checking">Equivalence</a> · <a href="#-the-mathematics">The Math</a> · <a href="#-benchmarks">Benchmarks</a>
   <br><br>
   <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version 2.0.0">
