@@ -1,712 +1,712 @@
 {
-  "correct": 68,
+  "correct": 54,
   "total": 100,
-  "accuracy": 0.68,
-  "eq_tp": 18,
-  "eq_fn": 32,
-  "neq_tn": 50,
-  "neq_fp": 0,
-  "elapsed_seconds": 21.507,
+  "accuracy": 0.54,
+  "eq_tp": 6,
+  "eq_fn": 44,
+  "neq_tn": 48,
+  "neq_fp": 2,
+  "elapsed_seconds": 2.949,
   "details": [
     {
       "name": "hard_eq_01_eq01a_vs_eq01b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_02_eq02a_vs_eq02b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: word_frequency, semantic carrier: text frequency normalization sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(StrObj)']: counterexample"
     },
     {
       "name": "hard_eq_03_eq03a_vs_eq03b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: expression_tree_eval, semantic carrier: expression evaluation sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_04_eq04a_vs_eq04b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_05_eq05a_vs_eq05b",
       "expected_eq": true,
-      "verdict": "inequivalent",
-      "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "verdict": "equivalent",
+      "correct": true,
+      "explanation": "H\u00b9=0: 12 faces verified across 3 type fibers"
     },
     {
       "name": "hard_eq_06_eq06a_vs_eq06b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: codec_roundtrip, semantic carrier: round-trip codec sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_07_eq07a_vs_eq07b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_08_eq08a_vs_eq08b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_09_eq09a_vs_eq09b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_10_eq10a_vs_eq10b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_11_eq11a_vs_eq11b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: sorted_merge, semantic carrier: stable merge protocol sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_12_eq12a_vs_eq12b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: codec_roundtrip, semantic carrier: round-trip codec sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_13_eq13a_vs_eq13b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_14_eq14a_vs_eq14b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_15_eq15a_vs_eq15b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_16_eq16a_vs_eq16b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "symbolic: geometric morphism found (1 ops preserved); Lawvere: 2/2 ops, H\u2070=1/1, H\u00b9=0/0, \u03c7=1/1"
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)']: counterexample"
     },
     {
       "name": "hard_eq_17_eq17a_vs_eq17b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_18_eq18a_vs_eq18b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_19_eq19a_vs_eq19b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_20_eq20a_vs_eq20b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: canonical_object, semantic carrier: recursive object normalization sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_21_eq21a_vs_eq21b",
       "expected_eq": true,
-      "verdict": "inequivalent",
-      "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "verdict": "equivalent",
+      "correct": true,
+      "explanation": "H\u00b9=0: structural equality"
     },
     {
       "name": "hard_eq_22_eq22a_vs_eq22b",
       "expected_eq": true,
-      "verdict": "inequivalent",
-      "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "verdict": "equivalent",
+      "correct": true,
+      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 1/1 sites verified via Z3, 0 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=0, exact=\u2717."
     },
     {
       "name": "hard_eq_23_eq23a_vs_eq23b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_24_eq24a_vs_eq24b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_25_eq25a_vs_eq25b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "symbolic: geometric morphism found (0 ops preserved); Lawvere: 6/1 ops, H\u2070=1/1, H\u00b9=0/0, \u03c7=1/1"
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_26_eq26a_vs_eq26b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_27_eq27a_vs_eq27b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_28_eq28a_vs_eq28b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_29_eq29a_vs_eq29b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "Z3-SAT (semantic-role): motive isomorphism. H\u2070=1/2, H\u00b9=0/0, ops=10/16, blocks=3/5"
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)']: counterexample"
     },
     {
       "name": "hard_eq_30_eq30a_vs_eq30b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_31_eq31a_vs_eq31b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_32_eq32a_vs_eq32b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_33_eq33a_vs_eq33b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_34_eq34a_vs_eq34b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-SAT but concrete fingerprints diverge"
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_35_eq35a_vs_eq35b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: safe_quantifier, semantic carrier: exception-safe quantifier sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_36_eq36a_vs_eq36b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_37_eq37a_vs_eq37b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: linear_recurrence, semantic carrier: linear recurrence sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_38_eq38a_vs_eq38b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "symbolic: geometric morphism found (4 ops preserved); Lawvere: 5/5 ops, H\u2070=1/1, H\u00b9=0/0, \u03c7=1/1"
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_eq_39_eq39a_vs_eq39b",
       "expected_eq": true,
-      "verdict": "inequivalent",
-      "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "verdict": "equivalent",
+      "correct": true,
+      "explanation": "H\u00b9=0: 2 faces verified across 1 type fibers"
     },
     {
       "name": "hard_eq_40_eq40a_vs_eq40b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: binomial, semantic carrier: binomial coefficient sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "\u021e\u00b9(U, Iso) \u2260 0 [z3_counterexample]: Iso presheaf has empty stalks at 1 site(s): no local isomorphism exists. GF(2) H\u00b9 = 0 (coboundary) but Iso(U_i) = \u2205 at f_global\u2229g_global. 1 independent obstruction(s). Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713."
     },
     {
       "name": "hard_eq_41_eq41a_vs_eq41b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: zip_longest, semantic carrier: zip-longest protocol sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber []: counterexample"
     },
     {
       "name": "hard_eq_42_eq42a_vs_eq42b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: higher_order_application, semantic carrier: higher-order application sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_43_eq43a_vs_eq43b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "symbolic: geometric morphism found (0 ops preserved); Lawvere: 4/1 ops, H\u2070=1/1, H\u00b9=0/0, \u03c7=1/1"
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "Local equivalence check failed at one or more sites"
     },
     {
       "name": "hard_eq_44_eq44a_vs_eq44b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_45_eq45a_vs_eq45b",
       "expected_eq": true,
-      "verdict": "equivalent",
-      "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 2/2 sites verified via Z3, 1 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713. Dependent domain: canonical sheaf family: grid_paths, semantic carrier: lattice path sheaf."
+      "verdict": "inequivalent",
+      "correct": false,
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_46_eq46a_vs_eq46b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "Z3-verified: \u2203 input where f \u2260 g"
     },
     {
       "name": "hard_eq_47_eq47a_vs_eq47b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(StrObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_48_eq48a_vs_eq48b",
       "expected_eq": true,
       "verdict": "equivalent",
       "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) = 0 [descent_gluing]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 0/1 sites verified via Z3, 0 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=0, exact=\u2717. Dependent domain: canonical sheaf family: trailing_factorial_zeros, semantic carrier: p-adic valuation sheaf, inferred dependent domain: n >= 0."
+      "explanation": "\u021e\u00b9(U, Iso) = 0 [cech_h1_zero]: \u021e\u00b9(U, Iso) = 0: descent theorem (Thm 5) guarantees global equivalence. 3/3 sites verified via Z3, 3 overlaps checked. Cocycle condition: \u2713. Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2717."
     },
     {
       "name": "hard_eq_49_eq49a_vs_eq49b",
       "expected_eq": true,
       "verdict": "inequivalent",
       "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_eq_50_eq50a_vs_eq50b",
       "expected_eq": true,
-      "verdict": "inequivalent",
-      "correct": false,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "verdict": "equivalent",
+      "correct": true,
+      "explanation": "H\u00b9=0: 1 faces verified across 1 type fibers"
     },
     {
       "name": "hard_neq_01_neq01a_vs_neq01b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "symbolic: counterexample: {'p_0': '1', 'p_1': '0'} \u2192 f=1, g=0"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_02_neq02a_vs_neq02b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "symbolic: counterexample: {'p_0': '1', 'p_1': '0'} \u2192 f=0, g=1"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_03_neq03a_vs_neq03b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_04_neq04a_vs_neq04b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ('',): f=[], g=['']"
+      "explanation": "H\u00b9 obstruction on fiber ['is(StrObj)']: counterexample"
     },
     {
       "name": "hard_neq_05_neq05a_vs_neq05b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-SAT but concrete fingerprints diverge"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_06_neq06a_vs_neq06b",
       "expected_eq": false,
-      "verdict": "inequivalent",
-      "correct": true,
-      "explanation": "runtime stalk disagreement at (): f=[2, 2, 2], g=[0, 1, 2]"
+      "verdict": "equivalent",
+      "correct": false,
+      "explanation": "H\u00b9=0: 1 faces verified across 1 type fibers"
     },
     {
       "name": "hard_neq_07_neq08a_vs_neq08b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)']: counterexample"
     },
     {
       "name": "hard_neq_08_neq09a_vs_neq09b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_09_neq10a_vs_neq10b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_10_neq11a_vs_neq11b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_11_neq12a_vs_neq12b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_12_neq14a_vs_neq14b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ([(1, 'b'), (1, 'a'), (2, 'c')],): f=[(1, 'b'), (1, 'a'), (2, 'c')], g=[(1, 'a'), (1, 'b'), (2, 'c')]"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_13_neq15a_vs_neq15b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_14_neq16a_vs_neq16b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "symbolic: counterexample: {'p_0': '1', 'p_1': '0'} \u2192 f=0, g=-1"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_15_neq17a_vs_neq17b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_16_neq18a_vs_neq18b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_17_neq19a_vs_neq19b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_18_neq20a_vs_neq20b",
       "expected_eq": false,
-      "verdict": "unknown",
+      "verdict": "inequivalent",
       "correct": true,
-      "explanation": "No semantic site cover available from Stage 1; deferring verdict to the Z3/cohomological engines"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_19_neq21a_vs_neq21b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_20_neq22a_vs_neq22b",
       "expected_eq": false,
-      "verdict": "inequivalent",
-      "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "verdict": "equivalent",
+      "correct": false,
+      "explanation": "Global equivalence verified"
     },
     {
       "name": "hard_neq_21_neq23a_vs_neq23b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_22_neq25a_vs_neq25b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ([(1, 'b'), (1, 'a'), (2, 'c')],): f=[(1, 'b'), (1, 'a'), (2, 'c')], g=[(1, 'a'), (1, 'b'), (2, 'c')]"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_23_neq26a_vs_neq26b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_24_neq29a_vs_neq29b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_25_neq30a_vs_neq30b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_26_neq31a_vs_neq31b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ('a',): f=[(0, 'a')], g=[(1, 'a')]"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_27_neq32a_vs_neq32b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_28_neq33a_vs_neq33b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Side-effect presheaf obstruction: one function mutates its input, the other does not (H\u00b9(U, SideEffect) \u2260 0)"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_29_neq34a_vs_neq34b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u021e\u00b9(U, Iso) \u2260 0 [z3_counterexample]: Iso presheaf has empty stalks at 2 site(s): no local isomorphism exists. GF(2) H\u00b9 = 0 (coboundary) but Iso(U_i) = \u2205 at f_path0\u2229g_path0, f_global\u2229g_global. 2 independent obstruction(s). Betti numbers \u03b2=(\u03b2\u2080=1, \u03b2\u2081=0, \u03b2\u2082=0), \u03c7=1. MV: H\u00b9(A)=0, H\u00b9(B)=0, H\u00b9(A\u2229B)=0, rk(\u03b4)=1, exact=\u2713."
+      "explanation": "H\u00b9 obstruction on fiber ['is(StrObj)', 'is(StrObj)']: counterexample"
     },
     {
       "name": "hard_neq_30_neq35a_vs_neq35b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at (1,): f='caught', g='caught_in_else'"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_31_neq36a_vs_neq36b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ('hello', ' '): f={' ': -1, 'e': 1, 'h': 1, 'l': 2, 'o': 1}, g={'e': 1, 'h': 1, 'l': 2, 'o': 1}"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)', 'is(Ref)']: counterexample"
     },
     {
       "name": "hard_neq_32_neq37a_vs_neq37b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at (): f=([1], [1]), g=([1], [])"
+      "explanation": "H\u00b9 obstruction on fiber []: counterexample"
     },
     {
       "name": "hard_neq_33_neq38a_vs_neq38b",
       "expected_eq": false,
-      "verdict": "unknown",
+      "verdict": "inequivalent",
       "correct": true,
-      "explanation": "No semantic site cover available from Stage 1; deferring verdict to the Z3/cohomological engines"
+      "explanation": "H\u00b9 obstruction on fiber []: counterexample"
     },
     {
       "name": "hard_neq_34_neq39a_vs_neq39b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_35_neq40a_vs_neq40b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_36_neq41a_vs_neq41b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_37_neq42a_vs_neq42b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_38_neq43a_vs_neq43b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber []: counterexample"
     },
     {
       "name": "hard_neq_39_neq44a_vs_neq44b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-SAT but concrete fingerprints diverge"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_40_neq45a_vs_neq45b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ('aaa', 'a', 'x'): f='xxx', g='xaa'"
+      "explanation": "H\u00b9 obstruction on fiber ['is(StrObj)', 'is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_41_neq47a_vs_neq47b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at (0,): f='int', g='tuple'"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_42_neq48a_vs_neq48b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_43_neq49a_vs_neq49b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-UNSAT at both exact and role levels"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_44_neq50a_vs_neq50b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: output STR \u2247 NONE"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_45_neq07a_vs_neq07b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at (1,): f=[0, 1], g=[1]"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)', 'is(Pair)']: counterexample"
     },
     {
       "name": "hard_neq_46_neq13a_vs_neq13b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at (<function MotiveIsomorphismSolver._concrete_execution_crosscheck.<locals>._raise_custom_base at 0x1051bafb0>,): f raised, g='caught'"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_47_neq24a_vs_neq24b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Z3-SAT but concrete fingerprints diverge"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_48_neq46a_vs_neq46b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "Side-effect presheaf obstruction: one function mutates its input, the other does not (H\u00b9(U, SideEffect) \u2260 0)"
+      "explanation": "H\u00b9 obstruction on fiber ['is(Ref)', 'is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_49_neq48a_vs_neq48b",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "\u03a0-type: argument order fingerprint mismatch"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     },
     {
       "name": "hard_neq_50_generator_reuse_vs_materialization",
       "expected_eq": false,
       "verdict": "inequivalent",
       "correct": true,
-      "explanation": "runtime stalk disagreement at ([1, 2, 3],): f=(14, []), g=(14, [1, 4, 9])"
+      "explanation": "H\u00b9 obstruction on fiber ['is(IntObj)']: counterexample"
     }
   ]
 }

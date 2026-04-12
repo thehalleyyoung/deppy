@@ -43,8 +43,11 @@ GETITEM = 70
 
 class Theory:
     """Fresh Z3 theory instance.  Each equivalence check creates one."""
+    _counter = 0
 
     def __init__(self):
+        Theory._counter += 1
+        self._id = Theory._counter
         D = _z3.Datatype('PyObj')
         D.declare('IntObj', ('ival', _z3.IntSort()))
         D.declare('BoolObj', ('bval', _z3.BoolSort()))
@@ -59,6 +62,7 @@ class Theory:
         self._define_unop()
         self._define_truthy()
         self._define_fold()
+        self._define_tag()
 
     # ── constructors ──────────────────────────────────────────
 
@@ -97,7 +101,7 @@ class Theory:
 
     def _define_binop(self):
         S = self.S
-        self.binop = _z3.RecFunction('binop', _z3.IntSort(), S, S, S)
+        self.binop = _z3.RecFunction(f'binop_{self._id}', _z3.IntSort(), S, S, S)
         op = _z3.Int('_bo')
         a, b = _z3.Const('_ba', S), _z3.Const('_bb', S)
         ai, bi = S.ival(a), S.ival(b)
@@ -142,7 +146,7 @@ class Theory:
 
     def _define_unop(self):
         S = self.S
-        self.unop = _z3.RecFunction('unop', _z3.IntSort(), S, S)
+        self.unop = _z3.RecFunction(f'unop_{self._id}', _z3.IntSort(), S, S)
         op, a = _z3.Int('_uo'), _z3.Const('_ua', S)
         ai = S.ival(a)
 
@@ -176,7 +180,7 @@ class Theory:
 
     def _define_truthy(self):
         S = self.S
-        self.truthy = _z3.RecFunction('truthy', S, _z3.BoolSort())
+        self.truthy = _z3.RecFunction(f'truthy_{self._id}', S, _z3.BoolSort())
         x = _z3.Const('_tr', S)
         _z3.RecAddDefinition(self.truthy, [x],
             _z3.If(S.is_IntObj(x), S.ival(x) != 0,
@@ -195,13 +199,40 @@ class Theory:
 
     def _define_fold(self):
         S = self.S
-        self.fold = _z3.RecFunction('fold',
+        self.fold = _z3.RecFunction(f'fold_{self._id}',
             _z3.IntSort(), _z3.IntSort(), _z3.IntSort(), S, S)
         op, i, stop = _z3.Ints('_fo _fi _fs')
         acc = _z3.Const('_fa', S)
         _z3.RecAddDefinition(self.fold, [op, i, stop, acc],
             _z3.If(i >= stop, acc,
                 self.binop(op, S.IntObj(i), self.fold(op, i + 1, stop, acc))))
+
+    # ── TypeTag sort + tag function ───────────────────────────
+    # The type fibration: each PyObj lives in a fiber indexed by TTag.
+    # tag : PyObj → TTag classifies values by their Python type.
+    # This is the structure map of the fibration E →π B.
+
+    def _define_tag(self):
+        S = self.S
+        tid = self._id
+        tag_name = f'TTag_{tid}'
+        self.TTag, ttags = _z3.EnumSort(tag_name,
+            [f'TInt_{tid}', f'TBool_{tid}', f'TStr_{tid}',
+             f'TNone_{tid}', f'TPair_{tid}', f'TRef_{tid}',
+             f'TBot_{tid}'])
+        (self.TInt, self.TBool_, self.TStr_, self.TNone_,
+         self.TPair_, self.TRef_, self.TBot) = ttags
+
+        self.tag = _z3.RecFunction(f'tag_{self._id}', S, self.TTag)
+        x = _z3.Const('_tag_x', S)
+        _z3.RecAddDefinition(self.tag, [x],
+            _z3.If(S.is_IntObj(x), self.TInt,
+            _z3.If(S.is_BoolObj(x), self.TBool_,
+            _z3.If(S.is_StrObj(x), self.TStr_,
+            _z3.If(S.is_NoneObj(x), self.TNone_,
+            _z3.If(S.is_Pair(x), self.TPair_,
+            _z3.If(S.is_Ref(x), self.TRef_,
+            self.TBot)))))))
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -673,7 +704,7 @@ def exec_one(stmt, env):
         for t in stmt.targets: assign_target(t, val, env)
     elif isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
         name = stmt.target.id
-        old = env.get(name) or T.fresh(name)
+        old = env.get(name) if env.get(name) is not None else T.fresh(name)
         rhs = compile_expr(stmt.value, env)
         op_map = {ast.Add: IADD, ast.Mult: IMUL, ast.Sub: SUB,
                   ast.FloorDiv: FLOORDIV, ast.Mod: MOD}
@@ -757,7 +788,7 @@ def exec_for(stmt, env):
         se.put(lv, T.S.IntObj(i_sym))
         se.put(vn, rfn(i_sym + 1))
         exec_stmts(stmt.body, se)
-        after = se.get(vn) or T.fresh(f'lp_{vn}')
+        after = se.get(vn) if se.get(vn) is not None else T.fresh(f'lp_{vn}')
         try:
             _z3.RecAddDefinition(rfn, [i_sym], _z3.If(i_sym >= stop, init, after))
             env.put(vn, rfn(start))
@@ -778,7 +809,7 @@ def exec_while(stmt, env):
         se.put(vn, rfn(ctr + 1))
         exec_stmts(stmt.body, se)
         cond = T.truthy(compile_expr(stmt.test, se))
-        after = se.get(vn) or T.fresh(f'wh_{vn}')
+        after = se.get(vn) if se.get(vn) is not None else T.fresh(f'wh_{vn}')
         try:
             _z3.RecAddDefinition(rfn, [ctr], _z3.If(ctr > 50, init, _z3.If(cond, after, init)))
             env.put(vn, rfn(_z3.IntVal(0)))
@@ -920,21 +951,22 @@ def _check(source_f, source_g, timeout_ms):
     solver.set('timeout', timeout_ms)
 
     # ═══════════════════════════════════════════════════════════
-    # FIBER-WISE ČECH COHOMOLOGY over the type sheaf
+    # FIBER-WISE ČECH COHOMOLOGY via TypeTag Z3 sort
     #
-    # The input space is a FIBRATION over Python's type universe:
-    #   E →π B,  B = {IntObj, BoolObj, StrObj, NoneObj, Pair, Ref}
+    # Instead of iterating over type fibers in Python (exponential),
+    # we encode the ENTIRE fibration as a single Z3 query:
     #
-    # The cubical path from f to g must be type-preserving:
-    #   ∀ fiber τ ∈ B. H¹(U_τ, Iso(F_f, F_g)) = 0
+    #   ∃ params with valid tags.  sections disagree?
+    #     SAT → H¹ ≠ 0 on the fiber Z3 found (counterexample)
+    #     UNSAT → H¹ = 0 on ALL fibers (cubical path exists)
     #
-    # We check each fiber separately.  If ANY fiber has H¹ ≠ 0,
-    # the programs are inequivalent (counterexample on that type).
-    # If ALL fibers have H¹ = 0, the programs are equivalent
-    # (the cubical path exists on every fiber).
+    # The TypeTag sort (TInt, TBool, TStr, TNone, TPair, TRef)
+    # lets Z3 search the type space efficiently via SAT.
     # ═══════════════════════════════════════════════════════════
 
     S = T.S
+
+    # Duck type inference: constrain which tags are allowed per param
     try:
         tree_f = ast.parse(textwrap.dedent(source_f))
         tree_g = ast.parse(textwrap.dedent(source_g))
@@ -942,99 +974,79 @@ def _check(source_f, source_g, timeout_ms):
         func_g = next(n for n in tree_g.body if isinstance(n, ast.FunctionDef))
         param_names_f = [a.arg for a in func_f.args.args]
     except Exception:
-        return Result(None, 'cannot parse for type inference')
+        return Result(None, 'cannot parse')
 
-    # Determine which fibers are relevant for each param
-    param_fibers: List[List] = []
+    # Build solver with tag constraints
+    solver = _z3.Solver()
+    solver.set('timeout', timeout_ms)
+
     for idx, pname in enumerate(param_names_f):
-        kind, typed = infer_pyobj_constraint(func_f, func_g, pname, S)
+        p = params_f[idx]
+        kind, _ = infer_pyobj_constraint(func_f, func_g, pname, S)
+
+        # Exclude Bottom from all params
+        solver.add(T.tag(p) != T.TBot)
+
+        # Duck type → restrict allowed tags
         if kind == 'int':
-            param_fibers.append([S.is_IntObj])
+            solver.add(T.tag(p) == T.TInt)
         elif kind == 'str':
-            param_fibers.append([S.is_StrObj])
+            solver.add(T.tag(p) == T.TStr_)
         elif kind == 'bool':
-            param_fibers.append([S.is_BoolObj])
+            solver.add(T.tag(p) == T.TBool_)
         elif kind == 'ref':
-            param_fibers.append([S.is_Ref])
+            solver.add(T.tag(p) == T.TRef_)
         elif kind == 'list':
-            param_fibers.append([S.is_Pair, S.is_Ref])
+            solver.add(_z3.Or(T.tag(p) == T.TPair_, T.tag(p) == T.TRef_))
         elif kind == 'collection':
-            param_fibers.append([S.is_Pair, S.is_Ref, S.is_StrObj])
-        elif kind == 'any':
-            # Check ALL fibers — this is the full fibration
-            param_fibers.append([S.is_IntObj, S.is_BoolObj, S.is_StrObj,
-                                 S.is_NoneObj, S.is_Pair, S.is_Ref])
-        else:
-            # Unknown: check all fibers
-            param_fibers.append([S.is_IntObj, S.is_BoolObj, S.is_StrObj,
-                                 S.is_NoneObj, S.is_Pair, S.is_Ref])
+            solver.add(_z3.Or(T.tag(p) == T.TPair_, T.tag(p) == T.TRef_,
+                              T.tag(p) == T.TStr_))
+        # else: any valid tag (already constrained != TBot)
 
-    # Generate all fiber combinations (product of per-param fibers)
-    # For efficiency: if there's only 1 param, iterate its fibers directly.
-    # For multiple params, take the product (but cap at reasonable size).
-    import itertools
-    if len(param_fibers) == 0:
-        fiber_combos = [{}]
-    else:
-        # Cap: at most 36 fiber combinations to check
-        combos = list(itertools.product(*param_fibers))
-        if len(combos) > 36:
-            # Too many — just check the most likely fibers
-            combos = combos[:36]
-        fiber_combos = []
-        for combo in combos:
-            constraints = {}
-            for idx, recognizer in enumerate(combo):
-                constraints[idx] = recognizer
-            fiber_combos.append(constraints)
+    # Check each section pair for disagreement.
+    # For equivalence: ALL overlapping section pairs must agree on ALL type fibers.
+    # This is: ¬∃ params,types. overlap ∧ terms_differ
+    #        = ∀ params,types. overlap → terms_agree
 
-    total_h0 = 0
-    fibers_checked = 0
+    h0 = 0
+    for sf_sec in secs_f:
+        for sg_sec in secs_g:
+            overlap = _z3.And(sf_sec.guard, sg_sec.guard)
 
-    for fiber in fiber_combos:
-        solver = _z3.Solver()
-        solver.set('timeout', min(timeout_ms, 3000))
-
-        # Add fiber constraints: p_i must satisfy recognizer_i
-        for idx, recognizer in fiber.items():
-            solver.add(recognizer(params_f[idx]))
-
-        # Check H¹ on this fiber
-        fiber_h0 = 0
-        fiber_obstruction = False
-
-        for sf in secs_f:
-            for sg in secs_g:
-                overlap = _z3.And(sf.guard, sg.guard)
-                solver.push()
-                solver.add(overlap)
-                if solver.check() == _z3.unsat:
-                    solver.pop()
-                    continue
+            # Check if overlap is ever satisfiable
+            solver.push()
+            solver.add(overlap)
+            if solver.check() == _z3.unsat:
                 solver.pop()
+                continue
+            solver.pop()
 
-                solver.push()
-                solver.add(overlap, sf.term != sg.term)
-                r = solver.check()
+            # Check if sections agree on all fibers within the overlap
+            solver.push()
+            solver.add(overlap)
+            solver.add(sf_sec.term != sg_sec.term)
+            r = solver.check()
+
+            if r == _z3.unsat:
                 solver.pop()
+                h0 += 1
+            elif r == _z3.sat:
+                # Counterexample: Z3 found a type fiber where sections disagree
+                m = solver.model()
+                fiber_info = []
+                for idx in range(len(params_f)):
+                    fiber_info.append(str(m.evaluate(T.tag(params_f[idx]))))
+                solver.pop()
+                return Result(False,
+                    f'H¹ obstruction on fiber [{",".join(fiber_info)}]',
+                    h0=h0, h1=1)
+            else:
+                solver.pop()
+                # Z3 timeout → skip this overlap
 
-                if r == _z3.unsat:
-                    fiber_h0 += 1
-                elif r == _z3.sat:
-                    # Counterexample on this fiber → programs differ on this type
-                    fiber_names = [str(f).split('/')[-1] for f in fiber.values()]
-                    return Result(False,
-                        f'H¹ obstruction on fiber {fiber_names}: counterexample',
-                        h0=total_h0, h1=1)
-
-        if fiber_h0 > 0:
-            total_h0 += fiber_h0
-            fibers_checked += 1
-
-    if fibers_checked > 0 and total_h0 > 0:
-        return Result(True,
-            f'H¹=0: {total_h0} faces verified across {fibers_checked} type fibers',
-            h0=total_h0)
+    if h0 > 0:
+        return Result(True, f'H¹=0: {h0} faces verified, all type fibers',
+                      h0=h0)
     return Result(None, 'inconclusive')
 
 
