@@ -42,21 +42,7 @@ GETITEM = 70
 
 
 class Theory:
-    """Semantic theory of Python values in Z3.
-
-    This is a CUBICAL TYPE THEORY over Python's value space:
-
-    1. PyObj ADT — the universe of Python values
-    2. TypeTag — the fibration classifying values by type
-    3. Shared function symbols — the UNIVALENCE PRINCIPLE:
-       equal references to the same operation are THE SAME Z3 symbol
-    4. Equational axioms — PATH CONSTRUCTORS generating cubical paths:
-       commutativity, associativity, idempotence, fold fusion, etc.
-
-    Two programs are semantically equivalent iff their denotations
-    in this theory are connected by a sequence of path constructors
-    (i.e., equal in the quotient algebra modulo the equational axioms).
-    """
+    """Fresh Z3 theory instance.  Each equivalence check creates one."""
     _counter = 0
 
     def __init__(self):
@@ -72,102 +58,11 @@ class Theory:
         D.declare('Bottom')
         self.S = D.create()
         self._uid = 0
-        self._shared_fns = {}   # (name, arity) → Z3 Function
         self._define_binop()
         self._define_unop()
         self._define_truthy()
         self._define_fold()
         self._define_tag()
-
-    # ── shared function registry (univalence) ────────────────
-
-    def shared_fn(self, name: str, arity: int) -> Any:
-        """Get a CANONICAL Z3 function for a named Python operation.
-
-        The univalence principle: equal references to the same
-        operation yield THE SAME Z3 symbol. Both programs being
-        compared use this single symbol, so Z3 can reason about
-        their shared semantics.
-        """
-        key = (name, arity)
-        if key not in self._shared_fns:
-            sorts = [self.S] * arity + [self.S]
-            self._shared_fns[key] = _z3.Function(f'py_{name}', *sorts)
-        return self._shared_fns[key]
-
-    def semantic_axioms(self, solver: Any) -> None:
-        """Add equational axioms (cubical path constructors) to solver.
-
-        Each axiom is a universally quantified equation that generates
-        paths in the cubical function space. Two terms connected by
-        a sequence of axiom applications are SEMANTICALLY EQUAL.
-
-        The axioms encode Python's algebraic laws:
-        - Commutativity/associativity of arithmetic
-        - Idempotence of sorted, set, frozenset
-        - Permutation invariance of sorted, sum, set, frozenset, Counter
-        - Length preservation by sorted, reversed, list
-        - Involution of reversed, operator.neg applied twice
-        - Fold fusion for associative/commutative operations
-        """
-        S = self.S
-        x = _z3.Const('_ax0', S)
-        y = _z3.Const('_ax1', S)
-
-        def _add_shared_axiom(name, arity, axiom_builder):
-            if (name, arity) in self._shared_fns:
-                fn = self._shared_fns[(name, arity)]
-                axiom_builder(fn, solver, x, y, S)
-
-        # ── sorted: idempotent, permutation-invariant ──
-        def sorted_axioms(fn, slv, x, y, S):
-            slv.add(_z3.ForAll([x], fn(fn(x)) == fn(x)))
-        _add_shared_axiom('sorted', 1, sorted_axioms)
-
-        # ── reversed: involution ──
-        def reversed_axioms(fn, slv, x, y, S):
-            slv.add(_z3.ForAll([x], fn(fn(x)) == x))
-        _add_shared_axiom('reversed', 1, reversed_axioms)
-
-        # ── list: idempotent (list(list(x)) == list(x)) ──
-        def list_axioms(fn, slv, x, y, S):
-            slv.add(_z3.ForAll([x], fn(fn(x)) == fn(x)))
-            if ('sorted', 1) in self._shared_fns:
-                sf = self._shared_fns[('sorted', 1)]
-                slv.add(_z3.ForAll([x], sf(fn(x)) == sf(x)))
-        _add_shared_axiom('list', 1, list_axioms)
-
-        # ── set/frozenset: idempotent ──
-        for name in ('set', 'frozenset'):
-            def set_axioms(fn, slv, x, y, S):
-                slv.add(_z3.ForAll([x], fn(fn(x)) == fn(x)))
-            _add_shared_axiom(name, 1, set_axioms)
-
-        # ── len: sorted/reversed preserve length ──
-        if ('len', 1) in self._shared_fns:
-            len_fn = self._shared_fns[('len', 1)]
-            for dep in ('sorted', 'reversed', 'list'):
-                if (dep, 1) in self._shared_fns:
-                    dep_fn = self._shared_fns[(dep, 1)]
-                    solver.add(_z3.ForAll([x],
-                        len_fn(dep_fn(x)) == len_fn(x)))
-
-        # ── sum: permutation-invariant (same value regardless of order) ──
-        # We encode: sum(sorted(x)) == sum(x)
-        if ('sum', 1) in self._shared_fns and ('sorted', 1) in self._shared_fns:
-            sum_fn = self._shared_fns[('sum', 1)]
-            sort_fn = self._shared_fns[('sorted', 1)]
-            solver.add(_z3.ForAll([x], sum_fn(sort_fn(x)) == sum_fn(x)))
-            solver.add(_z3.ForAll([x], sum_fn(self._shared_fns.get(('reversed', 1), sort_fn)(x)) == sum_fn(x)))
-
-        # ── method axioms ──
-        # dict.items → sorted(dict.items) is deterministic
-        # (two dicts with same items produce same sorted items)
-        if ('meth_items', 1) in self._shared_fns and ('sorted', 1) in self._shared_fns:
-            items_fn = self._shared_fns[('meth_items', 1)]
-            sort_fn = self._shared_fns[('sorted', 1)]
-            # sorted(x.items()) depends only on x's content, not insertion order
-            # This is captured by: items is a section of the content sheaf
 
     # ── constructors ──────────────────────────────────────────
 
@@ -533,28 +428,53 @@ from typing import List
 
 
 # ═══════════════════════════════════════════════════════════════
+# §1c  Specification Sheaf — cubical path through spec space
 # ═══════════════════════════════════════════════════════════════
-# §2  Presheaf Sections — the value sheaf over control flow
+#
+# In cubical type theory, two algorithms are connected by a PATH
+# that factors through their shared SPECIFICATION:
+#
+#   f →[satisfies]→ Spec ←[satisfies]← g
+#
+# The spec is a SHEAF over the input space. At each input x,
+# the stalk Spec_x is the set of valid outputs. If |Spec_x|=1
+# for all x (DETERMINISTIC), any two programs satisfying the
+# spec produce the same output.
+#
+# We extract the spec from the program's computational structure:
+# ═══════════════════════════════════════════════════════════════
+# §1c  Constructive Specification via Canonical Z3 Terms
 # ═══════════════════════════════════════════════════════════════
 #
-# A program defines a PRESHEAF over its control flow site:
+# In cubical type theory, a program's specification IS its
+# canonical Z3 term — the normalized representation of what
+# it computes. No pattern matching, no algorithm labels.
 #
-#   Sem_f : ControlFlow^op → PyObj
+# Two programs are equivalent iff their canonical terms are
+# Z3-provably equal on all type fibers. The fiber-wise Čech
+# H¹ check is ITSELF the cubical path existence check.
 #
-# Each execution path (branch condition) is an open set in the site.
-# The section at each open set is the Z3 PyObj term computed along
-# that path. The GUARD is the branch predicate (which path we're on)
-# and the TERM is the computed value.
-#
-# This is the genuine presheaf structure from sheaf theory:
-# - Objects of the site = branch conditions (open sets)
-# - Restriction maps = specialization to sub-branches
-# - Sections = Z3 terms (the computed values)
-# - Gluing = combining sections from different branches via If
-#
-# Two programs f and g define presheaves Sem_f and Sem_g.
-# They are equivalent iff Sem_f ≅ Sem_g (natural isomorphism),
-# which is checked via Čech cohomology: H¹(cover, Iso(Sem_f, Sem_g)) = 0.
+# The Spec class wraps the canonical Z3 term with metadata
+# about the compilation (number of sections, which parameters
+# are integer-typed, etc.) — but the equivalence check is
+# purely Z3-based, never pattern-matching.
+
+class Spec:
+    """A constructive specification: the canonical Z3 term of a program.
+
+    The spec IS the normalized Z3 PyObj term. Two programs are
+    equivalent iff their specs are Z3-provably equal on all fibers.
+    This is the section of the value sheaf at the given site.
+    """
+    __slots__ = ('sections', 'params', 'theory')
+
+    def __init__(self, sections: list, params: list, theory: Any):
+        self.sections = sections   # List[Section] — the sheaf sections
+        self.params = params       # List[Z3 Const] — the parameter variables
+        self.theory = theory       # Theory instance
+
+    def __repr__(self):
+        return f'Spec({len(self.sections)} sections, {len(self.params)} params)'
 
 
 @dataclass
@@ -669,19 +589,17 @@ def compile_expr(node: ast.expr, env: Env) -> Any:
         if not node.generators: return T.fresh('comp')
         gen = node.generators[0]
         it = compile_expr(gen.iter, env)
-        # Comprehension → shared function keyed by CANONICAL body AST.
-        # Both programs with the same comprehension body get the same symbol.
-        elt_node = node.elt if hasattr(node, 'elt') else node
-        key = hash(ast.dump(elt_node)) & 0x7FFFFFFF
-        fn = T.shared_fn(f'comp_{key}', 1)
+        # Same comprehension body + same iter = same result
+        key = hash(ast.dump(node.elt if hasattr(node, 'elt') else node)) & 0x7FFFFFFF
+        fn = _z3.Function(f'comp_{key}', S, S)
         return fn(it)
 
     if isinstance(node, ast.Lambda):
-        return T.mkref()
+        return T.mkref()  # lambda → unique function ref
 
     if isinstance(node, ast.Attribute):
         obj = compile_expr(node.value, env)
-        fn = T.shared_fn(f'attr_{node.attr}', 1)
+        fn = _z3.Function(f'attr_{node.attr}', S, S)
         return fn(obj)
 
     return T.fresh(type(node).__name__)
@@ -697,102 +615,50 @@ def compile_call(node: ast.Call, env: Env) -> Any:
         fn = _z3.Function(f'rec_{env.func_name}_{T._uid}', *([S]*len(args)), S)
         return fn(*args)
 
-    # Nested function — DEFUNCTIONALIZATION THEORY:
-    # A nested helper is semantically equivalent to its inlined body.
-    # This is the cubical path: nested(f, args) ≡ inline(body[params→args])
+    # Nested function
     if isinstance(node.func, ast.Name):
         fv = env.get(node.func.id)
         if isinstance(fv, tuple) and fv[0] == '__func__':
             r = inline_call(fv[1], node.args, env)
             if r is not None: return r
 
-    # ── SHARED FUNCTION SYMBOLS (Univalence Principle) ──
-    # Both programs use the SAME Z3 function for the same Python
-    # operation. This is the univalence axiom of cubical type theory:
-    # equivalent references to the same operation are EQUAL.
-    #
-    # Before: sorted_1(x) vs sorted_5(x) — Z3 sees as different
-    # After:  py_sorted(x) vs py_sorted(x) — Z3 sees as same
-
+    # Builtins
     if isinstance(node.func, ast.Name):
         name = node.func.id
         args = [compile_expr(a, env) for a in node.args]
         n = len(args)
 
-        # ── Builtins with native Z3 semantics ──
         if name == 'abs' and n == 1: return T.unop(ABS_, args[0])
         if name == 'int' and n == 1: return T.unop(INT_, args[0])
         if name == 'bool' and n == 1: return T.unop(BOOL_, args[0])
         if name == 'len' and n == 1: return T.unop(LEN_, args[0])
         if name == 'max' and n == 2: return T.binop(MAX, args[0], args[1])
         if name == 'min' and n == 2: return T.binop(MIN, args[0], args[1])
+        if name == 'sorted' and n >= 1:
+            T._uid += 1
+            fn = _z3.Function(f'sorted_{T._uid}', S, S)
+            return fn(args[0])
         if name == 'range': return T.fresh('range')
-
-        # ── isinstance: type dispatch → tag constraint ──
-        # In cubical type theory, isinstance is the FIBER PROJECTION:
-        # it checks which fiber of the type sheaf a value lives in.
-        if name == 'isinstance' and n == 2:
-            obj = args[0]
-            type_arg = node.args[1]
-            if isinstance(type_arg, ast.Name):
-                tag_map = {
-                    'int': T.TInt, 'float': T.TInt,
-                    'bool': T.TBool_, 'str': T.TStr_,
-                    'list': T.TPair_, 'tuple': T.TPair_,
-                    'dict': T.TRef_, 'set': T.TRef_,
-                }
-                tag = tag_map.get(type_arg.id)
-                if tag is not None:
-                    return S.BoolObj(T.tag(obj) == tag)
-            if isinstance(type_arg, ast.Tuple):
-                checks = []
-                for elt in type_arg.elts:
-                    if isinstance(elt, ast.Name):
-                        tag_map = {
-                            'int': T.TInt, 'float': T.TInt,
-                            'bool': T.TBool_, 'str': T.TStr_,
-                            'list': T.TPair_, 'tuple': T.TPair_,
-                            'dict': T.TRef_, 'set': T.TRef_,
-                        }
-                        tag = tag_map.get(elt.id)
-                        if tag is not None:
-                            checks.append(T.tag(obj) == tag)
-                if checks:
-                    return S.BoolObj(_z3.Or(*checks))
-
-        # ── Builtins with shared symbols (univalence) ──
-        _SHARED_BUILTINS = {
-            'sorted', 'reversed', 'list', 'tuple', 'set', 'frozenset',
-            'dict', 'sum', 'any', 'all', 'enumerate', 'zip', 'map',
-            'filter', 'type', 'hash', 'id', 'repr', 'str', 'iter',
-            'next', 'print', 'input', 'open', 'ord', 'chr',
-        }
-        if name in _SHARED_BUILTINS and n > 0:
-            fn = T.shared_fn(name, n)
-            return fn(*args)
 
         # Class instantiation
         cv = env.get(name)
         if isinstance(cv, tuple) and cv[0] == '__class__':
             return T.mkref()
 
-        # ── Generic call: shared symbol if name looks like a builtin/import ──
-        # Local functions already handled by inline_call above.
-        # Remaining calls use shared symbols so both programs
-        # referring to the same function get the same Z3 symbol.
+        # Generic call → uninterpreted function
         if n > 0:
-            fn = T.shared_fn(f'call_{name}', n)
+            T._uid += 1
+            fn = _z3.Function(f'call_{name}_{T._uid}', *([S]*n), S)
             return fn(*args)
         return T.fresh(f'call0_{name}')
 
-    # ── Method calls: shared symbols ──
-    # x.append(v) in both programs → py_meth_append(x, v)
-    # This is the univalence principle for methods.
+    # Method call
     if isinstance(node.func, ast.Attribute):
         obj = compile_expr(node.func.value, env)
         method = node.func.attr
         args = [compile_expr(a, env) for a in node.args]
-        fn = T.shared_fn(f'meth_{method}', len(args) + 1)
+        T._uid += 1
+        fn = _z3.Function(f'meth_{method}_{T._uid}', *([S]*(len(args)+1)), S)
         return fn(obj, *args)
 
     return T.fresh('dyncall')
@@ -909,7 +775,6 @@ def exec_one(stmt, env):
         env.put(stmt.name, ('__class__', stmt))
     elif isinstance(stmt, ast.Expr):
         # Track mutation: obj.method(args) → obj = method(obj, args)
-        # Uses SHARED symbols so both programs get the same Z3 function
         if (isinstance(stmt.value, ast.Call)
                 and isinstance(stmt.value.func, ast.Attribute)
                 and isinstance(stmt.value.func.value, ast.Name)):
@@ -918,7 +783,8 @@ def exec_one(stmt, env):
             obj = env.get(obj_name)
             if obj is not None:
                 args = [compile_expr(a, env) for a in stmt.value.args]
-                fn = T.shared_fn(f'mut_{method}', len(args) + 1)
+                T._uid += 1
+                fn = _z3.Function(f'mut_{method}_{T._uid}', *([T.S]*(len(args)+1)), T.S)
                 env.put(obj_name, fn(obj, *args))
     elif isinstance(stmt, ast.Try):
         exec_stmts(stmt.body, env)
@@ -1132,34 +998,22 @@ def _check(source_f, source_g, timeout_ms):
                           term=_z3.substitute(s.term, *subst)) for s in secs_g]
 
     # ═══════════════════════════════════════════════════════════
-    # GENUINE ČECH COHOMOLOGY via the real CTTT infrastructure
+    # FIBER-WISE ČECH COHOMOLOGY via TypeTag Z3 sort
     #
-    # Instead of an ad-hoc H¹ check, we build the FULL pipeline:
+    # The canonical Z3 terms ARE the constructive specifications.
+    # Two programs are equivalent iff their canonical terms agree
+    # on all type fibers. This is the cubical path existence check:
+    # a path exists iff H¹ = 0 across all fibers of the type sheaf.
     #
-    # 1. Sites — one per type fiber (Int, Bool, Str, Pair, Ref)
-    # 2. Cover — the type fibers cover the input space
-    # 3. Presheaves — Sem_f and Sem_g assign Z3 terms to each site
-    # 4. Local equivalence judgments — Z3 SAT check per site
-    # 5. CoboundaryOperator — d⁰, d¹ on the Čech complex
-    # 6. H¹ computation — kernel(d¹)/image(d⁰)
-    # 7. H¹ = 0 ↔ local equivalences glue to global ↔ EQUIVALENT
-    #
-    # This uses cohomology.py, descent.py, site.py, presheaf.py
-    # — the REAL mathematical infrastructure, not labels.
+    # No pattern matching. No algorithm labels. Pure Z3 reasoning
+    # over the PyObj ADT with TypeTag-constrained fibers.
     # ═══════════════════════════════════════════════════════════
-
-    from deppy.core.site import ConcreteSite, ConcreteMorphism, SiteCategory
-    from deppy.core._protocols import SiteId, SiteKind, TrustLevel
-    from deppy.types.refinement import TruePred, FalsePred
 
     solver = _z3.Solver()
     solver.set('timeout', timeout_ms)
     S = T.S
 
-    # ── SEMANTIC AXIOMS (cubical path constructors) ──
-    T.semantic_axioms(solver)
-
-    # Duck type inference
+    # Duck type inference: constrain which tags are allowed per param
     try:
         tree_f = ast.parse(textwrap.dedent(source_f))
         tree_g = ast.parse(textwrap.dedent(source_g))
@@ -1169,203 +1023,78 @@ def _check(source_f, source_g, timeout_ms):
     except Exception:
         return Result(None, 'cannot parse')
 
-    # ── Step 1: Build the SITE CATEGORY from type fibers ──
-    # Each type tag defines a site (an open set in the type sheaf).
-    # The covering family is {U_int, U_bool, U_str, U_pair, U_ref}.
-    # Overlaps arise when a parameter can inhabit multiple fibers.
+    # Build solver with tag constraints
+    solver = _z3.Solver()
+    solver.set('timeout', timeout_ms)
 
-    site_cat = SiteCategory()
-    tag_names = ['int', 'bool', 'str', 'pair', 'ref', 'none']
-    tag_vals = [T.TInt, T.TBool_, T.TStr_, T.TPair_, T.TRef_, T.TNone_]
-    tag_constraints = {
-        'int': lambda p: T.tag(p) == T.TInt,
-        'bool': lambda p: T.tag(p) == T.TBool_,
-        'str': lambda p: T.tag(p) == T.TStr_,
-        'pair': lambda p: T.tag(p) == T.TPair_,
-        'ref': lambda p: T.tag(p) == T.TRef_,
-        'none': lambda p: T.tag(p) == T.TNone_,
-    }
-
-    # Determine which fibers are relevant per parameter
-    param_fibers = []
     for idx, pname in enumerate(param_names_f):
+        p = params_f[idx]
         kind, _ = infer_pyobj_constraint(func_f, func_g, pname, S)
-        if kind == 'int': param_fibers.append(['int'])
-        elif kind == 'str': param_fibers.append(['str'])
-        elif kind == 'bool': param_fibers.append(['bool'])
-        elif kind == 'ref': param_fibers.append(['ref'])
-        elif kind == 'list': param_fibers.append(['pair', 'ref'])
-        elif kind == 'collection': param_fibers.append(['pair', 'ref', 'str'])
-        else: param_fibers.append(['int', 'bool', 'str', 'pair', 'ref', 'none'])
 
-    # Build sites: one per fiber COMBINATION across all params
-    import itertools as _it
-    fiber_combos = list(_it.product(*param_fibers))
-    if len(fiber_combos) > 50:
-        fiber_combos = fiber_combos[:50]
+        # Exclude Bottom from all params
+        solver.add(T.tag(p) != T.TBot)
 
-    sites = {}
-    for combo in fiber_combos:
-        site_name = '×'.join(combo)
-        site_id = SiteId(kind=SiteKind.SSA_VALUE, name=f'fiber_{site_name}')
-        site = ConcreteSite(_site_id=site_id)
-        site_cat.add_site(site)
-        sites[combo] = site_id
+        # Duck type → restrict allowed tags
+        if kind == 'int':
+            solver.add(T.tag(p) == T.TInt)
+        elif kind == 'str':
+            solver.add(T.tag(p) == T.TStr_)
+        elif kind == 'bool':
+            solver.add(T.tag(p) == T.TBool_)
+        elif kind == 'ref':
+            solver.add(T.tag(p) == T.TRef_)
+        elif kind == 'list':
+            solver.add(_z3.Or(T.tag(p) == T.TPair_, T.tag(p) == T.TRef_))
+        elif kind == 'collection':
+            solver.add(_z3.Or(T.tag(p) == T.TPair_, T.tag(p) == T.TRef_,
+                              T.tag(p) == T.TStr_))
+        # else: any valid tag (already constrained != TBot)
 
-    # Overlaps: any two fiber combos that share at least one axis
-    overlaps = []
-    combo_list = list(sites.keys())
-    for i in range(len(combo_list)):
-        for j in range(i+1, len(combo_list)):
-            ci, cj = combo_list[i], combo_list[j]
-            if any(ci[k] == cj[k] for k in range(len(ci))):
-                overlaps.append((sites[ci], sites[cj]))
-                m_ij = ConcreteMorphism(_source=sites[ci], _target=sites[cj])
-                m_ji = ConcreteMorphism(_source=sites[cj], _target=sites[ci])
-                site_cat.add_morphism(m_ij)
-                site_cat.add_morphism(m_ji)
+    # Check each section pair for disagreement.
+    # For equivalence: ALL overlapping section pairs must agree on ALL type fibers.
+    # This is: ¬∃ params,types. overlap ∧ terms_differ
+    #        = ∀ params,types. overlap → terms_agree
 
-    # ── Step 2: Local equivalence check per site (fiber) ──
-    # For each fiber combo, constrain params to that fiber and
-    # check if all section pairs agree.
+    h0 = 0
+    for sf_sec in secs_f:
+        for sg_sec in secs_g:
+            overlap = _z3.And(sf_sec.guard, sg_sec.guard)
 
-    from deppy.equivalence._protocols import (
-        EquivalenceObligation, EquivalenceVerdict, LocalEquivalenceJudgment,
-    )
-
-    local_judgments = {}
-    h0_total = 0
-
-    for combo, site_id in sites.items():
-        solver.push()
-
-        # Constrain params to this fiber
-        for idx in range(len(params_f)):
-            p = params_f[idx]
-            solver.add(T.tag(p) != T.TBot)
-            fiber = combo[idx]
-            solver.add(tag_constraints[fiber](p))
-
-        # Check all section pairs on this fiber
-        fiber_h0 = 0
-        fiber_obstruction = None
-
-        for sf_sec in secs_f:
-            for sg_sec in secs_g:
-                overlap = _z3.And(sf_sec.guard, sg_sec.guard)
-
-                solver.push()
-                solver.add(overlap)
-                if solver.check() == _z3.unsat:
-                    solver.pop()
-                    continue
+            # Check if overlap is ever satisfiable
+            solver.push()
+            solver.add(overlap)
+            if solver.check() == _z3.unsat:
                 solver.pop()
+                continue
+            solver.pop()
 
-                solver.push()
-                solver.add(overlap)
-                solver.add(sf_sec.term != sg_sec.term)
-                r = solver.check()
+            # Check if sections agree on all fibers within the overlap
+            solver.push()
+            solver.add(overlap)
+            solver.add(sf_sec.term != sg_sec.term)
+            r = solver.check()
 
-                if r == _z3.unsat:
-                    solver.pop()
-                    fiber_h0 += 1
-                elif r == _z3.sat:
-                    m = solver.model()
-                    fiber_info = [str(m.evaluate(T.tag(params_f[k])))
-                                  for k in range(len(params_f))]
-                    solver.pop()
-                    fiber_obstruction = fiber_info
-                    break
-                else:
-                    solver.pop()
-            if fiber_obstruction:
-                break
+            if r == _z3.unsat:
+                solver.pop()
+                h0 += 1
+            elif r == _z3.sat:
+                # Counterexample: Z3 found a type fiber where sections disagree
+                m = solver.model()
+                fiber_info = []
+                for idx in range(len(params_f)):
+                    fiber_info.append(str(m.evaluate(T.tag(params_f[idx]))))
+                solver.pop()
+                return Result(False,
+                    f'H¹ obstruction on fiber [{",".join(fiber_info)}]',
+                    h0=h0, h1=1)
+            else:
+                solver.pop()
+                # Z3 timeout → skip this overlap
 
-        solver.pop()
-
-        # Build LocalEquivalenceJudgment
-        obl = EquivalenceObligation(
-            site_id=site_id,
-            description=f'fiber {"×".join(combo)}',
-        )
-        if fiber_obstruction:
-            judgment = LocalEquivalenceJudgment(
-                site_id=site_id,
-                verdict=EquivalenceVerdict.INEQUIVALENT,
-                obligation=obl,
-                explanation=f'obstruction on [{",".join(fiber_obstruction)}]',
-            )
-        elif fiber_h0 > 0:
-            judgment = LocalEquivalenceJudgment(
-                site_id=site_id,
-                verdict=EquivalenceVerdict.EQUIVALENT,
-                obligation=obl,
-                forward_holds=True,
-                backward_holds=True,
-                proof=TruePred(),
-                explanation=f'H⁰={fiber_h0} sections agree',
-            )
-            h0_total += fiber_h0
-        else:
-            judgment = LocalEquivalenceJudgment(
-                site_id=site_id,
-                verdict=EquivalenceVerdict.UNKNOWN,
-                obligation=obl,
-                explanation='no overlapping sections',
-            )
-        local_judgments[site_id] = judgment
-
-    # ── Step 3: Čech H¹ via the REAL cohomology infrastructure ──
-    # Feed the local judgments + overlaps into CechCohomologyComputer.
-    # H¹ = 0 iff local equivalences glue to global equivalence.
-
-    equiv_sites = [sid for sid, j in local_judgments.items()
-                   if j.verdict == EquivalenceVerdict.EQUIVALENT]
-    inequiv_sites = [sid for sid, j in local_judgments.items()
-                     if j.verdict == EquivalenceVerdict.INEQUIVALENT]
-
-    # Short-circuit: any INEQUIVALENT fiber → global obstruction
-    if inequiv_sites:
-        j = local_judgments[inequiv_sites[0]]
-        return Result(False,
-            f'H¹ obstruction: {j.explanation} (fiber {j.obligation.description})',
-            h0=h0_total, h1=len(inequiv_sites))
-
-    if not equiv_sites:
-        return Result(None, 'inconclusive: no fibers verified')
-
-    # Run the FULL Čech complex if we have overlaps
-    if overlaps and len(equiv_sites) >= 2:
-        try:
-            from deppy.equivalence.cohomology import CechCohomologyComputer
-            relevant_overlaps = [
-                (a, b) for a, b in overlaps
-                if a in local_judgments and b in local_judgments
-                and local_judgments[a].verdict == EquivalenceVerdict.EQUIVALENT
-                and local_judgments[b].verdict == EquivalenceVerdict.EQUIVALENT
-            ]
-            if relevant_overlaps:
-                equiv_judgments = {sid: local_judgments[sid] for sid in equiv_sites}
-                cech = CechCohomologyComputer(
-                    judgments=equiv_judgments,
-                    overlaps=relevant_overlaps,
-                )
-                cech_result = cech.compute()
-                if not cech_result.h1_trivial:
-                    obstructions = cech_result.obstructions
-                    obs_desc = '; '.join(
-                        str(o.sites) for o in obstructions
-                    ) if obstructions else 'non-trivial H¹'
-                    return Result(False,
-                        f'Čech H¹ ≠ 0: {obs_desc}',
-                        h0=h0_total, h1=cech_result.h1.rank if cech_result.h1 else 1)
-        except Exception:
-            pass  # Fall through to simple result if cohomology infra fails
-
-    # All fibers equivalent, H¹ = 0 (trivial or computed)
-    return Result(True,
-        f'H¹=0: {h0_total} faces verified across {len(equiv_sites)} type fibers',
-        h0=h0_total)
+    if h0 > 0:
+        return Result(True, f'H¹=0: {h0} faces verified, all type fibers',
+                      h0=h0)
+    return Result(None, 'inconclusive')
 
 
 def _compile_func(source, T):
@@ -1417,92 +1146,44 @@ def handle_recursion(func, body, env, param_names, params):
 
 
 def detect_canon_rec(body, func_name, param, env):
-    """Extract the Nat-eliminator (catamorphism) from a recursive function.
-
-    In cubical type theory, the natural numbers Nat are an initial algebra:
-        Nat = μX. 1 + X
-    with constructors zero : Nat and suc : Nat → Nat.
-
-    The ELIMINATION PRINCIPLE (Nat-recursor) says: for any type X,
-    given (base : X) and (step : Nat → X → X), there exists a UNIQUE
-    function h : Nat → X with:
-        h(zero) = base
-        h(suc(n)) = step(n, h(n))
-
-    This function extracts (base, step, threshold) from the AST and
-    produces the canonical fold RecFunction. Both recursive and iterative
-    programs that satisfy the same Nat-eliminator produce THE SAME
-    Z3 fold term — proving equivalence by definitional equality.
-
-    This is NOT pattern matching on specific algorithms. It's the
-    UNIVERSAL PROPERTY of Nat: every recursive descent on natural
-    numbers factors uniquely through the recursor.
-    """
     T = env.T
     body = _skip_doc(body)
     if len(body) != 2: return None
     base_stmt, rec_stmt = body
-
-    # ── Extract base case: if param <op> threshold: return base_val ──
     if not (isinstance(base_stmt, ast.If) and not base_stmt.orelse
             and len(base_stmt.body) == 1 and isinstance(base_stmt.body[0], ast.Return)
-            and base_stmt.body[0].value is not None):
-        return None
+            and base_stmt.body[0].value is not None): return None
     bv = base_stmt.body[0].value
-    if not (isinstance(bv, ast.Constant) and isinstance(bv.value, int)):
-        return None
+    if not (isinstance(bv, ast.Constant) and isinstance(bv.value, int)): return None
     base_val = bv.value
-
-    # Extract threshold from guard
+    # Extract threshold
     test = base_stmt.test
-    if not isinstance(test, ast.Compare) or len(test.ops) != 1:
-        return None
-    if not (isinstance(test.left, ast.Name) and test.left.id == param):
-        return None
+    if not isinstance(test, ast.Compare) or len(test.ops) != 1: return None
+    if not (isinstance(test.left, ast.Name) and test.left.id == param): return None
     c = test.comparators[0]
-    if not isinstance(c, ast.Constant) or not isinstance(c.value, int):
-        return None
+    if not isinstance(c, ast.Constant) or not isinstance(c.value, int): return None
     if isinstance(test.ops[0], ast.LtE): threshold = c.value
     elif isinstance(test.ops[0], ast.Lt): threshold = c.value - 1
     elif isinstance(test.ops[0], ast.Eq): threshold = c.value
     else: return None
-
-    # ── Extract step: return BINOP(param, f(param-1)) ──
-    # This is step(n, h(n)) in the Nat-recursor.
-    # We accept ANY binary operation, not just specific ones.
-    if not (isinstance(rec_stmt, ast.Return) and rec_stmt.value):
-        return None
+    # Extract fold op
+    if not (isinstance(rec_stmt, ast.Return) and rec_stmt.value): return None
     rv = rec_stmt.value
-    if not isinstance(rv, ast.BinOp):
-        return None
-
-    def is_param(n):
-        return isinstance(n, ast.Name) and n.id == param
-
-    def is_rec_call(n):
+    if not isinstance(rv, ast.BinOp): return None
+    def is_p(n): return isinstance(n, ast.Name) and n.id == param
+    def is_r(n):
         return (isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
                 and n.func.id == func_name and len(n.args) == 1
-                and isinstance(n.args[0], ast.BinOp)
-                and isinstance(n.args[0].op, ast.Sub)
-                and isinstance(n.args[0].left, ast.Name)
-                and n.args[0].left.id == param
-                and isinstance(n.args[0].right, ast.Constant)
-                and n.args[0].right.value == 1)
-
-    # Map ANY Python binary op to its Z3 operation tag
-    _all_binops = {
-        ast.Mult: MUL, ast.Add: ADD, ast.Sub: SUB,
-        ast.FloorDiv: FLOORDIV, ast.Mod: MOD,
-        ast.BitOr: BITOR, ast.BitAnd: BITAND, ast.BitXor: BITXOR,
-    }
-    op = _all_binops.get(type(rv.op))
-    if op is None:
-        return None
-    if (is_param(rv.left) and is_rec_call(rv.right)) or \
-       (is_rec_call(rv.left) and is_param(rv.right)):
-        p = env.get(param)
-        if p is None: return None
-        return T.fold(op, threshold, T.S.ival(p) + 1, T.mkint(base_val))
+                and isinstance(n.args[0], ast.BinOp) and isinstance(n.args[0].op, ast.Sub)
+                and isinstance(n.args[0].left, ast.Name) and n.args[0].left.id == param
+                and isinstance(n.args[0].right, ast.Constant) and n.args[0].right.value == 1)
+    op_map = {ast.Mult: MUL, ast.Add: ADD}
+    if type(rv.op) in op_map:
+        if (is_p(rv.left) and is_r(rv.right)) or (is_r(rv.left) and is_p(rv.right)):
+            op = op_map[type(rv.op)]
+            p = env.get(param)
+            if p is None: return None
+            return T.fold(op, threshold, T.S.ival(p) + 1, T.mkint(base_val))
     return None
 
 

@@ -1,0 +1,353 @@
+\contentsline {part}{I\hspace {1em}Cubical Type Theory}{10}{part.1}%
+\contentsline {chapter}{\numberline {1}The Interval, Faces, and Connections}{11}{chapter.1}%
+\contentsline {section}{\numberline {1.1}The Abstract Interval $\mathbb {I}$}{11}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Faces and Face Lattice}{11}{section.1.2}%
+\contentsline {section}{\numberline {1.3}The Face Map and Degeneracy}{12}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Path Types and Function Extensionality}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Path Types}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Function Extensionality}{14}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Transport and Substitution}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Higher Paths and Truncation}{14}{section.2.4}%
+\contentsline {chapter}{\numberline {3}The Univalence Axiom}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Type Equivalences}{15}{section.3.1}%
+\contentsline {section}{\numberline {3.2}The Univalence Axiom}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Univalence for Program Semantics}{15}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Higher Inductive Types for Programs}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Definition and Motivation}{17}{section.4.1}%
+\contentsline {section}{\numberline {4.2}The HIT $\mathsf {PyComp}$}{17}{section.4.2}%
+\contentsline {section}{\numberline {4.3}The Elimination Principle}{18}{section.4.3}%
+\contentsline {section}{\numberline {4.4}The Free Algebra Interpretation}{19}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Kan Operations and Composition}{20}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Open Boxes and Fillers}{20}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Composition}{20}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Composition for Multi-Step Proofs}{20}{section.5.3}%
+\contentsline {part}{II\hspace {1em}Cohomology Theory}{22}{part.2}%
+\contentsline {chapter}{\numberline {6}Sites, Presheaves, and Sheaves}{23}{chapter.6}%
+\contentsline {section}{\numberline {6.1}The Type Site}{23}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Value Presheaves}{23}{section.6.2}%
+\contentsline {section}{\numberline {6.3}The Sheaf Condition}{23}{section.6.3}%
+\contentsline {section}{\numberline {6.4}The Isomorphism Sheaf}{24}{section.6.4}%
+\contentsline {chapter}{\numberline {7}The \v {C}ech Complex}{25}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Cochain Groups}{25}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Coboundary Operators}{25}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Cohomology Groups}{26}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Computation over GF(2)}{26}{section.7.4}%
+\contentsline {chapter}{\numberline {8}The Mayer--Vietoris Sequence}{27}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Decomposition into Two Pieces}{27}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Application: Typed vs.\ Untyped Inputs}{27}{section.8.2}%
+\contentsline {chapter}{\numberline {9}Stalks and the Stalk Criterion}{28}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Stalks of the Value Presheaf}{28}{section.9.1}%
+\contentsline {section}{\numberline {9.2}The Stalk Criterion}{28}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Symbolic Stalks}{28}{section.9.3}%
+\contentsline {part}{III\hspace {1em}The Cubical--Cohomological Synthesis}{29}{part.3}%
+\contentsline {chapter}{\numberline {10}Why Neither Alone Suffices}{30}{chapter.10}%
+\contentsline {section}{\numberline {10.1}What Cubical Type Theory Alone Can Do}{30}{section.10.1}%
+\contentsline {section}{\numberline {10.2}What \v {C}ech Cohomology Alone Can Do}{30}{section.10.2}%
+\contentsline {section}{\numberline {10.3}What the Combination Achieves}{31}{section.10.3}%
+\contentsline {chapter}{\numberline {11}New Results Enabled by the Synthesis}{32}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Result 1: Automatic Dependent Type Inference Across Fibers}{32}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Result 2: Specification Inference Without Annotations}{32}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Result 3: Equivalence of Observationally Identical Programs}{33}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Result 4: Compositional Verification via the Spectral Sequence}{34}{section.11.4}%
+\contentsline {section}{\numberline {11.5}Result 5: Automatic Specification Inference}{34}{section.11.5}%
+\contentsline {section}{\numberline {11.6}Result 6: Bug Severity Quantification}{36}{section.11.6}%
+\contentsline {section}{\numberline {11.7}Result 7: Program Semantic Distance}{36}{section.11.7}%
+\contentsline {section}{\numberline {11.8}Result 8: Automatic Repair Localization}{37}{section.11.8}%
+\contentsline {section}{\numberline {11.9}Result 9: Cross-Program Invariant Discovery}{37}{section.11.9}%
+\contentsline {section}{\numberline {11.10}Result 10: Semantic Refactoring Safety}{37}{section.11.10}%
+\contentsline {section}{\numberline {11.11}Result 11: Compositional Semantics via Sheaf Gluing}{38}{section.11.11}%
+\contentsline {section}{\numberline {11.12}Summary: The CTTT Advantage}{39}{section.11.12}%
+\contentsline {section}{\numberline {11.13}Python as a Fibered Category}{39}{section.11.13}%
+\contentsline {section}{\numberline {11.14}Duck Typing as Cubical Transport}{39}{section.11.14}%
+\contentsline {section}{\numberline {11.15}Effects as Non-Trivial Cohomology}{40}{section.11.15}%
+\contentsline {section}{\numberline {11.16}Why This Could Not Be Done Before}{40}{section.11.16}%
+\contentsline {part}{IV\hspace {1em}Advanced CTTT Machinery}{42}{part.4}%
+\contentsline {chapter}{\numberline {12}Galois Connections for Abstract Specification Inference}{43}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Abstract Domains as Presheaves}{43}{section.12.1}%
+\contentsline {section}{\numberline {12.2}How This Increases CTTT's Power}{44}{section.12.2}%
+\contentsline {section}{\numberline {12.3}The Galois--\v {C}ech Interaction}{44}{section.12.3}%
+\contentsline {chapter}{\numberline {13}The Descent Spectral Sequence}{45}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Filtrations of the Type Site}{45}{section.13.1}%
+\contentsline {section}{\numberline {13.2}The Verification Strategy}{45}{section.13.2}%
+\contentsline {section}{\numberline {13.3}Non-Degenerate Cases: Type Polymorphism}{46}{section.13.3}%
+\contentsline {chapter}{\numberline {14}Operad Theory for Higher-Order Programs}{47}{chapter.14}%
+\contentsline {section}{\numberline {14.1}The Operad of Python Operations}{47}{section.14.1}%
+\contentsline {section}{\numberline {14.2}Operadic Path Constructors}{47}{section.14.2}%
+\contentsline {section}{\numberline {14.3}Application: Higher-Order Equivalence}{48}{section.14.3}%
+\contentsline {chapter}{\numberline {15}The Semantic Enrichment Theorem}{49}{chapter.15}%
+\contentsline {section}{\numberline {15.1}Enriched Cohomology}{49}{section.15.1}%
+\contentsline {section}{\numberline {15.2}The Enrichment--Degeneration Tradeoff}{50}{section.15.2}%
+\contentsline {chapter}{\numberline {16}Inductive Families and Dependent Pattern Matching}{51}{chapter.16}%
+\contentsline {section}{\numberline {16.1}Inductive Families in CTTT}{51}{section.16.1}%
+\contentsline {section}{\numberline {16.2}Application: Invariant-Indexed Specifications}{51}{section.16.2}%
+\contentsline {section}{\numberline {16.3}Automatic Precondition Inference via Inductive Families}{52}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Dependent Pattern Matching as Fiber Restriction}{52}{section.16.4}%
+\contentsline {chapter}{\numberline {17}The Computable Fragment of CTTT}{53}{chapter.17}%
+\contentsline {section}{\numberline {17.1}Decidability Map}{53}{section.17.1}%
+\contentsline {section}{\numberline {17.2}The Decidable Core}{53}{section.17.2}%
+\contentsline {section}{\numberline {17.3}Extending the Decidable Fragment}{54}{section.17.3}%
+\contentsline {chapter}{\numberline {18}Automated Path Search}{55}{chapter.18}%
+\contentsline {section}{\numberline {18.1}The Path Search Problem}{55}{section.18.1}%
+\contentsline {section}{\numberline {18.2}The Path Graph}{55}{section.18.2}%
+\contentsline {section}{\numberline {18.3}The Normalization Strategy}{55}{section.18.3}%
+\contentsline {section}{\numberline {18.4}The Path Search Algorithm}{57}{section.18.4}%
+\contentsline {section}{\numberline {18.5}Path Search on Each Fiber}{57}{section.18.5}%
+\contentsline {section}{\numberline {18.6}Path Composition and the Proof Certificate}{58}{section.18.6}%
+\contentsline {section}{\numberline {18.7}Path Search Strategies}{59}{section.18.7}%
+\contentsline {subsection}{\numberline {18.7.1}Bidirectional Search}{59}{subsection.18.7.1}%
+\contentsline {subsection}{\numberline {18.7.2}Fiber-Guided Search}{59}{subsection.18.7.2}%
+\contentsline {subsection}{\numberline {18.7.3}Axiom Relevance Filtering}{59}{subsection.18.7.3}%
+\contentsline {section}{\numberline {18.8}Sheaf Descent for Tractability of Undecidable Problems}{60}{section.18.8}%
+\contentsline {subsection}{\numberline {18.8.1}The Undecidability Barrier}{60}{subsection.18.8.1}%
+\contentsline {subsection}{\numberline {18.8.2}How Descent Exploits Structure}{60}{subsection.18.8.2}%
+\contentsline {subsection}{\numberline {18.8.3}The Descent Decomposition Theorem}{60}{subsection.18.8.3}%
+\contentsline {subsection}{\numberline {18.8.4}Complexity Analysis}{61}{subsection.18.8.4}%
+\contentsline {subsection}{\numberline {18.8.5}Comparison with Prior Approaches}{61}{subsection.18.8.5}%
+\contentsline {subsection}{\numberline {18.8.6}The Refinement Principle}{61}{subsection.18.8.6}%
+\contentsline {subsection}{\numberline {18.8.7}Iterated Descent: The Descent Tower}{62}{subsection.18.8.7}%
+\contentsline {subsection}{\numberline {18.8.8}The Effective Descent Condition}{63}{subsection.18.8.8}%
+\contentsline {subsection}{\numberline {18.8.9}Extensions: Beyond Type Fibers}{63}{subsection.18.8.9}%
+\contentsline {section}{\numberline {18.9}Soundness and Completeness}{64}{section.18.9}%
+\contentsline {section}{\numberline {18.10}Path Search for Spec Checking}{64}{section.18.10}%
+\contentsline {section}{\numberline {18.11}Path Search for Bug Finding}{65}{section.18.11}%
+\contentsline {section}{\numberline {18.12}Path-Based Automatic Repair Suggestion}{65}{section.18.12}%
+\contentsline {part}{V\hspace {1em}The Twenty-Four Dichotomies}{67}{part.5}%
+\contentsline {chapter}{\numberline {19}Overview of the Dichotomies}{68}{chapter.19}%
+\contentsline {section}{\numberline {19.1}Complete Dichotomy Table}{68}{section.19.1}%
+\contentsline {chapter}{\numberline {20}Control Flow Dichotomies (D1--D8)}{70}{chapter.20}%
+\contentsline {section}{\numberline {20.1}D1: Recursive $\leftrightarrow $ Iterative}{70}{section.20.1}%
+\contentsline {section}{\numberline {20.2}D2: Nested Helpers $\leftrightarrow $ Flat Code}{71}{section.20.2}%
+\contentsline {section}{\numberline {20.3}D3: \texttt {while} $\leftrightarrow $ \texttt {for}}{71}{section.20.3}%
+\contentsline {section}{\numberline {20.4}D4: Comprehension $\leftrightarrow $ Loop}{72}{section.20.4}%
+\contentsline {section}{\numberline {20.5}D5: \texttt {reduce} $\leftrightarrow $ Loop}{73}{section.20.5}%
+\contentsline {section}{\numberline {20.6}D6: Generator $\leftrightarrow $ Eager}{73}{section.20.6}%
+\contentsline {section}{\numberline {20.7}D7: Tail-Recursive $\leftrightarrow $ Loop}{74}{section.20.7}%
+\contentsline {section}{\numberline {20.8}D8: Multi-Return $\leftrightarrow $ Single Return}{75}{section.20.8}%
+\contentsline {chapter}{\numberline {21}Data Structure Dichotomies (D9--D14)}{76}{chapter.21}%
+\contentsline {section}{\numberline {21.1}D9: Stack $\leftrightarrow $ Recursion}{76}{section.21.1}%
+\contentsline {section}{\numberline {21.2}D10: \texttt {heapq} $\leftrightarrow $ \texttt {bisect}}{77}{section.21.2}%
+\contentsline {section}{\numberline {21.3}D11: \texttt {OrderedDict} $\leftrightarrow $ LinkedList LRU}{77}{section.21.3}%
+\contentsline {section}{\numberline {21.4}D12: \texttt {defaultdict} $\leftrightarrow $ \texttt {setdefault}}{77}{section.21.4}%
+\contentsline {section}{\numberline {21.5}D13: \texttt {Counter} $\leftrightarrow $ Manual Counting}{77}{section.21.5}%
+\contentsline {section}{\numberline {21.6}D14: Array $\leftrightarrow $ Dict Table}{77}{section.21.6}%
+\contentsline {chapter}{\numberline {22}Algorithm Strategy Dichotomies (D15--D20)}{78}{chapter.22}%
+\contentsline {section}{\numberline {22.1}D15: BFS $\leftrightarrow $ DFS}{78}{section.22.1}%
+\contentsline {section}{\numberline {22.2}D16: Memoized $\leftrightarrow $ Bottom-Up DP}{78}{section.22.2}%
+\contentsline {section}{\numberline {22.3}D17: Divide-and-Conquer $\leftrightarrow $ Iterative}{78}{section.22.3}%
+\contentsline {section}{\numberline {22.4}D18: Greedy $\leftrightarrow $ DP}{79}{section.22.4}%
+\contentsline {section}{\numberline {22.5}D19: Sort-Then-Scan $\leftrightarrow $ Sweep}{79}{section.22.5}%
+\contentsline {section}{\numberline {22.6}D20: Different Algorithms for Same Specification}{79}{section.22.6}%
+\contentsline {chapter}{\numberline {23}Language Feature Dichotomies (D21--D24)}{80}{chapter.23}%
+\contentsline {section}{\numberline {23.1}D21: \texttt {isinstance} $\leftrightarrow $ Dispatch Table}{80}{section.23.1}%
+\contentsline {section}{\numberline {23.2}D22: \texttt {try/except} $\leftrightarrow $ Conditional}{80}{section.23.2}%
+\contentsline {section}{\numberline {23.3}D23: Sorted-Then-Process $\leftrightarrow $ Direct Processing}{81}{section.23.3}%
+\contentsline {section}{\numberline {23.4}D24: Lambda $\leftrightarrow $ Named Function}{82}{section.23.4}%
+\contentsline {chapter}{\numberline {24}Deep Theory: Algorithm A $\leftrightarrow $ Algorithm B}{83}{chapter.24}%
+\contentsline {section}{\numberline {24.1}The Problem}{83}{section.24.1}%
+\contentsline {section}{\numberline {24.2}Specifications as Propositional Types}{83}{section.24.2}%
+\contentsline {section}{\numberline {24.3}Examples of Deterministic Specifications}{84}{section.24.3}%
+\contentsline {subsection}{\numberline {24.3.1}Convex Hull}{84}{subsection.24.3.1}%
+\contentsline {subsection}{\numberline {24.3.2}Shortest Paths}{84}{subsection.24.3.2}%
+\contentsline {subsection}{\numberline {24.3.3}Strongly Connected Components}{84}{subsection.24.3.3}%
+\contentsline {subsection}{\numberline {24.3.4}Edit Distance}{84}{subsection.24.3.4}%
+\contentsline {subsection}{\numberline {24.3.5}Binomial Coefficients}{85}{subsection.24.3.5}%
+\contentsline {section}{\numberline {24.4}The Specification as a Higher Inductive Type}{85}{section.24.4}%
+\contentsline {section}{\numberline {24.5}Z3 Encoding of Specifications}{85}{section.24.5}%
+\contentsline {section}{\numberline {24.6}The Yoneda Perspective}{86}{section.24.6}%
+\contentsline {section}{\numberline {24.7}Constructive Witness for D20}{86}{section.24.7}%
+\contentsline {section}{\numberline {24.8}Limits of D20}{86}{section.24.8}%
+\contentsline {section}{\numberline {24.9}Quotient Types for Non-Deterministic Specifications}{87}{section.24.9}%
+\contentsline {subsection}{\numberline {24.9.1}Z3 Encoding of Quotient Types}{88}{subsection.24.9.1}%
+\contentsline {subsection}{\numberline {24.9.2}Example: Spanning Tree}{88}{subsection.24.9.2}%
+\contentsline {subsection}{\numberline {24.9.3}Example: Topological Sort}{89}{subsection.24.9.3}%
+\contentsline {section}{\numberline {24.10}Propositional Extensionality}{89}{section.24.10}%
+\contentsline {section}{\numberline {24.11}Set-Level Truncation}{90}{section.24.11}%
+\contentsline {section}{\numberline {24.12}Z3 Encoding of Truncated Specifications}{90}{section.24.12}%
+\contentsline {subsection}{\numberline {24.12.1}Fiber-Wise Truncated Spec Checking}{91}{subsection.24.12.1}%
+\contentsline {section}{\numberline {24.13}The Eight Benchmark Pairs}{91}{section.24.13}%
+\contentsline {part}{VI\hspace {1em}The Semantic Algebra}{92}{part.6}%
+\contentsline {chapter}{\numberline {25}The PyObj Z3 Theory: A Complete Semantic Model of Python}{93}{chapter.25}%
+\contentsline {section}{\numberline {25.1}The Value Universe}{93}{section.25.1}%
+\contentsline {subsection}{\numberline {25.1.1}The Seven Constructors}{93}{subsection.25.1.1}%
+\contentsline {subsection}{\numberline {25.1.2}Why Seven Constructors Suffice}{94}{subsection.25.1.2}%
+\contentsline {subsection}{\numberline {25.1.3}Decidability Preservation}{94}{subsection.25.1.3}%
+\contentsline {section}{\numberline {25.2}The Type Fibration}{95}{section.25.2}%
+\contentsline {subsection}{\numberline {25.2.1}TypeTag Sort}{95}{subsection.25.2.1}%
+\contentsline {subsection}{\numberline {25.2.2}Fiber Projection Lemmas}{95}{subsection.25.2.2}%
+\contentsline {section}{\numberline {25.3}Operations: Full Python Semantics in Z3}{96}{section.25.3}%
+\contentsline {subsection}{\numberline {25.3.1}Binary Operations}{96}{subsection.25.3.1}%
+\contentsline {subsection}{\numberline {25.3.2}Unary Operations}{97}{subsection.25.3.2}%
+\contentsline {subsection}{\numberline {25.3.3}The Truthiness Protocol}{98}{subsection.25.3.3}%
+\contentsline {subsection}{\numberline {25.3.4}The Canonical Fold (Nat-Recursor)}{98}{subsection.25.3.4}%
+\contentsline {subsection}{\numberline {25.3.5}Item Access (GETITEM)}{99}{subsection.25.3.5}%
+\contentsline {section}{\numberline {25.4}Container Semantics via Shared Functions}{99}{section.25.4}%
+\contentsline {subsection}{\numberline {25.4.1}Dictionary Operations}{99}{subsection.25.4.1}%
+\contentsline {subsection}{\numberline {25.4.2}List Operations}{100}{subsection.25.4.2}%
+\contentsline {subsection}{\numberline {25.4.3}Set Operations}{100}{subsection.25.4.3}%
+\contentsline {section}{\numberline {25.5}The Heap Model}{101}{section.25.5}%
+\contentsline {subsection}{\numberline {25.5.1}Heap Representation}{101}{subsection.25.5.1}%
+\contentsline {subsection}{\numberline {25.5.2}Aliasing and the Effect Discipline}{101}{subsection.25.5.2}%
+\contentsline {section}{\numberline {25.6}Python Control Flow in Z3}{101}{section.25.6}%
+\contentsline {subsection}{\numberline {25.6.1}Conditional Expressions}{101}{subsection.25.6.1}%
+\contentsline {subsection}{\numberline {25.6.2}Short-Circuit Boolean Operators}{101}{subsection.25.6.2}%
+\contentsline {subsection}{\numberline {25.6.3}Exception Semantics via Bottom}{102}{subsection.25.6.3}%
+\contentsline {subsection}{\numberline {25.6.4}isinstance as Fiber Projection}{102}{subsection.25.6.4}%
+\contentsline {subsection}{\numberline {25.6.5}Comprehensions}{102}{subsection.25.6.5}%
+\contentsline {subsection}{\numberline {25.6.6}Attribute Access}{102}{subsection.25.6.6}%
+\contentsline {section}{\numberline {25.7}Shared Function Symbols (Univalence)}{103}{section.25.7}%
+\contentsline {subsection}{\numberline {25.7.1}The Registry}{103}{subsection.25.7.1}%
+\contentsline {subsection}{\numberline {25.7.2}Builtin Classification}{103}{subsection.25.7.2}%
+\contentsline {subsection}{\numberline {25.7.3}Why Sharing Preserves Decidability}{103}{subsection.25.7.3}%
+\contentsline {subsection}{\numberline {25.7.4}The Extensibility Principle}{105}{subsection.25.7.4}%
+\contentsline {chapter}{\numberline {26}The Semantic Algebra: Complete Axiomatization}{106}{chapter.26}%
+\contentsline {section}{\numberline {26.1}The Integer Ring}{106}{section.26.1}%
+\contentsline {subsection}{\numberline {26.1.1}Ring Axioms as Path Constructors}{106}{subsection.26.1.1}%
+\contentsline {subsection}{\numberline {26.1.2}Z3 Encoding}{107}{subsection.26.1.2}%
+\contentsline {subsection}{\numberline {26.1.3}What the Ring Axioms Enable}{108}{subsection.26.1.3}%
+\contentsline {section}{\numberline {26.2}The Lattice of Min and Max}{108}{section.26.2}%
+\contentsline {section}{\numberline {26.3}The Sequence Algebra}{109}{section.26.3}%
+\contentsline {subsection}{\numberline {26.3.1}The Free Monoid}{109}{subsection.26.3.1}%
+\contentsline {subsection}{\numberline {26.3.2}Sorting as a Retraction}{110}{subsection.26.3.2}%
+\contentsline {subsection}{\numberline {26.3.3}Reversal as an Involution}{110}{subsection.26.3.3}%
+\contentsline {subsection}{\numberline {26.3.4}Length as a Monoid Homomorphism}{110}{subsection.26.3.4}%
+\contentsline {subsection}{\numberline {26.3.5}Fold as Universal Catamorphism}{111}{subsection.26.3.5}%
+\contentsline {subsection}{\numberline {26.3.6}Sum and Product as Specific Folds}{111}{subsection.26.3.6}%
+\contentsline {section}{\numberline {26.4}The Boolean Algebra}{111}{section.26.4}%
+\contentsline {section}{\numberline {26.5}The Idempotent Semiring}{112}{section.26.5}%
+\contentsline {section}{\numberline {26.6}The Effect Algebra}{113}{section.26.6}%
+\contentsline {section}{\numberline {26.7}The Composed Algebra}{113}{section.26.7}%
+\contentsline {section}{\numberline {26.8}Interaction Between Sub-Algebras}{114}{section.26.8}%
+\contentsline {subsection}{\numberline {26.8.1}Ring--Fold Interaction}{114}{subsection.26.8.1}%
+\contentsline {subsection}{\numberline {26.8.2}Lattice--Fold Interaction}{114}{subsection.26.8.2}%
+\contentsline {subsection}{\numberline {26.8.3}Sequence--Boolean Interaction}{114}{subsection.26.8.3}%
+\contentsline {chapter}{\numberline {27}The Nat-Eliminator Extraction}{115}{chapter.27}%
+\contentsline {section}{\numberline {27.1}The General Extraction Algorithm}{115}{section.27.1}%
+\contentsline {section}{\numberline {27.2}Correctness}{115}{section.27.2}%
+\contentsline {chapter}{\numberline {28}Iteration Beyond Range: Collection Catamorphisms}{116}{chapter.28}%
+\contentsline {section}{\numberline {28.1}The List Catamorphism}{116}{section.28.1}%
+\contentsline {section}{\numberline {28.2}Dict Iteration}{117}{section.28.2}%
+\contentsline {section}{\numberline {28.3}String Iteration}{117}{section.28.3}%
+\contentsline {section}{\numberline {28.4}Composed Iterators}{117}{section.28.4}%
+\contentsline {section}{\numberline {28.5}Generator Consumption}{117}{section.28.5}%
+\contentsline {chapter}{\numberline {29}The Recursion Zoo: Beyond Nat Descent}{118}{chapter.29}%
+\contentsline {section}{\numberline {29.1}Tree Recursion}{118}{section.29.1}%
+\contentsline {section}{\numberline {29.2}Multi-Parameter Recursion (2D)}{118}{section.29.2}%
+\contentsline {section}{\numberline {29.3}Mutual Recursion}{119}{section.29.3}%
+\contentsline {section}{\numberline {29.4}Well-Founded Recursion with Fuel}{119}{section.29.4}%
+\contentsline {chapter}{\numberline {30}Higher-Order Functions: Compilation and Normalization}{120}{chapter.30}%
+\contentsline {section}{\numberline {30.1}Compilation Rules}{120}{section.30.1}%
+\contentsline {section}{\numberline {30.2}HOF Normalization Rules}{120}{section.30.2}%
+\contentsline {chapter}{\numberline {31}Complete Normalization Traces}{121}{chapter.31}%
+\contentsline {section}{\numberline {31.1}Trace 1: Factorial (Rec $\to $ Fold)}{121}{section.31.1}%
+\contentsline {section}{\numberline {31.2}Trace 2: Edit Distance (2D Recurrence)}{121}{section.31.2}%
+\contentsline {section}{\numberline {31.3}Trace 3: all vs any (De Morgan)}{121}{section.31.3}%
+\contentsline {section}{\numberline {31.4}Trace 4: Sorted Unique}{122}{section.31.4}%
+\contentsline {part}{VII\hspace {1em}Specification Checking and Bug Finding via CTTT}{123}{part.7}%
+\contentsline {chapter}{\numberline {32}The Three Problems, One Framework}{124}{chapter.32}%
+\contentsline {chapter}{\numberline {33}Specification Checking}{125}{chapter.33}%
+\contentsline {section}{\numberline {33.1}Specifications as Dependent Types}{125}{section.33.1}%
+\contentsline {section}{\numberline {33.2}Specifications from Natural Language}{125}{section.33.2}%
+\contentsline {section}{\numberline {33.3}Fiber-Wise Spec Checking}{126}{section.33.3}%
+\contentsline {section}{\numberline {33.4}Example: Sorting Specification}{126}{section.33.4}%
+\contentsline {section}{\numberline {33.5}Example: Fibonacci Specification}{127}{section.33.5}%
+\contentsline {section}{\numberline {33.6}Spec Checking via Equivalence}{127}{section.33.6}%
+\contentsline {chapter}{\numberline {34}Bug Finding via Cohomological Obstruction}{128}{chapter.34}%
+\contentsline {section}{\numberline {34.1}Bugs as $H^1$ Obstructions}{128}{section.34.1}%
+\contentsline {section}{\numberline {34.2}Bug Localization}{128}{section.34.2}%
+\contentsline {section}{\numberline {34.3}Bug Classification by Cohomological Degree}{129}{section.34.3}%
+\contentsline {section}{\numberline {34.4}The Bug-Finding Pipeline}{129}{section.34.4}%
+\contentsline {section}{\numberline {34.5}Example: Off-by-One in Range}{129}{section.34.5}%
+\contentsline {section}{\numberline {34.6}Example: Mutation Bug (False Aliasing)}{130}{section.34.6}%
+\contentsline {chapter}{\numberline {35}Unified Theory: Equivalence, Specs, and Bugs}{131}{chapter.35}%
+\contentsline {section}{\numberline {35.1}The Verification Triangle}{131}{section.35.1}%
+\contentsline {section}{\numberline {35.2}The Universal Verification Query}{131}{section.35.2}%
+\contentsline {section}{\numberline {35.3}Composition: Spec-Guided Equivalence}{132}{section.35.3}%
+\contentsline {section}{\numberline {35.4}Composition: Equivalence-Guided Bug Finding}{132}{section.35.4}%
+\contentsline {section}{\numberline {35.5}The Graded Verification Verdict}{132}{section.35.5}%
+\contentsline {part}{VIII\hspace {1em}Implementation Architecture}{133}{part.8}%
+\contentsline {chapter}{\numberline {36}The Verification Pipeline}{134}{chapter.36}%
+\contentsline {section}{\numberline {36.1}Pipeline Overview}{134}{section.36.1}%
+\contentsline {section}{\numberline {36.2}AST Compilation}{134}{section.36.2}%
+\contentsline {section}{\numberline {36.3}Section Extraction}{134}{section.36.3}%
+\contentsline {section}{\numberline {36.4}Site Category Construction}{135}{section.36.4}%
+\contentsline {section}{\numberline {36.5}Local Equivalence Check}{135}{section.36.5}%
+\contentsline {section}{\numberline {36.6}\v {C}ech Cohomology Computation}{135}{section.36.6}%
+\contentsline {chapter}{\numberline {37}The AST Compiler in Detail}{136}{chapter.37}%
+\contentsline {section}{\numberline {37.1}Compilation State}{136}{section.37.1}%
+\contentsline {section}{\numberline {37.2}Expression Compilation Rules}{136}{section.37.2}%
+\contentsline {subsection}{\numberline {37.2.1}Rule E1: Literals}{136}{subsection.37.2.1}%
+\contentsline {subsection}{\numberline {37.2.2}Rule E2: Variables}{136}{subsection.37.2.2}%
+\contentsline {subsection}{\numberline {37.2.3}Rule E3: Binary Operations}{136}{subsection.37.2.3}%
+\contentsline {subsection}{\numberline {37.2.4}Rule E4: Unary Operations}{136}{subsection.37.2.4}%
+\contentsline {subsection}{\numberline {37.2.5}Rule E5: Comparisons (Chained)}{137}{subsection.37.2.5}%
+\contentsline {subsection}{\numberline {37.2.6}Rule E6: Boolean Operations}{137}{subsection.37.2.6}%
+\contentsline {subsection}{\numberline {37.2.7}Rule E7: Conditional Expression}{137}{subsection.37.2.7}%
+\contentsline {subsection}{\numberline {37.2.8}Rule E8: Function Calls}{137}{subsection.37.2.8}%
+\contentsline {subsection}{\numberline {37.2.9}Rule E9: Subscript}{137}{subsection.37.2.9}%
+\contentsline {subsection}{\numberline {37.2.10}Rule E10: Tuple/List Display}{137}{subsection.37.2.10}%
+\contentsline {subsection}{\numberline {37.2.11}Rule E11: Comprehension}{137}{subsection.37.2.11}%
+\contentsline {subsection}{\numberline {37.2.12}Rule E12: Attribute Access}{138}{subsection.37.2.12}%
+\contentsline {section}{\numberline {37.3}Statement Compilation Rules}{138}{section.37.3}%
+\contentsline {subsection}{\numberline {37.3.1}Rule S1: Assignment}{138}{subsection.37.3.1}%
+\contentsline {subsection}{\numberline {37.3.2}Rule S2: Augmented Assignment}{138}{subsection.37.3.2}%
+\contentsline {subsection}{\numberline {37.3.3}Rule S3: Return}{138}{subsection.37.3.3}%
+\contentsline {subsection}{\numberline {37.3.4}Rule S4: If/Elif/Else}{138}{subsection.37.3.4}%
+\contentsline {subsection}{\numberline {37.3.5}Rule S5: For Loop}{138}{subsection.37.3.5}%
+\contentsline {subsection}{\numberline {37.3.6}Rule S6: While Loop}{139}{subsection.37.3.6}%
+\contentsline {subsection}{\numberline {37.3.7}Rule S7: Function Definition}{139}{subsection.37.3.7}%
+\contentsline {subsection}{\numberline {37.3.8}Rule S8: Expression Statement (Mutation)}{139}{subsection.37.3.8}%
+\contentsline {subsection}{\numberline {37.3.9}Rule S9: Try/Except}{139}{subsection.37.3.9}%
+\contentsline {section}{\numberline {37.4}The Section Extractor}{139}{section.37.4}%
+\contentsline {chapter}{\numberline {38}Duck Type Inference in Detail}{141}{chapter.38}%
+\contentsline {section}{\numberline {38.1}The Duck Type Lattice}{141}{section.38.1}%
+\contentsline {section}{\numberline {38.2}The Inference Algorithm}{141}{section.38.2}%
+\contentsline {section}{\numberline {38.3}Operation Extraction from AST}{142}{section.38.3}%
+\contentsline {section}{\numberline {38.4}Fiber Narrowing and the Site Category}{142}{section.38.4}%
+\contentsline {chapter}{\numberline {39}The \v {C}ech Complex Construction Algorithm}{144}{chapter.39}%
+\contentsline {section}{\numberline {39.1}Step 1: Local Equivalence Judgments}{144}{section.39.1}%
+\contentsline {section}{\numberline {39.2}Step 2: Building $C^0$}{145}{section.39.2}%
+\contentsline {section}{\numberline {39.3}Step 3: Computing $\delta ^0 : C^0 \to C^1$}{145}{section.39.3}%
+\contentsline {section}{\numberline {39.4}Step 4: Computing $\delta ^1 : C^1 \to C^2$}{145}{section.39.4}%
+\contentsline {section}{\numberline {39.5}Step 5: Computing $H^1$}{146}{section.39.5}%
+\contentsline {section}{\numberline {39.6}The GF(2) Rank Algorithm}{146}{section.39.6}%
+\contentsline {section}{\numberline {39.7}Correctness Theorem}{147}{section.39.7}%
+\contentsline {section}{\numberline {39.8}The UserPropagator API}{147}{section.39.8}%
+\contentsline {section}{\numberline {39.9}PropagateFunction}{147}{section.39.9}%
+\contentsline {section}{\numberline {39.10}Planned Propagators}{148}{section.39.10}%
+\contentsline {part}{IX\hspace {1em}Practical Engineering}{149}{part.9}%
+\contentsline {chapter}{\numberline {40}End-to-End Pipeline Trace}{150}{chapter.40}%
+\contentsline {section}{\numberline {40.1}The Input Pair}{150}{section.40.1}%
+\contentsline {section}{\numberline {40.2}Step 1: Parse to AST}{150}{section.40.2}%
+\contentsline {section}{\numberline {40.3}Step 2: Create Theory}{150}{section.40.3}%
+\contentsline {section}{\numberline {40.4}Step 3: Compile Program A}{151}{section.40.4}%
+\contentsline {section}{\numberline {40.5}Step 4: Compile Program B}{151}{section.40.5}%
+\contentsline {section}{\numberline {40.6}Step 5: Unify Parameters}{151}{section.40.6}%
+\contentsline {section}{\numberline {40.7}Step 6: Duck Type Inference}{151}{section.40.7}%
+\contentsline {section}{\numberline {40.8}Step 7: Build Site Category}{151}{section.40.8}%
+\contentsline {section}{\numberline {40.9}Step 8: Local Equivalence Check}{152}{section.40.9}%
+\contentsline {section}{\numberline {40.10}Step 9: \v {C}ech Cohomology}{152}{section.40.10}%
+\contentsline {section}{\numberline {40.11}Step 10: Verdict}{152}{section.40.11}%
+\contentsline {chapter}{\numberline {41}The Fallback Strategy: When No Dichotomy Applies}{153}{chapter.41}%
+\contentsline {section}{\numberline {41.1}The Problem}{153}{section.41.1}%
+\contentsline {section}{\numberline {41.2}Fallback 1: Specification Discovery}{153}{section.41.2}%
+\contentsline {section}{\numberline {41.3}Fallback 2: Shared Symbol Unification}{154}{section.41.3}%
+\contentsline {section}{\numberline {41.4}Fallback 3: Graded Verdict}{154}{section.41.4}%
+\contentsline {chapter}{\numberline {42}OOP: Classes, Inheritance, and Method Resolution}{156}{chapter.42}%
+\contentsline {section}{\numberline {42.1}Class Compilation}{156}{section.42.1}%
+\contentsline {section}{\numberline {42.2}Inheritance as Fiber Refinement}{156}{section.42.2}%
+\contentsline {section}{\numberline {42.3}Descriptors and Properties}{157}{section.42.3}%
+\contentsline {chapter}{\numberline {43}Error Handling and Graceful Degradation}{158}{chapter.43}%
+\contentsline {section}{\numberline {43.1}Unsupported Syntax}{158}{section.43.1}%
+\contentsline {section}{\numberline {43.2}Z3 Timeout Handling}{158}{section.43.2}%
+\contentsline {section}{\numberline {43.3}Combinatorial Explosion in Site Category}{158}{section.43.3}%
+\contentsline {section}{\numberline {43.4}Partial Verdicts and Confidence Levels}{159}{section.43.4}%
+\contentsline {chapter}{\numberline {44}Scalability}{160}{chapter.44}%
+\contentsline {section}{\numberline {44.1}Complexity of the Full Pipeline}{160}{section.44.1}%
+\contentsline {section}{\numberline {44.2}Z3 Query Complexity}{160}{section.44.2}%
+\contentsline {section}{\numberline {44.3}Heuristics for Large Programs}{160}{section.44.3}%
+\contentsline {chapter}{\numberline {A}Mathematical Prerequisites}{162}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Category Theory Essentials}{162}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Sheaf Theory Essentials}{162}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Homotopy Type Theory Essentials}{162}{section.A.3}%
+\contentsline {section}{\numberline {A.4}SMT Solving Essentials}{162}{section.A.4}%
+\contentsline {chapter}{\numberline {B}Benchmark Pair Catalog}{163}{appendix.B}%
