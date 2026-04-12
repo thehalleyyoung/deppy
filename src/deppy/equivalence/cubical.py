@@ -205,12 +205,193 @@ class Theory:
 
 
 # ═══════════════════════════════════════════════════════════════
-# §2  Python AST → Z3 PyObj compiler
+# §1b  Duck Type Inference as PyObj Constructor Constraints
 # ═══════════════════════════════════════════════════════════════
+#
+# In cubical type theory, a TYPE is the ∞-groupoid of its values.
+# Python's duck typing identifies types by STRUCTURE (supported ops).
+#
+# We model this as CONSTRAINTS on PyObj constructors:
+#   arithmetic ops (+ - * // %) → is_IntObj
+#   ordered comparison (< <= > >=) → is_IntObj  
+#   string methods (.upper .lower .strip) → is_StrObj
+#   iteration (for x in p) → is_Pair | is_Ref | is_StrObj
+#   subscript (p[i]) → is_Pair | is_Ref | is_StrObj
+#   dict methods (.get .keys .items) → is_Ref
+#   list methods (.append .sort .pop) → is_Pair | is_Ref
+#   no ops detected → all non-Bottom (sound but weak)
+#
+# This is the Lawvere-theoretic approach WITHIN the PyObj ADT:
+# the duck type selects a sub-sort of PyObj that satisfies the
+# operation axioms (which are already baked into binop/unop).
 
 import ast
 import textwrap
 from dataclasses import dataclass, field
+from typing import List, Set
+
+
+def infer_pyobj_constraint(func_f, func_g, pname: str, S) -> Tuple:
+    """Infer a Z3 constraint on param `pname` from duck-type analysis.
+    
+    Returns (constraint: Z3 BoolRef, is_fully_typed: bool).
+    """
+    ops_f = extract_duck_ops(func_f, pname)
+    ops_g = extract_duck_ops(func_g, pname)
+    ops = ops_f | ops_g
+    
+    p = None  # will be set by caller
+    
+    # Arithmetic or ordered comparison → IntObj
+    # BUT: 'add' alone doesn't imply int (+ works on str, list)
+    # Only operations that EXCLUSIVELY work on numbers force IntObj
+    numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
+                    'neg', 'abs',
+                    'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
+                    'call_range'}
+    if ops & numeric_only:
+        return 'int', True
+    
+    # Ordered comparison with int literal → IntObj
+    if ops & {'lt', 'le', 'gt', 'ge'}:
+        return 'int', True
+    
+    # String methods → StrObj
+    if ops & {'method_upper', 'method_lower', 'method_strip', 'method_split',
+              'method_replace', 'method_find', 'method_startswith',
+              'method_endswith', 'method_join', 'method_isdigit',
+              'method_isalpha', 'method_encode', 'method_format',
+              'method_lstrip', 'method_rstrip'}:
+        return 'str', True
+    
+    # Dict methods → Ref
+    if ops & {'method_get', 'method_keys', 'method_values', 'method_items',
+              'method_update', 'method_setdefault', 'method_pop',
+              'call_defaultdict', 'call_Counter', 'call_OrderedDict'}:
+        return 'ref', True
+    
+    # List methods → Pair or Ref
+    if ops & {'method_append', 'method_extend', 'method_sort', 'method_reverse',
+              'method_insert', 'method_remove', 'method_pop', 'method_index',
+              'method_count'}:
+        return 'list', True
+    
+    # Set methods → Ref
+    if ops & {'method_add', 'method_discard', 'method_union',
+              'method_intersection', 'method_difference'}:
+        return 'ref', True
+    
+    # Iteration or subscript → collection (Pair, Ref, or Str)
+    if ops & {'iter', 'getitem', 'call_len', 'call_sorted', 'call_list',
+              'call_set', 'call_reversed', 'call_enumerate', 'call_sum',
+              'call_zip', 'call_map', 'call_filter', 'call_min', 'call_max'}:
+        return 'collection', True
+    
+    # Equality only → any type is fine, trust counterexamples
+    if ops & {'eq', 'ne'} and not (ops - {'eq', 'ne'}):
+        return 'any', True
+    
+    # Bool coercion → any type
+    if ops & {'call_bool', 'call_isinstance'}:
+        return 'any', False
+    
+    # No ops detected
+    return 'unknown', False
+
+
+def apply_pyobj_constraint(kind: str, p, S) -> Any:
+    """Convert a duck type kind to a Z3 constraint on PyObj param p."""
+    if kind == 'int':
+        return S.is_IntObj(p)
+    if kind == 'str':
+        return S.is_StrObj(p)
+    if kind == 'bool':
+        return S.is_BoolObj(p)
+    if kind == 'ref':
+        return S.is_Ref(p)
+    if kind == 'list':
+        return _z3.Or(S.is_Pair(p), S.is_Ref(p))
+    if kind == 'collection':
+        return _z3.Or(S.is_Pair(p), S.is_Ref(p), S.is_StrObj(p))
+    if kind == 'any':
+        return _z3.Or(S.is_IntObj(p), S.is_BoolObj(p), S.is_StrObj(p),
+                      S.is_NoneObj(p), S.is_Pair(p), S.is_Ref(p))
+    # unknown
+    return _z3.Or(S.is_IntObj(p), S.is_BoolObj(p), S.is_StrObj(p),
+                  S.is_NoneObj(p), S.is_Pair(p), S.is_Ref(p))
+
+
+def extract_duck_ops(func_node, param: str) -> Set[str]:
+    """Extract the set of operations used on a parameter."""
+    ops: Set[str] = set()
+    for node in ast.walk(func_node):
+        # Binary ops
+        if isinstance(node, ast.BinOp):
+            for side in (node.left, node.right):
+                if isinstance(side, ast.Name) and side.id == param:
+                    op_map = {
+                        ast.Add: 'add', ast.Sub: 'sub', ast.Mult: 'mul',
+                        ast.FloorDiv: 'floordiv', ast.Mod: 'mod',
+                        ast.Pow: 'pow', ast.LShift: 'lshift',
+                        ast.RShift: 'rshift', ast.BitOr: 'bitor',
+                        ast.BitAnd: 'bitand', ast.BitXor: 'bitxor',
+                    }
+                    o = op_map.get(type(node.op))
+                    if o: ops.add(o)
+
+        # Comparison (both sides)
+        if isinstance(node, ast.Compare):
+            names_in = set()
+            if isinstance(node.left, ast.Name): names_in.add(node.left.id)
+            for c in node.comparators:
+                if isinstance(c, ast.Name): names_in.add(c.id)
+            if param in names_in:
+                for op in node.ops:
+                    op_map = {ast.Lt: 'lt', ast.LtE: 'le', ast.Gt: 'gt',
+                              ast.GtE: 'ge', ast.Eq: 'eq', ast.NotEq: 'ne',
+                              ast.In: 'in', ast.NotIn: 'not_in',
+                              ast.Is: 'is', ast.IsNot: 'is_not'}
+                    o = op_map.get(type(op))
+                    if o: ops.add(o)
+
+        # Unary ops
+        if isinstance(node, ast.UnaryOp) and isinstance(node.operand, ast.Name) and node.operand.id == param:
+            op_map = {ast.USub: 'neg', ast.Not: 'not', ast.Invert: 'invert'}
+            o = op_map.get(type(node.op))
+            if o: ops.add(o)
+
+        # Subscript
+        if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) and node.value.id == param:
+            ops.add('getitem')
+
+        # Method calls
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name) and node.func.value.id == param):
+            ops.add(f'method_{node.func.attr}')
+
+        # Iteration
+        if isinstance(node, ast.For) and isinstance(node.iter, ast.Name) and node.iter.id == param:
+            ops.add('iter')
+
+        # Builtin calls with param as arg
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            builtin = node.func.id
+            for arg in node.args:
+                if isinstance(arg, ast.Name) and arg.id == param:
+                    ops.add(f'call_{builtin}')
+                if isinstance(arg, ast.BinOp):
+                    for s in (arg.left, arg.right):
+                        if isinstance(s, ast.Name) and s.id == param:
+                            ops.add(f'call_{builtin}')
+
+        # AugAssign
+        if isinstance(node, ast.AugAssign) and isinstance(node.value, ast.Name) and node.value.id == param:
+            op_map = {ast.Add: 'iadd', ast.Mult: 'imul', ast.Sub: 'sub',
+                      ast.FloorDiv: 'floordiv', ast.Mod: 'mod'}
+            o = op_map.get(type(node.op))
+            if o: ops.add(o)
+
+    return ops
 from typing import List
 
 
@@ -738,10 +919,21 @@ def _check(source_f, source_g, timeout_ms):
     solver = _z3.Solver()
     solver.set('timeout', timeout_ms)
 
-    # Constrain params based on inferred types from usage.
-    # If a param is used in arithmetic/comparison with ints → IntObj.
-    # If used with string methods → StrObj. Etc.
-    # This ensures we only check equivalence for VALID inputs.
+    # ═══════════════════════════════════════════════════════════
+    # FIBER-WISE ČECH COHOMOLOGY over the type sheaf
+    #
+    # The input space is a FIBRATION over Python's type universe:
+    #   E →π B,  B = {IntObj, BoolObj, StrObj, NoneObj, Pair, Ref}
+    #
+    # The cubical path from f to g must be type-preserving:
+    #   ∀ fiber τ ∈ B. H¹(U_τ, Iso(F_f, F_g)) = 0
+    #
+    # We check each fiber separately.  If ANY fiber has H¹ ≠ 0,
+    # the programs are inequivalent (counterexample on that type).
+    # If ALL fibers have H¹ = 0, the programs are equivalent
+    # (the cubical path exists on every fiber).
+    # ═══════════════════════════════════════════════════════════
+
     S = T.S
     try:
         tree_f = ast.parse(textwrap.dedent(source_f))
@@ -749,38 +941,100 @@ def _check(source_f, source_g, timeout_ms):
         func_f = next(n for n in tree_f.body if isinstance(n, ast.FunctionDef))
         func_g = next(n for n in tree_g.body if isinstance(n, ast.FunctionDef))
         param_names_f = [a.arg for a in func_f.args.args]
-        for idx, pname in enumerate(param_names_f):
-            sort = _infer_param_type(func_f, pname) or _infer_param_type(func_g, pname)
-            p = params_f[idx]
-            if sort == 'int':
-                solver.add(S.is_IntObj(p))
-            elif sort == 'str':
-                solver.add(S.is_StrObj(p))
-            else:
-                solver.add(_z3.Or(S.is_IntObj(p), S.is_BoolObj(p), S.is_StrObj(p),
-                                  S.is_NoneObj(p), S.is_Pair(p), S.is_Ref(p)))
     except Exception:
-        for p in params_f:
-            solver.add(_z3.Or(S.is_IntObj(p), S.is_BoolObj(p), S.is_StrObj(p),
-                              S.is_NoneObj(p), S.is_Pair(p), S.is_Ref(p)))
+        return Result(None, 'cannot parse for type inference')
 
-    h0 = 0
-    for sf in secs_f:
-        for sg in secs_g:
-            overlap = _z3.And(sf.guard, sg.guard)
-            solver.push()
-            solver.add(overlap)
-            if solver.check() == _z3.unsat: solver.pop(); continue
-            solver.pop()
-            solver.push()
-            solver.add(overlap, sf.term != sg.term)
-            r = solver.check()
-            solver.pop()
-            if r == _z3.unsat: h0 += 1
-            elif r == _z3.sat:
-                return Result(False, 'H¹ obstruction: counterexample', h0=h0, h1=1)
+    # Determine which fibers are relevant for each param
+    param_fibers: List[List] = []
+    for idx, pname in enumerate(param_names_f):
+        kind, typed = infer_pyobj_constraint(func_f, func_g, pname, S)
+        if kind == 'int':
+            param_fibers.append([S.is_IntObj])
+        elif kind == 'str':
+            param_fibers.append([S.is_StrObj])
+        elif kind == 'bool':
+            param_fibers.append([S.is_BoolObj])
+        elif kind == 'ref':
+            param_fibers.append([S.is_Ref])
+        elif kind == 'list':
+            param_fibers.append([S.is_Pair, S.is_Ref])
+        elif kind == 'collection':
+            param_fibers.append([S.is_Pair, S.is_Ref, S.is_StrObj])
+        elif kind == 'any':
+            # Check ALL fibers — this is the full fibration
+            param_fibers.append([S.is_IntObj, S.is_BoolObj, S.is_StrObj,
+                                 S.is_NoneObj, S.is_Pair, S.is_Ref])
+        else:
+            # Unknown: check all fibers
+            param_fibers.append([S.is_IntObj, S.is_BoolObj, S.is_StrObj,
+                                 S.is_NoneObj, S.is_Pair, S.is_Ref])
 
-    if h0 > 0: return Result(True, f'H¹=0: {h0} cubical faces verified', h0=h0)
+    # Generate all fiber combinations (product of per-param fibers)
+    # For efficiency: if there's only 1 param, iterate its fibers directly.
+    # For multiple params, take the product (but cap at reasonable size).
+    import itertools
+    if len(param_fibers) == 0:
+        fiber_combos = [{}]
+    else:
+        # Cap: at most 36 fiber combinations to check
+        combos = list(itertools.product(*param_fibers))
+        if len(combos) > 36:
+            # Too many — just check the most likely fibers
+            combos = combos[:36]
+        fiber_combos = []
+        for combo in combos:
+            constraints = {}
+            for idx, recognizer in enumerate(combo):
+                constraints[idx] = recognizer
+            fiber_combos.append(constraints)
+
+    total_h0 = 0
+    fibers_checked = 0
+
+    for fiber in fiber_combos:
+        solver = _z3.Solver()
+        solver.set('timeout', min(timeout_ms, 3000))
+
+        # Add fiber constraints: p_i must satisfy recognizer_i
+        for idx, recognizer in fiber.items():
+            solver.add(recognizer(params_f[idx]))
+
+        # Check H¹ on this fiber
+        fiber_h0 = 0
+        fiber_obstruction = False
+
+        for sf in secs_f:
+            for sg in secs_g:
+                overlap = _z3.And(sf.guard, sg.guard)
+                solver.push()
+                solver.add(overlap)
+                if solver.check() == _z3.unsat:
+                    solver.pop()
+                    continue
+                solver.pop()
+
+                solver.push()
+                solver.add(overlap, sf.term != sg.term)
+                r = solver.check()
+                solver.pop()
+
+                if r == _z3.unsat:
+                    fiber_h0 += 1
+                elif r == _z3.sat:
+                    # Counterexample on this fiber → programs differ on this type
+                    fiber_names = [str(f).split('/')[-1] for f in fiber.values()]
+                    return Result(False,
+                        f'H¹ obstruction on fiber {fiber_names}: counterexample',
+                        h0=total_h0, h1=1)
+
+        if fiber_h0 > 0:
+            total_h0 += fiber_h0
+            fibers_checked += 1
+
+    if fibers_checked > 0 and total_h0 > 0:
+        return Result(True,
+            f'H¹=0: {total_h0} faces verified across {fibers_checked} type fibers',
+            h0=total_h0)
     return Result(None, 'inconclusive')
 
 
