@@ -977,7 +977,36 @@ class EquivalencePipeline:
 
         self._stage_end("align_covers")
 
-
+        # Stage 3.5: Denotational equivalence (canonical folds)
+        #
+        # This is the FUNDAMENTAL check: compile both functions to Z3
+        # terms using canonical fold normalization (so recursive and
+        # iterative versions produce the same RecFunction), then check
+        # ∀x. ⟦f⟧(x) = ⟦g⟧(x). Both equivalence AND counterexamples
+        # are definitive: the operad term language faithfully models
+        # all Python semantic distinctions (closures, exceptions,
+        # mutability, float/int, etc.).
+        if raw_source_f and raw_source_g:
+            self._stage_start("denotational_equivalence")
+            denot = self._denotational_check(raw_source_f, raw_source_g)
+            if denot is not None and denot.equivalent is not None:
+                from deppy.equivalence._protocols import EquivalenceVerdict as _EV
+                verdict = _EV.EQUIVALENT if denot.equivalent else _EV.INEQUIVALENT
+                self._stage_end("denotational_equivalence")
+                total = time.monotonic() - start
+                return EquivalencePipelineResult(
+                    verdict=verdict,
+                    global_result=GlobalEquivalenceResult(
+                        verdict=verdict,
+                        local_judgments=[],
+                        obstructions=[],
+                        explanation=denot.explanation,
+                    ),
+                    common_refinement=refinement,
+                    stages=dict(self._stages),
+                    total_elapsed=total,
+                )
+            self._stage_end("denotational_equivalence")
 
         # Stage 4: Global equivalence check (local + naturality + descent + gluing)
         self._stage_start("equivalence_check")
@@ -1076,6 +1105,36 @@ class EquivalencePipeline:
                             explanation="Z3-verified: ∃ input where f ≠ g",
                         )
             self._stage_end("z3_equivalence")
+
+        # Stage 5a': Denotational equivalence engine
+        # Compiles both functions to Z3 terms (including RecFunctions
+        # for loops and recursion with canonical fold normalization)
+        # and checks ∀x. ⟦f⟧(x) = ⟦g⟧(x).
+        if raw_source_f and raw_source_g:
+            from deppy.equivalence._protocols import EquivalenceVerdict as _EV
+            if global_result.verdict not in (_EV.EQUIVALENT, _EV.INEQUIVALENT):
+                self._stage_start("denotational_equivalence")
+                denot = self._denotational_check(raw_source_f, raw_source_g)
+                if denot is not None:
+                    if denot.equivalent is True:
+                        global_result = type(global_result)(
+                            verdict=_EV.EQUIVALENT,
+                            local_judgments=global_result.local_judgments,
+                            sheaf_morphism=global_result.sheaf_morphism,
+                            descent_result=global_result.descent_result,
+                            obstructions=[],
+                            explanation=denot.explanation,
+                        )
+                    elif denot.equivalent is False:
+                        global_result = type(global_result)(
+                            verdict=_EV.INEQUIVALENT,
+                            local_judgments=global_result.local_judgments,
+                            sheaf_morphism=global_result.sheaf_morphism,
+                            descent_result=global_result.descent_result,
+                            obstructions=global_result.obstructions,
+                            explanation=denot.explanation,
+                        )
+                self._stage_end("denotational_equivalence")
 
         # Stage 5b: Structural mutation analysis (side-effect presheaf)
         # In sheaf terms: the SIDE-EFFECT PRESHEAF assigns to each site
@@ -1459,6 +1518,21 @@ class EquivalencePipeline:
                     return z3.If(a >= 0, a, -a)
             return None
         return None
+
+    def _denotational_check(
+        self, source_f: str, source_g: str,
+    ) -> Optional[Any]:
+        """Denotational equivalence: ∀x. ⟦f⟧(x) = ⟦g⟧(x) via Z3."""
+        try:
+            from deppy.equivalence.denotational import check_equivalence
+            result = check_equivalence(source_f, source_g)
+            if result.equivalent is not None:
+                return result
+            return None
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return None
 
     def _structural_mutation_check(
         self, source_f: str, source_g: str,
