@@ -1522,17 +1522,25 @@ class EquivalencePipeline:
     def _denotational_check(
         self, source_f: str, source_g: str,
     ) -> Optional[Any]:
-        """Denotational equivalence: ∀x. ⟦f⟧(x) = ⟦g⟧(x) via Z3."""
+        """Denotational equivalence via cubical Z3 PyObj theory."""
+        try:
+            from deppy.equivalence.cubical import check_equivalence as cubical_check
+            result = cubical_check(source_f, source_g, timeout_ms=3000)
+            if result.equivalent is not None:
+                return result
+        except Exception:
+            pass
+
+        # Fallback: operad-term engine
         try:
             from deppy.equivalence.denotational import check_equivalence
             result = check_equivalence(source_f, source_g)
             if result.equivalent is not None:
                 return result
-            return None
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            return None
+        except Exception:
+            pass
+
+        return None
 
     def _structural_mutation_check(
         self, source_f: str, source_g: str,
