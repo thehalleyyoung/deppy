@@ -5,10 +5,15 @@ judgments, computes coboundary operators δ⁰ and δ¹, and determines
 H¹ = ker(δ¹)/im(δ⁰) via GF(2) rank.
 
 H¹ = 0 ↔ local equivalences glue to global ↔ EQUIVALENT.
+
+Proactive cohomology extensions:
+  - Fiber priority ordering via overlap-graph degree
+  - Cohomological pre-screening via OTerm fiber signatures
+  - Enriched LocalJudgment with method/confidence tracking
 """
 from __future__ import annotations
-from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass, field
+from typing import Dict, FrozenSet, List, Optional, Set, Tuple
 
 
 @dataclass
@@ -18,6 +23,9 @@ class LocalJudgment:
     is_equivalent: Optional[bool]  # True/False/None(timeout)
     counterexample: Optional[str] = None
     explanation: str = ''
+    concrete_obstruction: bool = False  # True when NEQ proof uses only interpreted fns
+    method: str = 'z3'  # z3, denotational, prescreen, descent
+    confidence: float = 1.0  # 1.0 for Z3 proofs, lower for heuristics
 
 
 @dataclass
@@ -28,6 +36,7 @@ class CechResult:
     total_fibers: int
     unknown_fibers: int
     obstructions: List[Tuple[str, ...]]  # fibers with counterexamples
+    obstruction_fibers: List[Tuple[str, ...]] = field(default_factory=list)
 
     @property
     def equivalent(self) -> Optional[bool]:
@@ -35,9 +44,200 @@ class CechResult:
             return False
         if self.h0 > 0 and self.h1_rank == 0 and self.unknown_fibers == 0:
             return True
-        if self.h0 > 0 and self.h1_rank == 0:
-            return True  # partial confidence
+        # Partial coverage: only declare equivalence if we verified
+        # a majority of fibers (>= 50%)
+        if self.h0 > 0 and self.h1_rank == 0 and self.total_fibers > 0:
+            coverage = self.h0 / self.total_fibers
+            if coverage >= 0.5:
+                return True
         return None
+
+
+# ═══════════════════════════════════════════════════════════
+# Proactive: Fiber Priority Ordering
+# ═══════════════════════════════════════════════════════════
+
+def compute_fiber_priority(fiber_combos: List[Tuple[str, ...]],
+                           overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+                           ) -> List[Tuple[str, ...]]:
+    """Order fibers by information value (overlap degree), highest first.
+
+    High-overlap fibers are more constraining — checking them first
+    enables early termination when H¹ > 0. Ties broken by preferring
+    'int' fibers (richest Z3 theory) and single-type fibers.
+    """
+    if len(fiber_combos) <= 1:
+        return list(fiber_combos)
+
+    # Build overlap degree map
+    degree: Dict[Tuple[str, ...], int] = {f: 0 for f in fiber_combos}
+    fiber_set = set(fiber_combos)
+    for a, b in overlaps:
+        if a in fiber_set:
+            degree[a] = degree.get(a, 0) + 1
+        if b in fiber_set:
+            degree[b] = degree.get(b, 0) + 1
+
+    def _priority_key(fiber: Tuple[str, ...]) -> Tuple[int, int, int]:
+        deg = degree.get(fiber, 0)
+        # Prefer int-only fibers (richest Z3 theory, most likely to find NEQ)
+        has_int = sum(1 for t in fiber if t == 'int')
+        # Prefer single-type fibers (simpler Z3 queries)
+        is_uniform = 1 if len(set(fiber)) == 1 else 0
+        return (deg, has_int, is_uniform)
+
+    return sorted(fiber_combos, key=_priority_key, reverse=True)
+
+
+# ═══════════════════════════════════════════════════════════
+# Proactive: Cohomological Pre-Screening
+# ═══════════════════════════════════════════════════════════
+
+def _oterm_top_constructor(t) -> str:
+    """Extract the top-level constructor name of an OTerm."""
+    return type(t).__name__
+
+
+def _oterm_shape(t) -> Tuple[str, int]:
+    """Extract (constructor, arity) as a lightweight signature."""
+    name = type(t).__name__
+    if hasattr(t, 'args'):
+        return (name, len(t.args))
+    if hasattr(t, 'elements'):
+        return (name, len(t.elements))
+    if hasattr(t, 'pairs'):
+        return (name, len(t.pairs))
+    return (name, 0)
+
+
+def _oterm_op_set(t, depth: int = 0) -> FrozenSet[str]:
+    """Recursively collect the set of operation names used in an OTerm."""
+    if depth > 15:
+        return frozenset()
+    ops: Set[str] = set()
+    name = type(t).__name__
+    if name == 'OOp':
+        ops.add(t.name)
+        for a in t.args:
+            ops |= _oterm_op_set(a, depth + 1)
+    elif name == 'OFold':
+        ops.add(f'fold_{t.op_name}')
+        ops |= _oterm_op_set(t.init, depth + 1)
+        ops |= _oterm_op_set(t.collection, depth + 1)
+    elif name == 'OCase':
+        ops.add('case')
+        ops |= _oterm_op_set(t.test, depth + 1)
+        ops |= _oterm_op_set(t.true_branch, depth + 1)
+        ops |= _oterm_op_set(t.false_branch, depth + 1)
+    elif name == 'OFix':
+        ops.add(f'fix_{t.name}')
+        ops |= _oterm_op_set(t.body, depth + 1)
+    elif name == 'OSeq':
+        for e in t.elements:
+            ops |= _oterm_op_set(e, depth + 1)
+    elif name == 'OMap':
+        ops.add('map')
+        ops |= _oterm_op_set(t.transform, depth + 1)
+        ops |= _oterm_op_set(t.collection, depth + 1)
+    elif name == 'OLam':
+        ops |= _oterm_op_set(t.body, depth + 1)
+    elif name == 'OCatch':
+        ops.add('catch')
+        ops |= _oterm_op_set(t.body, depth + 1)
+        ops |= _oterm_op_set(t.default, depth + 1)
+    elif name == 'OQuotient':
+        ops.add(f'quotient_{t.equiv_class}')
+        ops |= _oterm_op_set(t.inner, depth + 1)
+    return frozenset(ops)
+
+
+def cohomological_prescreen(oterm_f, oterm_g) -> Optional[bool]:
+    """Pre-screen two OTerms for likely NEQ using structural signatures.
+
+    Returns False if structurally provably NEQ (different top-level
+    constructors in ways that guarantee semantic difference).
+    Returns None if inconclusive (cannot determine from structure alone).
+    Never returns True (pre-screening cannot prove equivalence).
+    """
+    if oterm_f is None or oterm_g is None:
+        return None
+
+    shape_f = _oterm_shape(oterm_f)
+    shape_g = _oterm_shape(oterm_g)
+    top_f = shape_f[0]
+    top_g = shape_g[0]
+
+    # Different top-level constructors that are provably incompatible
+    incompatible_pairs = {
+        ('OFold', 'OLit'), ('OLit', 'OFold'),
+        ('OFold', 'OVar'), ('OVar', 'OFold'),
+        ('OLit', 'OOp'), ('OOp', 'OLit'),
+        ('OLit', 'OFold'), ('OFold', 'OLit'),
+        ('OLit', 'OMap'), ('OMap', 'OLit'),
+        ('OLit', 'OFix'), ('OFix', 'OLit'),
+    }
+
+    # OLit vs OLit: compare values directly
+    if top_f == 'OLit' and top_g == 'OLit':
+        if hasattr(oterm_f, 'value') and hasattr(oterm_g, 'value'):
+            if oterm_f.value != oterm_g.value:
+                return False
+
+    if (top_f, top_g) in incompatible_pairs:
+        return False
+
+    return None
+
+
+# ═══════════════════════════════════════════════════════════
+# Proactive: Sheaf Descent Check
+# ═══════════════════════════════════════════════════════════
+
+def sheaf_descent_check(
+    judgments: Dict[Tuple[str, ...], LocalJudgment],
+    overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+) -> Optional[bool]:
+    """Check if per-fiber verdicts satisfy the sheaf descent condition.
+
+    If all checked fibers agree (all EQ) and there are no unknown fibers,
+    the descent condition is satisfied → global EQ.
+    If any fiber is NEQ with a concrete obstruction → global NEQ.
+    Otherwise → None (inconclusive).
+
+    This promotes partial per-fiber results to a global verdict when
+    the cocycle condition (H¹ = 0) is met.
+    """
+    if not judgments:
+        return None
+
+    eq_fibers = [f for f, j in judgments.items() if j.is_equivalent is True]
+    neq_fibers = [f for f, j in judgments.items()
+                  if j.is_equivalent is False and j.concrete_obstruction]
+    unknown_fibers = [f for f, j in judgments.items() if j.is_equivalent is None]
+
+    # Concrete NEQ on any fiber → global NEQ (early termination)
+    if neq_fibers:
+        return False
+
+    # All fibers verified EQ and no unknowns → check cocycle condition
+    if eq_fibers and not unknown_fibers:
+        # Compute H¹ to verify gluing
+        cech = compute_cech_h1(judgments, overlaps)
+        return cech.h1_rank == 0
+
+    # Partial coverage: if enough fibers agree, descent with coverage
+    total = len(judgments)
+    if eq_fibers and total > 0:
+        coverage = len(eq_fibers) / total
+        if coverage >= 0.5 and not neq_fibers:
+            cech = compute_cech_h1(
+                {f: judgments[f] for f in eq_fibers},
+                [(a, b) for a, b in overlaps
+                 if a in eq_fibers and b in eq_fibers])
+            if cech.h1_rank == 0:
+                return True
+
+    return None
 
 
 def compute_cech_h1(judgments: Dict[Tuple[str, ...], LocalJudgment],

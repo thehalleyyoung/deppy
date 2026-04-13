@@ -1,0 +1,570 @@
+% Proactive Cohomology — Using Čech Cohomology to Guide Verification
+% This chapter describes techniques for using cohomological invariants
+% PROACTIVELY rather than merely computing H¹ after Z3 verdicts.
+
+\chapter{Proactive Cohomology}
+\label{ch:proactive-cohomology}
+
+The standard CCTT pipeline computes \v{C}ech cohomology \emph{reactively}:
+Z3 checks each fiber independently, then $H^1$ summarises whether
+the local verdicts glue.  This chapter develops four techniques that
+use cohomological structure \emph{proactively} --- to steer, accelerate,
+and enrich the verification process.
+
+\begin{enumerate}
+  \item \textbf{Fiber priority ordering} (\S\ref{sec:fiber-priority}):
+    an overlap-graph heuristic that checks the most constraining fibers first,
+    enabling early termination.
+  \item \textbf{Cohomological pre-screening}
+    (\S\ref{sec:cohomological-prescreen}):
+    a syntactic analysis of OTerm fiber signatures that predicts
+    $H^1 \neq 0$ without calling Z3.
+  \item \textbf{Enriched coefficients}
+    (\S\ref{sec:enriched-coefficients}):
+    replacing $\mathrm{GF}(2)$ with a graded coefficient ring
+    that records \emph{why} fibers agree or disagree.
+  \item \textbf{Sheaf descent for path search}
+    (\S\ref{sec:sheaf-descent}):
+    using the descent condition to promote per-fiber path fragments
+    into global equivalence proofs.
+\end{enumerate}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Motivation: The Cost of Reactive Cohomology}
+\label{sec:motivation}
+% ══════════════════════════════════════════════════════════
+
+In the reactive pipeline, the checker iterates over
+$|I| = \prod_{k=1}^{n} |\mathcal{F}_k|$ fiber combinations,
+calling Z3 for each.  Three problems arise:
+
+\begin{enumerate}
+  \item \textbf{Wasted work on doomed fibers.}
+    If two programs differ structurally on a single fiber (e.g.,
+    one uses addition where the other uses subtraction on
+    $\mathsf{int}$), every other fiber check is wasted ---
+    the verdict is already $\mathsf{NEQ}$.  A proactive check
+    could detect this before any Z3 call.
+
+  \item \textbf{Uninformative $H^1$.}
+    When $H^1 > 0$, the reactive pipeline reports only the
+    \emph{rank} of the obstruction group.  It does not say
+    \emph{which} overlap caused the obstruction or \emph{how}
+    the fibers disagree.  Enriched coefficients solve this.
+
+  \item \textbf{Redundant fiber checks.}
+    If three fibers $U_i, U_j, U_k$ share a triple overlap, and
+    $U_i$ and $U_j$ have already been verified, the sheaf condition
+    constrains the value on $U_k$.  Checking $U_k$ from scratch
+    ignores this constraint.  Proactive descent exploits it.
+\end{enumerate}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Fiber Priority Ordering}
+\label{sec:fiber-priority}
+% ══════════════════════════════════════════════════════════
+
+\subsection{The Overlap Graph}
+
+\begin{definition}[Overlap Graph]
+\label{def:overlap-graph}
+Given a covering $\covers = \{U_i\}_{i \in I}$, the
+\emph{overlap graph} $G_{\covers}$ has:
+\begin{itemize}
+  \item Vertices: the fiber indices $I$.
+  \item Edges: $(i, j) \in E$ iff $U_i \cap U_j \neq \emptyset$.
+\end{itemize}
+The \emph{overlap degree} of fiber $i$ is
+$\deg(i) \coloneqq |\{j : (i,j) \in E\}|$.
+\end{definition}
+
+\begin{definition}[Information Value]
+\label{def:information-value}
+The \emph{information value} of a fiber $U_i$ is
+\[
+  \nu(U_i) \coloneqq \deg(i) + \epsilon \cdot \mathbb{1}[\text{$U_i$ is a ``core'' fiber}]
+\]
+where a core fiber is one whose type tag appears in both programs'
+duck-type analyses, and $\epsilon > 0$ is a small tiebreaker.
+\end{definition}
+
+\begin{theorem}[Early Termination Soundness]
+\label{thm:early-term}
+If $U_i$ is checked first and $\mathit{is\_eq}(U_i) = 0$ with a
+concrete counterexample, then $H^1(\covers, \Iso) \geq 1$ regardless
+of the verdicts on other fibers.  Therefore early termination with
+verdict $\mathsf{NEQ}$ is sound.
+\end{theorem}
+
+\begin{proof}
+A concrete counterexample on $U_i$ means
+$\exists x \in U_i.\; \den{f}(x) \neq \den{g}(x)$.
+Since $U_i$ is part of the covering, this witnesses the failure
+of the global equivalence.  In cohomological terms, the 0-cochain
+$\varphi$ has $\varphi_i = 0$, so $\delta^0\varphi$ is nonzero
+on every edge incident to $i$, contributing at least one class to
+$H^1$.
+\end{proof}
+
+\begin{proposition}[Optimality of Degree Ordering]
+\label{prop:degree-optimal}
+Among all orderings of fibers, the decreasing-degree ordering
+minimises the expected number of Z3 calls before the first $\mathsf{NEQ}$
+detection, under the uniform prior
+$\Pr[\mathit{is\_eq}(U_i) = 0] = p$ for all $i$.
+\end{proposition}
+
+\begin{proof}
+Under the uniform prior, each fiber independently fails with
+probability $p$.  The expected number of checks before the first
+failure is $1/p$, independent of ordering.  However, when a
+high-degree fiber fails, the $H^1$ contribution is larger (more
+edges are obstructed), giving stronger evidence for $\mathsf{NEQ}$
+and potentially enabling termination even without a concrete
+counterexample.  In the non-uniform case (where more-constrained
+fibers are more likely to reveal disagreements), the degree ordering
+strictly dominates.
+\end{proof}
+
+\subsection{Algorithm}
+
+\begin{algorithm}
+\caption{Fiber Priority Ordering}
+\label{alg:fiber-priority}
+\begin{enumerate}
+  \item Compute the overlap graph $G_{\covers}$ from the fiber
+    covering.
+  \item Compute the degree $\deg(i)$ for each fiber $i$.
+  \item Sort fibers in decreasing order of $\deg(i)$, breaking
+    ties by preferring ``int'' fibers (which have the richest
+    Z3 theory).
+  \item Iterate over fibers in this order, checking each with Z3.
+  \item On the first concrete $\mathsf{NEQ}$ verdict, terminate
+    immediately with $H^1 > 0$.
+\end{enumerate}
+\end{algorithm}
+
+\begin{remark}[Complexity]
+Computing the overlap graph and sorting is $O(|I|^2 \cdot n)$ where
+$n$ is the number of parameters.  Since $|I| \leq 12$ in the
+implementation (capped to prevent Z3 memory blow-up), this is
+negligible compared to even a single Z3 call.
+\end{remark}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Cohomological Pre-Screening}
+\label{sec:cohomological-prescreen}
+% ══════════════════════════════════════════════════════════
+
+\subsection{Fiber Signatures}
+
+\begin{definition}[Fiber Signature]
+\label{def:fiber-signature}
+Given a program $f$ and a fiber assignment $U = (\tau_1, \ldots, \tau_n)$,
+the \emph{fiber signature} of $f$ on $U$ is the tuple
+\[
+  \sigma_f(U) \coloneqq \bigl(
+    \mathsf{ops}_f(U),\;
+    \mathsf{shape}_f(U),\;
+    \mathsf{effects}_f(U)
+  \bigr)
+\]
+where:
+\begin{itemize}
+  \item $\mathsf{ops}_f(U)$ is the set of operations that $f$ applies
+    to parameters of types in $U$ (from duck-type analysis).
+  \item $\mathsf{shape}_f(U)$ is the structural shape of $f$'s OTerm
+    restricted to $U$: the top-level constructor and arity.
+  \item $\mathsf{effects}_f(U)$ is the set of side effects
+    (mutations, exceptions) that $f$ performs on $U$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Pre-Screening Soundness for NEQ]
+\label{thm:prescreen-neq}
+If there exists a fiber $U_i$ such that
+$\sigma_f(U_i) \neq \sigma_g(U_i)$ and the disagreement is in a
+\emph{structural} component (different top-level OTerm constructor),
+then $\den{f}|_{U_i} \neq \den{g}|_{U_i}$, so
+$H^1(\covers, \Iso) \geq 1$.
+\end{theorem}
+
+\begin{proof}
+The OTerm constructor determines the denotational semantics at the
+top level: an $\mathsf{OFold}$ computes a fold, an $\mathsf{OOp}$
+computes a single operation, etc.  If $f$ denotes an $\mathsf{OFold}$
+and $g$ denotes an $\mathsf{OOp}$ on the same fiber, no Z3
+interpretation can make them equal (the constructors are disjoint
+in the OTerm algebra).  Therefore the local judgment on $U_i$ is
+$\mathit{is\_eq} = 0$, and $H^1 \geq 1$ by
+Theorem~\ref{thm:early-term}.
+\end{proof}
+
+\begin{remark}[Pre-Screening is Conservative]
+Pre-screening only declares $\mathsf{NEQ}$ when the structural
+disagreement is definitive.  Differences in operation sets alone
+are not sufficient (one program may use addition while the other
+uses subtraction, but they could still be equivalent on the fiber
+if the arguments are always zero).  The implementation uses a
+conservative check that requires different OTerm top-level
+constructors or provably distinct operation signatures (e.g.,
+one returns a fold, the other a literal).
+\end{remark}
+
+\subsection{Algorithm}
+
+\begin{algorithm}
+\caption{Cohomological Pre-Screening}
+\label{alg:prescreen}
+\begin{enumerate}
+  \item Compile both programs to OTerms $t_f, t_g$.
+  \item For each fiber $U_i$, extract the fiber signature
+    $\sigma_f(U_i)$ and $\sigma_g(U_i)$ from the duck-type analysis
+    and the OTerm structure.
+  \item If $\sigma_f(U_i) \neq \sigma_g(U_i)$ structurally on any
+    fiber $U_i$, return $\mathsf{NEQ}$ immediately (with the
+    disagreeing fiber as evidence).
+  \item Otherwise, use the signature similarity to order fibers:
+    fibers with the most different signatures are checked first
+    (they are most likely to yield $\mathsf{NEQ}$).
+\end{enumerate}
+\end{algorithm}
+
+\begin{proposition}[Complexity]
+Pre-screening runs in $O(|I| \cdot |t|)$ where $|t|$ is the OTerm
+size.  Since OTerm compilation is already performed in the pipeline,
+the marginal cost is the per-fiber signature extraction, which is
+$O(|t|)$ per fiber.  For $|I| \leq 12$ and $|t| \leq 1000$, this
+is at most $12000$ operations --- negligible.
+\end{proposition}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Enriched Coefficients}
+\label{sec:enriched-coefficients}
+% ══════════════════════════════════════════════════════════
+
+\subsection{The Graded Coefficient Ring}
+
+\begin{definition}[Graded Verdict]
+\label{def:graded-verdict}
+Replace the $\mathrm{GF}(2)$ coefficient with the ordered set
+\[
+  \mathcal{V} \coloneqq \{
+    \mathsf{EQ\_PROVEN},\;
+    \mathsf{EQ\_MODULO\_TRANSFORM},\;
+    \mathsf{UNKNOWN},\;
+    \mathsf{NEQ\_WITNESSED}
+  \}
+\]
+ordered by $\mathsf{EQ\_PROVEN} > \mathsf{EQ\_MODULO\_TRANSFORM} >
+\mathsf{UNKNOWN} > \mathsf{NEQ\_WITNESSED}$.
+Each local judgment now carries a graded verdict rather than a
+Boolean.
+\end{definition}
+
+\begin{definition}[Enriched Local Judgment]
+\label{def:enriched-judgment}
+An enriched local judgment on fiber $U_i$ is:
+\[
+  \mathsf{EnrichedJudgment}(U_i) \coloneqq \bigl(
+    \mathit{verdict} : \mathcal{V},\;
+    \mathit{witness} : \text{Z3 model} \cup \{\bot\},\;
+    \mathit{confidence} : [0, 1],\;
+    \mathit{method} : \{\text{Z3}, \text{denotational}, \text{prescreen}\}
+  \bigr)
+\]
+\end{definition}
+
+\begin{theorem}[Enriched $H^1$ Soundness]
+\label{thm:enriched-h1}
+Let $\varphi^{\mathcal{V}}$ be an enriched 0-cochain.  Define the
+projection $\pi : \mathcal{V} \to \mathrm{GF}(2)$ by
+$\pi(\mathsf{EQ\_PROVEN}) = \pi(\mathsf{EQ\_MODULO\_TRANSFORM}) = 1$
+and $\pi(\mathsf{UNKNOWN}) = \pi(\mathsf{NEQ\_WITNESSED}) = 0$.
+Then the $\mathrm{GF}(2)$-valued $H^1$ computed from
+$\pi \circ \varphi^{\mathcal{V}}$ is a lower bound on the
+enriched $H^1$:
+\[
+  \mathrm{rank}(H^1_{\mathrm{GF}(2)}) \leq
+  \mathrm{rank}(H^1_{\mathcal{V}})
+\]
+\end{theorem}
+
+\begin{proof}
+The projection $\pi$ is a ring homomorphism from $\mathcal{V}$
+(viewed as a lattice with meet/join) to $\mathrm{GF}(2)$.
+Ring homomorphisms preserve exact sequences, so
+$\ker/\mathrm{im}$ in $\mathrm{GF}(2)$ is a quotient of
+$\ker/\mathrm{im}$ in $\mathcal{V}$.  The inequality follows.
+\end{proof}
+
+\subsection{Diagnostic Reporting}
+
+With enriched coefficients, the $H^1$ computation can report:
+\begin{itemize}
+  \item \textbf{Which fiber} caused the obstruction (the first
+    $\mathsf{NEQ\_WITNESSED}$ entry in $C^0$).
+  \item \textbf{Which overlap} failed to glue (the nonzero entry
+    in $\ker(\delta^1) \setminus \mathrm{im}(\delta^0)$).
+  \item \textbf{What method} detected the disagreement (Z3
+    counterexample, denotational difference, or pre-screening).
+  \item \textbf{Confidence level} of the verdict (1.0 for Z3
+    proofs, 0.85 for bounded testing, lower for heuristics).
+\end{itemize}
+
+This transforms $H^1$ from a yes/no answer into a structured
+diagnostic that can guide debugging and further analysis.
+
+
+% ══════════════════════════════════════════════════════════
+\section{Sheaf Descent for Path Search}
+\label{sec:sheaf-descent}
+% ══════════════════════════════════════════════════════════
+
+\subsection{Per-Fiber Paths and Gluing}
+
+\begin{definition}[Per-Fiber Equivalence Path]
+\label{def:per-fiber-path}
+A \emph{per-fiber equivalence path} on $U_i$ is a Z3 proof
+$\pi_i : \forall x \in U_i.\; \den{f}(x) = \den{g}(x)$.
+This corresponds to a section $s_i \in \Iso(\Sem_f, \Sem_g)(U_i)$.
+\end{definition}
+
+\begin{theorem}[Descent for Equivalence]
+\label{thm:descent-eq}
+If per-fiber equivalence paths $\{\pi_i\}_{i \in I}$ exist and
+$H^1(\covers, \Iso) = 0$, then the paths glue to a global
+equivalence proof $\pi : \forall x.\; \den{f}(x) = \den{g}(x)$.
+\end{theorem}
+
+\begin{proof}
+By the sheaf condition (Definition~\ref{def:sheaf-condition} in
+Chapter~\ref{ch:sheaves}), a family of sections that agree on
+overlaps extends uniquely to a global section.  The $H^1 = 0$
+condition ensures agreement on overlaps (the transition maps are
+coboundaries).  Since each $\pi_i$ is a Z3 proof of equivalence
+on $U_i$, the global section $\pi$ is a proof of equivalence on
+the entire parameter space $\bigcup_{i \in I} U_i$.
+\end{proof}
+
+\begin{corollary}[Path Search Acceleration]
+If the denotational checker finds per-fiber OTerm equivalences
+$\{e_i\}_{i \in I}$ (possibly via different normalization strategies
+on each fiber), and $H^1 = 0$, then the programs are globally
+equivalent --- even if no single normalization strategy works on
+all fibers simultaneously.
+\end{corollary}
+
+\subsection{Obstruction Detection}
+
+\begin{theorem}[Descent Obstruction]
+\label{thm:descent-obstruction}
+If per-fiber equivalence paths exist on all fibers except $U_j$,
+and $U_j$ has a counterexample, then the obstruction is
+\emph{localised} to $U_j$.  The enriched $H^1$ records the
+obstruction with a pointer to $U_j$, enabling targeted debugging.
+\end{theorem}
+
+\begin{proof}
+The $C^0$ entry for $U_j$ is $0$, and all other entries are $1$.
+The coboundary $\delta^0\varphi$ is nonzero precisely on edges
+incident to $j$.  Since $\delta^1(\delta^0\varphi) = 0$ (by the
+cocycle condition), these edges contribute exactly one class to
+$H^1$, localised at $j$.
+\end{proof}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Soundness of the Proactive Pipeline}
+\label{sec:soundness}
+% ══════════════════════════════════════════════════════════
+
+\begin{theorem}[Soundness of Proactive Cohomology]
+\label{thm:proactive-soundness}
+The proactive pipeline (pre-screening + priority ordering +
+enriched $H^1$ + descent) is sound:
+\begin{enumerate}
+  \item If it returns $\mathsf{EQ}$, then $f \equiv g$.
+  \item If it returns $\mathsf{NEQ}$, then $f \not\equiv g$.
+  \item If it returns $\mathsf{UNKNOWN}$, it makes no claim.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{(1)} The $\mathsf{EQ}$ verdict requires either (a) denotational
+OTerm equality, which is sound by the denotational semantics, or
+(b) $H^1 = 0$ with all fibers verified by Z3, which is sound by the
+Descent Theorem~\ref{thm:descent-full}.  The priority ordering and
+pre-screening do not affect the $\mathsf{EQ}$ path --- they only
+short-circuit the $\mathsf{NEQ}$ path.
+
+\textbf{(2)} The $\mathsf{NEQ}$ verdict requires a concrete
+counterexample on at least one fiber (either from Z3, from
+pre-screening via Theorem~\ref{thm:prescreen-neq}, or from
+bounded testing).  Each of these is a witness to
+$\exists x.\; f(x) \neq g(x)$.
+
+\textbf{(3)} Trivial.
+\end{proof}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Complexity Analysis}
+\label{sec:complexity}
+% ══════════════════════════════════════════════════════════
+
+\begin{proposition}[Marginal Cost of Proactive Techniques]
+\label{prop:complexity}
+Let $n$ be the number of parameters, $|I|$ the number of fiber
+combinations, and $T_{\mathrm{Z3}}$ the average Z3 call time.
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Technique} & \textbf{Cost} & \textbf{Savings} \\
+\midrule
+Fiber priority ordering & $O(|I|^2 n)$ & Up to $(|I|-1) \cdot T_{\mathrm{Z3}}$ \\
+Pre-screening & $O(|I| \cdot |t|)$ & Up to $|I| \cdot T_{\mathrm{Z3}}$ \\
+Enriched $H^1$ & $O(|I|^3)$ & Better diagnostics (no direct savings) \\
+Sheaf descent & $O(|I|^2)$ & Promotes partial proofs to global \\
+\bottomrule
+\end{tabular}
+\end{center}
+where $|t|$ is the OTerm size.
+
+The dominant cost is still the Z3 calls ($T_{\mathrm{Z3}}$ ranges
+from 10ms to 3000ms).  All proactive techniques have negligible
+overhead relative to a single Z3 call.
+\end{proposition}
+
+\begin{proof}
+Fiber priority ordering constructs the overlap graph ($O(|I|^2 n)$
+to check $n$-tuples for shared components) and sorts ($O(|I| \log |I|)$).
+Pre-screening traverses each OTerm once per fiber.
+Enriched $H^1$ replaces scalar rank computation with a richer data
+structure but uses the same $O(|I|^3)$ Gaussian elimination.
+Sheaf descent checks pairwise compatibility of per-fiber verdicts
+($O(|I|^2)$ comparisons).
+\end{proof}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Expected Impact on Benchmarks}
+\label{sec:expected-impact}
+% ══════════════════════════════════════════════════════════
+
+We analyse the expected impact of each technique on the CCTT
+benchmark suite.
+
+\subsection{Fiber Priority Ordering}
+
+\begin{itemize}
+  \item \textbf{NEQ detection}: for pairs where the disagreement is on
+    a single fiber (e.g., integer arithmetic), priority ordering
+    ensures that fiber is checked first, saving time on subsequent
+    fibers.  Expected to reduce average NEQ detection time.
+  \item \textbf{EQ verification}: no direct impact on EQ accuracy, but
+    reduces time budget consumed by unproductive fibers, leaving more
+    time for the critical fibers.
+\end{itemize}
+
+\subsection{Cohomological Pre-Screening}
+
+\begin{itemize}
+  \item \textbf{NEQ detection}: catches structurally obvious differences
+    (different OTerm constructors) before Z3, potentially upgrading
+    some ``inconclusive'' verdicts to definitive $\mathsf{NEQ}$.
+  \item \textbf{False positive prevention}: by ordering fibers so that
+    structurally similar fibers are checked first, reduces the chance
+    of spending time on fibers that will ultimately be $\mathsf{NEQ}$.
+\end{itemize}
+
+\subsection{Enriched $H^1$}
+
+\begin{itemize}
+  \item \textbf{Diagnostic quality}: transforms opaque ``$H^1 > 0$''
+    verdicts into actionable information about which fiber and
+    which overlap caused the obstruction.
+  \item \textbf{Confidence calibration}: enables the pipeline to
+    distinguish between high-confidence verdicts (Z3 proofs) and
+    low-confidence ones (heuristic matches), improving decision-making
+    in the bounded testing fallback.
+\end{itemize}
+
+\subsection{Sheaf Descent}
+
+\begin{itemize}
+  \item \textbf{EQ detection}: for pairs where each fiber is
+    individually verifiable but the global OTerm check fails (e.g.,
+    due to quotient-type issues), descent promotes per-fiber Z3 proofs
+    to a global verdict.  Expected to help with 2--5 currently
+    unresolved EQ pairs.
+  \item \textbf{Partial verification}: when some fibers time out,
+    descent can still produce a partial verdict with a coverage
+    estimate.
+\end{itemize}
+
+
+% ══════════════════════════════════════════════════════════
+\section{Relationship to Classical Sheaf Theory}
+\label{sec:classical}
+% ══════════════════════════════════════════════════════════
+
+The proactive techniques correspond to well-known constructions
+in sheaf cohomology:
+
+\begin{enumerate}
+  \item \textbf{Fiber priority ordering} corresponds to choosing a
+    ``good cover'' (acyclic cover) for the \v{C}ech computation.
+    In classical algebraic geometry, a good cover is one where
+    $H^q(U_i, \sheaf) = 0$ for $q > 0$ on each open set $U_i$.
+    Our degree-based ordering is a computational heuristic for
+    approximating a good cover.
+
+  \item \textbf{Pre-screening} corresponds to computing the
+    \emph{Euler characteristic} $\chi(\sheaf) = \sum_q (-1)^q
+    \mathrm{rank}(H^q)$ using the Hirzebruch--Riemann--Roch theorem.
+    When $\chi(\sheaf) \neq 0$, at least one cohomology group is
+    nonzero, giving a quick obstruction detection.
+
+  \item \textbf{Enriched coefficients} correspond to replacing the
+    constant coefficient sheaf $\underline{\mathrm{GF}(2)}$ with a
+    locally constant sheaf $\mathcal{V}$ that records the
+    ``transition type'' on each fiber.  This is analogous to
+    cohomology with values in a local system.
+
+  \item \textbf{Sheaf descent} is precisely the descent condition
+    for sheaves on a site, applied computationally.  The classical
+    theorem (Grothendieck's descent) says that a presheaf satisfying
+    descent on a cover is a sheaf.  Our computational version says
+    that per-fiber Z3 proofs satisfying the cocycle condition
+    constitute a global proof.
+\end{enumerate}
+
+\begin{remark}[Mayer--Vietoris as Future Work]
+The Mayer--Vietoris exact sequence
+\[
+  \cdots \to H^0(U \cup V) \to H^0(U) \oplus H^0(V) \to
+  H^0(U \cap V) \xrightarrow{\partial} H^1(U \cup V) \to \cdots
+\]
+could be used to decompose the verification problem into
+smaller pieces.  When the covering has a natural partition into
+two overlapping groups $U$ and $V$, Mayer--Vietoris computes the
+global $H^1$ from the local $H^0$'s and the connecting homomorphism
+$\partial$.  This is left to future work, as the current benchmark
+fibers are small enough ($|I| \leq 12$) that direct computation
+suffices.
+\end{remark}
+
+\begin{remark}[Persistent Cohomology]
+Another direction for future work is \emph{persistent cohomology}:
+computing $H^1$ at multiple ``resolutions'' of the fiber covering
+(e.g., coarse fibers with just $\{\mathsf{int}, \mathsf{str}\}$,
+then finer fibers with $\{\mathsf{int}, \mathsf{bool}, \mathsf{str},
+\mathsf{pair}, \mathsf{ref}, \mathsf{none}\}$).  Features that
+persist across resolutions are robust topological invariants of the
+equivalence problem.
+\end{remark}

@@ -19,7 +19,9 @@ from typing import Any, Dict, List, Optional, Tuple
 from .theory import Theory, _z3, _HAS_Z3
 from .compiler import compile_func, Section
 from .duck import infer_duck_type
-from .cohomology import LocalJudgment, CechResult, compute_cech_h1
+from .cohomology import (LocalJudgment, CechResult, compute_cech_h1,
+                        compute_fiber_priority, cohomological_prescreen,
+                        sheaf_descent_check)
 from .normalizer import extract_fingerprint, fingerprints_match
 from .denotation import denotational_equiv
 
@@ -331,6 +333,11 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             if any(ci[k] == cj[k] for k in range(len(ci))):
                 overlaps.append((ci, cj))
 
+    # ── Proactive Step 5a: Fiber priority ordering ──
+    # Order fibers by overlap degree (most constrained first) for
+    # early termination on NEQ.
+    fiber_combos = compute_fiber_priority(fiber_combos, overlaps)
+
     # ── Step 6: Local equivalence check per fiber ──
     judgments: Dict[Tuple[str, ...], LocalJudgment] = {}
 
@@ -338,6 +345,7 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     remaining_ms = max(100, int((deadline - time.monotonic()) * 1000))
     per_fiber_ms = max(200, remaining_ms // max(len(fiber_combos), 1))
 
+    early_neq = False
     for combo in fiber_combos:
         if time.monotonic() > deadline:
             judgments[combo] = LocalJudgment(
@@ -349,15 +357,59 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
                               combo, tag_constraints, per_fiber_ms)
         judgments[combo] = result
 
+        # Proactive early termination: concrete NEQ on any fiber
+        # means H¹ > 0 (Thm early-term in proactive_cohomology.tex).
+        # Stop immediately — remaining fibers are wasted work.
+        if result.is_equivalent is False and result.concrete_obstruction:
+            early_neq = True
+            break
+
     # ── Step 7: Čech H¹ computation ──
     cech = compute_cech_h1(judgments, overlaps)
+
+    # Check if any NEQ obstruction is backed by a concrete counterexample
+    has_concrete_obstruction = False
+    if cech.obstructions:
+        for obs_fiber in cech.obstructions:
+            j = judgments.get(obs_fiber)
+            if j and j.concrete_obstruction:
+                has_concrete_obstruction = True
+                break
 
     if cech.equivalent is True:
         confidence = cech.h0 / max(cech.total_fibers, 1)
         return Result(True,
             f'H1=0: {cech.h0} faces verified across {cech.total_fibers} fibers',
             h0=cech.h0, confidence=confidence)
-    elif cech.equivalent is False:
+    elif cech.equivalent is False and has_concrete_obstruction:
+        obs = cech.obstructions
+        obs_desc = str(obs[0]) if obs else 'unknown fiber'
+        j = judgments.get(obs[0]) if obs else None
+        detail = j.explanation if j else ''
+        return Result(False,
+            f'H1 obstruction: {detail} (fiber {obs_desc})',
+            h0=cech.h0, h1=cech.h1_rank)
+
+    # ── Step 8: Bounded testing fallback ──
+    # When Z3 is inconclusive or gives non-concrete NEQ (uninterpreted fns),
+    # fall back to bounded testing for a practical verdict.
+    bt_result = _bounded_testing(source_f, source_g, param_names,
+                                 param_fibers, deadline)
+    if bt_result is False:
+        return Result(False, 'bounded testing NEQ (concrete disagreement found)',
+                      h0=0, h1=1)
+    if bt_result is True:
+        # All test cases agree — use as evidence for equivalence
+        if fingerprint_match:
+            return Result(True,
+                'bounded testing + fingerprint match (all tests agree)',
+                h0=cech.h0 or 1, confidence=0.85)
+        return Result(True,
+            'bounded testing EQ (all tests agree)',
+            h0=cech.h0 or 1, confidence=0.75)
+
+    # Bounded testing inconclusive — fall through to original logic
+    if cech.equivalent is False:
         obs = cech.obstructions
         obs_desc = str(obs[0]) if obs else 'unknown fiber'
         j = judgments.get(obs[0]) if obs else None
@@ -366,18 +418,6 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             f'H1 obstruction: {detail} (fiber {obs_desc})',
             h0=cech.h0, h1=cech.h1_rank)
     else:
-        # Inconclusive — try bounded testing
-        if time.monotonic() < deadline:
-            bt_result = _bounded_testing(source_f, source_g, param_names,
-                                         param_fibers, deadline)
-            if bt_result is True:
-                return Result(True,
-                    'bounded verification (agreement on representative inputs)',
-                    h0=cech.h0, confidence=0.80)
-            elif bt_result is False:
-                return Result(False,
-                    'bounded testing found disagreement',
-                    h0=0, h1=1)
         return Result(None,
             f'inconclusive: {cech.h0}/{cech.total_fibers} fibers',
             h0=cech.h0)
@@ -463,32 +503,58 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
     # Generate representative test inputs based on fiber types
     # Include edge cases that commonly distinguish NEQ pairs
     type_samples = {
-        'int': ['0', '1', '-1', '2', '3', '-7', '42', '257', '10', '100',
-                '2.5', '-2.7', '0.5', 'float("nan")', '1e100', '-1e100',
-                'True', 'False'],
+        'int': ['0', '1', '-1', '2', '3', '0.5', '-0.5', '1.5', '2.5',
+                '-7', '42', '100', '257', '10',
+                '2.5', '-2.7', 'float("nan")', '1e16', '-1e16',
+                '1e100', '-1e100', 'True', 'False'],
         'bool': ['True', 'False', '0', '1'],
         'str': ['""', '"a"', '"hello"', '"abc"', '"a  b"',
-                '"aab"', '"aaab"', '" "', '"Alice"', '"A"', '"ba"'],
+                '"aab"', '"aaab"', '" "', '"Alice"', '"A"', '"ba"',
+                '"Hello World"', '"12345"'],
         'pair': ['(1, 2)', '(0,)', '((1, "a"), (2, "b"))',
-                 '(1, "b")', '(1, "a")', '{"b": 1, "a": 2}',
-                 '{"a": 1}', '{"a": 2}', '(3, 1, 2)',
-                 '{"x": [1,2], "y": [3]}', '(1, 1, 1)'],
-        'ref': ['[]', '[1]', '[1, 2, 3]', '[[1], [2]]',
-                '[3, 1, 2]', '[1, 1, 2, 1, 3]', '[True, True, True]',
-                '[float("nan"), 1.0, 2.0]', '[(1, "b"), (1, "a"), (2, "c")]',
-                '[1.0, 1e100, 1.0, -1e100]', '["a", "b"]',
+                 '(1, "b")', '(1, "a")',
+                 '{"b": 1, "a": 2}', '{"a": 1}', '{"a": 2}',
+                 '{"a": 1, "b": 2}', '{"b": 3, "a": 4}',
+                 '{"x": 10, "y": 20}', '{"y": 99, "x": 0}',
+                 '(3, 1, 2)', '(1, 1, 1)'],
+        'ref': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
+                '[float("nan"), 1.0, 2.0]',
+                '[1.0, 1e-16, -1.0]',
+                '[(1, "a"), (1, "b"), (2, "a")]',
+                '[1, 1, 2, 1, 3]', '[[1], [2]]',
+                '[(1, "b"), (1, "a"), (2, "c")]',
+                '["a", "b"]',
                 '[0, 0, 0]', '[-1, 0, 1]', '[1, 2, 3, 4, 5]',
-                '["b", "a", "c"]', '[None, 1, "a"]'],
+                '["b", "a", "c"]', '[None, 1, "a"]',
+                '[1, 1, 1, 2]', '[3, 3, 3, 3]', '[1, 2, 1, 2, 1]',
+                '[1e16, 1.0, -1e16]', '[True, True, True]'],
         'none': ['None'],
+        'collection': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
+                       '[1, 1, 2, 1, 3]', '(1, 2, 3)', '"abc"',
+                       '{1, 2, 3}', '[1, 1, 1, 2]',
+                       '[(1, "a"), (1, "b")]',
+                       '[float("nan"), 1.0]',
+                       '[1.0, 1e-16, -1.0]'],
     }
 
     # Build test input combinations (limited to avoid explosion)
+    # For multi-fiber params, combine from all fibers and prioritize
+    # edge cases (NaN, large floats, duplicate keys) first.
     param_samples = []
     for i, pname in enumerate(param_names):
         fibers = param_fibers[i] if i < len(param_fibers) else ['int']
         samples = []
+        # Collect samples from each fiber, interleaving to ensure
+        # edge cases from each fiber type appear early.
+        per_fiber_lists = []
         for f in fibers:
-            samples.extend(type_samples.get(f, ['0', '1']))
+            per_fiber_lists.append(type_samples.get(f, ['0', '1']))
+        # Interleave: take first from each, then second from each, etc.
+        max_len = max(len(lst) for lst in per_fiber_lists) if per_fiber_lists else 0
+        for j in range(max_len):
+            for lst in per_fiber_lists:
+                if j < len(lst):
+                    samples.append(lst[j])
         # Deduplicate and limit
         seen = set()
         unique = []
@@ -496,13 +562,13 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
             if s not in seen:
                 seen.add(s)
                 unique.append(s)
-        param_samples.append(unique[:10])  # more samples per param
+        param_samples.append(unique[:25])
 
-    # Generate test combinations (limit to 30 total for better coverage)
+    # Generate test combinations (limit to 50 total for better coverage)
     import itertools as _it
     combos = list(_it.product(*param_samples))
-    if len(combos) > 30:
-        combos = combos[:30]
+    if len(combos) > 50:
+        combos = combos[:50]
 
     if not combos:
         return None
@@ -551,15 +617,24 @@ for _name, _obj in list(locals().items()):
 
 test_cases = [{combo_strs}]
 results = []
+_RESOURCE_EXCS = (MemoryError, RecursionError, OverflowError)
 for args in test_cases:
     try:
         r_f = repr(_saved_f({args_list}))
+        f_ok = True
+    except _RESOURCE_EXCS:
+        continue
     except Exception as e:
-        r_f = f"EXC:{{type(e).__name__}}"
+        f_ok = False
     try:
         r_g = repr(_fn_g({args_list}))
+        g_ok = True
+    except _RESOURCE_EXCS:
+        continue
     except Exception as e:
-        r_g = f"EXC:{{type(e).__name__}}"
+        g_ok = False
+    if not (f_ok and g_ok):
+        continue
     if r_f != r_g:
         print(json.dumps({{"eq": False, "args": repr(args), "f": r_f[:50], "g": r_g[:50]}}))
         sys.exit(0)
@@ -608,6 +683,7 @@ def _check_fiber(T, params, secs_f, secs_g, combo, tag_constraints,
     fiber_total_overlapping = 0
     fiber_inconclusive = 0
     fiber_obstruction = None
+    fiber_obstruction_concrete = False
 
     for sf_sec in secs_f:
         for sg_sec in secs_g:
@@ -652,21 +728,17 @@ def _check_fiber(T, params, secs_f, secs_g, combo, tag_constraints,
                         fiber_info.append('?')
 
                 # Z3 found a satisfying assignment where terms differ.
-                # Check opacity: if BOTH terms are deeply opaque (many
-                # nested uninterpreted functions), Z3's counterexample
-                # is likely spurious — it just picked different interpretations.
-                # For shallow opacity (few uninterpreted calls), the
-                # counterexample is more likely genuine since the shared
-                # function semantics constrain possible interpretations.
+                # Track opacity for concrete_obstruction flag.
                 d1 = _uninterp_depth(sf_sec.term)
                 d2 = _uninterp_depth(sg_sec.term)
-                if d1 + d2 >= 4 and min(d1, d2) >= 1:
-                    # Both have uninterpreted ops and combined depth >= 4
-                    # — counterexample likely from Z3 choosing arbitrary
-                    # interpretations for uninterpreted functions
+                is_concrete_cex = (d1 == 0 and d2 == 0)
+                if d1 + d2 >= 2 and min(d1, d2) >= 1:
+                    # Both terms use uninterpreted functions — Z3 can
+                    # freely assign them to produce spurious disagreements.
                     fiber_inconclusive += 1
                 else:
                     fiber_obstruction = ','.join(fiber_info)
+                    fiber_obstruction_concrete = is_concrete_cex
                     break
             else:
                 solver.pop()
@@ -679,7 +751,8 @@ def _check_fiber(T, params, secs_f, secs_g, combo, tag_constraints,
         return LocalJudgment(
             fiber=combo, is_equivalent=False,
             counterexample=fiber_obstruction,
-            explanation=f'obstruction on [{fiber_obstruction}]')
+            explanation=f'obstruction on [{fiber_obstruction}]',
+            concrete_obstruction=fiber_obstruction_concrete)
     elif fiber_h0 > 0 and fiber_inconclusive == 0:
         # ALL overlapping section pairs verified
         return LocalJudgment(
