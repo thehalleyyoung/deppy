@@ -13,7 +13,7 @@ Proactive cohomology extensions:
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Dict, FrozenSet, List, Optional, Set, Tuple
+from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple
 
 
 @dataclass
@@ -343,3 +343,84 @@ def _gf2_rank(matrix: List[List[int]]) -> int:
                 m[row] = [(m[row][j] + m[rank][j]) % 2 for j in range(cols)]
         rank += 1
     return rank
+
+
+# ═══════════════════════════════════════════════════════════
+# Bridge to stalks module (advanced Čech computations)
+# ═══════════════════════════════════════════════════════════
+
+def build_full_cech_complex(
+    judgments: Dict[Tuple[str, ...], LocalJudgment],
+    overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+):
+    """Build a first-class CechComplex from local judgments and overlaps.
+
+    Delegates to cctt.stalks.build_cech_complex for the heavy lifting,
+    returning a stalks.CechComplex with GF2Matrix-backed δ⁰/δ¹.
+    """
+    from cctt.stalks import build_cech_complex as _build
+    equiv_fibers = [f for f, j in judgments.items() if j.is_equivalent is True]
+    if len(equiv_fibers) <= 1 or not overlaps:
+        from cctt.stalks import CechComplex as CC, GF2Matrix
+        return CC(fibers=equiv_fibers, overlaps=[], triples=[],
+                  delta0=GF2Matrix([]), delta1=GF2Matrix([]))
+    return _build(equiv_fibers, overlaps)
+
+
+def run_cech_pipeline(
+    fibers: List[Tuple[str, ...]],
+    overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+    judgments: Dict[Tuple[str, ...], LocalJudgment],
+):
+    """Run the full Čech pipeline (complex + graph + obstructions + spectral).
+
+    Converts LocalJudgment verdicts to Optional[bool] and delegates to
+    cctt.stalks.CechPipeline.
+    """
+    from cctt.stalks import CechPipeline
+    bool_map: Dict[Tuple[str, ...], Optional[bool]] = {
+        f: j.is_equivalent for f, j in judgments.items()
+    }
+    return CechPipeline().run(fibers, overlaps, bool_map)
+
+
+def localize_h1_obstructions(
+    judgments: Dict[Tuple[str, ...], LocalJudgment],
+    overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+):
+    """Localize H¹ obstructions to specific overlap edges.
+
+    Returns a stalks.ObstructionReport listing the offending edges.
+    """
+    from cctt.stalks import localize_obstructions
+    cx = build_full_cech_complex(judgments, overlaps)
+    return localize_obstructions(cx)
+
+
+# ═══════════════════════════════════════════════════════════
+# Bridge to structured sheaf module (cctt.sheaves)
+# ═══════════════════════════════════════════════════════════
+
+def build_isomorphism_sheaf(
+    judgments: Dict[Tuple[str, ...], LocalJudgment],
+) -> Any:
+    """Build an IsomorphismSheaf from local judgments.
+
+    Delegates to cctt.sheaves.IsomorphismSheaf for structured
+    GF(2)-valued sheaf operations (global section, coverage, etc.).
+    """
+    from cctt.sheaves import IsomorphismSheaf
+    return IsomorphismSheaf(judgments)
+
+
+def build_cech_complex(
+    fibers: List[Tuple[str, ...]],
+    overlaps: List[Tuple[Tuple[str, ...], Tuple[str, ...]]],
+) -> Any:
+    """Build a structured CechComplex from fibers and overlaps.
+
+    Delegates to cctt.sheaves.CechComplex for GF2Matrix-based
+    coboundary computation with kernel/rank accessors.
+    """
+    from cctt.sheaves import CechComplex
+    return CechComplex.build(fibers, overlaps)

@@ -8,4 +8,6 @@ specification checking, and bug finding via:
   - 52 equational axioms (cubical path constructors)
   - Čech cohomology (H¹ = 0 ↔ equivalence)
   - Automated path search with 5-phase normalization
+  - Galois connections for abstract type-level pre-filtering (§12)
+  - Stalk computations, spectral sequences, Mayer-Vietoris (stalks module)
 """
