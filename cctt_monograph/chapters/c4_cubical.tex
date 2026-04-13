@@ -1,0 +1,558 @@
+% Chapter: Cubical Structure and the Path Algebra
+% Part of the CCTT Monograph — Proof Calculus, Chapter II
+
+\chapter{Cubical Structure and the Path Algebra}
+\label{ch:c4-cubical}
+
+In Chapter~\ref{ch:c4-calculus} we introduced the syntax and typing rules of
+$\mathrm{C}^4$.  This chapter develops the \emph{cubical} fragment in depth:
+the interval, connections, Kan operations, and the derived principles of
+function extensionality and univalence.  We then prove the central theorem
+linking cubical path composition to CCTT axiom chain composition, establishing
+that the proof-theoretic machinery of Part~IX is faithfully embedded in the
+type-theoretic framework.
+
+
+% ─────────────────────────────────────────────────────────
+\section{The Interval and Its Connection Algebra}
+\label{sec:interval}
+
+\begin{definition}[The Interval]
+The \textbf{interval} $\interval$ is a type with two distinguished points
+$\mathsf{0}_\interval, \mathsf{1}_\interval : \interval$ and three
+connection operations:
+\begin{align}
+  \_ \wedge \_ &: \interval \times \interval \to \interval
+    \tag{meet / min} \\
+  \_ \vee \_ &: \interval \times \interval \to \interval
+    \tag{join / max} \\
+  \sim &: \interval \to \interval
+    \tag{reversal}
+\end{align}
+subject to the following equalities, which hold definitionally:
+\begin{enumerate}
+\item $\sim \mathsf{0} = \mathsf{1}$, \quad $\sim \mathsf{1} = \mathsf{0}$,
+  \quad $\sim(\sim r) = r$.
+\item $r \wedge \mathsf{0} = \mathsf{0}$, \quad $r \wedge \mathsf{1} = r$,
+  \quad $r \vee \mathsf{0} = r$, \quad $r \vee \mathsf{1} = \mathsf{1}$.
+\item $r \wedge s = s \wedge r$, \quad $r \vee s = s \vee r$.
+\item $(r \wedge s) \wedge t = r \wedge (s \wedge t)$, \quad
+  $(r \vee s) \vee t = r \vee (s \vee t)$.
+\item De Morgan: $\sim(r \wedge s) = (\sim r) \vee (\sim s)$, \quad
+  $\sim(r \vee s) = (\sim r) \wedge (\sim s)$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+The connection algebra $(\interval, \wedge, \vee, \sim, \mathsf{0},
+\mathsf{1})$ forms a De Morgan algebra.  This is the same structure used by
+Cohen--Coquand--Huber--M\"ortberg (CCHM)~\cite{cohen2018}.  The key property
+is that $\interval$ is \emph{not} a type with decidable equality---there is
+no function $\interval \to \mathsf{2}$ separating $\mathsf{0}$ from
+$\mathsf{1}$.
+\end{remark}
+
+\begin{definition}[Face Lattice]
+A \textbf{face formula} $\varphi$ is a finite conjunction/disjunction of
+atomic constraints:
+\[
+  \varphi, \psi ::= (r = \mathsf{0}) \mid (r = \mathsf{1})
+    \mid \varphi \wedge \psi \mid \varphi \vee \psi \mid \mathsf{1}_\mathbb{F}
+    \mid \mathsf{0}_\mathbb{F}
+\]
+We write $\mathbb{F}$ for the \textbf{face lattice} of all face formulas.
+A context $\Gamma, \varphi$ extends $\Gamma$ with the constraint $\varphi$,
+restricting to the face where $\varphi$ holds.
+\end{definition}
+
+\begin{definition}[Partial Elements]
+Given $\Gamma \vdash A : \mathcal{U}_i$ and a face formula $\varphi$, a
+\textbf{partial element} of $A$ along $\varphi$ is a term
+$\Gamma, \varphi \vdash u : A$.  We write this as
+$u : A\,[\varphi]$ and call $\varphi$ the \textbf{extent} of $u$.
+\end{definition}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Path Types in Detail}
+\label{sec:path-types}
+
+\begin{definition}[Path Type]
+For $A : \mathcal{U}_i$ and $a, b : A$, the \textbf{path type} is:
+\[
+  \Path_A\, a\, b \;\defeq\;
+  \{p : \interval \to A \mid p\,\mathsf{0} \equiv a,\;
+    p\,\mathsf{1} \equiv b\}
+\]
+\end{definition}
+
+\noindent
+Path types internalize propositional equality as continuous deformation.
+The typing rules from Chapter~\ref{ch:c4-calculus} give:
+
+\begin{gather}
+\frac{\Gamma, i : \interval \vdash t : A \qquad
+      t[i := \mathsf{0}] \equiv a \qquad t[i := \mathsf{1}] \equiv b}
+     {\Gamma \vdash \langle i \rangle\, t : \Path_A\, a\, b}
+\tag{PathI}
+\\[6pt]
+\frac{\Gamma \vdash p : \Path_A\, a\, b \qquad
+      \Gamma \vdash r : \interval}
+     {\Gamma \vdash p\; r : A}
+\tag{PathE}
+\end{gather}
+
+with the definitional equalities:
+\begin{align}
+  (\langle i \rangle\, t)\; r &\equiv t[i := r]
+    & \text{($\beta$ for paths)} \tag{Path-$\beta$} \\
+  \langle i \rangle\, (p\; i) &\equiv p
+    & \text{($\eta$ for paths, when $i \notin \mathrm{FV}(p)$)}
+    \tag{Path-$\eta$}
+\end{align}
+
+\begin{definition}[Path Operations]
+\label{def:path-ops}
+Using the connection algebra, we define:
+\begin{enumerate}
+\item \textbf{Constant path (reflexivity):}
+  $\mathsf{refl}_a \defeq \langle i \rangle\, a : \Path_A\, a\, a$.
+
+\item \textbf{Symmetry (path reversal):}
+  Given $p : \Path_A\, a\, b$, define
+  $p^{-1} \defeq \langle i \rangle\, p\,(\sim i) : \Path_A\, b\, a$.
+
+\item \textbf{Connection terms:}
+  Given $p : \Path_A\, a\, b$, the \textbf{connections} are:
+  \begin{align*}
+    p^{\wedge} &\defeq \langle i \rangle\langle j \rangle\,
+      p\,(i \wedge j) &&: \Path_{\Path_A\, a\, b}\,
+      \mathsf{refl}_a\, p \\
+    p^{\vee} &\defeq \langle i \rangle\langle j \rangle\,
+      p\,(i \vee j) &&: \Path_{\Path_A\, a\, b}\,
+      p\, \mathsf{refl}_b
+  \end{align*}
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Groupoid Laws]
+\label{prop:groupoid}
+For paths $p : \Path_A\, a\, b$, $q : \Path_A\, b\, c$,
+$r : \Path_A\, c\, d$, the following hold (as paths of paths):
+\begin{enumerate}
+\item $p \cdot \mathsf{refl}_b \sim p$ \quad (right unit)
+\item $\mathsf{refl}_a \cdot p \sim p$ \quad (left unit)
+\item $p \cdot p^{-1} \sim \mathsf{refl}_a$ \quad (right inverse)
+\item $(p \cdot q) \cdot r \sim p \cdot (q \cdot r)$ \quad (associativity)
+\end{enumerate}
+where $p \cdot q$ denotes path composition defined via $\hfilling$.
+\end{proposition}
+
+\begin{proof}
+Each identity is constructed using the connection algebra.  For (1),
+the term $\langle i\rangle\langle j\rangle\, p\,(i \vee j)$ provides
+a path from $p \cdot \mathsf{refl}_b$ to $p$: at $j = \mathsf{0}$ we
+get $p \cdot \mathsf{refl}_b$ (by the definition of composition using
+$\hfilling$) and at $j = \mathsf{1}$ we get $\langle i \rangle\, p\,i = p$.
+The remaining identities follow by analogous two-dimensional constructions
+using $\wedge$, $\vee$, and $\sim$.
+\end{proof}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Kan Operations}
+\label{sec:kan-ops}
+
+The Kan operations give path types their computational content.
+
+\begin{definition}[Homogeneous Composition --- $\hfilling$]
+\label{def:hcomp}
+Given $A : \mathcal{U}_i$, a face formula $\varphi$, a partial path
+$\Gamma, \varphi, i : \interval \vdash u : A$, and a base point
+$\Gamma \vdash u_0 : A$ agreeing with $u$ at $i = \mathsf{0}$
+(i.e., $u[\mathsf{0}/i] \equiv u_0$ when $\varphi$ holds):
+\[
+\frac{\Gamma \vdash A : \mathcal{U}_i \qquad
+      \Gamma, \varphi, i : \interval \vdash u : A \qquad
+      \Gamma \vdash u_0 : A\,[\varphi \mapsto u[\mathsf{0}/i]]}
+     {\Gamma \vdash \hfilling^i\, A\, [\varphi \mapsto u]\, u_0 : A}
+\tag{hcomp}
+\]
+with the boundary law: when $\varphi$ holds,
+$\hfilling^i\, A\, [\varphi \mapsto u]\, u_0 \equiv u[\mathsf{1}/i]$.
+\end{definition}
+
+\begin{definition}[Transport --- $\transp$]
+\label{def:c4-transp}
+Given a line of types $\Gamma, i : \interval \vdash A : \mathcal{U}_j$
+and a term $\Gamma \vdash t : A[\mathsf{0}/i]$:
+\[
+\frac{\Gamma, i : \interval \vdash A : \mathcal{U}_j \qquad
+      \Gamma \vdash t : A[\mathsf{0}/i]}
+     {\Gamma \vdash \transp^i\, A\, t : A[\mathsf{1}/i]}
+\tag{transp}
+\]
+When $A$ is constant in $i$ (i.e., $i \notin \mathrm{FV}(A)$), transport
+is the identity: $\transp^i\, A\, t \equiv t$.
+\end{definition}
+
+\begin{definition}[Path Composition via $\hfilling$]
+\label{def:path-comp}
+Given $p : \Path_A\, a\, b$ and $q : \Path_A\, b\, c$, their
+\textbf{composition} $p \cdot q : \Path_A\, a\, c$ is:
+\[
+  p \cdot q \;\defeq\; \langle i \rangle\,
+    \hfilling^j\, A\,
+    [(i = \mathsf{0}) \mapsto a,\;
+     (i = \mathsf{1}) \mapsto q\,j]\,
+    (p\,i)
+\]
+where $j$ is fresh.  At $i = \mathsf{0}$ this gives $a$; at
+$i = \mathsf{1}$ it gives $\hfilling^j\, A\, [\cdots]\, b$ which
+computes to $q\,\mathsf{1} = c$.
+\end{definition}
+
+\noindent
+\textbf{Computation rules for Kan operations on type formers.}
+The Kan operations compute structurally on each type former:
+
+\begin{enumerate}
+\item \textbf{$\Pi$-types:}
+  $\transp^i\, (\Pi(x:A).\,B)\, f \equiv
+   \lambda(x : A[\mathsf{1}/i]).\,
+   \transp^i\, B[x := \transp^i\, (\sim A)\, x]\,
+   (f\, (\transp^i\, (\sim A)\, x))$
+
+\item \textbf{$\Sigma$-types:}
+  $\transp^i\, (\Sigma(x:A).\,B)\, (a, b) \equiv
+   (a', \transp^i\, B[x := p]\, b)$
+  where $a' = \transp^i\, A\, a$ and $p$ is the transport path.
+
+\item \textbf{Path types:}
+  Transport in $\Path_A\, a\, b$ composes paths using $\hfilling$.
+
+\item \textbf{Natural numbers:} $\transp^i\, \Nat\, n \equiv n$
+  (discrete type).
+
+\item \textbf{Inductive types:} Transport applies constructor-wise,
+  preserving the recursive structure.
+\end{enumerate}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Function Extensionality}
+\label{sec:c4-funext}
+
+\begin{theorem}[Function Extensionality]
+\label{thm:c4-funext}
+If $f, g : \Pi(x : A).\, B(x)$ and
+$h : \Pi(x : A).\, \Path_{B(x)}\, (f\,x)\, (g\,x)$, then
+there exists a path $\mathsf{funext}(h) : \Path_{\Pi(x:A).\,B(x)}\, f\, g$.
+\end{theorem}
+
+\begin{proof}
+Define $\mathsf{funext}(h) \defeq \langle i \rangle\, \lambda(x : A).\,
+h\,x\,i$.  We check the boundary:
+\begin{itemize}
+\item At $i = \mathsf{0}$:
+  $(\langle i \rangle\, \lambda x.\, h\,x\,i)\,\mathsf{0}
+   = \lambda x.\, h\,x\,\mathsf{0}
+   = \lambda x.\, f\,x = f$.
+\item At $i = \mathsf{1}$:
+  $(\langle i \rangle\, \lambda x.\, h\,x\,i)\,\mathsf{1}
+   = \lambda x.\, h\,x\,\mathsf{1}
+   = \lambda x.\, g\,x = g$.
+\end{itemize}
+Hence $\mathsf{funext}(h) : \Path\, f\, g$.  This is a
+\emph{definitional} proof---no axiom is needed.
+\end{proof}
+
+\begin{remark}
+Function extensionality is a theorem in CIC only with the axiom of
+functional extensionality (Lean's \texttt{funext}).  In $\mathrm{C}^4$,
+it is \emph{derived} from the cubical structure.  This means
+$\mathrm{C}^4$ is strictly more powerful than CIC without funext,
+while remaining conservative over CIC + funext.
+\end{remark}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Glue Types and Univalence}
+\label{sec:univalence}
+
+\begin{definition}[Equivalence]
+A function $f : A \to B$ is an \textbf{equivalence} if it has
+contractible fibers:
+\[
+  \mathsf{isEquiv}(f) \;\defeq\;
+  \Pi(b : B).\, \mathsf{isContr}\bigl(
+    \Sigma(a : A).\, \Path_B\, (f\,a)\, b
+  \bigr)
+\]
+We write $A \simeq B$ for the type of equivalences $\Sigma(f : A \to B).\,
+\mathsf{isEquiv}(f)$.
+\end{definition}
+
+\begin{definition}[Glue Types]
+\label{def:glue}
+Given $\Gamma \vdash A : \mathcal{U}_i$, a face formula $\varphi$, and
+along $\varphi$ a type $T : \mathcal{U}_i$ with an equivalence
+$e : T \simeq A$:
+\[
+  \frac{\Gamma \vdash A : \mathcal{U}_i \qquad
+        \Gamma, \varphi \vdash T : \mathcal{U}_i \qquad
+        \Gamma, \varphi \vdash e : T \simeq A}
+       {\Gamma \vdash \mathsf{Glue}\,[\varphi \mapsto (T, e)]\, A
+         : \mathcal{U}_i}
+  \tag{Glue}
+\]
+with the boundary law: when $\varphi$ holds,
+$\mathsf{Glue}\,[\varphi \mapsto (T, e)]\, A \equiv T$.
+\end{definition}
+
+\begin{theorem}[Univalence]
+\label{thm:univalence}
+For any $A, B : \mathcal{U}_i$, the canonical map
+\[
+  \mathsf{idToEquiv} : \Path_{\mathcal{U}_i}\, A\, B \to (A \simeq B)
+\]
+defined by $\mathsf{idToEquiv}(p) \defeq \transp^i\, (p\,i)$ together
+with its equivalence proof, is itself an equivalence.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+We construct the inverse $\mathsf{ua} : (A \simeq B) \to
+\Path_{\mathcal{U}_i}\, A\, B$ using Glue types.  Given an equivalence
+$e : A \simeq B$, define:
+\[
+  \mathsf{ua}(e) \defeq \langle i \rangle\,
+    \mathsf{Glue}\,[(i = \mathsf{0}) \mapsto (A, e),\;
+                     (i = \mathsf{1}) \mapsto (B, \mathsf{id}_B)]\, B
+\]
+At $i = \mathsf{0}$ this is $A$ (glued to $B$ via $e$); at $i = \mathsf{1}$
+this is $B$ (glued to $B$ via identity).  The round-trip
+$\mathsf{idToEquiv} \circ \mathsf{ua} \sim \mathrm{id}$ and
+$\mathsf{ua} \circ \mathsf{idToEquiv} \sim \mathrm{id}$ are verified
+using the computation rules for $\transp$ and $\mathsf{Glue}$.
+\end{proof}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Path Composition and Axiom Chain Correspondence}
+\label{sec:path-axiom}
+
+This section proves the central theorem connecting the proof-theoretic
+machinery of Chapters~\ref{ch:proof-theory-foundations}--\ref{ch:proof-theory-automation}
+to the type-theoretic framework of $\mathrm{C}^4$.
+
+\begin{definition}[Axiom Path]
+\label{def:axiom-path}
+For each CCTT axiom $D_k : \ell_k \equiv r_k$ (with $k \in \{1, \ldots, 24\}$
+or from the extended axiom set), the path constructor of the $\PyObj$ HIT
+gives a term:
+\[
+  \mathsf{D}_k : \Pi(\sigma : \mathsf{Subst}).\,
+    \Path_{\mathcal{U}_\PyObj}\, \den{\ell_k\sigma}\, \den{r_k\sigma}
+\]
+We call $\mathsf{D}_k(\sigma)$ an \textbf{axiom path}.
+\end{definition}
+
+\begin{definition}[Axiom Chain]
+\label{def:axiom-chain}
+An \textbf{axiom chain} from $\den{f}$ to $\den{g}$ is a sequence
+\[
+  \den{f} = t_0 \xrightarrow{D_{i_1}(\sigma_1)} t_1
+    \xrightarrow{D_{i_2}(\sigma_2)} t_2
+    \xrightarrow{\quad\cdots\quad} t_{n-1}
+    \xrightarrow{D_{i_n}(\sigma_n)} t_n = \den{g}
+\]
+where each step applies a (possibly reversed) axiom at a subterm position.
+\end{definition}
+
+\begin{theorem}[Path--Axiom Correspondence]
+\label{thm:path-axiom}
+Let $f, g$ be Python programs with OTerm denotations $\den{f}, \den{g}
+\in \mathcal{U}_\PyObj$.
+\begin{enumerate}
+\item \textbf{Axiom chain $\Rightarrow$ path:}
+  If there is an axiom chain $D_{i_1}(\sigma_1) \cdot D_{i_2}(\sigma_2)
+  \cdots D_{i_n}(\sigma_n)$ from $\den{f}$ to $\den{g}$, then there
+  exists a term $p : \Path_{\mathcal{U}_\PyObj}\, \den{f}\, \den{g}$
+  constructible from the HIT path constructors and cubical path
+  composition.
+
+\item \textbf{Path $\Rightarrow$ axiom chain:}
+  Conversely, if $p : \Path_{\mathcal{U}_\PyObj}\, \den{f}\, \den{g}$ is
+  constructible from the HIT path constructors (without transport through
+  non-trivial type families), then there exists a finite axiom chain from
+  $\den{f}$ to $\den{g}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{Part (1).}  We proceed by induction on the length $n$ of the
+axiom chain.
+
+\emph{Base case} ($n = 0$): $\den{f} \equiv \den{g}$, so
+$\mathsf{refl}_{\den{f}} : \Path\, \den{f}\, \den{g}$.
+
+\emph{Inductive step}: Suppose the chain has $n$ steps, with the
+first step $D_{i_1}(\sigma_1) : \den{f} \equiv t_1$ applied at subterm
+position $\pi$.  By the HIT structure, $D_{i_1}(\sigma_1)$ gives a
+path $p_1 : \Path\, \den{\ell_{i_1}\sigma_1}\, \den{r_{i_1}\sigma_1}$.
+To apply this at position $\pi$, we use congruence: if $\den{f} =
+C[\ell_{i_1}\sigma_1]$ for a context $C[\cdot]$, then
+$\mathsf{ap}_{C}(p_1) : \Path\, C[\ell_{i_1}\sigma_1]\,
+C[r_{i_1}\sigma_1] = \Path\, \den{f}\, t_1$.  By the inductive
+hypothesis, the remaining chain gives $q : \Path\, t_1\, \den{g}$.
+Compose: $\mathsf{ap}_C(p_1) \cdot q : \Path\, \den{f}\, \den{g}$.
+
+\textbf{Part (2).}  A path $p$ in the HIT $\PyObj$ that is built only
+from HIT constructors is, by the elimination principle of HITs, a
+composition of the generating paths $D_k(\sigma)$ and their inverses
+(possibly applied under contexts via $\mathsf{ap}$).  Each such
+composition step corresponds to an axiom application.  The elimination
+principle gives a term in the free $\infty$-groupoid generated by the
+path constructors; truncating to the 0-level (equality of OTerms)
+gives a finite word in the axiom applications, i.e., an axiom chain.
+\end{proof}
+
+\begin{corollary}
+The CCTT proof checker (which searches for axiom chains) is
+\textbf{sound and complete} with respect to $\mathrm{C}^4$ path
+equality in $\mathcal{U}_\PyObj$, restricted to HIT-constructible
+paths.
+\end{corollary}
+
+\begin{proof}
+Immediate from Theorem~\ref{thm:path-axiom}: the checker finds an
+axiom chain if and only if a HIT-constructible path exists.
+\end{proof}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Connection to the PyComp HIT}
+\label{sec:pycomp-hit}
+
+The $\PyObj$ HIT from Chapter~\ref{ch:c4-calculus} has two classes of
+constructors:
+
+\begin{enumerate}
+\item \textbf{Point constructors}: $\mathsf{OVar}$, $\mathsf{OLit}$,
+  $\mathsf{OOp}$, $\mathsf{OFold}$, $\mathsf{OCase}$, $\mathsf{OFix}$,
+  $\mathsf{OApp}$, $\mathsf{OLam}$, $\mathsf{OSeq}$, $\ldots$
+  These are the syntax tree nodes of the OTerm language.
+
+\item \textbf{Path constructors}: $\mathsf{D}_1, \ldots, \mathsf{D}_{24}$
+  and the extended axioms $\mathsf{P}_1, \ldots, \mathsf{P}_{48}$.
+  These identify OTerms that are semantically equal.
+\end{enumerate}
+
+\begin{definition}[Path Composition in $\PyObj$]
+Given axiom paths $p_k : \Path_\PyObj\, s_{k-1}\, s_k$ for
+$k = 1, \ldots, n$, the \textbf{chain composition} is:
+\[
+  p_1 \cdot p_2 \cdots p_n \;\defeq\;
+  \underbrace{(\cdots((p_1 \cdot p_2) \cdot p_3) \cdots) \cdot p_n}_{
+    \text{left-associated via Definition~\ref{def:path-comp}}}
+  : \Path_\PyObj\, s_0\, s_n
+\]
+\end{definition}
+
+\begin{example}[Factorial Equivalence as Path]
+The proof that recursive factorial equals iterative factorial
+(Example~1 in Chapter~\ref{ch:proof-theory-examples}) corresponds to a
+path in $\PyObj$:
+\begin{align*}
+  &\den{\mathsf{fact\_rec}(n)} \\
+  &\quad \xrightarrow{\mathsf{NatInd}(\text{base, step})}
+    \mathsf{OFold}(\times, 1, \mathsf{range}(1, n{+}1)) \\
+  &\quad \xrightarrow{D_{15}(\sigma)}
+    \den{\mathsf{fact\_iter}(n)}
+\end{align*}
+In $\mathrm{C}^4$, this is a path:
+\[
+  p_{\mathsf{fact}} \defeq
+  \mathsf{ap}_{\mathsf{OFix}}(\mathsf{nat\_ind\_path}) \cdot
+  \mathsf{D}_{15}(\sigma)
+  : \Path_\PyObj\, \den{\mathsf{fact\_rec}}\, \den{\mathsf{fact\_iter}}
+\]
+\end{example}
+
+\begin{example}[Sum-Range Identity as Path]
+The identity $\mathsf{sum}(\mathsf{range}(n)) = n(n-1)/2$ is a
+two-step path:
+\[
+  \den{\mathsf{sum}(\mathsf{range}(n))}
+  \xrightarrow{P_{12}}
+  \mathsf{OFold}(+, 0, \mathsf{range}(n))
+  \xrightarrow{D_{18}}
+  \den{n(n-1)/2}
+\]
+In $\mathrm{C}^4$: $P_{12}(\sigma) \cdot D_{18}(\sigma') :
+\Path_\PyObj\, \den{\mathsf{sum}(\mathsf{range}(n))}\,
+\den{n(n-1)/2}$.
+\end{example}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Cubical Structure Interacting with Fibers}
+\label{sec:cubical-fibers}
+
+When the site $\site$ is non-trivial, cubical and cohomological
+structure interact:
+
+\begin{proposition}[Restriction Commutes with Path Operations]
+\label{prop:restr-path}
+For $p : \Path_A\, a\, b$ and $U \in \mathrm{Ob}(\site)$:
+\begin{enumerate}
+\item $\restr{p}{U} : \Path_{\restr{A}{U}}\, \restr{a}{U}\, \restr{b}{U}$
+\item $\restr{(p \cdot q)}{U} \equiv \restr{p}{U} \cdot \restr{q}{U}$
+\item $\restr{(p^{-1})}{U} \equiv (\restr{p}{U})^{-1}$
+\item $\restr{(\transp^i\, A\, t)}{U} \equiv
+  \transp^i\, \restr{A}{U}\, \restr{t}{U}$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) follows from the restriction computation rule (Path-res) in
+Chapter~\ref{ch:c4-calculus}: $\restr{(\langle i \rangle\, t)}{U}
+\equiv \langle i \rangle\, \restr{t}{U}$.  The boundary conditions
+are preserved because restriction commutes with substitution.
+
+(2)--(3) follow from (1) and the definition of composition/inversion
+via $\hfilling$, since restriction distributes over $\hfilling$:
+$\restr{(\hfilling^i\, A\, [\varphi \mapsto u]\, u_0)}{U} \equiv
+\hfilling^i\, \restr{A}{U}\, [\varphi \mapsto \restr{u}{U}]\,
+\restr{u_0}{U}$.
+
+(4) is analogous, using the distributivity of restriction over
+$\transp$.
+\end{proof}
+
+\begin{theorem}[Fiberwise Univalence]
+\label{thm:fiberwise-ua}
+If $e_\alpha : \restr{A}{U_\alpha} \simeq \restr{B}{U_\alpha}$ is a
+family of fiberwise equivalences that is compatible on overlaps
+(i.e., $\restr{e_\alpha}{U_{\alpha\beta}} = \restr{e_\beta}{U_{\alpha\beta}}$),
+then the fiberwise $\mathsf{ua}$ paths glue to give a global path
+$\Path_{\mathcal{U}_i^{\site}}\, A\, B$, provided $\Hone(\covers,
+\underline{\mathrm{Aut}}_{\mathcal{U}_i}) = 0$.
+\end{theorem}
+
+\begin{proof}
+Each $e_\alpha$ gives a path $\mathsf{ua}(e_\alpha) :
+\Path\, \restr{A}{U_\alpha}\, \restr{B}{U_\alpha}$ by
+Theorem~\ref{thm:univalence}.  The compatibility on overlaps ensures
+that the restrictions of these paths agree:
+$\restr{\mathsf{ua}(e_\alpha)}{U_{\alpha\beta}} \equiv
+\restr{\mathsf{ua}(e_\beta)}{U_{\alpha\beta}}$ (by univalence applied
+to the equal equivalences).  This is exactly descent data for the path
+type $\Path\, A\, B$ viewed as a sheaf type.  By the descent rule
+(Definition~\ref{def:descent-rule}), the local paths glue if and only
+if $\Hone = 0$.
+\end{proof}
+
+This theorem encapsulates the deepest interaction between cubical and
+cohomological reasoning: univalence is \emph{local}, and descent
+globalizes it.  No other type theory provides this combination.

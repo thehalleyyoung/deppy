@@ -783,6 +783,119 @@ class Definitional(ProofTerm):
 
 
 # ═══════════════════════════════════════════════════════════════════
+# C⁴ Calculus — new proof term constructors
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class FiberRestrict(ProofTerm):
+    """Restrict a proof to a specific duck-type fiber.
+
+    Given a proof of lhs ≡ rhs, produce a proof that the equality
+    holds when restricted to fiber ``fiber_name``.  This corresponds
+    to the restriction rule (Res) in C⁴.
+    """
+    fiber_name: str
+    inner_proof: ProofTerm
+
+    def children(self) -> List[ProofTerm]:
+        return [self.inner_proof]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [f'{pad}fiber_restrict[{self.fiber_name}]:']
+        parts.append(self.inner_proof.pretty(indent + 1))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class Descent(ProofTerm):
+    """Glue fiber-local proofs into a global proof via the descent rule.
+
+    Given local proofs on each fiber of a cover and compatibility
+    witnesses on overlaps satisfying the cocycle condition, conclude
+    global equality.  This internalizes H¹ = 0 ⟹ global section.
+    """
+    fiber_proofs: Dict[str, ProofTerm]
+    overlap_proofs: Dict[Tuple[str, str], ProofTerm]
+
+    def children(self) -> List[ProofTerm]:
+        return list(self.fiber_proofs.values()) + list(self.overlap_proofs.values())
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [f'{pad}descent:']
+        for fiber, proof in self.fiber_proofs.items():
+            parts.append(f'{pad}  fiber[{fiber}]:')
+            parts.append(proof.pretty(indent + 2))
+        for (f1, f2), proof in self.overlap_proofs.items():
+            parts.append(f'{pad}  overlap[{f1}∩{f2}]:')
+            parts.append(proof.pretty(indent + 2))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class PathCompose(ProofTerm):
+    """Compose two path proofs (transitivity in the cubical sense).
+
+    Given p : a ≡ b and q : b ≡ c, produce p · q : a ≡ c.
+    This corresponds to cubical path composition via hcomp.
+    """
+    left: ProofTerm
+    right: ProofTerm
+    middle: Optional[OTerm] = None
+
+    def children(self) -> List[ProofTerm]:
+        return [self.left, self.right]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        mid = f' via {self.middle.canon()[:30]}' if self.middle else ''
+        parts = [f'{pad}path_compose{mid}:']
+        parts.append(self.left.pretty(indent + 1))
+        parts.append(self.right.pretty(indent + 1))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class MathLibAxiom(ProofTerm):
+    """Apply a Mathlib theorem looked up from the catalog.
+
+    The theorem_name is a fully qualified Lean name (e.g.,
+    'Nat.add_comm').  The instantiation maps free variables to
+    OTerms.  The theorem is trusted at LEAN_VERIFIED level.
+    """
+    theorem_name: str
+    instantiation: Dict[str, OTerm] = field(default_factory=dict)
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        binds = ', '.join(f'{k}={v.canon()}' for k, v in self.instantiation.items())
+        return f'{pad}mathlib_axiom[{self.theorem_name}]({binds})'
+
+
+@dataclass(frozen=True)
+class FiberwiseUnivalence(ProofTerm):
+    """Prove type equality by providing fiberwise equivalences.
+
+    Given equivalences on each fiber that are compatible on overlaps,
+    conclude global type equality.  Corresponds to Theorem
+    (Fiberwise Univalence) in the C⁴ cubical chapter.
+    """
+    fiber_equivs: Dict[str, ProofTerm]
+
+    def children(self) -> List[ProofTerm]:
+        return list(self.fiber_equivs.values())
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [f'{pad}fiberwise_univalence:']
+        for fiber, proof in self.fiber_equivs.items():
+            parts.append(f'{pad}  equiv[{fiber}]:')
+            parts.append(proof.pretty(indent + 2))
+        return '\n'.join(parts)
+
+
+# ═══════════════════════════════════════════════════════════════════
 # Proof term utilities
 # ═══════════════════════════════════════════════════════════════════
 
@@ -1171,3 +1284,24 @@ def arithmetic_simp(lhs: OTerm, rhs: OTerm) -> ArithmeticSimp:
 
 def list_simp(rule: str, target: OTerm) -> ListSimp:
     return ListSimp(rule, target)
+
+
+# ── C⁴ calculus proof builders ───────────────────────────────────
+
+def fiber_restrict(fiber_name: str, inner: ProofTerm) -> FiberRestrict:
+    return FiberRestrict(fiber_name, inner)
+
+def descent(fiber_proofs: Dict[str, ProofTerm],
+            overlap_proofs: Optional[Dict[Tuple[str, str], ProofTerm]] = None) -> Descent:
+    return Descent(fiber_proofs, overlap_proofs or {})
+
+def path_compose(left: ProofTerm, right: ProofTerm,
+                 middle: Optional[OTerm] = None) -> PathCompose:
+    return PathCompose(left, right, middle)
+
+def mathlib_axiom(theorem_name: str,
+                  instantiation: Optional[Dict[str, OTerm]] = None) -> MathLibAxiom:
+    return MathLibAxiom(theorem_name, instantiation or {})
+
+def fiberwise_univalence(fiber_equivs: Dict[str, ProofTerm]) -> FiberwiseUnivalence:
+    return FiberwiseUnivalence(fiber_equivs)

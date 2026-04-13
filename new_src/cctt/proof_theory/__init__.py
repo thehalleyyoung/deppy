@@ -44,6 +44,7 @@ from cctt.proof_theory.terms import (
     Assume, Cut, LetProof,
     CasesSplit, Ext,
     Rewrite, RewriteChain,
+    FiberRestrict, Descent, PathCompose, MathLibAxiom, FiberwiseUnivalence,
 )
 
 from cctt.proof_theory.checker import (
@@ -66,6 +67,8 @@ __all__ = [
     'Assume', 'Cut', 'LetProof',
     'CasesSplit', 'Ext',
     'Rewrite', 'RewriteChain',
+    # C⁴ calculus terms
+    'FiberRestrict', 'Descent', 'PathCompose', 'MathLibAxiom', 'FiberwiseUnivalence',
     # Checker
     'check_proof', 'VerificationResult', 'ProofContext',
 ]

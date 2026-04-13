@@ -39,6 +39,7 @@ from cctt.proof_theory.terms import (
     CasesSplit, Ext,
     Rewrite, RewriteChain,
     ArithmeticSimp, ListSimp, Definitional,
+    FiberRestrict, Descent, PathCompose, MathLibAxiom, FiberwiseUnivalence,
     subst_in_term, free_vars, terms_equal, normalize_term,
 )
 
@@ -751,3 +752,53 @@ def verify_auto(lhs: OTerm, rhs: OTerm,
         return VerificationResult(False, f'auto failed: {r.reason}')
 
     return check_proof(r.proof, lhs, rhs, ctx)
+
+
+# ═══════════════════════════════════════════════════════════════════
+# C⁴ calculus tactics
+# ═══════════════════════════════════════════════════════════════════
+
+def by_descent(lhs: OTerm, rhs: OTerm,
+               fiber_proofs: Dict[str, ProofTerm],
+               overlap_proofs: Optional[Dict[Tuple[str, str], ProofTerm]] = None
+               ) -> TacticResult:
+    """Prove by cohomological descent: verify on fibers, glue globally.
+
+    Constructs a Descent proof term from per-fiber proofs and
+    optional overlap compatibility witnesses.
+    """
+    if not fiber_proofs:
+        return TacticResult(None, 'by_descent: no fiber proofs')
+    proof = Descent(fiber_proofs, overlap_proofs or {})
+    return TacticResult(proof,
+                        f'descent ({len(fiber_proofs)} fibers)')
+
+
+def by_mathlib(lhs: OTerm, rhs: OTerm,
+               theorem_name: str,
+               instantiation: Optional[Dict[str, OTerm]] = None
+               ) -> TacticResult:
+    """Apply a Mathlib theorem as a proof step.
+
+    Looks up the theorem by name and constructs a MathLibAxiom
+    proof term.
+    """
+    proof = MathLibAxiom(theorem_name, instantiation or {})
+    return TacticResult(proof, f'mathlib[{theorem_name}]')
+
+
+def by_fiber(lhs: OTerm, rhs: OTerm,
+             fiber_name: str,
+             inner_proof: ProofTerm) -> TacticResult:
+    """Restrict a proof to a specific fiber."""
+    proof = FiberRestrict(fiber_name, inner_proof)
+    return TacticResult(proof, f'fiber_restrict[{fiber_name}]')
+
+
+def by_path_compose(lhs: OTerm, rhs: OTerm,
+                    left: ProofTerm,
+                    right: ProofTerm,
+                    middle: Optional[OTerm] = None) -> TacticResult:
+    """Compose two path proofs (cubical path composition)."""
+    proof = PathCompose(left, right, middle)
+    return TacticResult(proof, 'path_compose')

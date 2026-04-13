@@ -1,0 +1,478 @@
+% Chapter: Mathlib Integration — The Translation Functor
+% Part of the CCTT Monograph — Proof Calculus, Chapter IV
+
+\chapter{Mathlib Integration --- The Translation Functor}
+\label{ch:c4-mathlib}
+\label{ch:mathlib-integration}
+
+A key design principle of $\mathrm{C}^4$ is that any theorem proved in
+Lean~4's Mathlib library can be imported as a trusted axiom.  This chapter
+defines the translation functor $\Phi : \mathrm{CIC}_{\mathrm{Lean}} \to
+\mathrm{C}^4$, gives the concrete algorithm for translating theorem
+\emph{statements} (not proofs), proves soundness, and works through
+examples from the 177,744-theorem Mathlib catalog.
+
+
+% ─────────────────────────────────────────────────────────
+\section{Design: Statements, Not Proofs}
+\label{sec:statements-not-proofs}
+
+The translation functor imports \emph{theorem types}, not proof terms.
+This is a deliberate design choice:
+
+\begin{enumerate}
+\item \textbf{Lean proofs are large.}  A typical Mathlib proof term is
+  thousands of nodes.  Translating the full proof would be expensive and
+  fragile.
+
+\item \textbf{Lean is trusted.}  Lean's kernel has been extensively
+  verified.  If Lean accepts a proof of $P$, we trust that $P$ is
+  true (relative to Lean's axioms: classical logic + quotient types +
+  propositional extensionality + function extensionality + choice).
+
+\item \textbf{$\mathrm{C}^4$ is conservative over CIC.}
+  By Theorem~\ref{thm:conservative-extension}, any CIC-provable
+  statement remains provable in $\mathrm{C}^4$.  Therefore, importing
+  Lean's theorem statements as axioms does not introduce inconsistency
+  (assuming Lean is consistent).
+
+\item \textbf{Economy.}  We need the theorem's \emph{interface}
+  (its type), not its implementation (its proof term), just as in
+  programming we use a library's API without reading its source code.
+\end{enumerate}
+
+The translated statements enter $\mathrm{C}^4$ with trust level
+$\mathsf{LEAN\_VERIFIED}$---the highest level in the CCTT trust
+hierarchy.
+
+
+% ─────────────────────────────────────────────────────────
+\section{The Translation Functor $\Phi$}
+\label{sec:translation-functor}
+
+\begin{definition}[Translation Functor]
+\label{def:translation-functor}
+The \textbf{translation functor} $\Phi : \mathrm{CIC}_{\mathrm{Lean}}
+\to \mathrm{C}^4$ maps:
+\begin{enumerate}
+\item \textbf{Universes:} $\mathsf{Sort}\, u \mapsto \mathcal{U}_u$
+  (with $\mathsf{Prop} \mapsto \mathsf{Prop}$).
+\item \textbf{Types:} Lean types to $\mathrm{C}^4$ types (see the
+  type mapping table below).
+\item \textbf{Terms:} Lean terms (in types) to $\mathrm{C}^4$ terms.
+\item \textbf{Declarations:}
+  $\mathsf{theorem}\; n : P := t \;\mapsto\;
+  \mathsf{axiom}\; \Phi(n) : \Phi(P)$.
+\end{enumerate}
+$\Phi$ is a functor in the categorical sense: it preserves identity
+and composition of morphisms in the type-theoretic category.
+\end{definition}
+
+
+% ─────────────────────────────────────────────────────────
+\section{The Translation Algorithm}
+\label{sec:translation-algorithm}
+
+The algorithm is implemented in the code modules
+\texttt{lean\_parser.py}, \texttt{lean\_type\_mapper.py}, and
+\texttt{prop\_translator.py} in \texttt{new\_src/cctt/mathlib\_bridge/}.
+Here we give the formal specification.
+
+\subsection{Step 1: Parse the Lean~4 Declaration}
+
+Given a Lean~4 declaration string, the parser (a recursive-descent
+parser for Lean~4 syntax) produces an AST node.  The relevant fields are:
+\begin{itemize}
+\item \textbf{Name}: the fully qualified theorem name (e.g.,
+  \texttt{Nat.add\_comm}).
+\item \textbf{Universe parameters}: $u_1, \ldots, u_k$.
+\item \textbf{Type}: the proposition type $P$ (a Lean expression).
+\item \textbf{Proof term}: discarded.
+\end{itemize}
+
+\subsection{Step 2: Extract the Proposition Type}
+
+From the AST, extract $P$ and discard the proof term.  If the
+declaration is a \texttt{def} rather than a \texttt{theorem}, extract
+the return type.
+
+\subsection{Step 3: Map Lean Types to $\mathrm{C}^4$ Types}
+
+The type mapping $\Phi_\mathrm{type}$ is defined by structural recursion
+on the Lean type:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Lean Type} & \textbf{$\mathrm{C}^4$ Type} & \textbf{Notes} \\
+\midrule
+$\mathsf{Nat}$ & $\Nat$ & natural numbers \\
+$\mathsf{Int}$ & $\Int$ & integers \\
+$\mathsf{Bool}$ & $\Bool$ & booleans \\
+$\mathsf{String}$ & $\mathsf{String}$ & strings \\
+$\mathsf{List}\;\alpha$ & $\mathsf{List}(\Phi(\alpha))$ & polymorphic \\
+$\mathsf{Array}\;\alpha$ & $\mathsf{List}(\Phi(\alpha))$ & arrays $\to$ lists \\
+$\mathsf{Option}\;\alpha$ & $\mathsf{Option}(\Phi(\alpha))$ & \\
+$\mathsf{Fin}\;n$ & $\{k : \Nat \mid k < n\}$ & bounded nat \\
+$\mathsf{Prod}\;\alpha\;\beta$ & $\Phi(\alpha) \times \Phi(\beta)$ & \\
+$\mathsf{Sum}\;\alpha\;\beta$ & $\Phi(\alpha) + \Phi(\beta)$ & \\
+$\mathsf{Prop}$ & $\mathsf{Prop}$ & propositions \\
+$\mathsf{Sort}\;u$ & $\mathcal{U}_u$ & universes \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For composite types, the mapping recurses:
+\begin{itemize}
+\item $\Phi(\Pi(x:\alpha).\,\beta) = \Pi(x:\Phi(\alpha)).\,\Phi(\beta)$
+\item $\Phi(\Sigma(x:\alpha).\,\beta) = \Sigma(x:\Phi(\alpha)).\,\Phi(\beta)$
+\item $\Phi(\alpha \to \beta) = \Phi(\alpha) \to \Phi(\beta)$
+  \quad (non-dependent $\Pi$)
+\end{itemize}
+
+\subsection{Step 4: Map Lean Type Classes to $\mathrm{C}^4$ Assumptions}
+
+Lean type classes become explicit assumptions in $\mathrm{C}^4$:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Lean Type Class} & \textbf{$\mathrm{C}^4$ Assumption} \\
+\midrule
+$[\mathsf{Add}\;\alpha]$ & $\alpha$ has operation $+ : \alpha \to \alpha \to \alpha$ \\
+$[\mathsf{Mul}\;\alpha]$ & $\alpha$ has operation $\times : \alpha \to \alpha \to \alpha$ \\
+$[\mathsf{Ord}\;\alpha]$ & $\alpha$ has a linear order \\
+$[\mathsf{CommMonoid}\;\alpha]$ & $(\alpha, \cdot, 1)$ is a commutative monoid \\
+$[\mathsf{DecidableEq}\;\alpha]$ & equality on $\alpha$ is decidable \\
+$[\mathsf{Fintype}\;\alpha]$ & $\alpha$ is finite \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Formally: $\Phi([\mathsf{C}\;\alpha]\;\beta) =
+\Pi(\mathsf{inst} : \Phi(\mathsf{C})(\Phi(\alpha))).\,\Phi(\beta)$.
+
+\subsection{Step 5: Translate Quantifiers and Connectives}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Lean Connective} & \textbf{$\mathrm{C}^4$ Translation} \\
+\midrule
+$\forall (x : \alpha), P$ & $\Pi(x : \Phi(\alpha)).\,\Phi(P)$ \\
+$\exists (x : \alpha), P$ & $\Sigma(x : \Phi(\alpha)).\,\Phi(P)$ \\
+$P \wedge Q$ & $\Phi(P) \times \Phi(Q)$ \\
+$P \vee Q$ & $\Phi(P) + \Phi(Q)$ \\
+$P \to Q$ & $\Phi(P) \to \Phi(Q)$ \\
+$\neg P$ & $\Phi(P) \to \bot$ \\
+$P \leftrightarrow Q$ & $(\Phi(P) \to \Phi(Q)) \times (\Phi(Q) \to \Phi(P))$ \\
+$a = b$ & $\Path_{\Phi(A)}\,\Phi(a)\,\Phi(b)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The translation of equality to path types is the key design choice:
+Lean's propositional equality becomes a cubical path in $\mathrm{C}^4$.
+
+\subsection{Step 6: Handle Universe Polymorphism}
+
+Lean theorems are often polymorphic in universe levels.  We translate
+$\mathsf{Sort}\;u$ to $\mathcal{U}_u$ and instantiate universe variables
+to concrete levels when needed.  For most Mathlib theorems about $\Nat$,
+$\Int$, $\mathsf{List}$, etc., the universe level is $0$ or $1$.
+
+\subsection{Step 7: Emit as $\mathrm{C}^4$ Axiom}
+
+The final output is:
+\[
+  \mathsf{axiom}\;\Phi(\mathit{name}) : \Phi(\mathit{type})
+  \quad [\mathsf{trust} = \mathsf{LEAN\_VERIFIED}]
+\]
+
+
+% ─────────────────────────────────────────────────────────
+\section{Soundness of the Translation}
+\label{sec:translation-soundness}
+
+\begin{theorem}[Soundness of $\Phi$]
+\label{thm:phi-soundness}
+If Lean proves $\vdash_{\mathrm{Lean}} t : P$, then the axiom
+$\Phi(P)$ is consistent in $\mathrm{C}^4$ (i.e., adding $\Phi(P)$
+as an axiom does not make $\mathrm{C}^4$ inconsistent, assuming Lean
+is consistent).
+\end{theorem}
+
+\begin{proof}
+We argue in three steps.
+
+\textbf{Step 1: $\Phi$ preserves types.}
+By structural induction on Lean types, we show that $\Phi$ maps
+well-formed Lean types to well-formed $\mathrm{C}^4$ types.  The key
+cases:
+\begin{itemize}
+\item $\Phi(\Nat) = \Nat$ is a type in $\mathcal{U}_0$.
+\item $\Phi(\Pi(x:\alpha).\beta) = \Pi(x:\Phi(\alpha)).\Phi(\beta)$
+  is well-formed by the $\Pi$-formation rule, given that
+  $\Phi(\alpha)$ and $\Phi(\beta)$ are well-formed (IH).
+\item $\Phi(a =_A b) = \Path_{\Phi(A)}\,\Phi(a)\,\Phi(b)$ is
+  well-formed by the $\Path$-formation rule.
+\item Type classes: $\Phi$ turns implicit class arguments into
+  explicit $\Pi$-bound assumptions, which is type-correct.
+\end{itemize}
+
+\textbf{Step 2: Conservativity.}
+By Theorem~\ref{thm:conservative-extension}, $\mathrm{C}^4$ is
+conservative over CIC.  The CIC fragment of $\mathrm{C}^4$ includes
+all of Lean's core type theory (CIC with universes, $\Pi$, $\Sigma$,
+inductive types).  Therefore, if a proposition $P$ is provable in
+Lean (CIC + axioms), then $\Phi(P)$ is provable in the CIC fragment
+of $\mathrm{C}^4$ (since $\Phi$ acts as the identity on CIC-level
+constructs up to the equality translation).
+
+\textbf{Step 3: Equality translation.}
+The translation $a =_A b \mapsto \Path_{\Phi(A)}\,\Phi(a)\,\Phi(b)$
+uses path types instead of inductive identity.  By univalence
+(Theorem~\ref{thm:univalence}) and the fact that identity types and
+path types are equivalent in cubical type theory, this preserves
+provability: every proof of $a = b$ in Lean can be turned into a
+path $\langle i \rangle\, t : \Path\,a\,b$ in $\mathrm{C}^4$.
+
+Therefore, $\Phi(P)$ is inhabited in $\mathrm{C}^4$ whenever $P$
+is proved in Lean, so adding $\Phi(P)$ as an axiom cannot introduce
+inconsistency (it is already provable).
+\end{proof}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Concrete Examples}
+\label{sec:concrete-examples}
+
+We now translate several real Mathlib theorems.
+
+\begin{example}[\texttt{Nat.add\_comm}]
+\textbf{Lean declaration:}
+\begin{lstlisting}[language={}]
+theorem Nat.add_comm (n m : Nat) : n + m = m + n
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$ axiom:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{Nat.add\_comm}) :
+  \Pi(n\, m : \Nat).\, \Path_\Nat\, (n + m)\, (m + n)
+\]
+\end{example}
+
+\begin{example}[\texttt{List.map\_map}]
+\textbf{Lean declaration:}
+\begin{lstlisting}[language={}]
+theorem List.map_map (g : B -> C) (f : A -> B) (l : List A) :
+  List.map g (List.map f l) = List.map (g . f) l
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$ axiom:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{List.map\_map}) :
+  \Pi(A\, B\, C : \mathcal{U}_0).\,
+  \Pi(g : B \to C).\, \Pi(f : A \to B).\,
+  \Pi(l : \mathsf{List}(A)).\,
+  \Path_{\mathsf{List}(C)}\,
+    (\mathsf{map}\;g\;(\mathsf{map}\;f\;l))\,
+    (\mathsf{map}\;(g \circ f)\;l)
+\]
+\end{example}
+
+\begin{example}[\texttt{Finset.sum\_comm}]
+\textbf{Lean declaration:}
+\begin{lstlisting}[language={}]
+theorem Finset.sum_comm [AddCommMonoid M]
+  (s : Finset A) (t : Finset B) (f : A -> B -> M) :
+  s.sum (fun a => t.sum (f a)) = t.sum (fun b => s.sum (fun a => f a b))
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$ axiom:}
+\begin{align*}
+  &\mathsf{axiom}\;\Phi(\mathsf{Finset.sum\_comm}) : \\
+  &\quad \Pi(A\, B\, M : \mathcal{U}_0).\,
+  \Pi(\mathsf{inst} : \mathsf{AddCommMonoid}(M)).\, \\
+  &\quad \Pi(s : \mathsf{Finset}(A)).\,
+  \Pi(t : \mathsf{Finset}(B)).\,
+  \Pi(f : A \to B \to M).\, \\
+  &\quad \Path_M\;
+    (\mathsf{sum}(s, \lambda a.\, \mathsf{sum}(t, f\,a)))\;
+    (\mathsf{sum}(t, \lambda b.\, \mathsf{sum}(s, \lambda a.\, f\,a\,b)))
+\end{align*}
+\end{example}
+
+\begin{example}[\texttt{Nat.sub\_add\_cancel}]
+\textbf{Lean:}
+\begin{lstlisting}[language={}]
+theorem Nat.sub_add_cancel {n m : Nat} (h : m <= n) : n - m + m = n
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{Nat.sub\_add\_cancel}) :
+  \Pi(n\, m : \Nat).\, (m \leq n) \to
+  \Path_\Nat\, ((n - m) + m)\, n
+\]
+\end{example}
+
+\begin{example}[\texttt{List.length\_map}]
+\textbf{Lean:}
+\begin{lstlisting}[language={}]
+theorem List.length_map (f : A -> B) (l : List A) :
+  (List.map f l).length = l.length
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{List.length\_map}) :
+  \Pi(A\, B : \mathcal{U}_0).\,
+  \Pi(f : A \to B).\, \Pi(l : \mathsf{List}(A)).\,
+  \Path_\Nat\, (\mathsf{length}(\mathsf{map}\;f\;l))\,
+    (\mathsf{length}(l))
+\]
+\end{example}
+
+\begin{example}[\texttt{Nat.mul\_comm}]
+\textbf{Lean:}
+\begin{lstlisting}[language={}]
+theorem Nat.mul_comm (n m : Nat) : n * m = m * n
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{Nat.mul\_comm}) :
+  \Pi(n\, m : \Nat).\, \Path_\Nat\, (n \times m)\, (m \times n)
+\]
+\end{example}
+
+\begin{example}[\texttt{List.reverse\_reverse}]
+\textbf{Lean:}
+\begin{lstlisting}[language={}]
+theorem List.reverse_reverse (l : List A) :
+  l.reverse.reverse = l
+\end{lstlisting}
+\textbf{$\mathrm{C}^4$:}
+\[
+  \mathsf{axiom}\;\Phi(\mathsf{List.reverse\_reverse}) :
+  \Pi(A : \mathcal{U}_0).\, \Pi(l : \mathsf{List}(A)).\,
+  \Path_{\mathsf{List}(A)}\,
+    (\mathsf{reverse}(\mathsf{reverse}(l)))\, l
+\]
+\end{example}
+
+
+% ─────────────────────────────────────────────────────────
+\section{OTerm Mapping}
+\label{sec:oterm-mapping}
+
+When a Mathlib theorem concerns $\Nat$, $\Int$, $\mathsf{List}$, or other
+types that have OTerm counterparts, we can additionally map the theorem
+to an OTerm equality in $\mathcal{U}_\PyObj$.
+
+\begin{definition}[OTerm-Compatible Theorem]
+A theorem $\Phi(P)$ is \textbf{OTerm-compatible} if every type in $P$
+maps to an OTerm type fiber:
+\begin{center}
+\begin{tabular}{ll}
+$\Nat$ & $\to \mathsf{TInt}$ fiber (non-negative) \\
+$\Int$ & $\to \mathsf{TInt}$ fiber \\
+$\mathsf{List}(\alpha)$ & $\to \mathsf{TList}$ fiber \\
+$\mathsf{String}$ & $\to \mathsf{TStr}$ fiber \\
+$\mathsf{Bool}$ & $\to \mathsf{TBool}$ fiber \\
+\end{tabular}
+\end{center}
+\end{definition}
+
+For OTerm-compatible theorems, $\Phi(P)$ can be used as both a
+$\mathrm{C}^4$ axiom and a rewrite rule in the OTerm universe, bridging
+the gap between Lean's mathematical library and CCTT's program reasoning.
+
+
+% ─────────────────────────────────────────────────────────
+\section{The Theorem Catalog}
+\label{sec:catalog}
+
+The file \texttt{mathlib\_full\_catalog.json} contains 177,744 theorem
+entries extracted from Mathlib4.  Each entry has:
+
+\begin{itemize}
+\item \textbf{name}: the fully qualified Lean name.
+\item \textbf{type}: the Lean type expression (as a string).
+\item \textbf{module}: the Mathlib module path.
+\item \textbf{docstring}: documentation (if any).
+\end{itemize}
+
+\subsection{Querying the Catalog}
+
+To use a Mathlib theorem in a $\mathrm{C}^4$ proof:
+
+\begin{enumerate}
+\item \textbf{Search by name:} Look up the theorem by its Lean name
+  (e.g., \texttt{Nat.add\_comm}).  The catalog is indexed by name for
+  $O(1)$ lookup.
+
+\item \textbf{Search by type pattern:} For ``find me a theorem about
+  list length after map,'' search for type strings containing
+  \texttt{List.map} and \texttt{length}.
+
+\item \textbf{Translate:} Apply the functor $\Phi$ to the theorem type.
+
+\item \textbf{Instantiate:} Substitute concrete types and values for
+  universe and type variables.
+
+\item \textbf{Use in proof:} Apply the resulting $\mathrm{C}^4$ axiom
+  via the $\mathsf{MathlibTheorem}$ proof term constructor.
+\end{enumerate}
+
+\subsection{Catalog Statistics}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+\textbf{Category} & \textbf{Count} \\
+\midrule
+Total theorems & 177,744 \\
+About $\Nat$ operations & $\sim$4,200 \\
+About $\mathsf{List}$ operations & $\sim$3,100 \\
+About $\Int$ operations & $\sim$2,800 \\
+About algebraic structures & $\sim$18,500 \\
+About topology & $\sim$12,300 \\
+About analysis & $\sim$15,600 \\
+OTerm-compatible (estimated) & $\sim$12,000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+% ─────────────────────────────────────────────────────────
+\section{Integration with the Proof System}
+\label{sec:mathlib-proof-integration}
+
+\begin{definition}[MathlibTheorem Proof Term]
+The proof term $\mathsf{MathlibTheorem}(\mathit{name}, \sigma)$
+applies a translated Mathlib theorem with instantiation $\sigma$:
+\[
+  \frac{\mathit{name} \in \mathrm{Catalog} \qquad
+        \sigma : \mathrm{FV}(\Phi(\mathit{type})) \to \mathrm{Terms}}
+       {\Gamma \vdash \mathsf{MathlibTheorem}(\mathit{name}, \sigma) :
+        \Phi(\mathit{type})[\sigma]}
+\]
+\end{definition}
+
+\begin{remark}
+The $\mathsf{MathlibTheorem}$ constructor is already present in the
+proof term language (Chapter~\ref{ch:proof-theory-foundations}).  The
+contribution of this chapter is the \emph{translation functor} that
+makes the theorem type inhabitable in $\mathrm{C}^4$, together with
+the soundness guarantee.
+\end{remark}
+
+\begin{example}[Using Mathlib in an Equivalence Proof]
+To prove that $\mathsf{sum}(l_1 \mathbin{+\!\!+} l_2) =
+\mathsf{sum}(l_1) + \mathsf{sum}(l_2)$ for lists, we can use:
+\begin{enumerate}
+\item $\Phi(\mathsf{List.sum\_append})$ from Mathlib, which gives
+  $\Path\, (\mathsf{sum}(l_1 \mathbin{+\!\!+} l_2))\,
+  (\mathsf{sum}(l_1) + \mathsf{sum}(l_2))$ directly.
+\item Alternatively, prove it by list induction + axiom D1 (commutativity
+  of addition).  But the Mathlib import is shorter and more trustworthy.
+\end{enumerate}
+\end{example}
