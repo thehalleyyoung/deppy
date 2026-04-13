@@ -230,3 +230,118 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
         return 'any', False
 
     return 'unknown', False
+
+
+# ─── Duck type lattice (Proposal 4) ───────────────────────
+
+ALL_FIBERS = frozenset(['int', 'bool', 'str', 'pair', 'ref', 'none'])
+
+DUCK_TYPE_FIBERS: dict[str, frozenset[str]] = {
+    'int': frozenset(['int']),
+    'bool': frozenset(['bool']),
+    'str': frozenset(['str']),
+    'ref': frozenset(['ref']),
+    'list': frozenset(['pair', 'ref']),
+    'collection': frozenset(['pair', 'ref', 'str']),
+    'any': ALL_FIBERS,
+    'unknown': ALL_FIBERS,
+}
+
+
+def duck_type_leq(t1: str, t2: str) -> bool:
+    """Check if duck type t1 ⊑ t2 in the lattice (F(t1) ⊆ F(t2))."""
+    f1 = DUCK_TYPE_FIBERS.get(t1, frozenset())
+    f2 = DUCK_TYPE_FIBERS.get(t2, frozenset())
+    return f1 <= f2
+
+
+def duck_type_meet(t1: str, t2: str) -> str:
+    """Greatest lower bound — narrowest type containing F(t1) ∪ F(t2)."""
+    f1 = DUCK_TYPE_FIBERS.get(t1, frozenset())
+    f2 = DUCK_TYPE_FIBERS.get(t2, frozenset())
+    union = f1 | f2
+    best = 'any'
+    best_size = len(DUCK_TYPE_FIBERS['any'])
+    for name, fibers in DUCK_TYPE_FIBERS.items():
+        if union <= fibers and len(fibers) < best_size:
+            best = name
+            best_size = len(fibers)
+    return best
+
+
+def duck_type_join(t1: str, t2: str) -> str:
+    """Least upper bound — widest type whose fibers are in F(t1) ∩ F(t2).
+
+    Returns 'bottom' if the intersection is empty.
+    """
+    f1 = DUCK_TYPE_FIBERS.get(t1, frozenset())
+    f2 = DUCK_TYPE_FIBERS.get(t2, frozenset())
+    inter = f1 & f2
+    if not inter:
+        return 'bottom'
+    best = 'bottom'
+    best_size = 0
+    for name, fibers in DUCK_TYPE_FIBERS.items():
+        if fibers <= inter and len(fibers) > best_size:
+            best = name
+            best_size = len(fibers)
+    return best
+
+
+def galois_connection_alpha(concrete_fibers: frozenset[str]) -> str:
+    """α map: concrete fiber set → narrowest abstract duck type containing it."""
+    best = 'any'
+    best_size = len(ALL_FIBERS)
+    for name, fibers in DUCK_TYPE_FIBERS.items():
+        if concrete_fibers <= fibers and len(fibers) < best_size:
+            best = name
+            best_size = len(fibers)
+    return best
+
+
+def galois_connection_gamma(duck_type: str) -> frozenset[str]:
+    """γ map: abstract duck type → concrete fiber set."""
+    return DUCK_TYPE_FIBERS.get(duck_type, ALL_FIBERS)
+
+
+class HasseDiagram:
+    """Hasse diagram of the duck type lattice."""
+
+    def __init__(self, nodes: list, edges: list):
+        self.nodes = nodes
+        self.edges = edges
+
+    def render_ascii(self) -> str:
+        from collections import defaultdict
+        levels: dict[str, int] = {}
+        for n in self.nodes:
+            levels[n] = len(DUCK_TYPE_FIBERS.get(n, frozenset()))
+        by_level: dict[int, list] = defaultdict(list)
+        for n, lvl in sorted(levels.items(), key=lambda x: x[1]):
+            by_level[lvl].append(n)
+        lines: list[str] = []
+        for lvl in sorted(by_level.keys(), reverse=True):
+            row = "  ".join(by_level[lvl])
+            lines.append(f"  level {lvl}: {row}")
+        lines.append("")
+        lines.append("  Edges (⊑):")
+        for a, b in self.edges:
+            lines.append(f"    {a} ⊑ {b}")
+        return "\n".join(lines)
+
+
+def build_hasse_diagram() -> HasseDiagram:
+    """Build the Hasse diagram — edges are immediate ⊑ relations only."""
+    names = list(DUCK_TYPE_FIBERS.keys())
+    all_edges = [(a, b) for a in names for b in names
+                 if a != b and duck_type_leq(a, b)]
+    hasse_edges = []
+    for a, b in all_edges:
+        is_immediate = True
+        for c in names:
+            if c != a and c != b and duck_type_leq(a, c) and duck_type_leq(c, b):
+                is_immediate = False
+                break
+        if is_immediate:
+            hasse_edges.append((a, b))
+    return HasseDiagram(nodes=names, edges=hasse_edges)

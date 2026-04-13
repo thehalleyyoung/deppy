@@ -1,0 +1,508 @@
+\emph{transition path}:
+\[
+  (\delta^0_\mathsf{enr}\, \varphi)_{ij} = \restr{p_j}{U_{ij}}
+    \cdot (\restr{p_i}{U_{ij}})^{-1}
+\]
+where $p_i$ and $p_j$ are the local paths on fibers $U_i$ and $U_j$.
+A cocycle $\varphi \in \ker \delta^0_\mathsf{enr}$ is a family of
+local paths whose transition maps are all trivial (the identity path).
+\end{definition}
+
+\begin{theorem}[Enriched Descent]
+\label{thm:enriched-descent}
+The enriched cohomology $\Hone_\mathsf{enr}$ is a refinement of the
+ordinary $\Hone$:
+\[
+  \Hone_\mathsf{enr} = 0 \implies \Hone = 0
+\]
+but not vice versa.  The enriched version detects \emph{path
+incompatibilities}: situations where local paths exist but use
+incompatible axioms on overlaps.
+\end{theorem}
+
+\begin{proof}
+There is a natural forgetful map
+$\pi : C^\bullet_\mathsf{enr} \to C^\bullet$ given by truncating
+each path type to its mere proposition (existence).  This map is a
+cochain morphism ($\pi \circ \delta_\mathsf{enr} =
+\delta \circ \pi$) and hence induces a map on cohomology:
+\[
+  \pi^* : \Hone_\mathsf{enr} \to \Hone.
+\]
+If $\Hone_\mathsf{enr} = 0$, then every enriched 1-cocycle is a
+coboundary.  Applying $\pi^*$, every ordinary 1-cocycle is also a
+coboundary, so $\Hone = 0$.
+
+For the converse failure, consider two fibers $U_1, U_2$ with
+local paths $p_1, p_2$ such that $p_1|_{U_{12}}$ uses axiom
+$\alpha$ (e.g.\ commutativity of $+$) and $p_2|_{U_{12}}$ uses
+axiom $\beta$ (e.g.\ associativity of $\cdot$) where
+$\alpha$ and $\beta$ are not themselves connected by a path in the
+axiom space.  Then $\Hone = 0$ (both fibers pass the boolean check)
+but $\Hone_\mathsf{enr} \neq 0$ (the transition path
+$p_2|_{U_{12}} \cdot (p_1|_{U_{12}})^{-1}$ is a non-trivial
+loop in the axiom groupoid).
+\end{proof}
+
+\begin{example}[Path Incompatibility]
+Program $f$ uses \texttt{isinstance(x, int)} to dispatch.  On the
+$\mathsf{Int}$ fiber, the equivalence path uses the $\mathsf{add}$
+commutativity axiom.  On the $\mathsf{Str}$ fiber, the path uses
+string concatenation (which is NOT commutative).
+
+The ordinary $\Hone$ says: both fibers are locally equivalent, so
+$\Hone = 0$.  But the enriched $\Hone$ detects that the transition
+path on the Int$\cap$Str overlap is inconsistent (commutativity on
+one side, non-commutativity on the other).
+
+This reveals a subtle bug: the program treats \texttt{+} as
+commutative everywhere, but it's only commutative for integers.
+\end{example}
+
+\section{The Enrichment--Degeneration Tradeoff}
+
+\begin{proposition}[Enrichment Hierarchy]
+\label{prop:enrichment-hierarchy}
+There is a tradeoff between enrichment and computability, forming
+a three-level hierarchy:
+\begin{enumerate}
+  \item \textbf{Boolean enrichment} (ordinary $\Hone$): decidable,
+    computable in $O(n^3)$ via GF(2) rank.  This is the
+    $\mathcal{D} = \{0,1\}$ case.
+  \item \textbf{Duck-type enrichment} ($\underline{\Hom}$ over
+    $\mathcal{D}$): decidable when $\mathcal{D}$ is finite, since
+    the meet computation is a finite lattice operation.
+  \item \textbf{Path enrichment} (enriched $\Hone$): semi-decidable
+    (each local path check is a Z3 query, which may timeout).
+  \item \textbf{Full cubical enrichment} (tracking the specific
+    path constructors used): undecidable in general, but provides
+    the most information.
+\end{enumerate}
+\end{proposition}
+
+In practice, we use boolean enrichment (fast) as a first pass, then
+duck-type enrichment (still fast, more informative) to determine
+\emph{at what level of abstraction} $f$ and $g$ agree, and finally
+path enrichment (slower) on fibers where the duck-type check is
+ambiguous.  This is the spectral sequence strategy applied to the
+enrichment dimension.
+
+
+\chapter{Inductive Families and Dependent Pattern Matching}
+\label{ch:inductive-families}
+
+The most ambitious extension: using \emph{inductive families} (dependent
+inductive types indexed by values) to capture program invariants
+that vary with the input.  We show that the \texttt{OTerm} type
+from the implementation is itself an inductive family, and that the
+normalizer's phase-by-phase case analysis is exactly the dependent
+elimination principle.
+
+\section{Inductive Families in CTTT}
+
+\begin{definition}[Inductive Family]
+An \emph{inductive family} $T : I \to \Type$ indexed by $I$ is a type
+defined by constructors whose return type depends on the index:
+\begin{align}
+  \mathsf{nil} &: T(\mathsf{empty}) \\
+  \mathsf{cons} &: \prod_{i : I} A \to T(i) \to T(\mathsf{extend}(i))
+\end{align}
+\end{definition}
+
+\begin{example}[Length-Indexed Lists]
+The type $\mathsf{Vec}(A, n)$ of lists of length exactly $n$:
+\begin{align}
+  \mathsf{nil} &: \mathsf{Vec}(A, 0) \\
+  \mathsf{cons} &: A \to \mathsf{Vec}(A, n) \to \mathsf{Vec}(A, n+1)
+\end{align}
+A program that takes a $\mathsf{Vec}(A, n)$ and returns a
+$\mathsf{Vec}(B, n)$ is \emph{guaranteed} to preserve length.
+\end{example}
+
+\section{OTerm as an Inductive Family}
+
+The \texttt{OTerm} type in \texttt{denotation.py} is the
+computational manifestation of an inductive family indexed by
+\emph{arity} (number of free variables).
+
+\begin{definition}[The OTerm Family]
+\label{def:oterm-family}
+Define the inductive family $\mathsf{OTerm} : \Nat \to \Type$
+indexed by arity $n \in \Nat$ via the following constructors:
+\begin{align}
+  \mathsf{OVar}(k)       &: \mathsf{OTerm}(n)
+    & \text{where } k < n \\
+  \mathsf{OLit}(v)       &: \mathsf{OTerm}(0)
+    & \text{(literals are closed)} \\
+  \mathsf{OOp}(f, \vec{a}) &: \mathsf{OTerm}(n)
+    & \text{where } \vec{a} : \mathsf{OTerm}(n)^m \\
+  \mathsf{OFold}(f, z, c) &: \mathsf{OTerm}(n)
+    & \text{where } z, c : \mathsf{OTerm}(n) \\
+  \mathsf{OCase}(t, b_1, b_2) &: \mathsf{OTerm}(n)
+    & \text{where } t, b_1, b_2 : \mathsf{OTerm}(n) \\
+  \mathsf{OFix}(b)       &: \mathsf{OTerm}(n)
+    & \text{where } b : \mathsf{OTerm}(n{+}1) \\
+  \mathsf{OSeq}(\vec{e}) &: \mathsf{OTerm}(n)
+    & \text{where } \vec{e} : \mathsf{OTerm}(n)^m \\
+  \mathsf{OLam}(b)       &: \mathsf{OTerm}(n)
+    & \text{where } b : \mathsf{OTerm}(n{+}k) \\
+  \mathsf{OMap}(f, c)    &: \mathsf{OTerm}(n)
+    & \text{where } f : \mathsf{OTerm}(n{+}1),\; c : \mathsf{OTerm}(n) \\
+  \mathsf{OQuotient}(t, R)  &: \mathsf{OTerm}(n)
+    & \text{where } t : \mathsf{OTerm}(n)
+\end{align}
+Note that $\mathsf{OFix}$ and $\mathsf{OLam}$ \emph{change the index}:
+their body has arity $n{+}1$ (or $n{+}k$), reflecting the bound
+variable(s).  This is what makes $\mathsf{OTerm}$ a genuine inductive
+family, not merely a simple inductive type.
+\end{definition}
+
+\begin{remark}[Implementation Correspondence]
+In \texttt{denotation.py}, the arity index is implicit: \texttt{OVar}
+stores a name string rather than a de Bruijn index, and \texttt{OLam}
+stores parameter names.  The \texttt{canon()} method performs
+alpha-normalization (replacing parameter names with positional
+indices \texttt{\_b0}, \texttt{\_b1}, \ldots), which recovers the
+de Bruijn representation and thus the indexed family structure.
+\end{remark}
+
+\section{The Elimination Principle}
+
+\begin{definition}[OTerm Eliminator]
+\label{def:oterm-elim}
+The elimination principle for $\mathsf{OTerm}$ is a dependent
+recursor: for any type family $P : \prod_{n:\Nat}
+\mathsf{OTerm}(n) \to \Type$, given methods
+\begin{align}
+  m_{\mathsf{Var}} &: \prod_{n:\Nat}\prod_{k < n} P(n, \mathsf{OVar}(k)) \\
+  m_{\mathsf{Lit}} &: \prod_{v} P(0, \mathsf{OLit}(v)) \\
+  m_{\mathsf{Op}} &: \prod_{n,f,\vec{a}}
+    \bigl(\prod_i P(n, a_i)\bigr) \to P(n, \mathsf{OOp}(f,\vec{a})) \\
+  m_{\mathsf{Fold}} &: \prod_{n,f,z,c}
+    P(n,z) \to P(n,c) \to P(n, \mathsf{OFold}(f,z,c)) \\
+  m_{\mathsf{Case}} &: \prod_{n,t,b_1,b_2}
+    P(n,t) \to P(n,b_1) \to P(n,b_2) \to P(n, \mathsf{OCase}(t,b_1,b_2)) \\
+  m_{\mathsf{Fix}} &: \prod_{n,b}
+    P(n{+}1, b) \to P(n, \mathsf{OFix}(b))
+\end{align}
+(and similarly for $\mathsf{OSeq}$, $\mathsf{OLam}$, $\mathsf{OMap}$,
+$\mathsf{OQuotient}$), there exists a unique function
+\[
+  \elim_{\mathsf{OTerm}} : \prod_{n:\Nat}\prod_{t:\mathsf{OTerm}(n)}
+    P(n, t)
+\]
+computing by the expected case equations.
+\end{definition}
+
+\begin{proposition}[Pattern Matching = Elimination]
+\label{prop:pattern-elim}
+Every Python \texttt{if isinstance(t, OVar)} chain in
+\texttt{denotation.py} is an instance of $\elim_{\mathsf{OTerm}}$.
+The normalizer applies multiple elimination passes, each with a
+different motive $P$:
+\begin{enumerate}
+  \item \textbf{Constant folding}: $P(n,t) = \mathsf{OTerm}(n)$,
+    reduces $\mathsf{OOp}(\mathsf{add}, [\mathsf{OLit}(2),
+    \mathsf{OLit}(3)])$ to $\mathsf{OLit}(5)$.
+  \item \textbf{Algebraic simplification}: $P(n,t) = \mathsf{OTerm}(n)$,
+    applies rewrite rules (e.g.\ $\mathsf{sorted} \circ \mathsf{sorted}
+    \mapsto \mathsf{sorted}$).
+  \item \textbf{Canonical form extraction}: $P(n,t) = \mathsf{String}$,
+    produces the \texttt{canon()} hash for comparison.
+  \item \textbf{Z3 compilation}: $P(n,t) = \mathsf{Z3Expr}$,
+    translates OTerm to Z3 terms for the SMT solver.
+\end{enumerate}
+\end{proposition}
+
+\section{Application: Invariant-Indexed Specifications}
+
+Inductive families let us express specifications that depend on
+structural properties of the input:
+
+\begin{definition}[Sorted-Input Specification]
+The type $\mathsf{Sorted}(A)$ of sorted lists:
+\begin{align}
+  \mathsf{snil} &: \mathsf{Sorted}(A) \\
+  \mathsf{scons} &: \prod_{a : A} \mathsf{Sorted}(A) \to
+    (\forall b \in \mathsf{head}.\; a \leq b) \to
+    \mathsf{Sorted}(A)
+\end{align}
+
+A specification ``binary search on sorted input'' is:
+\[
+  S : \mathsf{Sorted}(\Int) \times \Int \to \mathsf{Option}(\Nat)
+\]
+The input is \emph{typed as sorted}, so the specification can assume
+the precondition.
+\end{definition}
+
+\section{Automatic Precondition Inference via Inductive Families}
+
+\begin{theorem}[Precondition Inference]
+\label{thm:precondition}
+Given a program $f$ and a specification $S$, if $f$ satisfies $S$
+only on a subset of inputs, the \emph{precondition} $P$ can be
+automatically inferred as:
+\[
+  P(x) = \mathsf{Spec}_S \text{ is satisfied at fiber } U_x
+\]
+where $U_x$ is the type fiber containing $x$.
+
+The precondition is the set of fibers where the local \v{C}ech check
+passes:
+\[
+  P = \{x : A \mid \Iso(\Sem_f, \Sem_S)(U_{\mathsf{tag}(x)}) = 1\}
+\]
+\end{theorem}
+
+\begin{example}[Inferring ``requires positive integer'']
+\begin{lstlisting}
+def sqrt_int(n):
+    if n < 0: return None  # error case
+    r = 0
+    while (r+1)*(r+1) <= n:
+        r += 1
+    return r
+\end{lstlisting}
+
+Specification: ``returns $\lfloor\sqrt{n}\rfloor$''.
+
+On the $\mathsf{Int}^+$ fiber (positive integers): correct.
+On the $\mathsf{Int}^-$ fiber (negative integers): returns None,
+violating the spec.
+
+Inferred precondition: $P(n) = (n \geq 0)$.
+
+The cohomological decomposition reveals: $\Hone(U_{\mathsf{Int}^+}) = 0$
+(correct on positives), $\Hone(U_{\mathsf{Int}^-}) \neq 0$
+(fails on negatives).  The precondition is the union of passing fibers.
+\end{example}
+
+\section{Dependent Pattern Matching as Fiber Restriction}
+
+Python's \texttt{isinstance} dispatch is a form of \emph{dependent
+pattern matching}: the program branches on the type of its input,
+and each branch has a different type signature.
+
+In CTTT, this is \emph{exactly} the fiber decomposition:
+\begin{itemize}
+  \item Each \texttt{isinstance} branch restricts to a fiber.
+  \item The branch body is the presheaf section on that fiber.
+  \item The \v{C}ech complex checks that the branches are coherent
+    (they agree on type boundaries).
+\end{itemize}
+
+\begin{theorem}[isinstance as Dependent Elimination]
+\label{thm:isinstance-dep}
+A function with \texttt{isinstance} dispatch:
+\begin{lstlisting}
+def f(x):
+    if isinstance(x, int):    return h_int(x)
+    elif isinstance(x, str):  return h_str(x)
+    else:                     return h_other(x)
+\end{lstlisting}
+has the dependent type:
+\[
+  f : \prod_{x : \PyObj} B(\mathsf{tag}(x))
+\]
+where $B(\mathsf{TInt}) = \mathsf{codomain}(h_\mathsf{int})$,
+$B(\mathsf{TStr}) = \mathsf{codomain}(h_\mathsf{str})$, etc.
+
+The dependent type is inferred automatically from the \texttt{isinstance}
+guards and the section extraction.
+\end{theorem}
+
+\begin{remark}[Dependent Pattern Matching in the Normalizer]
+The normalizer in \texttt{denotation.py} itself uses dependent pattern
+matching at \emph{two levels}:
+\begin{enumerate}
+  \item \textbf{On the input AST} (Python's \texttt{ast} module):
+    each \texttt{ast.BinOp}, \texttt{ast.Call}, etc.\ maps to an
+    OTerm constructor.  This is the compilation phase.
+  \item \textbf{On the OTerm family}: each normalization pass
+    matches on OTerm constructors and transforms them.  The arity
+    index ensures that bound-variable operations (in $\mathsf{OFix}$
+    and $\mathsf{OLam}$) correctly shift de Bruijn indices.
+\end{enumerate}
+The coherence of these two levels of pattern matching is guaranteed
+by the $\v{C}$ech complex: the presheaf sections extracted from the
+AST (level 1) are checked for global consistency via the coboundary
+map on the OTerm normal forms (level 2).
+\end{remark}
+
+
+\chapter{The Computable Fragment of CTTT}
+\label{ch:computable}
+
+A critical question: which parts of CTTT are \emph{decidable}
+(algorithms always terminate with a correct answer) vs.\
+\emph{semi-decidable} (may not terminate) vs.\ \emph{undecidable}
+(no algorithm exists)?
+
+\section{The Three Decidability Classes}
+
+\begin{definition}[Decidability Classification]
+\label{def:decidability}
+A problem $\Pi$ in the CTTT pipeline belongs to exactly one class:
+\begin{enumerate}
+  \item \textbf{Decidable.} There exists an algorithm that always
+    terminates and returns the correct Yes/No answer.
+  \item \textbf{Semi-decidable.} There exists an algorithm that
+    terminates and returns Yes if the answer is positive, but may
+    diverge (or return ``Unknown'') if the answer is negative.
+  \item \textbf{Undecidable.} No algorithm can solve $\Pi$ for all
+    inputs (by Rice's theorem or reduction from the halting problem).
+\end{enumerate}
+\end{definition}
+
+\subsection{What is Decidable: Canonical Forms and Structural Equality}
+
+The following operations are fully decidable because they operate on
+finite, syntactic data:
+
+\begin{itemize}
+  \item \textbf{Duck type inference}: a single AST walk extracts the
+    finite set of operations used on each parameter.  The duck-type
+    lattice $\mathcal{D}$ is finite, so the meet/join is computed in
+    $O(|A|)$ time.
+  \item \textbf{Site category construction}: given $k$ parameters each
+    with duck type sets of size $\leq d$, the site has at most $d^k$
+    fibers.  Enumerating fibers and overlaps is $O(d^{2k})$.
+  \item \textbf{Canonical form matching}: comparing two
+    $\mathsf{OTerm}$ values via their \texttt{canon()} strings is
+    decidable---it reduces to string equality on the normal forms.
+  \item \textbf{$\Hone$ computation}: given the boolean fiber matrix,
+    $\Hone$ is computed by GF(2) Gaussian elimination in $O(n^3)$.
+\end{itemize}
+
+\subsection{What is Semi-Decidable: Path Search}
+
+\begin{proposition}[Path Search is Semi-Decidable]
+\label{prop:path-semi}
+The path search problem---``given $\den{f}$ and $\den{g}$, does
+there exist a sequence of axiom applications connecting them?''---is
+semi-decidable.  The BFS over the rewrite graph always terminates for
+each depth bound $k$, but the search space may be infinite
+(unboundedly many axiom applications), so the algorithm may not find
+a path even though one exists at a depth not yet explored.
+\end{proposition}
+
+More precisely, the semi-decidable operations are:
+\begin{itemize}
+  \item \textbf{Local equivalence with folds}: Z3's
+    $\mathsf{RecFunction}$ definitions may cause the SMT solver to
+    diverge.  The fold RecFunction
+    $\mathsf{fold}(\op, i, \mathit{stop}, \mathit{acc})$ recurses on
+    $i$, and Z3 cannot always determine termination.
+  \item \textbf{Local equivalence with axioms}: the 52 semantic axioms
+    (Section~\ref{ch:path-space}) introduce universal quantifiers.
+    Z3's E-matching engine may loop when instantiating
+    $\forall x.\; \mathsf{sorted}(\mathsf{sorted}(x)) = \mathsf{sorted}(x)$
+    on nested terms.
+  \item \textbf{Bug finding per fiber}: satisfiability of the negated
+    equivalence formula is in general undecidable for the full theory,
+    though Z3 terminates on most practical instances.
+\end{itemize}
+
+\subsection{What is Undecidable: General Equivalence}
+
+\begin{theorem}[Undecidability of General Equivalence]
+\label{thm:undecidable-equiv}
+The problem ``given arbitrary Python programs $f$ and $g$, are they
+extensionally equivalent?''\ is undecidable.
+\end{theorem}
+
+\begin{proof}
+By Rice's theorem.  Extensional equivalence is a non-trivial semantic
+property of programs (it is not satisfied by all programs, nor
+vacuously false).  Therefore no algorithm can decide it for all inputs.
+
+Alternatively, reduce from the halting problem: given a Turing machine
+$M$ and input $w$, let $f(x) = 1$ and $g(x) = [\text{run } M
+\text{ on } w; \text{return } 1]$.  Then $f \equiv g$ iff $M$ halts
+on $w$.
+\end{proof}
+
+CTTT does not attempt to solve the undecidable problem.  Instead, it
+carves out a large \emph{decidable fragment} and returns ``Unknown''
+for programs outside it, ensuring soundness without sacrificing
+completeness on the fragment.
+
+\section{Decidability Map}
+
+\begin{center}
+\small
+\begin{longtable}{p{5cm} l p{5cm}}
+  \toprule
+  \textbf{Problem} & \textbf{Status} & \textbf{Justification} \\
+  \midrule
+  \endhead
+  Duck type inference &
+    Decidable &
+    Finite AST walk, finite operation set \\
+  Site category construction &
+    Decidable &
+    Finite product of finite tag sets \\
+  Canonical form matching &
+    Decidable &
+    String equality on \texttt{canon()} output \\
+  Structural OTerm equality &
+    Decidable &
+    Recursive descent on finite tree \\
+  Local equivalence (QF) &
+    Decidable &
+    QF\_DT + QF\_LIA is decidable \\
+  Local equivalence (with folds) &
+    Semi-decidable &
+    RecFunctions may cause non-termination \\
+  Local equivalence (with axioms) &
+    Semi-decidable &
+    E-matching may loop \\
+  Path search (depth-bounded) &
+    Decidable &
+    Finite BFS at each depth \\
+  Path search (unbounded) &
+    Semi-decidable &
+    BFS terminates per level, infinite levels \\
+  $\Hone$ computation &
+    Decidable &
+    GF(2) linear algebra, $O(n^3)$ \\
+  Full pipeline (finite types) &
+    Decidable &
+    All components decidable \\
+  Full pipeline (general) &
+    Semi-decidable &
+    Z3 may timeout on RecFunctions \\
+  Equivalence (general) &
+    Undecidable &
+    Rice's theorem \\
+  Spec checking (general) &
+    Undecidable &
+    Reduces to equivalence \\
+  Abstract spec inference &
+    Decidable &
+    Finite abstract domains \\
+  Bug finding (per fiber) &
+    Semi-decidable &
+    SAT check may timeout \\
+  \bottomrule
+\end{longtable}
+\end{center}
+
+\section{The Role of Z3}
+
+Z3 provides the decision procedure for the first-order fragment of
+CTTT.  Its role is precisely delineated:
+
+\begin{definition}[The PyObj First-Order Theory]
+\label{def:pyobj-theory}
+The Z3 theory $\mathcal{T}_{\PyObj}$ is the first-order theory with:
+\begin{itemize}
+  \item \textbf{Sort}: $\PyObj$, defined as a Z3 algebraic datatype
+    with seven constructors: $\mathsf{IntObj}(\mathit{ival} : \Int)$,
+    $\mathsf{BoolObj}(\mathit{bval} : \Bool)$,
+    $\mathsf{StrObj}(\mathit{sval} : \mathsf{String})$,
+    $\mathsf{NoneObj}$, $\mathsf{Pair}(\mathit{fst}, \mathit{snd} : \PyObj)$,
+    $\mathsf{Ref}(\mathit{addr} : \Int)$, $\mathsf{Bottom}$.
+  \item \textbf{Tester predicates}: $\mathsf{is\_IntObj}$,
+    $\mathsf{is\_BoolObj}$, \ldots---one per constructor.  These

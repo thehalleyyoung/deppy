@@ -1364,6 +1364,386 @@ def _handle_recursion(func, body, env, param_names, params):
 
 
 # ═══════════════════════════════════════════════════════════
+# §P3: Uninterpreted Function Chain Analyzer
+# ═══════════════════════════════════════════════════════════
+
+from .theory import OpacityClassifier, OpacityLevel  # noqa: E402
+
+
+class ChainLink:
+    """One link in a composed uninterpreted function chain."""
+    __slots__ = ('fn_name', 'opacity', 'has_axioms')
+
+    def __init__(self, fn_name: str, opacity: int, has_axioms: bool):
+        self.fn_name = fn_name
+        self.opacity = opacity
+        self.has_axioms = has_axioms
+
+
+class ChainAnalysis:
+    """Full analysis of a composed function chain."""
+    __slots__ = ('chain', 'total_opacity_transitions', 'reducible_by_axioms',
+                 'reduced_chain', 'proof_result')
+
+    def __init__(self, chain: list, total_opacity_transitions: int,
+                 reducible_by_axioms: bool, reduced_chain: list,
+                 proof_result: str = None):
+        self.chain = chain
+        self.total_opacity_transitions = total_opacity_transitions
+        self.reducible_by_axioms = reducible_by_axioms
+        self.reduced_chain = reduced_chain
+        self.proof_result = proof_result
+
+    @property
+    def opacity_boundary_indices(self) -> list:
+        boundaries = []
+        for i in range(1, len(self.chain)):
+            if self.chain[i].opacity != self.chain[i - 1].opacity:
+                boundaries.append(i)
+        return boundaries
+
+    def __str__(self) -> str:
+        names = [link.fn_name for link in self.chain]
+        reduced = ' ∘ '.join(self.reduced_chain) if self.reduced_chain else '(empty)'
+        return (f'Chain: {" ∘ ".join(names)}\n'
+                f'  Transitions: {self.total_opacity_transitions}\n'
+                f'  Reducible: {self.reducible_by_axioms}\n'
+                f'  Reduced: {reduced}')
+
+
+_ABSORPTION_RULES = {
+    ('sorted', 'list'): 'sorted',
+    ('sorted', 'tuple'): 'sorted',
+    ('sorted', 'reversed'): 'sorted',
+    ('sorted', 'sorted'): 'sorted',
+    ('reversed', 'reversed'): '',
+    ('list', 'list'): 'list',
+    ('tuple', 'tuple'): 'tuple',
+    ('set', 'set'): 'set',
+    ('set', 'sorted'): 'set',
+    ('set', 'reversed'): 'set',
+    ('set', 'list'): 'set',
+    ('set', 'tuple'): 'set',
+    ('frozenset', 'frozenset'): 'frozenset',
+}
+
+
+def analyze_function_chain(T, fn_names: list) -> ChainAnalysis:
+    """Analyze a chain of composed functions for opacity boundaries.
+
+    Given [f, g, h], analyzes h(g(f(x))) — detects where the opacity
+    level transitions, which axioms apply, and whether the chain
+    can be algebraically reduced.
+    """
+    links = []
+    for name in fn_names:
+        report = OpacityClassifier.classify_detailed(name)
+        links.append(ChainLink(name, report.level, report.has_axioms))
+
+    transitions = 0
+    for i in range(1, len(links)):
+        if links[i].opacity != links[i - 1].opacity:
+            transitions += 1
+
+    # Algebraic reduction via absorption rules
+    reduced = list(fn_names)
+    changed = True
+    while changed:
+        changed = False
+        new_reduced = []
+        i = 0
+        while i < len(reduced):
+            if i + 1 < len(reduced):
+                pair = (reduced[i + 1], reduced[i])
+                if pair in _ABSORPTION_RULES:
+                    replacement = _ABSORPTION_RULES[pair]
+                    if replacement:
+                        new_reduced.append(replacement)
+                    i += 2
+                    changed = True
+                    continue
+            new_reduced.append(reduced[i])
+            i += 1
+        reduced = new_reduced
+
+    reducible = reduced != fn_names
+
+    proof_result = None
+    if _HAS_Z3 and len(fn_names) >= 2:
+        x = _z3.Const('_chain_x', T.S)
+        ax_var = _z3.Const('_chain_ax', T.S)
+
+        fns = [T.shared_fn(name, 1) for name in fn_names]
+        full_term = x
+        for fn in fns:
+            full_term = fn(full_term)
+
+        if reduced:
+            red_fns = [T.shared_fn(name, 1) for name in reduced]
+            red_term = x
+            for fn in red_fns:
+                red_term = fn(red_term)
+
+            solver = _z3.Solver()
+            solver.set('timeout', 5000)
+            for outer, inner in _ABSORPTION_RULES:
+                if ((outer, 1) in T._shared_fns and
+                        (inner, 1) in T._shared_fns):
+                    fo = T._shared_fns[(outer, 1)]
+                    fi = T._shared_fns[(inner, 1)]
+                    result = _ABSORPTION_RULES[(outer, inner)]
+                    if result == '':
+                        solver.add(_z3.ForAll([ax_var],
+                                             fo(fi(ax_var)) == ax_var))
+                    elif result == outer:
+                        solver.add(_z3.ForAll([ax_var],
+                                             fo(fi(ax_var)) == fo(ax_var)))
+                    elif result == inner:
+                        solver.add(_z3.ForAll([ax_var],
+                                             fo(fi(ax_var)) == fi(ax_var)))
+                    else:
+                        fr = T.shared_fn(result, 1)
+                        solver.add(_z3.ForAll([ax_var],
+                                             fo(fi(ax_var)) == fr(ax_var)))
+
+            solver.add(full_term != red_term)
+            r = solver.check()
+            proof_result = ('reduced_equivalent'
+                            if r == _z3.unsat else str(r))
+
+    return ChainAnalysis(links, transitions, reducible, reduced, proof_result)
+
+
+def analyze_uninterpreted_chain(T) -> dict:
+    """Analyze sorted(list(set(x))) — the canonical chain example."""
+    if not _HAS_Z3:
+        return {}
+    S = T.S
+    p0 = _z3.Const('p0_chain', S)
+    ax = _z3.Const('_ax_ch', S)
+
+    sf = T.shared_fn('sorted', 1)
+    lf = T.shared_fn('list', 1)
+    setf = T.shared_fn('set', 1)
+
+    chain = sf(lf(setf(p0)))
+    direct = sf(p0)
+    results = {}
+
+    s1 = _z3.Solver()
+    s1.set('timeout', 5000)
+    s1.add(chain != direct)
+    results['without_axioms'] = s1.check().r
+
+    s2 = _z3.Solver()
+    s2.set('timeout', 5000)
+    s2.add(_z3.ForAll([ax], sf(lf(ax)) == sf(ax)))
+    s2.add(chain != direct)
+    results['with_sorted_absorbs_list'] = s2.check().r
+
+    reduced = sf(setf(p0))
+    s3 = _z3.Solver()
+    s3.set('timeout', 5000)
+    s3.add(_z3.ForAll([ax], sf(lf(ax)) == sf(ax)))
+    s3.add(chain != reduced)
+    results['chain_reduces'] = s3.check().r
+
+    full_analysis = analyze_function_chain(T, ['set', 'list', 'sorted'])
+    results['full_chain_analysis'] = str(full_analysis)
+    return results
+
+
+# ═══════════════════════════════════════════════════════════
+# §P4: Z3 Theory Completeness Checker
+# ═══════════════════════════════════════════════════════════
+
+ALL_PYTHON_BUILTINS = frozenset({
+    'sorted', 'reversed', 'list', 'tuple', 'set', 'frozenset',
+    'dict', 'sum', 'any', 'all', 'enumerate', 'zip', 'map',
+    'filter', 'type', 'hash', 'id', 'repr', 'str', 'iter',
+    'next', 'print', 'input', 'open', 'ord', 'chr',
+    'float', 'complex', 'bytes', 'bytearray', 'memoryview',
+    'object', 'super', 'property', 'classmethod', 'staticmethod',
+    'isinstance', 'issubclass', 'callable', 'getattr', 'setattr',
+    'hasattr', 'delattr', 'vars', 'dir', 'len', 'abs', 'min', 'max',
+    'range', 'slice', 'bool', 'int',
+})
+
+
+class CompletenessReport:
+    """Report on the completeness of the Z3 theory."""
+    __slots__ = ('axiomatized', 'opaque', 'recfunction_defined',
+                 'total_builtins', 'coverage_pct')
+
+    def __init__(self, axiomatized: list, opaque: list,
+                 recfunction_defined: list, total_builtins: int,
+                 coverage_pct: float):
+        self.axiomatized = axiomatized
+        self.opaque = opaque
+        self.recfunction_defined = recfunction_defined
+        self.total_builtins = total_builtins
+        self.coverage_pct = coverage_pct
+
+    def __str__(self) -> str:
+        return (
+            f'Theory Completeness: {self.coverage_pct:.1f}%\n'
+            f'  RecFunction-defined: {", ".join(self.recfunction_defined)}\n'
+            f'  Axiomatized: {", ".join(self.axiomatized)}\n'
+            f'  Opaque ({len(self.opaque)}): '
+            f'{", ".join(self.opaque[:10])}...'
+        )
+
+
+def check_theory_completeness(T) -> CompletenessReport:
+    """Check which builtins have axioms vs remain fully opaque."""
+    recfunction_defined = ['binop', 'unop', 'truthy', 'fold', 'tag']
+    axiomatized = []
+    opaque = []
+    for name in sorted(ALL_PYTHON_BUILTINS):
+        if name in OpacityClassifier.AXIOMATIZED_UNINTERPRETED:
+            axiomatized.append(name)
+        else:
+            level = OpacityClassifier.classify(name)
+            if level == OpacityLevel.UNINTERPRETED:
+                opaque.append(name)
+    total = len(ALL_PYTHON_BUILTINS) + len(recfunction_defined)
+    covered = len(axiomatized) + len(recfunction_defined)
+    pct = (covered / total * 100) if total else 0.0
+    return CompletenessReport(axiomatized, opaque, recfunction_defined,
+                              total, pct)
+
+
+def check_active_axiom_coverage(T) -> dict:
+    """For each shared function in T, report whether it has axiom coverage."""
+    coverage = {}
+    for (name, _arity) in sorted(T._shared_fns.keys()):
+        coverage[name] = name in OpacityClassifier._AXIOM_MAP
+    return coverage
+
+
+# ═══════════════════════════════════════════════════════════
+# §P11: Opacity Boundary Demonstration (Thm. 25.4)
+# ═══════════════════════════════════════════════════════════
+
+class OpacityBoundaryTest:
+    """One test in the opacity boundary demonstration."""
+    __slots__ = ('name', 'description', 'expected', 'actual', 'passed')
+
+    def __init__(self, name: str, description: str, expected: str,
+                 actual: str, passed: bool):
+        self.name = name
+        self.description = description
+        self.expected = expected
+        self.actual = actual
+        self.passed = passed
+
+
+def demonstrate_opacity_boundary(T) -> list:
+    """Demonstrate the opacity boundary theorem (Thm. 25.4).
+
+    Shows that uninterpreted functions can only prove equality via
+    congruence, unless equational axioms are added.
+    """
+    if not _HAS_Z3:
+        return []
+    S = T.S
+    results = []
+    x = _z3.Const('x_ob', S)
+    y = _z3.Const('y_ob', S)
+    sf = T.shared_fn('sorted', 1)
+
+    # T1: Congruence — same input ⇒ same output
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(sf(x) != sf(x))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'congruence_self', 'f(x) == f(x) by congruence',
+        'unsat', str(r), r == _z3.unsat))
+
+    # T2: Different inputs may still map to same output
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(x != y)
+    s.add(sf(x) == sf(y))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'different_inputs_may_match',
+        'x != y does not imply f(x) != f(y)',
+        'sat', str(r), r == _z3.sat))
+
+    # T3: Opaque function can match any concrete value
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(sf(x) == S.IntObj(_z3.IntVal(42)))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'opaque_accepts_concrete',
+        'f(x) == IntObj(42) is satisfiable for opaque f',
+        'sat', str(r), r == _z3.sat))
+
+    # T4: Idempotence axiom lifts partial opacity
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(_z3.ForAll([x], sf(sf(x)) == sf(x)))
+    y2 = _z3.Const('y_ob2', S)
+    s.add(sf(sf(y2)) != sf(y2))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'idempotence_lifts_opacity',
+        'with f∘f=f axiom, f(f(x)) == f(x) provable',
+        'unsat', str(r), r == _z3.unsat))
+
+    # T5: Without axioms, cannot prove f(f(x)) == f(x)
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(sf(sf(x)) != sf(x))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'no_axiom_no_idempotence',
+        'without axioms, f(f(x)) == f(x) is not provable',
+        'sat', str(r), r == _z3.sat))
+
+    # T6: Involution axiom for reversed
+    rf = T.shared_fn('reversed', 1)
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(_z3.ForAll([x], rf(rf(x)) == x))
+    z = _z3.Const('z_ob', S)
+    s.add(rf(rf(z)) != z)
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'involution_reversed',
+        'with reversed∘reversed=id, rev(rev(x)) == x',
+        'unsat', str(r), r == _z3.unsat))
+
+    # T7: Functional extensionality does NOT hold for opaque fns
+    gf = T.shared_fn('my_opaque', 1)
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(sf(x) != gf(x))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'opaque_fns_distinguishable',
+        'different opaque symbols are distinguishable',
+        'sat', str(r), r == _z3.sat))
+
+    # T8: Same symbol, different arity → different functions
+    sf1 = T.shared_fn('testfn', 1)
+    sf2 = T.shared_fn('testfn', 2)
+    s = _z3.Solver()
+    s.set('timeout', 5000)
+    s.add(sf1(x) != sf2(x, y))
+    r = s.check()
+    results.append(OpacityBoundaryTest(
+        'different_arity_distinguishable',
+        'f/1 and f/2 are distinct symbols',
+        'sat', str(r), r == _z3.sat))
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════
 # Extended AST→Z3 helpers  (wired from proposals/g13_compilation)
 # ═══════════════════════════════════════════════════════════
 

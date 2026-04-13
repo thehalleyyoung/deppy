@@ -272,3 +272,205 @@ def _output_compatible(out_f: str, out_g: str) -> bool:
     if out_f == 'variable' or out_g == 'variable':
         return True
     return False
+
+
+# ─── Compiler limitation detection (Proposal 8) ──────────
+
+from dataclasses import dataclass
+from typing import List as _List
+
+
+@dataclass
+class CompilerWarning:
+    """A single compiler limitation warning."""
+    lineno: int
+    col_offset: int
+    category: str
+    message: str
+    severity: str  # 'info', 'warn', 'error'
+
+    def __str__(self) -> str:
+        return f"Line {self.lineno}:{self.col_offset} [{self.severity}] {self.category}: {self.message}"
+
+
+def detect_compiler_limitations(source: str) -> _List[CompilerWarning]:
+    """Detect Python features that the CCTT compiler cannot fully handle.
+
+    Returns warnings about constructs that produce fresh constants
+    (uninterpreted symbols) rather than precise Z3 terms.
+    """
+    warnings: _List[CompilerWarning] = []
+    try:
+        tree = ast.parse(source)
+    except SyntaxError as e:
+        return [CompilerWarning(
+            lineno=e.lineno or 0, col_offset=e.offset or 0,
+            category='syntax', message=str(e), severity='error')]
+
+    for node in ast.walk(tree):
+        ln = getattr(node, 'lineno', 0)
+        col = getattr(node, 'col_offset', 0)
+
+        if isinstance(node, ast.Lambda):
+            warnings.append(CompilerWarning(
+                ln, col, 'lambda',
+                'Lambda expression produces fresh constant (not inlined)',
+                'warn'))
+
+        if isinstance(node, (ast.Yield, ast.YieldFrom)):
+            warnings.append(CompilerWarning(
+                ln, col, 'generator',
+                'Yield/generator: lazy evaluation semantics not modeled',
+                'warn'))
+
+        if isinstance(node, ast.ListComp) and len(node.generators) > 1:
+            warnings.append(CompilerWarning(
+                ln, col, 'nested_comp',
+                'Nested comprehension: outer generator hashed, inner chained',
+                'info'))
+
+        if isinstance(node, ast.Constant) and isinstance(node.value, float):
+            v = node.value
+            if v != v or v == float('inf') or v == float('-inf'):
+                warnings.append(CompilerWarning(
+                    ln, col, 'special_float',
+                    f'Special float {v!r} produces fresh constant',
+                    'warn'))
+
+        if isinstance(node, ast.ClassDef):
+            warnings.append(CompilerWarning(
+                ln, col, 'class_def',
+                f'Class {node.name}: instances modeled as opaque Ref',
+                'info'))
+
+        if isinstance(node, (ast.AsyncFunctionDef, ast.AsyncFor, ast.AsyncWith)):
+            warnings.append(CompilerWarning(
+                ln, col, 'async',
+                'Async constructs: concurrency semantics not modeled',
+                'warn'))
+
+        if isinstance(node, ast.Raise):
+            warnings.append(CompilerWarning(
+                ln, col, 'raise',
+                'Raise statement: exception semantics partially modeled via try/except',
+                'info'))
+
+        if isinstance(node, ast.Global):
+            warnings.append(CompilerWarning(
+                ln, col, 'global',
+                'Global statement: cross-scope mutation not tracked',
+                'info'))
+
+        if isinstance(node, ast.Delete):
+            warnings.append(CompilerWarning(
+                ln, col, 'delete',
+                'Delete statement: binding removal may cause stale references',
+                'info'))
+
+        if isinstance(node, ast.Try):
+            n_handlers = len(node.handlers)
+            if n_handlers > 2:
+                warnings.append(CompilerWarning(
+                    ln, col, 'complex_try',
+                    f'Try with {n_handlers} handlers: each handler path compiled independently',
+                    'info'))
+
+        if isinstance(node, ast.While):
+            warnings.append(CompilerWarning(
+                ln, col, 'while_loop',
+                'While loop: unrolled to RecFunction with depth limit 50',
+                'info'))
+
+    return warnings
+
+
+# ─── AST node coverage matrix (Proposal 9) ───────────────
+
+COMPILER_HANDLED_EXPR_NODES = {
+    'Constant', 'Name', 'BinOp', 'UnaryOp', 'Compare', 'BoolOp',
+    'IfExp', 'Call', 'Subscript', 'Tuple', 'List', 'ListComp',
+    'SetComp', 'GeneratorExp', 'DictComp', 'Attribute', 'Dict',
+    'Set', 'Lambda', 'Starred', 'JoinedStr', 'NamedExpr',
+    'Await', 'Yield', 'YieldFrom', 'FormattedValue',
+}
+
+COMPILER_HANDLED_STMT_NODES = {
+    'Return', 'If', 'Assign', 'AugAssign', 'For', 'While',
+    'FunctionDef', 'AsyncFunctionDef', 'ClassDef', 'Expr',
+    'Try', 'With', 'AsyncWith', 'Import', 'ImportFrom',
+    'Assert', 'Delete', 'Global', 'Nonlocal', 'Pass', 'Break',
+    'Continue', 'Raise',
+}
+
+ALL_PYTHON_EXPR_NODES = {
+    'Constant', 'Name', 'BinOp', 'UnaryOp', 'Compare', 'BoolOp',
+    'IfExp', 'Call', 'Subscript', 'Tuple', 'List', 'ListComp',
+    'SetComp', 'GeneratorExp', 'DictComp', 'Attribute', 'Dict',
+    'Set', 'Lambda', 'Starred', 'JoinedStr', 'NamedExpr',
+    'Await', 'Yield', 'YieldFrom', 'FormattedValue',
+    'Slice',
+}
+
+ALL_PYTHON_STMT_NODES = {
+    'Return', 'If', 'Assign', 'AugAssign', 'For', 'While',
+    'FunctionDef', 'AsyncFunctionDef', 'ClassDef', 'Expr',
+    'Try', 'TryStar', 'With', 'AsyncWith', 'Import', 'ImportFrom',
+    'Assert', 'Delete', 'Global', 'Nonlocal', 'Pass', 'Break',
+    'Continue', 'Raise', 'Match', 'AsyncFor',
+}
+
+
+@dataclass
+class CoverageMatrix:
+    """AST node coverage matrix for the CCTT compiler."""
+    handled_expr: Set[str]
+    handled_stmt: Set[str]
+    unhandled_expr: Set[str]
+    unhandled_stmt: Set[str]
+    expr_coverage: float
+    stmt_coverage: float
+
+    def format(self) -> str:
+        lines = ["═══ AST Node Coverage Matrix ═══"]
+        lines.append(f"  Expression nodes: {len(self.handled_expr)}/{len(self.handled_expr) + len(self.unhandled_expr)}"
+                     f" ({self.expr_coverage:.0%})")
+        lines.append(f"  Statement  nodes: {len(self.handled_stmt)}/{len(self.handled_stmt) + len(self.unhandled_stmt)}"
+                     f" ({self.stmt_coverage:.0%})")
+        if self.unhandled_expr:
+            lines.append(f"  Unhandled expressions: {', '.join(sorted(self.unhandled_expr))}")
+        if self.unhandled_stmt:
+            lines.append(f"  Unhandled statements:  {', '.join(sorted(self.unhandled_stmt))}")
+        return "\n".join(lines)
+
+
+def compute_ast_coverage() -> CoverageMatrix:
+    """Compute which Python AST nodes the CCTT compiler handles."""
+    unhandled_expr = ALL_PYTHON_EXPR_NODES - COMPILER_HANDLED_EXPR_NODES
+    unhandled_stmt = ALL_PYTHON_STMT_NODES - COMPILER_HANDLED_STMT_NODES
+    total_expr = len(ALL_PYTHON_EXPR_NODES) or 1
+    total_stmt = len(ALL_PYTHON_STMT_NODES) or 1
+    return CoverageMatrix(
+        handled_expr=COMPILER_HANDLED_EXPR_NODES,
+        handled_stmt=COMPILER_HANDLED_STMT_NODES,
+        unhandled_expr=unhandled_expr,
+        unhandled_stmt=unhandled_stmt,
+        expr_coverage=len(COMPILER_HANDLED_EXPR_NODES) / total_expr,
+        stmt_coverage=len(COMPILER_HANDLED_STMT_NODES) / total_stmt,
+    )
+
+
+def analyze_source_coverage(source: str) -> Dict[str, str]:
+    """Analyze which AST nodes in a source are handled/unhandled by CCTT."""
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return {'__error__': 'SyntaxError'}
+
+    result: Dict[str, str] = {}
+    for node in ast.walk(tree):
+        name = type(node).__name__
+        if name in COMPILER_HANDLED_EXPR_NODES or name in COMPILER_HANDLED_STMT_NODES:
+            result.setdefault(name, 'handled')
+        elif name in ALL_PYTHON_EXPR_NODES or name in ALL_PYTHON_STMT_NODES:
+            result[name] = 'unhandled'
+    return result
