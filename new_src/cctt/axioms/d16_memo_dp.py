@@ -298,6 +298,32 @@ def apply(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTerm, str]
                 'D16_fibonacci_to_dp',
             ))
 
+    # ── Generalised linear recurrence → bottom-up fold ──
+    if isinstance(term, OFix) and isinstance(term.body, OCase):
+        order = _linear_recurrence_order(term.body, term.name)
+        if order >= 3:
+            init_elems = tuple(OLit(0) for _ in range(order))
+            results.append((
+                OFold(f'{term.name}_step', OSeq(init_elems),
+                      OOp('range', (OVar('n'),))),
+                'D16_linear_recurrence_to_dp',
+            ))
+
+    # ── Dict-based manual memoization → strip memo wrapper ──
+    if isinstance(term, OCase):
+        unwrapped = _is_dict_memo_wrapper(term)
+        if unwrapped is not None:
+            results.append((unwrapped, 'D16_strip_dict_memo'))
+
+    # ── Multi-dimensional DP: fold over product(range, range) → OFix ──
+    if isinstance(term, OFold) and _is_multi_dim_dp(term):
+        dims = len(term.collection.args)
+        structural = re.sub(r'\$\w+', '$_', term.collection.canon())
+        results.append((
+            OFix(_hash(f'dp_{dims}d_{structural}'), term.init),
+            'D16_multi_dim_dp_to_fix',
+        ))
+
     return results
 
 
@@ -329,6 +355,66 @@ def _is_fibonacci_recurrence(body: OCase, fix_name: str) -> bool:
     return False
 
 
+def _linear_recurrence_order(body: OTerm, fix_name: str) -> int:
+    """Return the order of a linear recurrence, or 0 if not linear.
+
+    Detects patterns like:
+      order 2: f(n) = f(n-1) + f(n-2)           (Fibonacci)
+      order 3: f(n) = f(n-1) + f(n-2) + f(n-3)  (Tribonacci)
+      order k: f(n) = Σ f(n-i)  for i in 1..k
+    """
+    canon = body.canon()
+    count = canon.count(f'fix[{fix_name}]')
+    if count < 2:
+        return 0
+    if 'sub' not in canon:
+        return 0
+    offsets: set[int] = set()
+    for m in re.finditer(rf'sub\([^,)]+,(\d+)\)', canon):
+        offsets.add(int(m.group(1)))
+    if not offsets:
+        return 0
+    max_off = max(offsets)
+    if max_off >= 2 and len(offsets) >= 2:
+        return max_off
+    return 0
+
+
+def _is_dict_memo_wrapper(term: OTerm) -> Optional[OTerm]:
+    """Detect dict-based manual memoization and return the unwrapped body.
+
+    Patterns detected:
+      OCase(OOp('contains'/'in', (memo, key)), OOp('getitem', (memo, key)), body)
+      OCase(OOp('in', (key, memo)), OOp('getitem', (memo, key)), body)
+    """
+    if not isinstance(term, OCase):
+        return None
+    test = term.test
+    if not isinstance(test, OOp):
+        return None
+    if test.name not in ('contains', 'in', '__contains__'):
+        return None
+    lookup = term.true_branch
+    if not isinstance(lookup, OOp):
+        return None
+    if lookup.name not in ('getitem', '__getitem__'):
+        return None
+    return term.false_branch
+
+
+def _is_multi_dim_dp(term: OFold) -> bool:
+    """Detect multi-dimensional DP: fold over product(range(m), range(n))."""
+    if not isinstance(term.collection, OOp):
+        return False
+    coll = term.collection
+    if coll.name not in ('product', 'itertools.product'):
+        return False
+    return all(
+        isinstance(a, OOp) and a.name == 'range'
+        for a in coll.args
+    )
+
+
 # ═══════════════════════════════════════════════════════════
 # Inverse
 # ═══════════════════════════════════════════════════════════
@@ -338,8 +424,10 @@ def apply_inverse(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTe
     results = apply(term, ctx)
     inverse_labels = {
         'D16_dp_table_to_fix',
+        'D16_multi_dim_dp_to_fix',
         'D16_strip_memo',
         'D16_strip_cache_decorator',
+        'D16_strip_dict_memo',
     }
     return [(t, lbl) for t, lbl in results if lbl in inverse_labels]
 
@@ -355,10 +443,14 @@ def recognizes(term: OTerm) -> bool:
     if isinstance(term, OFold):
         if isinstance(term.collection, OOp) and term.collection.name == 'range':
             return True
+        if _is_multi_dim_dp(term):
+            return True
     if isinstance(term, OOp):
         if term.name in ('lru_cache', 'cache', 'functools.cache',
                          'functools.lru_cache'):
             return True
+    if isinstance(term, OCase) and _is_dict_memo_wrapper(term) is not None:
+        return True
     return False
 
 
@@ -472,6 +564,49 @@ if __name__ == '__main__':
     r7 = apply(fib_fix, ctx)
     _assert(any(lbl == 'D16_fibonacci_to_dp' for _, lbl in r7),
             "fibonacci detected")
+
+    # ── Generalized linear recurrence (tribonacci) ──
+    print("D16: tribonacci detection ...")
+    tri_fix = OFix('tri', OCase(
+        OOp('le', (OVar('n'), OLit(2))),
+        OVar('n'),
+        OOp('add', (
+            OFix('tri', OOp('sub', (OVar('n'), OLit(1)))),
+            OOp('add', (
+                OFix('tri', OOp('sub', (OVar('n'), OLit(2)))),
+                OFix('tri', OOp('sub', (OVar('n'), OLit(3)))),
+            )),
+        )),
+    ))
+    r_tri = apply(tri_fix, ctx)
+    _assert(any(lbl == 'D16_linear_recurrence_to_dp' for _, lbl in r_tri),
+            "tribonacci detected as linear recurrence")
+
+    # ── Dict-based memo stripping ──
+    print("D16: dict memo strip ...")
+    memo_body = OCase(
+        OOp('contains', (OVar('memo'), OVar('key'))),
+        OOp('getitem', (OVar('memo'), OVar('key'))),
+        OOp('expensive_compute', (OVar('key'),)),
+    )
+    r_memo = apply(memo_body, ctx)
+    _assert(any(lbl == 'D16_strip_dict_memo' for _, lbl in r_memo),
+            "dict memo detected and stripped")
+
+    # ── Multi-dimensional DP ──
+    print("D16: multi-dim DP ...")
+    md_fold = OFold(
+        'update_2d',
+        OOp('list', ()),
+        OOp('product', (
+            OOp('range', (OVar('m'),)),
+            OOp('range', (OVar('n'),)),
+        )),
+    )
+    r_md = apply(md_fold, ctx)
+    _assert(any(lbl == 'D16_multi_dim_dp_to_fix' for _, lbl in r_md),
+            "multi-dim DP detected")
+    _assert(recognizes(md_fold), "recognizes multi-dim DP fold")
 
     # ── Canonicalise commutative subexprs ──
     print("D16: commutative normalisation ...")

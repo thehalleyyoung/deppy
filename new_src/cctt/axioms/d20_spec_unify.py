@@ -386,6 +386,37 @@ def _identify_tree_traversal(term: OTerm) -> Optional[Tuple[str, Tuple[OTerm, ..
     return None
 
 
+def _identify_sum_builtin(term: OTerm) -> Optional[Tuple[str, Tuple[OTerm, ...]]]:
+    """Recognise sum(xs) as a spec (non-range sum)."""
+    if isinstance(term, OOp) and term.name == 'sum':
+        if len(term.args) == 1:
+            coll = term.args[0]
+            # Not a range sum (that's handled by _identify_range_sum)
+            if not (isinstance(coll, OOp) and coll.name == 'range'):
+                return ('sum', term.args)
+    if isinstance(term, OFold) and term.op_name in ('add', '.add', 'iadd'):
+        if isinstance(term.init, OLit) and term.init.value == 0:
+            if not (isinstance(term.collection, OOp) and term.collection.name == 'range'):
+                return ('sum', (term.collection,))
+    return None
+
+
+def _identify_count(term: OTerm) -> Optional[Tuple[str, Tuple[OTerm, ...]]]:
+    """Recognise len(filter(pred, xs)) or sum(1 for x in xs if pred(x))."""
+    if isinstance(term, OOp) and term.name == 'len' and len(term.args) == 1:
+        inner = term.args[0]
+        if isinstance(inner, OMap) and inner.filter_pred is not None:
+            return ('count', (inner.filter_pred, inner.collection))
+        if isinstance(inner, OOp) and inner.name == 'filter' and len(inner.args) == 2:
+            return ('count', inner.args)
+    # sum(1 for x in xs if pred(x)) → fold[add](0, map(const(1), filter(pred, xs)))
+    if isinstance(term, OFold) and term.op_name in ('add', '.add', 'iadd'):
+        if isinstance(term.init, OLit) and term.init.value == 0:
+            if isinstance(term.collection, OMap) and term.collection.filter_pred is not None:
+                return ('count', (term.collection.filter_pred, term.collection.collection))
+    return None
+
+
 # ═══════════════════════════════════════════════════════════
 # Master spec identification
 # ═══════════════════════════════════════════════════════════
@@ -410,9 +441,11 @@ _SPEC_RECOGNISERS = [
     _identify_abs,
     _identify_all_any,
     _identify_product,
+    _identify_count,       # before len — more specific
     _identify_len,
     _identify_matrix_multiply,
     _identify_tree_traversal,
+    _identify_sum_builtin,
 ]
 
 
@@ -565,6 +598,83 @@ def apply_inverse(term: OTerm, ctx: Any = None) -> List[Tuple[OTerm, str]]:
                 OOp('matmul', term.inputs),
                 'D20_spec_expand_matmul',
             ))
+        elif term.spec == 'fibonacci_like' and len(term.inputs) >= 1:
+            n = term.inputs[0]
+            results.append((
+                OFix('fib', OCase(
+                    OOp('le', (n, OLit(1))),
+                    n,
+                    OOp('add', (
+                        OFix('fib', OOp('sub', (n, OLit(1)))),
+                        OFix('fib', OOp('sub', (n, OLit(2)))),
+                    )),
+                )),
+                'D20_spec_expand_fibonacci',
+            ))
+        elif term.spec == 'binomial' and len(term.inputs) >= 2:
+            results.append((
+                OOp('math.comb', term.inputs[:2]),
+                'D20_spec_expand_binomial',
+            ))
+        elif term.spec == 'is_prime' and len(term.inputs) == 1:
+            n = term.inputs[0]
+            # Trial division up to sqrt(n)
+            results.append((
+                OFold('and', OLit(True), OMap(
+                    OLam(('d',), OOp('ne', (OOp('mod', (n, OVar('d'))), OLit(0)))),
+                    OOp('range', (OLit(2), OOp('add', (OOp('isqrt', (n,)), OLit(1))))),
+                )),
+                'D20_spec_expand_is_prime',
+            ))
+        elif term.spec == 'zip_with' and len(term.inputs) == 3:
+            fn, xs, ys = term.inputs
+            results.append((
+                OMap(fn, OOp('zip', (xs, ys))),
+                'D20_spec_expand_zip_with',
+            ))
+        elif term.spec == 'partition' and len(term.inputs) == 2:
+            pred, coll = term.inputs
+            results.append((
+                OOp('tuple', (
+                    OMap(OLam(('x',), OVar('x')), coll, pred),
+                    OMap(OLam(('x',), OVar('x')), coll,
+                         OLam(('x',), OOp('u_not', (OOp('call', (pred, OVar('x'))),)))),
+                )),
+                'D20_spec_expand_partition',
+            ))
+        elif term.spec == 'group_by' and len(term.inputs) == 2:
+            key_fn, coll = term.inputs
+            results.append((
+                OFold('dict_append', OOp('dict', ()), coll),
+                'D20_spec_expand_group_by',
+            ))
+        elif term.spec == 'tree_traversal' and len(term.inputs) >= 1:
+            root = term.inputs[0]
+            results.append((
+                OFix('traverse', OCase(
+                    OOp('is_none', (root,)),
+                    OSeq(()),
+                    OOp('concat', (
+                        OFix('traverse', OOp('.left', (root,))),
+                        OOp('concat', (
+                            OSeq((OOp('.val', (root,)),)),
+                            OFix('traverse', OOp('.right', (root,))),
+                        )),
+                    )),
+                )),
+                'D20_spec_expand_tree_traversal',
+            ))
+        elif term.spec == 'sum' and len(term.inputs) == 1:
+            results.append((
+                OOp('sum', term.inputs),
+                'D20_spec_expand_sum',
+            ))
+        elif term.spec == 'count' and len(term.inputs) == 2:
+            pred, coll = term.inputs
+            results.append((
+                OOp('len', (OOp('filter', (pred, coll)),)),
+                'D20_spec_expand_count',
+            ))
 
     return results
 
@@ -688,6 +798,21 @@ if __name__ == '__main__':
     s20 = identify_spec(OOp('pow', (a, b)))
     _assert(s20 is not None and s20[0] == 'power', "power recognised")
 
+    # sum builtin: sum(xs) where xs is not a range
+    sum_term = OOp('sum', (OVar('xs'),))
+    s_sum = identify_spec(sum_term)
+    _assert(s_sum is not None and s_sum[0] == 'sum', "sum builtin recognised")
+
+    # sum as fold[add](0, xs) where xs is not range
+    sum_fold = OFold('add', OLit(0), OVar('data'))
+    s_sumf = identify_spec(sum_fold)
+    _assert(s_sumf is not None and s_sumf[0] == 'sum', "sum fold recognised")
+
+    # count: len(filter(pred, xs))
+    count_term = OOp('len', (OOp('filter', (OVar('pred'), OVar('xs'))),))
+    s_count = identify_spec(count_term)
+    _assert(s_count is not None and s_count[0] == 'count', "count recognised")
+
     # apply produces OAbstract
     r = apply(fact_term, ctx)
     _assert(len(r) >= 1, "D20 apply produces results")
@@ -698,6 +823,37 @@ if __name__ == '__main__':
     inv = apply_inverse(abstract_fact, ctx)
     _assert(len(inv) >= 1, "D20 inverse expands factorial")
     _assert(isinstance(inv[0][0], OFold), "D20 inverse is OFold")
+
+    # apply_inverse for fibonacci_like
+    abstract_fib = OAbstract('fibonacci_like', (n,))
+    inv_fib = apply_inverse(abstract_fib, ctx)
+    _assert(len(inv_fib) >= 1, "D20 inverse expands fibonacci")
+    _assert(any('fibonacci' in lbl for _, lbl in inv_fib), "fibonacci expansion label")
+
+    # apply_inverse for binomial
+    abstract_binom = OAbstract('binomial', (a, b))
+    inv_binom = apply_inverse(abstract_binom, ctx)
+    _assert(len(inv_binom) >= 1, "D20 inverse expands binomial")
+
+    # apply_inverse for is_prime
+    abstract_prime = OAbstract('is_prime', (n,))
+    inv_prime = apply_inverse(abstract_prime, ctx)
+    _assert(len(inv_prime) >= 1, "D20 inverse expands is_prime")
+
+    # apply_inverse for zip_with
+    abstract_zw = OAbstract('zip_with', (OVar('f'), OVar('xs'), OVar('ys')))
+    inv_zw = apply_inverse(abstract_zw, ctx)
+    _assert(len(inv_zw) >= 1, "D20 inverse expands zip_with")
+
+    # apply_inverse for sum
+    abstract_sum = OAbstract('sum', (OVar('xs'),))
+    inv_sum = apply_inverse(abstract_sum, ctx)
+    _assert(len(inv_sum) >= 1, "D20 inverse expands sum")
+
+    # apply_inverse for count
+    abstract_cnt = OAbstract('count', (OVar('pred'), OVar('xs')))
+    inv_cnt = apply_inverse(abstract_cnt, ctx)
+    _assert(len(inv_cnt) >= 1, "D20 inverse expands count")
 
     # relevance
     _assert(relevance_score(fact_term, gcd_fix) < relevance_score(fact_term, fact_fix),

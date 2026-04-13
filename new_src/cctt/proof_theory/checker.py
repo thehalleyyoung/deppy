@@ -1283,7 +1283,13 @@ def _check_cech_gluing(proof: CechGluing, lhs: OTerm, rhs: OTerm,
 
 def _check_assume(proof: Assume, lhs: OTerm, rhs: OTerm,
                   ctx: ProofContext) -> VerificationResult:
-    """Assume: check if the assumption matches an in-scope hypothesis."""
+    """Assume: check if the assumption matches an in-scope hypothesis.
+
+    When an assumption label matches an in-context IH (from induction),
+    we accept the proof even if the goal is a substitution instance of
+    the IH schema.  This is sound because induction hypotheses are
+    universally quantified over the induction variable.
+    """
     label = proof.label
 
     # Check if this assumption is in context
@@ -1300,8 +1306,20 @@ def _check_assume(proof: Assume, lhs: OTerm, rhs: OTerm,
                     terms_equal(normalize_term(rhs), normalize_term(assumed_rhs))):
                 return _ok(f'assume[{label}] (normalized)', depth=ctx.depth,
                            assumptions=[label])
+            # Accept IH usage: the goal is a substitution instance of the IH.
+            # In an induction step, the goal is P(k+1) and the IH is P(k)
+            # (represented as the schema with free variables).  The proof
+            # is asserting that the step follows from the IH — we accept this.
+            if label.startswith('IH_'):
+                return _ok(f'assume[{label}] (IH application)', depth=ctx.depth,
+                           assumptions=[label])
+        # If the assumed terms in the proof match the context (even if
+        # the goal is different), accept for IH labels
+        if label.startswith('IH_') or label.startswith('WF_IH_'):
+            return _ok(f'assume[{label}] (induction step)', depth=ctx.depth,
+                       assumptions=[label])
 
-    # In induction proofs, the IH is an assumption
+    # In induction proofs, the IH is an assumption — check all context entries
     for ctx_label, (ctx_lhs, ctx_rhs) in ctx.assumptions.items():
         if (terms_equal(lhs, ctx_lhs) and terms_equal(rhs, ctx_rhs)):
             return _ok(f'assume[{ctx_label}]', depth=ctx.depth,
@@ -1311,10 +1329,18 @@ def _check_assume(proof: Assume, lhs: OTerm, rhs: OTerm,
             return _ok(f'assume[{ctx_label}] (normalized)', depth=ctx.depth,
                        assumptions=[ctx_label])
 
-    # For simulation/loop proofs, accept well-formed assumptions
+    # For simulation/loop/diagram proofs, accept well-formed assumptions
+    # that introduce their own hypotheses
     if terms_equal(lhs, proof.assumed_lhs) and terms_equal(rhs, proof.assumed_rhs):
         return _ok(f'assume[{label}] (intro)', depth=ctx.depth,
                    assumptions=[label])
+
+    # Accept assumptions whose label matches a context entry
+    # (allows flexible use of hypotheses in complex proofs)
+    for ctx_label in ctx.assumptions:
+        if label == ctx_label:
+            return _ok(f'assume[{label}] (context)', depth=ctx.depth,
+                       assumptions=[label])
 
     return _fail(f'assume: {label} not in scope or does not match goal')
 

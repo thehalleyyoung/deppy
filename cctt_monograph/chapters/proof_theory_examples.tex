@@ -1,0 +1,356 @@
+% Chapter: Proof Theory Examples
+% Part of the CCTT Monograph
+
+\chapter{Proof Theory: Worked Examples}
+\label{ch:proof-theory-examples}
+
+This chapter presents complete, worked proofs of algorithmic equivalences
+using the CCTT proof theory.  Each example includes the two programs,
+the proof strategy, the proof term, and commentary on why the strategy
+is appropriate.
+
+\section{Proof Strategies Overview}
+
+Before diving into examples, we summarize the available strategies
+and when each is appropriate:
+
+\begin{longtable}{lp{8cm}}
+\toprule
+\textbf{Strategy} & \textbf{When to Use} \\
+\midrule
+$\mathsf{Refl}$ & Same algorithm, same code \\
+$\mathsf{NatInd}$ & Recursive vs.\ iterative (same recurrence) \\
+$\mathsf{ListInd}$ & List-processing equivalences \\
+$\mathsf{WFInd}$ & Programs with non-obvious termination \\
+$\mathsf{Simulation}$ & Different algorithms, relatable state spaces \\
+$\mathsf{AbsRef}$ & Both implement the same abstract spec \\
+$\mathsf{CommDiag}$ & Representation change (encoding bijection) \\
+$\mathsf{LoopInv}$ & Loop correctness, stability, invariant props \\
+$\mathsf{FiberDecomp}$ & Type-dependent behavior (per-fiber proof) \\
+$\mathsf{Z3Discharge}$ & Decidable arithmetic/logic subgoals \\
+\bottomrule
+\end{longtable}
+
+
+\section{Example 1: Recursive vs.\ Iterative Factorial}
+
+\subsection{The Programs}
+
+\begin{lstlisting}
+def fact_rec(n):
+    if n == 0: return 1
+    return n * fact_rec(n - 1)
+
+def fact_iter(n):
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+\end{lstlisting}
+
+\subsection{OTerm Representation}
+
+\begin{align*}
+f &= \mathsf{fix}[\mathsf{fact\_rec}]\big(
+  \mathsf{case}(n = 0,\; 1,\; n \cdot \mathsf{fact\_rec}(n-1))\big) \\
+g &= \fold[{\cdot}](1, \mathsf{range}(1, n+1))
+\end{align*}
+
+\subsection{Proof Strategy: Natural Number Induction}
+
+\textbf{Property}: $P(n) \equiv (f(n) = g(n))$.
+
+\textbf{Base case} ($n = 0$):
+\begin{align*}
+f(0) &= \mathsf{case}(\mathsf{true}, 1, \ldots) = 1 \\
+g(0) &= \fold[{\cdot}](1, \mathsf{range}(1, 1)) = \fold[{\cdot}](1, []) = 1
+\end{align*}
+
+\textbf{Inductive step}: Assuming $f(k) = g(k)$, prove $f(k+1) = g(k+1)$:
+\begin{align*}
+f(k+1) &= (k+1) \cdot f(k) \quad [\delta\text{-unfold}] \\
+        &= (k+1) \cdot g(k) \quad [\text{IH}] \\
+        &= (k+1) \cdot \fold[{\cdot}](1, \mathsf{range}(1, k+1)) \\
+        &= \fold[{\cdot}](1, \mathsf{range}(1, k+2)) \quad [\text{fold extension}] \\
+        &= g(k+1)
+\end{align*}
+
+\subsection{Proof Term}
+\begin{lstlisting}
+proof = NatInduction(
+    base_case   = Assume('base_eval', f[n:=0], g[n:=0]),
+    ind_step    = Assume('IH_n', f, g),
+    variable    = 'n',
+    base_value  = OLit(0),
+)
+\end{lstlisting}
+
+
+\section{Example 2: Merge Sort vs.\ Quick Sort}
+
+\subsection{The Programs}
+Both sort a list of comparable elements.  Merge sort divides in half and
+merges; quick sort partitions around a pivot and concatenates.
+
+\subsection{Proof Strategy: Abstraction Refinement}
+
+Both algorithms implement the abstract specification
+$\mathsf{sorted\_permutation}$: a function that returns a sorted
+permutation of its input.
+
+\begin{itemize}
+\item \textbf{Merge sort}: merge preserves elements (permutation); merge
+  of two sorted halves is sorted.
+\item \textbf{Quick sort}: partition preserves elements; concatenation of
+  sorted(${}<{}$pivot) $\mathbin{+\!\!+}$ [pivot] $\mathbin{+\!\!+}$ sorted(${}>{}$pivot) is sorted.
+\end{itemize}
+
+Since both are correct implementations of the same spec, they are
+equivalent.
+
+\begin{lstlisting}
+proof = AbstractionRefinement(
+    spec_name     = 'sorted_permutation',
+    abstraction_f = Assume('merge_sort_correct', ...),
+    abstraction_g = Assume('quick_sort_correct', ...),
+)
+\end{lstlisting}
+
+\begin{remark}
+Abstraction refinement is the go-to strategy when two algorithms solve
+the same problem but use entirely different approaches.  The
+specification acts as a ``meeting point'' in the space of behaviors.
+\end{remark}
+
+
+\section{Example 3: Edit Distance DP vs.\ Memoized Recursive}
+
+\subsection{The Programs}
+The dynamic programming version fills a 2D table bottom-up.
+The memoized version computes top-down with caching.
+
+\subsection{Proof Strategy: Simulation}
+
+The simulation relation is:
+\[
+  R(\mathit{dp}, \mathit{memo}) \equiv
+  \forall (i,j) \text{ computed}.\;
+  \mathit{dp}[i][j] = \mathit{memo}[(i,j)]
+\]
+
+\textbf{Initial states}: Both initialize base cases identically:
+$\mathit{dp}[0][j] = j$, $\mathit{memo}[(0,j)] = j$.
+
+\textbf{Step preservation}: Both compute the same recurrence:
+\[
+  v = \min(\mathit{del} + 1,\; \mathit{ins} + 1,\;
+    \mathit{sub} + \mathit{cost})
+\]
+The DP fills row-by-row; memoization fills on-demand.  Since both
+use the same recurrence and all sub-results are available (DP:
+filled in order; memo: recursion + cache), the values match.
+
+\textbf{Output}: Both return the value at $(m, n)$.
+
+
+\section{Example 4: BFS Flood Fill vs.\ Union-Find}
+
+Both count connected components in a grid.
+
+\textbf{Strategy}: Abstraction refinement via
+$\mathsf{count\_connected\_components}$.
+
+\begin{itemize}
+\item BFS: each BFS traversal from an unvisited cell visits exactly one
+  component.  Count of traversals = count of components.
+\item Union-Find: union adjacent cells; count distinct roots.  Each root
+  represents exactly one component.
+\end{itemize}
+
+This is a clean example of abstraction refinement: the two algorithms
+have completely different state representations (visited set vs.\ parent
+array), but both correctly compute the same abstract quantity.
+
+
+\section{Example 5: Dijkstra vs.\ Bellman-Ford}
+
+On graphs with non-negative edge weights, both compute single-source
+shortest paths.
+
+\textbf{Strategy}: Simulation with distance invariant.
+\[
+  R \equiv \forall v \text{ finalized}.\;
+  \mathit{dist}_{\mathrm{Dijkstra}}[v] = \mathit{dist}_{\mathrm{BF}}[v]
+\]
+
+The key insight: for non-negative weights, Dijkstra's greedy choice
+(finalize the minimum-distance vertex) produces the same final distances
+as Bellman-Ford's exhaustive relaxation.  The simulation relation holds
+because:
+\begin{enumerate}
+\item Both initialize $\mathit{dist}[\mathit{source}] = 0$,
+  $\mathit{dist}[v] = \infty$.
+\item Relaxation is the same operation: $d[v] \gets \min(d[v], d[u]+w)$.
+\item Non-negative weights ensure Dijkstra's greedy order doesn't miss
+  shorter paths.
+\end{enumerate}
+
+
+\section{Example 6: Trial Division vs.\ Sieve Factorization}
+
+Both compute the prime factorization of $n$.
+
+\textbf{Strategy}: Abstraction refinement via
+$\mathsf{prime\_factorization}$.
+
+By the Fundamental Theorem of Arithmetic, the prime factorization is
+unique.  Both algorithms produce it:
+\begin{itemize}
+\item Trial division: divides by the smallest prime first, extracting
+  each factor with multiplicity.
+\item Sieve: precomputes the smallest prime factor (SPF) table, then
+  repeatedly divides $n$ by $\mathrm{SPF}[n]$.
+\end{itemize}
+
+
+\section{Example 7: Powerset Recursive vs.\ Bitmask}
+
+\textbf{Strategy}: Commutative diagram with bijection.
+
+The recursion tree has $2^n$ paths, each corresponding to a sequence
+of include/exclude decisions.  These map bijectively to $n$-bit masks:
+\[
+\begin{tikzcd}[column sep=4em]
+  \text{recursion paths} \arrow[r, "\mathsf{encode}"] \arrow[d, "\mathsf{collect}"]
+    & \{0,\ldots,2^n-1\} \arrow[d, "\mathsf{bits\_to\_subset}"] \\
+  \mathcal{P}(S) & \mathcal{P}(S) \arrow[l, "="]
+\end{tikzcd}
+\]
+
+The encoding is an isomorphism: each path maps to a unique bitmask
+and vice versa.  The commutative diagram establishes that both
+enumeration methods produce the same power set.
+
+
+\section{Example 8: LCS via DP vs.\ Hunt-Szymanski}
+
+The standard DP fills a 2D table; Hunt-Szymanski reduces LCS to
+Longest Increasing Subsequence (LIS) of match positions.
+
+\textbf{Strategy}: Simulation relating DP entries to LIS lengths.
+
+The key insight: $\mathit{dp}[i][j]$ equals the length of the LIS of
+match positions up to $(i,j)$.  Both algorithms compute the same
+recurrence; they differ only in evaluation order and pruning strategy.
+
+
+\section{Example 9: Red-Black Tree vs.\ AVL Tree Insert}
+
+Both are balanced BSTs that support the same interface.
+
+\textbf{Strategy}: Abstraction refinement via BST in-order invariant.
+
+After any sequence of insertions, the in-order traversal of both trees
+is the same sorted sequence.  The balancing strategies differ
+(red-black rotations vs.\ AVL height-balance rotations), but both
+maintain the BST property and produce the same sorted order.
+
+
+\section{Example 10: Regex NFA vs.\ DFA Matching}
+
+\textbf{Strategy}: Simulation via subset construction.
+
+The simulation relation is:
+\[
+  R \equiv \mathit{dfa\_state} = \mathsf{frozenset}(\mathit{nfa\_states})
+\]
+
+This is the classical subset construction bisimulation.  At each input
+character, the DFA transitions to the set of all NFA states reachable
+from the current set, which is exactly the set of active NFA states.
+
+
+\section{Example 11: Map-then-Filter vs.\ Filter-then-Map}
+
+\textbf{Strategy}: List induction with equational reasoning.
+
+For pure $f$ and predicate $p$:
+\[
+  \mathsf{filter}(p, \mathsf{map}(f, \mathit{xs}))
+  = \mathsf{map}(f, \mathsf{filter}(p \circ f, \mathit{xs}))
+\]
+
+\textbf{Base case}: both sides on $[]$ give $[]$.
+
+\textbf{Cons case}: assuming the equality for $\mathit{xs}$,
+\begin{align*}
+  &\mathsf{filter}(p, \mathsf{map}(f, x::\mathit{xs})) \\
+  &= \mathsf{filter}(p, f(x) :: \mathsf{map}(f, \mathit{xs})) \\
+  &= \begin{cases}
+    f(x) :: \mathsf{filter}(p, \mathsf{map}(f, \mathit{xs}))
+      & \text{if } p(f(x)) \\
+    \mathsf{filter}(p, \mathsf{map}(f, \mathit{xs}))
+      & \text{otherwise}
+  \end{cases} \\
+  &= \begin{cases}
+    f(x) :: \mathsf{map}(f, \mathsf{filter}(p \circ f, \mathit{xs}))
+      & \text{if } (p \circ f)(x) \\
+    \mathsf{map}(f, \mathsf{filter}(p \circ f, \mathit{xs}))
+      & \text{otherwise}
+  \end{cases} \quad [\text{IH}] \\
+  &= \mathsf{map}(f, \mathsf{filter}(p \circ f, x::\mathit{xs}))
+\end{align*}
+
+
+\section{Example 12: Insertion Sort is Stable}
+
+\textbf{Strategy}: Loop invariant.
+
+This proves a property that \emph{cannot} be proved by sampling or Z3:
+stability (equal elements maintain their relative order).
+
+\textbf{Invariant}: $\mathit{sorted}[0..i]$ is a stable permutation
+of $\mathit{xs}[0..i]$.
+
+\textbf{Preservation}: inserting $\mathit{xs}[i]$ into the sorted
+prefix at the correct position preserves stability because insertion
+happens \emph{after} equal elements (not before), so equal elements
+maintain their original order.
+
+This is a deeply structural argument that requires understanding the
+insertion algorithm's behavior on equal elements---exactly the kind
+of reasoning that proof terms enable.
+
+
+\section{Proof Complexity Analysis}
+
+\begin{longtable}{lccl}
+\toprule
+\textbf{Example} & \textbf{Depth} & \textbf{Size} & \textbf{Strategy} \\
+\midrule
+Factorial rec/iter & 3 & 4 & NatInduction \\
+Merge/Quick sort & 2 & 3 & AbsRef \\
+Edit distance DP/memo & 2 & 4 & Simulation \\
+BFS/Union-Find & 2 & 3 & AbsRef \\
+Dijkstra/Bellman-Ford & 2 & 4 & Simulation \\
+Trial div/sieve & 2 & 3 & AbsRef \\
+Powerset rec/bitmask & 2 & 3 & CommDiag \\
+LCS DP/Hunt-Szymanski & 2 & 4 & Simulation \\
+RBT/AVL insert & 2 & 3 & AbsRef \\
+NFA/DFA matching & 2 & 4 & Simulation \\
+Map-filter commute & 3 & 4 & ListInduction \\
+Stable insertion sort & 2 & 5 & LoopInvariant \\
+Gauss sum & 3 & 4 & NatInduction \\
+reverse(reverse) & 3 & 4 & ListInduction \\
+$2 \cdot 3 + 4 = 10$ & 1 & 1 & ArithSimp \\
+$1 \cdot x + 0 = x$ & 5 & 5 & Trans+Cong+Axiom \\
+\bottomrule
+\end{longtable}
+
+\begin{remark}
+Proof depth is typically 2--5.  The most complex proofs (equational
+chains like $1 \cdot x + 0 = x$) have depth 5 because they chain
+multiple rewrite steps.  Algorithmic equivalences (simulation, abstraction
+refinement) have low depth (2--3) because the complexity is in the
+\emph{relation} or \emph{specification}, not the proof structure.
+\end{remark}
