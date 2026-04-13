@@ -1,0 +1,349 @@
+\chapter{Code Extraction and the Proof DSL}
+\label{ch:extraction}
+
+This chapter introduces two major extensions to the C$^4$ calculus:
+\emph{code extraction} from verified proofs, and a \emph{pretty proof DSL}
+that makes C$^4$ proofs readable as mathematical arguments.
+
+\section{Code Extraction from Proofs}
+
+\subsection{Motivation: Beyond F*}
+
+F*~\cite{swamy2016} allows extracting OCaml, F\#, and C code from proofs
+via its \texttt{effect} system.  C$^4$ extraction offers three material
+advantages:
+
+\begin{enumerate}
+  \item \textbf{Same-language extraction.}  F* extracts to OCaml/F\#/C —
+    languages unrelated to the verification target.  C$^4$ extracts to
+    Python, the same language deppy verifies.  This eliminates the
+    ``semantic gap'' between verified spec and extracted implementation.
+
+  \item \textbf{Bidirectional extraction.}  F* provides only forward
+    extraction (proof $\to$ code).  C$^4$ supports both:
+    \begin{itemize}
+      \item \emph{Forward}: proof term + OTerm spec $\to$ executable Python.
+      \item \emph{Backward}: Python code + \texttt{@guarantee} annotation
+            $\to$ C$^4$ proof obligation.
+    \end{itemize}
+    The backward direction is deppy's \texttt{@guarantee} mechanism,
+    compiled to a C$^4$ $\Sigma$-type.
+
+  \item \textbf{Direct denotational semantics.}  F* proofs are written
+    against abstract specifications; the link to concrete code requires
+    a separate extraction and erasure pass.  C$^4$ proofs are against
+    OTerms — the actual denotational semantics of the source — so
+    extraction is a direct projection, not a translation.
+\end{enumerate}
+
+\subsection{The Extraction Algorithm}
+
+\begin{definition}[Code Extraction]
+Given a proof $p : f \equiv g$ and an OTerm $f$, the extraction
+$\mathsf{extract}(p, f)$ produces executable Python code $\mathsf{code}$
+such that $\den{\mathsf{code}} = f$.
+\end{definition}
+
+The extraction proceeds by structural recursion on the proof term:
+
+\begin{enumerate}
+  \item \textbf{$\Sigma$-type projection.}  A proof of
+    $\Sigma(x : \mathsf{Code}). \mathsf{spec}(x)$ extracts to $x$
+    by first projection.
+
+  \item \textbf{NatInduction.}  An induction proof
+    \[
+      \frac{\Gamma \vdash p_0 : f(0) \equiv g(0) \qquad
+            \Gamma, n, \mathsf{ih} : f(n) \equiv g(n) \vdash p_s : f(n{+}1) \equiv g(n{+}1)}
+           {\Gamma \vdash \mathsf{NatInd}(p_0, p_s) : \forall n.\; f(n) \equiv g(n)}
+    \]
+    extracts to either a recursive function (matching $f$) or an
+    iterative loop (matching $g$), depending on which side is preferred.
+
+  \item \textbf{Simulation.}  A bisimulation proof extracts the
+    concrete implementation side, since the simulation relation
+    guarantees behavioral equivalence.
+
+  \item \textbf{CechGluing.}  A \v{C}ech gluing proof over fibers
+    $\{U_i\}$ extracts a dispatch function:
+    \begin{lstlisting}
+def extracted(x):
+    fiber = classify(x)
+    if fiber == 'U0':
+        return handle_U0(x)
+    elif fiber == 'U1':
+        return handle_U1(x)
+    ...
+    \end{lstlisting}
+    Each handler is extracted from the corresponding local proof.
+
+  \item \textbf{AbstractionRefinement.}  Both sides refine a common
+    specification; extraction picks the preferred concrete implementation.
+
+  \item \textbf{LoopInvariant.}  A loop invariant proof extracts a
+    \texttt{while} loop with the invariant as an assertion:
+    \begin{lstlisting}
+def extracted(args):
+    state = init(args)
+    while not done(state):
+        assert invariant(state)
+        state = step(state)
+    return output(state)
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{OTerm to Python Compilation}
+
+The core of extraction is the function $\mathsf{oterm\_to\_python}$
+that compiles OTerms to Python expressions:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+OTerm constructor & Python output \\
+\midrule
+$\mathsf{OVar}(x)$ & \texttt{x} \\
+$\mathsf{OLit}(v)$ & \texttt{repr(v)} \\
+$\mathsf{OOp}(+, [a, b])$ & \texttt{(a + b)} \\
+$\mathsf{OCase}(c, t, e)$ & \texttt{(t if c else e)} \\
+$\mathsf{OLam}(x, b)$ & \texttt{lambda x: b} \\
+$\mathsf{OFold}(\mathit{init}, \mathit{coll}, \mathit{step})$ &
+  \texttt{functools.reduce(...)} or \texttt{for} loop \\
+$\mathsf{OFix}(f, b)$ & recursive \texttt{def f(...): ...} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The \texttt{@verified} Decorator}
+
+Extracted code is annotated with a \emph{verification certificate}:
+
+\begin{lstlisting}
+from cctt.proof_theory.extraction import verified
+
+@verified(CORRECTNESS_PROOF, IMPL_OTERM, SPEC_OTERM)
+def floyd_warshall(W, n):
+    ...
+\end{lstlisting}
+
+The decorator attaches \texttt{\_c4\_certificate},
+\texttt{\_c4\_verified}, and \texttt{\_c4\_proof\_strategy}
+attributes to the function, enabling downstream consumers to
+inspect the trust level without re-verifying.
+
+\subsection{Bidirectional Extraction: The Key Advantage}
+
+\begin{theorem}[Bidirectional Extraction Soundness]
+Let $\mathsf{code}$ be Python source with annotation
+$\texttt{@guarantee}(s)$.
+\begin{enumerate}
+  \item (Forward) If $p : f \equiv g$ is verified, then
+    $\mathsf{extract}(p, f)$ produces code $c$ with
+    $\den{c} = f$ and $c$ carries guarantee $s$.
+  \item (Backward) $\mathsf{code\_to\_obligation}(\mathsf{code}, s)$
+    produces a proof obligation $(f, \Sigma\text{-type})$ such that
+    any valid proof $p : \den{\mathsf{code}} \in \Sigma\text{-type}$
+    certifies that $\mathsf{code}$ satisfies $s$.
+\end{enumerate}
+\end{theorem}
+
+This bidirectionality means the extraction and verification pipelines
+form a closed loop: verified proofs produce guaranteed code, and
+guaranteed code generates proof obligations that can be verified.
+
+
+\section{The Pretty Proof DSL}
+
+\subsection{Motivation}
+
+Raw C$^4$ proof terms are compositional but verbose:
+
+\begin{lstlisting}
+NatInduction(
+    base_case=Assume('base_eval', base_lhs, base_rhs),
+    inductive_step=Trans(
+        Cong('*', [Refl(var('n')), Assume('ih', ...)]),
+        AxiomApp('fold_spec', 'backward', FACT_ITER),
+    ),
+    variable='n',
+)
+\end{lstlisting}
+
+The DSL module provides two interfaces for writing cleaner proofs:
+
+\subsection{The ProofBuilder}
+
+\texttt{ProofBuilder} is a fluent API for proof construction:
+
+\begin{lstlisting}
+from cctt.proof_theory.dsl import ProofBuilder
+
+pb = ProofBuilder(lhs=FACT_REC, rhs=FACT_ITER)
+base = pb.refl(lit(1))
+ih = pb.assume('ih', FACT_REC, FACT_ITER)
+step = pb.calc_trans(
+    pb.congr('*', pb.refl(var('n')), ih),
+    pb.axiom('fold_spec', 'backward', FACT_ITER),
+)
+pb.by_induction(on='n', base=base, step=step)
+result = pb.verify()   # returns VerificationResult
+\end{lstlisting}
+
+\subsection{The \texttt{@c4\_proof} Decorator}
+
+\begin{lstlisting}
+@c4_proof(lhs=FACT_REC, rhs=FACT_ITER)
+def factorial_equiv(pb):
+    """fact_rec == fact_iter by induction on n"""
+    base = pb.refl(lit(1))
+    ih = pb.assume('ih', FACT_REC, FACT_ITER)
+    step = pb.calc_trans(
+        pb.congr('*', pb.refl(var('n')), ih),
+        pb.axiom('fold_spec', 'backward', FACT_ITER),
+    )
+    pb.by_induction(on='n', base=base, step=step)
+
+# factorial_equiv is a ProofBuilder; call .build() or .verify()
+\end{lstlisting}
+
+\subsection{Calculational Proofs}
+
+The DSL supports \texttt{calc}-style chains (analogous to Lean's \texttt{calc}):
+
+\begin{lstlisting}
+pb.calc_chain(
+    (term_b, proof_a_eq_b),    # a == b by proof_a_eq_b
+    (term_c, proof_b_eq_c),    # b == c by proof_b_eq_c
+    (term_d, proof_c_eq_d),    # c == d by proof_c_eq_d
+)
+\end{lstlisting}
+
+This compiles to a \texttt{RewriteChain} proof term.
+
+\subsection{The ProofScript}
+
+For longer proofs, \texttt{ProofScript} provides an imperative interface:
+
+\begin{lstlisting}
+script = ProofScript(lhs=FW_OTERM, rhs=SPEC_OTERM)
+script.induction('k')
+script.base_case(fw_base_proof)
+script.inductive_step(
+    script.calc(
+        (D_k_plus_1, unfold_proof),
+        (relaxed, bellman_proof),
+        (spec_k_plus_1, induction_hypothesis),
+    )
+)
+proof = script.qed()
+\end{lstlisting}
+
+
+\section{Python-Specific Proof Patterns}
+
+The \texttt{python\_patterns} module provides 10 pre-built proof templates
+for common Python equivalences:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Pattern & Equivalence & Strategy \\
+\midrule
+\texttt{list\_comp} & Comprehension $\equiv$ loop-append & ListInduction \\
+\texttt{generator} & Generator $\equiv$ materialized list & Simulation \\
+\texttt{mutation\_isolation} & deepcopy safety & Simulation \\
+\texttt{exception} & try/except $\equiv$ if/else & CasesSplit \\
+\texttt{decorator} & Transparent decorator & Extensionality \\
+\texttt{context\_manager} & with $\equiv$ try/finally & Simulation \\
+\texttt{map\_filter} & map/filter compose & ListInduction \\
+\texttt{reduce\_loop} & reduce $\equiv$ for-loop & Reflexivity \\
+\texttt{dict\_comp} & Dict comprehension $\equiv$ loop & ListInduction \\
+\texttt{sorted\_key} & sorted(key=f) $\equiv$ manual sort & Abstraction \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Usage:
+\begin{lstlisting}
+from cctt.proof_theory.python_patterns import by_pattern
+inst = by_pattern('list_comp', collection=OVar('xs'),
+                  transform=OLam('x', OOp('+', (OVar('x'), OLit(1)))))
+result = inst.verify()
+\end{lstlisting}
+
+
+\section{Spec Compilation: @guarantee to $\Sigma$-types}
+
+\subsection{The Compilation Pipeline}
+
+A deppy \texttt{@guarantee} annotation like:
+
+\begin{lstlisting}
+@guarantee("returns a sorted list with no duplicates")
+def unique_sorted(items: list[int]) -> list[int]:
+    ...
+\end{lstlisting}
+
+compiles to the C$^4$ $\Sigma$-type:
+
+\[
+  \Sigma(\mathit{result} : \mathsf{List}).\ 
+    \underbrace{(\forall i.\ \mathit{result}[i] \le \mathit{result}[i{+}1])}_{\text{structural (Z3)}}
+    \wedge
+    \underbrace{(\forall i \ne j.\ \mathit{result}[i] \ne \mathit{result}[j])}_{\text{structural (Z3)}}
+\]
+
+The compiler:
+\begin{enumerate}
+  \item Parses the NL spec into keyword-triggered predicates.
+  \item Classifies predicates as \emph{structural} (Z3-decidable) or
+        \emph{semantic} (oracle-judgeable).
+  \item Generates proof obligations for each predicate.
+  \item Produces a proof skeleton with \texttt{Z3Discharge} nodes for
+        structural obligations and \texttt{Assume} nodes for semantic ones.
+\end{enumerate}
+
+\subsection{Structural vs.\ Semantic Predicates}
+
+\begin{definition}[Hybrid Spec Decomposition]
+A guarantee $s$ decomposes as $s = s_{\mathrm{str}} \wedge s_{\mathrm{sem}}$ where:
+\begin{itemize}
+  \item $s_{\mathrm{str}}$ is the conjunction of Z3-decidable predicates
+    (sortedness, uniqueness, bounds, etc.).
+  \item $s_{\mathrm{sem}}$ is the conjunction of predicates requiring
+    oracle judgment (correctness, optimality, safety, etc.).
+\end{itemize}
+\end{definition}
+
+This decomposition mirrors the fiber structure of C$^4$: structural predicates
+live in the decidable fiber, semantic predicates in the oracle fiber.
+
+
+\section{Example: Floyd--Warshall Extraction}
+
+The Floyd--Warshall proof from Chapter~\ref{ch:proof-examples} (if available)
+demonstrates end-to-end extraction:
+
+\begin{lstlisting}
+from cctt.proof_theory.extraction import extract_from_proof
+
+extracted = extract_from_proof(
+    proof=CORRECTNESS_PROOF,
+    lhs=FW_OTERM,
+    rhs=SPEC_OTERM,
+    function_name='floyd_warshall',
+    params=['W', 'n'],
+)
+
+print(extracted.with_guarantee())
+# @guarantee("equivalent to shortest_path_spec by induction")
+# def floyd_warshall(W, n):
+#     ...
+
+print(extracted.certificate.trust_level())
+# 'CONDITIONAL' (uses IH assumption)
+\end{lstlisting}
+
+The extracted code carries its proof certificate, enabling
+downstream consumers to inspect the verification status
+without re-running the proof checker.

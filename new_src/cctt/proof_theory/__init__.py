@@ -14,6 +14,10 @@ Architecture
     examples   (examples.py)    — complete worked examples
     serialization (serialization.py) — JSON / human-readable proof I/O
     integration (integration.py)— wiring into the CCTT checker pipeline
+    extraction (extraction.py) — code extraction from proofs (better than F*)
+    dsl        (dsl.py)        — Pythonic proof DSL (calc, induction, etc.)
+    python_patterns (python_patterns.py) — Python-specific proof templates
+    spec_compiler (spec_compiler.py) — @guarantee → C⁴ Σ-type compiler
 
 Proof Strategies
 ================
@@ -53,6 +57,42 @@ from cctt.proof_theory.checker import (
     ProofContext,
 )
 
+from cctt.proof_theory.extraction import (
+    extract_from_proof,
+    extract_from_document,
+    extract_all,
+    oterm_to_python,
+    oterm_to_function,
+    code_to_proof_obligation,
+    verified,
+    ExtractedCode,
+    ExtractionCertificate,
+)
+
+from cctt.proof_theory.dsl import (
+    ProofBuilder,
+    ProofScript,
+    CalcStep,
+    c4_proof,
+)
+
+from cctt.proof_theory.python_patterns import (
+    PatternInstance,
+    by_pattern,
+    list_patterns,
+    PATTERNS,
+)
+
+from cctt.proof_theory.spec_compiler import (
+    CompiledSpec,
+    StructuralPredicate,
+    SemanticPredicate,
+    parse_guarantee,
+    compile_guarantee_to_type,
+    verify_against_spec,
+    spec_to_markdown,
+)
+
 __all__ = [
     # Terms
     'ProofTerm',
@@ -71,4 +111,17 @@ __all__ = [
     'FiberRestrict', 'Descent', 'PathCompose', 'MathLibAxiom', 'FiberwiseUnivalence',
     # Checker
     'check_proof', 'VerificationResult', 'ProofContext',
+    # Extraction
+    'extract_from_proof', 'extract_from_document', 'extract_all',
+    'oterm_to_python', 'oterm_to_function',
+    'code_to_proof_obligation', 'verified',
+    'ExtractedCode', 'ExtractionCertificate',
+    # DSL
+    'ProofBuilder', 'ProofScript', 'CalcStep', 'c4_proof',
+    # Python patterns
+    'PatternInstance', 'by_pattern', 'list_patterns', 'PATTERNS',
+    # Spec compiler
+    'CompiledSpec', 'StructuralPredicate', 'SemanticPredicate',
+    'parse_guarantee', 'compile_guarantee_to_type',
+    'verify_against_spec', 'spec_to_markdown',
 ]
