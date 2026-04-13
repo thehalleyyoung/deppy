@@ -14348,30 +14348,91 @@ The local judgments feed into the \texttt{CechCohomologyComputer}:
 
 This chapter specifies the compilation from Python AST to Z3 $\PyObj$
 terms with enough detail that a reader could implement it from scratch.
+The compiler (\texttt{compiler.py}, $\approx$1360~lines) transforms
+a Python function's AST into a list of \emph{presheaf sections}
+$(\mathsf{guard}, \mathsf{term})$, where each section represents
+one execution path through the function.
 
 \section{Compilation State}
 
 The compiler maintains an \emph{environment} --- a mapping from
-variable names to Z3 terms:
+variable names to Z3 terms, augmented with metadata for
+defunctionalization and module resolution:
 
 \begin{definition}[Compilation Environment]
 \[
-  \mathsf{Env} = \{T : \mathsf{Theory},\;
-    \mathsf{bindings} : \mathsf{str} \to \PyObj,\;
-    \mathsf{func\_name} : \mathsf{str},\;
-    \mathsf{is\_rec} : \Bool\}
+  \mathsf{Env} \coloneqq \left\{
+  \begin{array}{ll}
+    T : \mathsf{Theory}, &
+      \mathsf{bindings} : \mathsf{str} \to \PyObj, \\
+    \mathsf{func\_name} : \mathsf{str}, &
+      \mathsf{is\_rec} : \Bool, \\
+    \mathsf{func\_defs} : \mathsf{str} \to \mathsf{AST}, &
+      \mathsf{class\_defs} : \mathsf{str} \to \mathsf{AST}, \\
+    \mathsf{imports} : \mathsf{str} \to \mathsf{str}, &
+      \mathsf{depth} : \Nat
+  \end{array}\right\}
 \]
 \end{definition}
 
-The environment is \emph{immutable} (in the cubical sense): branching
+The additional fields beyond the basic $(\mathsf{bindings},
+\mathsf{func\_name}, \mathsf{is\_rec})$ triple serve specific
+compilation strategies:
+\begin{itemize}
+  \item $\mathsf{func\_defs}$ stores AST nodes of nested function
+    definitions for \emph{inlining} (D2 defunctionalization, depth
+    $\leq 3$).
+  \item $\mathsf{class\_defs}$ tracks class definitions; class
+    instantiation compiles to $\mathsf{Ref}()$.
+  \item $\mathsf{imports}$ maps alias names to qualified module
+    paths, enabling shared symbol resolution for calls like
+    \texttt{math.gcd(a, b)}.
+  \item $\mathsf{depth}$ prevents infinite inlining of mutually
+    recursive helpers.
+\end{itemize}
+
+The environment is \emph{immutable} in the cubical sense: branching
 creates copies.  When an \texttt{if} statement has both a \texttt{then}
 and \texttt{else} branch, the compiler copies the environment for each
-branch and merges the results with $\mathsf{If}$ expressions.
+branch and merges the results with $\mathsf{If}$ expressions:
+\[
+  \mathsf{merge}(\mathsf{env}_T, \mathsf{env}_F, c)[x] \coloneqq
+    \mathsf{If}(c,\; \mathsf{env}_T[x],\; \mathsf{env}_F[x])
+\]
+for each variable $x$ modified in either branch.
+
+\section{The Section Representation}
+
+\begin{definition}[Presheaf Section]
+A \emph{section} is a frozen pair:
+\[
+  \mathsf{Section} \coloneqq (\mathsf{guard} : \Bool_{\mathrm{Z3}},\;
+    \mathsf{term} : \PyObj_{\mathrm{Z3}})
+\]
+where $\mathsf{guard}$ is a Z3 Boolean formula encoding the path
+condition under which this execution path is taken, and
+$\mathsf{term}$ is the Z3 $\PyObj$ expression returned.
+\end{definition}
+
+A program with $k$ distinct return paths produces $k$ sections.
+Together they form the \emph{value presheaf} of the program:
+\[
+  \presheaf_f \coloneqq \{(\mathsf{guard}_1, t_1), \ldots,
+    (\mathsf{guard}_k, t_k)\}
+\]
+The guards partition (or cover) the input space: for well-formed
+programs, the disjunction
+$\bigvee_i \mathsf{guard}_i$ is tautological.  When comparing
+programs, sections from $f$ and $g$ are paired by guard overlap
+(Chapter~\ref{ch:cech-algorithm}).
 
 \section{Expression Compilation Rules}
 
 Each Python expression AST node maps to a Z3 $\PyObj$ term.  We give
-the complete rule set:
+the complete rule set.  In the implementation, the entry point is
+\texttt{compile\_expr(node, env)}, which dispatches on the AST
+node type and catches exceptions (returning a fresh symbolic
+constant on failure, ensuring compilation never crashes):
 
 \subsection{Rule E1: Literals}
 \[
@@ -14380,14 +14441,30 @@ the complete rule set:
   \den{\mathsf{True}}_\mathsf{env} = \mathsf{BoolObj}(\top) \quad
   \den{\mathsf{None}}_\mathsf{env} = \mathsf{NoneObj}
 \]
+Floats receive special handling: if $v = \lfloor v \rfloor$ and
+$|v| < 2^{31}$, the float is approximated as
+$\mathsf{IntObj}(\lfloor v \rfloor)$;
+otherwise a fresh symbolic constant is introduced.
+NaN and $\pm\infty$ always produce fresh constants, since Z3's
+integer sort cannot represent them.
 
 \subsection{Rule E2: Variables}
 \[
   \den{x}_\mathsf{env} = \begin{cases}
     \mathsf{env.bindings}[x] & \text{if $x \in \mathsf{env.bindings}$} \\
-    \mathsf{FreshConst}(\PyObj) & \text{otherwise (undeclared variable)}
+    \mathsf{fresh}(\texttt{builtin\_}x)
+      & \text{if $x \in \mathsf{SHARED\_BUILTINS}$} \\
+    \mathsf{fresh}(\texttt{import\_}x)
+      & \text{if $x \in \mathsf{env.imports}$} \\
+    \mathsf{fresh}(\texttt{var\_}x) & \text{otherwise}
   \end{cases}
 \]
+The third case ensures undeclared variables produce distinct fresh
+constants rather than crashing.  Shared builtins
+($\approx$60~names: \texttt{sorted}, \texttt{len}, \texttt{sum},
+\texttt{enumerate}, etc.)\ get a canonical fresh constant so that
+references to the same builtin in both programs produce the same
+Z3 symbol.
 
 \subsection{Rule E3: Binary Operations}
 \[
@@ -14401,12 +14478,18 @@ operation tags:
 \begin{tabular}{l r l r l r l r}
   \texttt{+} & 1 & \texttt{-} & 2 & \texttt{*} & 3 &
   \texttt{//} & 5 \\
-  \texttt{\%} & 6 & \texttt{<} & 20 & \texttt{<=} & 21 &
-  \texttt{>} & 22 \\
-  \texttt{>=} & 23 & \texttt{==} & 24 & \texttt{!=} & 25 &
-  \texttt{|} & 12 \\
+  \texttt{\%} & 6 & \texttt{**} & 7 & \texttt{<<} & 8 &
+  \texttt{>>} & 9 \\
+  \texttt{|} & 12 & \texttt{\&} & 13 & \texttt{\^{}} & 14 &
+  \texttt{<} & 20 \\
+  \texttt{<=} & 21 & \texttt{>} & 22 &
+  \texttt{>=} & 23 & \texttt{==} & 24 \\
 \end{tabular}
 \end{center}
+True division (\texttt{/}) is special-cased: since the $\PyObj$
+algebra has no rational sort, it compiles to an uninterpreted
+shared function
+$T.\mathsf{shared\_fn}(\texttt{truediv}, 2)(l, r)$.
 
 \subsection{Rule E4: Unary Operations}
 \[
@@ -14415,6 +14498,9 @@ operation tags:
   \den{\mathsf{not}\; a}_\mathsf{env} = \mathsf{unop}(\mathsf{NOT},
     \den{a}_\mathsf{env})
 \]
+The tilde operator (\texttt{\~{}}) also maps to $\mathsf{NOT}$,
+reflecting Python's use of bitwise inversion.  Unary \texttt{+}
+is the identity.
 
 \subsection{Rule E5: Comparisons (Chained)}
 For $a < b \leq c$:
@@ -14424,6 +14510,13 @@ For $a < b \leq c$:
     \mathsf{binop}(\mathsf{LE}, \den{b}, \den{c}),\;
     \mathsf{BoolObj}(\bot))
 \]
+The general rule for $n$-way chains $a \;\mathrm{op}_1\; b
+\;\mathrm{op}_2\; c \;\ldots$:
+fold right with short-circuit $\mathsf{If}$.  Identity tests
+\texttt{is}/\texttt{is not} compile to structural Z3 equality
+$\mathsf{BoolObj}(a = b)$.  Membership tests \texttt{in}/\texttt{not in}
+compile via the shared function
+$\mathsf{py\_contains}(\den{\mathrm{collection}}, \den{\mathrm{element}})$.
 
 \subsection{Rule E6: Boolean Operations}
 \begin{align}
@@ -14433,7 +14526,10 @@ For $a < b \leq c$:
     \mathsf{truthy}(\den{a}), \den{a}, \den{b})
 \end{align}
 Note: Python's \texttt{and}/\texttt{or} return the \emph{value}, not
-a boolean.  The Z3 encoding faithfully preserves this.
+a boolean.  The Z3 encoding faithfully preserves this.  For chains
+like \texttt{a and b and c}, the compiler folds right:
+the last value is the innermost, and each predecessor wraps in an
+$\mathsf{If}$.
 
 \subsection{Rule E7: Conditional Expression}
 \[
@@ -14443,37 +14539,56 @@ a boolean.  The Z3 encoding faithfully preserves this.
 
 \subsection{Rule E8: Function Calls}
 
-Function calls have the most complex compilation:
+Function calls have the most complex compilation, with a priority
+cascade:
 
 \begin{enumerate}
   \item \textbf{Self-recursive call}: If $\mathsf{env.is\_rec}$ and the
-    callee is $\mathsf{env.func\_name}$, create a RecFunction
-    application: $\mathsf{rec\_f}(\den{a_1}, \ldots, \den{a_n})$.
+    callee is $\mathsf{env.func\_name}$, create a fresh uninterpreted
+    function application:
+    $\mathsf{rec\_f\_uid}(\den{a_1}, \ldots, \den{a_n})$.
+    The uid is incremented each call to prevent Z3 from
+    conflating distinct recursive invocations.
 
-  \item \textbf{Nested function call}: If the callee is in the
-    environment as $(\mathsf{\_\_func\_\_}, \mathsf{AST})$, invoke
-    $\mathsf{inline\_call}$: substitute arguments into the body and
-    compile the body.
-
-  \item \textbf{isinstance}: If the callee is \texttt{isinstance} with
-    two arguments, compile to:
-    $\mathsf{BoolObj}(\mathsf{tag}(\den{x}) = \tau)$ where $\tau$
-    is the type tag corresponding to the second argument.
-
-  \item \textbf{Shared builtins}: If the callee name is in
-    $\mathsf{SHARED\_BUILTINS}$ (\texttt{sorted}, \texttt{len},
-    \texttt{sum}, etc.), use the shared function symbol:
-    $T.\mathsf{shared\_fn}(\mathsf{name}, n)(\den{a_1}, \ldots,
-    \den{a_n})$.
+  \item \textbf{Nested function inlining (D2 $\beta$-reduction)}:
+    If the callee is in $\mathsf{env.func\_defs}$ and
+    $\mathsf{depth} < 3$, invoke
+    $\mathsf{inline\_call}$: create a copy of the environment,
+    bind formals to compiled actuals, and compile the body.
+    If the body has a single section, return its term directly;
+    otherwise fold sections into a nested $\mathsf{If}$.
 
   \item \textbf{Known builtins with Z3 semantics}: \texttt{abs},
-    \texttt{int}, \texttt{bool}, \texttt{len}, \texttt{max},
-    \texttt{min} compile to $\mathsf{unop}$ or $\mathsf{binop}$
-    with the appropriate operation tag.
+    \texttt{int}, \texttt{bool}, \texttt{len} compile to
+    $\mathsf{unop}$; \texttt{max}, \texttt{min} with two arguments
+    compile to $\mathsf{binop}(\mathsf{MAX}/\mathsf{MIN}, \ldots)$.
+    Keyword arguments like \texttt{key=} are handled by creating
+    variant shared functions
+    ($\mathsf{sorted\_key}$, $\mathsf{max\_key}$, etc.).
 
-  \item \textbf{Other named calls}: Use a shared function symbol
-    keyed by the callee name: $T.\mathsf{shared\_fn}(\mathsf{call\_name},
-    n)(\den{a_1}, \ldots, \den{a_n})$.
+  \item \textbf{isinstance}: compile to
+    $\mathsf{BoolObj}(\mathsf{tag}(\den{x}) = \tau)$ where $\tau$
+    is the type tag.  For tuple type arguments
+    \texttt{isinstance(x, (int, str))}, produce
+    $\mathsf{BoolObj}(\mathsf{tag}(\den{x}) = \mathsf{TInt}
+    \lor \mathsf{tag}(\den{x}) = \mathsf{TStr})$.
+
+  \item \textbf{Shared builtins}: If the callee name is in
+    $\mathsf{SHARED\_BUILTINS}$ ($\approx$60 names), use the
+    \emph{univalent} shared function symbol:
+    $T.\mathsf{shared\_fn}(\mathsf{name}, n)(\den{a_1}, \ldots,
+    \den{a_n})$.
+    Univalence means both programs get the \emph{same} Z3 function
+    declaration for the same builtin, so
+    $\mathsf{py\_sorted}(x) = \mathsf{py\_sorted}(x)$ is trivially
+    true.
+
+  \item \textbf{Module-qualified calls}: For \texttt{math.gcd(a, b)},
+    resolve via $\mathsf{env.imports}$ and use
+    $T.\mathsf{shared\_fn}(\texttt{call\_math.gcd}, 2)$.
+    The implementation recognizes $\approx$70 standard library
+    functions from \texttt{math}, \texttt{itertools},
+    \texttt{collections}, \texttt{heapq}, \texttt{bisect}, etc.
 
   \item \textbf{Method calls}: Compile receiver and arguments, use
     shared method symbol:
@@ -14486,26 +14601,61 @@ Function calls have the most complex compilation:
   \den{a[b]}_\mathsf{env} = \mathsf{binop}(\mathsf{GETITEM},
     \den{a}, \den{b})
 \]
+Slicing (\texttt{a[i:j]}) compiles to a shared function
+$\mathsf{py\_slice}(a, \den{i}, \den{j})$ since slice objects
+are not representable in the $\PyObj$ ADT.
 
 \subsection{Rule E10: Tuple/List Display}
 \[
   \den{[a, b, c]}_\mathsf{env} = \mathsf{Pair}(\den{a},
     \mathsf{Pair}(\den{b}, \mathsf{Pair}(\den{c}, \mathsf{NoneObj})))
 \]
+This is the cons-cell encoding.  Both tuples and lists use the
+same representation, which is sound for equivalence checking
+since the distinction is only relevant for mutation.
 
 \subsection{Rule E11: Comprehension}
 \[
   \den{[e \;\mathsf{for}\; x \;\mathsf{in}\; \mathsf{xs}]}_\mathsf{env}
-    = T.\mathsf{shared\_fn}(\mathsf{comp}_{h(e)}, 1)(\den{\mathsf{xs}})
+    = T.\mathsf{shared\_fn}(\mathsf{comp}_{h}, 1)(\den{\mathsf{xs}})
 \]
-where $h(e) = \mathsf{hash}(\mathsf{ast.dump}(e)) \mod 2^{31}$ is
-the canonical hash of the element expression.
+where $h = \mathsf{MD5}(\mathsf{ast.dump}(e) \mid
+\mathsf{ast.dump}(\mathrm{filters}) \mid
+\mathsf{ast.dump}(\mathrm{target})) \bmod 2^{31}$ is the canonical
+hash of the \emph{entire comprehension structure}: element expression,
+filter conditions, and target pattern.  Comprehensions with identical
+AST structure in both programs hash to the same shared function,
+enabling Z3 to prove equivalence.  Filtered comprehensions use
+a distinct prefix ($\mathsf{comp\_filt}_{h}$).
+Nested comprehensions chain:
+$\mathsf{comp\_nest}_{h'}(\mathsf{comp}_{h}(\den{\mathsf{xs}}),
+\den{\mathsf{ys}})$.
 
 \subsection{Rule E12: Attribute Access}
 \[
   \den{a.\mathsf{attr}}_\mathsf{env} = T.\mathsf{shared\_fn}(
     \mathsf{attr\_attr}, 1)(\den{a})
 \]
+Module-qualified attributes are checked first: \texttt{math.pi},
+\texttt{sys.maxsize} compile to canonical fresh constants
+$\mathsf{const\_math.pi}$, $\mathsf{const\_sys.maxsize}$.
+
+\subsection{Additional Expression Rules}
+
+\textbf{Dict literals.}  An empty dict is $\mathsf{Ref}()$.
+Non-empty dicts fold over key-value pairs:
+$d = \mathsf{mut\_\_\_setitem\_\_}(\ldots(\mathsf{Ref}(), k_1, v_1)
+\ldots, k_n, v_n)$.
+
+\textbf{F-strings.}  Formatted string literals compile by
+concatenating parts via $\mathsf{str\_concat}(p_1, p_2)$.
+
+\textbf{Walrus operator.}  $\den{(x \mathop{:=} e)} = \den{e}$
+with side effect $\mathsf{env}[x] \leftarrow \den{e}$.
+
+\textbf{Lambda.}  Produces a fresh constant $\mathsf{fresh}(\texttt{lambda})$.
+Lambdas are not inlined because they lack a name
+for the $\mathsf{func\_defs}$ registry.
 
 
 \section{Statement Compilation Rules}
@@ -14526,6 +14676,11 @@ For tuple unpacking $x, y = e$:
     y \mapsto \mathsf{binop}(\mathsf{GETITEM}, \den{e},
       \mathsf{IntObj}(1))]
 \]
+Starred unpacking (\texttt{*rest}) compiles via
+$\mathsf{slice\_from}(\den{e}, \mathsf{IntObj}(j))$.
+Subscript assignment (\texttt{obj[k] = v}) is modeled as mutation:
+$\mathsf{env}[\mathsf{obj}] \leftarrow
+\mathsf{mut\_\_\_setitem\_\_}(\mathsf{env}[\mathsf{obj}], \den{k}, \den{v})$.
 
 \subsection{Rule S2: Augmented Assignment}
 \[
@@ -14533,6 +14688,9 @@ For tuple unpacking $x, y = e$:
     x \mapsto \mathsf{binop}(\llbracket \oplus \rrbracket,
     \mathsf{env}[x], \den{e})]
 \]
+Subscript augmented assignment (\texttt{obj[k] += v}) compiles as:
+read old value via $\mathsf{GETITEM}$, apply the operator, then
+write back via $\mathsf{mut\_\_\_setitem\_\_}$.
 
 \subsection{Rule S3: Return}
 \[
@@ -14552,13 +14710,16 @@ This terminates the current execution path and produces a section.
     \mathsf{cond}$, compile $B_1$ with $\mathsf{env}_T = \mathsf{env.copy()}$.
   \item False branch: $\mathsf{guard}_F = \mathsf{guard} \land
     \lnot\mathsf{cond}$, compile $B_2$ with $\mathsf{env}_F = \mathsf{env.copy()}$.
-  \item If both branches return: collect sections from both.
+  \item If both branches return: collect sections from both, terminate.
   \item If only one returns: collect its sections, continue with the
-    other branch's modified environment.
+    other branch's modified environment and the negated guard.
   \item If neither returns: merge environments with
     $\mathsf{env}[x] = \mathsf{If}(\mathsf{cond}, \mathsf{env}_T[x],
     \mathsf{env}_F[x])$ for each modified variable $x$.
 \end{enumerate}
+This case analysis (five sub-cases) is the most delicate part of the
+section extractor.  Partial returns create \emph{asymmetric} sections
+where one guard is more constrained than the other.
 
 \subsection{Rule S5: For Loop}
 \[
@@ -14567,40 +14728,58 @@ This terminates the current execution path and produces a section.
 \]
 
 \textbf{Case 1: Canonical fold.}  If $B$ is a single augmented
-assignment $\mathsf{acc} \mathrel{\oplus}= i$ (the loop variable):
+assignment $\mathsf{acc} \mathrel{\oplus}= i$ (the loop variable)
+and $\oplus \in \{+, \times\}$:
 \[
   \mathsf{env}[\mathsf{acc}] \leftarrow \fold(\llbracket \oplus
     \rrbracket, \mathsf{start}, \mathsf{stop}, \mathsf{env}[\mathsf{acc}])
 \]
+This is the critical optimization: the canonical fold is a Z3
+RecFunction with known algebraic properties (commutativity,
+associativity, identity elements), enabling equational proofs.
 
 \textbf{Case 2: General RecFunction.}  For complex loop bodies,
-create a RecFunction for each modified variable:
+first identify all modified variables by walking the loop body
+(including nested \texttt{if}, \texttt{for}, \texttt{while}, mutation
+calls).  Then for each modified variable $v$, create:
 \[
-  \mathsf{lp\_acc}(i) = \begin{cases}
-    \mathsf{env}[\mathsf{acc}] & \text{if } i \geq \mathsf{stop} \\
-    \mathsf{body}(\mathsf{lp\_acc}(i+1), i) & \text{otherwise}
+  \mathsf{lp\_}v(i) = \begin{cases}
+    \mathsf{env}[v] & \text{if } i \geq \mathsf{stop} \\
+    \mathsf{body}(\mathsf{lp\_}v(i+1), i) & \text{otherwise}
   \end{cases}
 \]
-Set $\mathsf{env}[\mathsf{acc}] \leftarrow \mathsf{lp\_acc}(\mathsf{start})$.
+Set $\mathsf{env}[v] \leftarrow \mathsf{lp\_}v(\mathsf{start})$.
+
+\textbf{Case 3: Iteration over collections.}
+For \texttt{for x in lst}, where \texttt{lst} is not a \texttt{range}
+call, the loop body is modeled as a shared fold function:
+$\mathsf{env}[\mathsf{acc}] \leftarrow
+\mathsf{fold}_{h}(\mathsf{env}[\mathsf{acc}], \den{\mathsf{lst}})$
+where $h$ is a hash of the loop body AST.
 
 \subsection{Rule S6: While Loop}
 
 Similar to S5 but with a guard condition instead of a range.
-Create a RecFunction with a bounded counter:
+Create a RecFunction with a bounded counter ($k \leq 50$):
 \[
-  \mathsf{wh\_acc}(k) = \begin{cases}
-    \mathsf{env}[\mathsf{acc}] & \text{if } k > 50 \lor
-      \lnot\mathsf{guard} \\
-    \mathsf{body}(\mathsf{wh\_acc}(k+1)) & \text{otherwise}
+  \mathsf{wh\_}v(k) = \begin{cases}
+    \mathsf{env}[v] & \text{if } k > 50 \lor
+      \lnot\mathsf{cond} \\
+    \mathsf{body}(\mathsf{wh\_}v(k+1)) & \text{otherwise}
   \end{cases}
 \]
+The bound of 50 is a soundness trade-off: Z3 can unfold the
+RecFunction up to 50 iterations, which suffices for most
+equivalence proofs involving small-bounded loops.
 
 \subsection{Rule S7: Function Definition}
 \[
   \mathsf{exec}(\mathsf{def}\; f(\ldots): B, \mathsf{env}) =
     \mathsf{env}[f \mapsto (\mathsf{\_\_func\_\_}, \mathsf{AST}(f))]
 \]
-Store the AST node for later inlining (D2 defunctionalization).
+Store the AST node in both $\mathsf{func\_defs}$ and
+$\mathsf{bindings}$ for later inlining (D2 defunctionalization).
+Class definitions are stored analogously in $\mathsf{class\_defs}$.
 
 \subsection{Rule S8: Expression Statement (Mutation)}
 
@@ -14611,7 +14790,8 @@ For $\mathsf{obj.method}(\mathsf{args})$:
     \den{\mathsf{args}})
 \]
 This models mutation: calling a method on an object produces a new
-version of that object.
+version of that object.  The $\mathsf{mut\_}$ prefix distinguishes
+mutating calls from pure method calls in shared symbol resolution.
 
 \subsection{Rule S9: Try/Except}
 
@@ -14619,10 +14799,13 @@ Compile the \texttt{try} body.  For each section produced, wrap with
 an uninterpreted ``handler context'' function keyed by the exception
 types:
 \[
-  \mathsf{Section}(\mathsf{guard}, \mathsf{try\_ctx}(\mathsf{term}))
+  \mathsf{Section}(\mathsf{guard}, \mathsf{try\_ctx}_{h}(\mathsf{term}))
 \]
-where $\mathsf{try\_ctx}$ is a shared function based on the handler
-signature.
+where $h = \mathsf{hash}(\mathsf{handler\_signature})$.  Handler
+bodies are also compiled and their sections added, modeling the
+possibility that an exception is caught and handled.
+Finally-blocks and else-blocks execute their effects on the
+environment unconditionally.
 
 \section{The Section Extractor}
 
@@ -14641,18 +14824,27 @@ def extract_sections(stmts, env, guard=True):
             cond = truthy(compile(stmt.test, env))
             t_guard = And(guard, cond)
             f_guard = And(guard, Not(cond))
-            # Recursively extract from both branches
-            t_secs = extract_sections(stmt.body, env.copy(), t_guard)
-            f_secs = extract_sections(stmt.orelse, env.copy(), f_guard)
-            sections.extend(t_secs)
-            sections.extend(f_secs)
-            if has_return(stmt.body) and has_return(stmt.orelse):
+            t_has_ret = has_return(stmt.body)
+            f_has_ret = has_return(stmt.orelse)
+            if t_has_ret:
+                sections.extend(extract(stmt.body, env.copy(), t_guard))
+            if f_has_ret:
+                sections.extend(extract(stmt.orelse, env.copy(), f_guard))
+            if t_has_ret and f_has_ret:
                 return sections  # both branches return
-            # ... handle partial returns by continuing with modified env
+            if t_has_ret:  # only then-branch returns
+                # Continue with else-modified env under negated guard
+                re = env.copy()
+                exec_stmts(stmt.orelse, re)
+                sections.extend(extract(rest, re, f_guard))
+                return sections
+            # ... symmetric case for f_has_ret
+            # Neither returns: merge envs, continue
+            merge_envs(env, env_T, env_F, cond)
         elif isinstance(stmt, For):
-            exec_for(stmt, env)  # modifies env in place
+            exec_for(stmt, env)
         else:
-            exec_one(stmt, env)  # modifies env in place
+            exec_one(stmt, env)
     return sections
 \end{lstlisting}
 
@@ -14660,128 +14852,321 @@ The output is a list of sections forming the \emph{value presheaf}
 of the program.  Each section is a local behavior under a specific
 path condition (guard).
 
+\section{The Nat-Eliminator Extraction}
+
+When a function is self-recursive with a single parameter, the
+compiler attempts to extract a \emph{Nat-eliminator}
+(catamorphism) --- a direct $\fold$ term.  This succeeds when the
+function matches the pattern:
+\begin{lstlisting}
+def f(n):
+    if n <= threshold: return base_value
+    return n OP f(n - 1)
+\end{lstlisting}
+where $\mathsf{OP} \in \{+, \times, -, //, \%, |, \&, \oplus\}$.
+The extractor (\texttt{detect\_canon\_rec}) verifies:
+\begin{enumerate}
+  \item The body has exactly two statements: base case + recursive case.
+  \item The base case is an \texttt{if} with a constant-threshold
+    comparison and a constant return value.
+  \item The recursive case is a \texttt{return} of a
+    $\mathsf{BinOp}$ with the parameter on one side and
+    $f(n-1)$ on the other.
+\end{enumerate}
+If all conditions hold, the output is:
+$\fold(\mathsf{OP}, \mathsf{threshold}, \mathsf{ival}(p) + 1,
+\mathsf{IntObj}(\mathsf{base}))$.
+
+\begin{remark}[Why Nat-elimination matters]
+The fold representation is decisive: two programs that compute the
+same sum --- one recursive, one iterative --- both reduce to the
+\emph{same} fold term (up to additive identity), enabling Z3 to
+prove equivalence by unfolding the RecFunction definition.
+Without this extraction, the recursive version would produce an
+uninterpreted RecFunction that Z3 cannot equate with the iterative
+fold.
+\end{remark}
+
+\section{What the Compiler Cannot Handle}
+
+The compiler has principled limitations:
+
+\begin{enumerate}
+  \item \textbf{Closures}: Lambda expressions and closures that
+    capture mutable state produce fresh constants.  The compiler
+    cannot inline a lambda because lambdas lack the named-function
+    structure required for $\mathsf{func\_defs}$ registration.
+
+  \item \textbf{Generators}: \texttt{yield} and \texttt{yield from}
+    compile to the value yielded (or $\mathsf{NoneObj}$), but the
+    lazy evaluation semantics --- generator state, exhaustion,
+    send/throw --- is not modeled.
+
+  \item \textbf{Dynamic dispatch}: When a variable holds a function
+    object $f$ and is called as $f(x)$, the compiler creates
+    $\mathsf{dyncall\_f}(v, \den{x})$ --- an uninterpreted function.
+    Z3 cannot reason about the body of dynamically dispatched calls.
+
+  \item \textbf{Mutation aliasing}: The functional mutation model
+    (\texttt{mut\_append}, \texttt{mut\_\_\_setitem\_\_}) assumes
+    no aliasing.  If two variables refer to the same mutable object,
+    mutating one does not update the other in the environment.
+
+  \item \textbf{Recursion depth}: General (non-Nat-eliminator)
+    recursive functions produce a single RecFunction whose body
+    is the entire function.  Z3 can unfold these finitely, but
+    deep recursion ($> 50$ levels) exceeds practical timeouts.
+
+  \item \textbf{Floating-point arithmetic}: All floats are
+    approximated as integers or fresh constants.  IEEE 754
+    semantics (rounding, NaN propagation, denormals) is not modeled.
+\end{enumerate}
+
+Each limitation corresponds to a \emph{soundness boundary}: when the
+compiler encounters these constructs, it introduces uninterpreted
+symbols, which may cause the Z3 check to be inconclusive but never
+produce a false equivalence proof.
+
 
 \chapter{Duck Type Inference in Detail}
 \label{ch:duck-detail}
 
+Duck type inference determines which type fibers are relevant for
+each parameter.  Narrower fibers mean fewer Z3 queries and faster
+verification.  The algorithm (\texttt{duck.py}, $\approx$230~lines)
+extracts the set of operations applied to each parameter from
+\emph{both} programs' ASTs, then maps the operation set to a lattice
+element.
+
 \section{The Duck Type Lattice}
 
-Duck type inference determines which type fibers are relevant for
-each parameter.  The result is a \emph{lattice element} from the
-duck type lattice:
+The result of inference is an element from the following lattice,
+ordered by inclusion of the associated fiber set:
 
 \begin{center}
 \begin{tabular}{l l l}
-  \textbf{Duck type} & \textbf{Allowed fibers} & \textbf{Triggering operations} \\
+  \textbf{Duck type} & \textbf{Fiber set $F(\tau)$} &
+    \textbf{Triggering operations} \\
   \hline
   $\mathsf{int}$ & $\{\mathsf{TInt}\}$ &
-    \texttt{-}, \texttt{*}, \texttt{//}, \texttt{\%}, \texttt{range(x)} \\
+    \texttt{-}, \texttt{*}, \texttt{//}, \texttt{\%},
+    \texttt{**}, \texttt{<<}, \texttt{>>},
+    \texttt{range(x)}, \texttt{<}, \texttt{<=} \\
   $\mathsf{str}$ & $\{\mathsf{TStr}\}$ &
-    \texttt{.upper()}, \texttt{.split()}, \texttt{.strip()} \\
+    \texttt{.upper()}, \texttt{.split()}, \texttt{.strip()},
+    \texttt{.join()}, \texttt{.replace()}, \\
+  & & \texttt{.startswith()}, \texttt{.find()},
+    $\approx$25 string methods \\
   $\mathsf{bool}$ & $\{\mathsf{TBool}\}$ &
     (rare --- usually widened to int) \\
   $\mathsf{ref}$ & $\{\mathsf{TRef}\}$ &
-    \texttt{.get()}, \texttt{.keys()}, \texttt{.items()} \\
+    \texttt{.get()}, \texttt{.keys()}, \texttt{.items()},
+    \texttt{.values()}, \\
+  & & \texttt{.add()}, \texttt{.discard()},
+    \texttt{.union()}, \texttt{.intersection()} \\
   $\mathsf{list}$ & $\{\mathsf{TPair}, \mathsf{TRef}\}$ &
-    \texttt{.append()}, \texttt{.sort()}, \texttt{.pop()} \\
-  $\mathsf{collection}$ & $\{\mathsf{TPair}, \mathsf{TRef}, \mathsf{TStr}\}$ &
-    \texttt{for x in p}, \texttt{len(p)}, \texttt{sorted(p)} \\
-  $\mathsf{any}$ & $\{\mathsf{TInt}, \ldots, \mathsf{TRef}\}$ &
-    no type-constraining operations \\
+    \texttt{.append()}, \texttt{.sort()}, \texttt{.extend()},
+    \texttt{.reverse()}, \texttt{.insert()} \\
+  $\mathsf{collection}$ & $\{\mathsf{TPair}, \mathsf{TRef},
+    \mathsf{TStr}\}$ &
+    \texttt{for x in p}, \texttt{len(p)}, \texttt{sorted(p)},
+    \texttt{sum(p)}, \texttt{min(p)} \\
+  $\mathsf{any}$ & $\{\mathsf{TInt}, \mathsf{TBool},
+    \mathsf{TStr}, \mathsf{TPair}, \mathsf{TRef},
+    \mathsf{TNone}\}$ &
+    no type-constraining operations, or ambiguous \texttt{+} \\
 \end{tabular}
 \end{center}
 
+\begin{definition}[Duck Type Lattice]
+The duck type lattice $(\mathcal{D}, \sqsubseteq)$ is the poset
+with ordering induced by fiber set inclusion:
+\[
+  \tau_1 \sqsubseteq \tau_2 \iff F(\tau_1) \subseteq F(\tau_2)
+\]
+giving the Hasse diagram:
+\[
+  \mathsf{int} \sqsubseteq \mathsf{list} \sqsubseteq
+    \mathsf{collection} \sqsubseteq \mathsf{any}
+  \qquad
+  \mathsf{str} \sqsubseteq \mathsf{collection}
+  \qquad
+  \mathsf{ref} \sqsubseteq \mathsf{any}
+\]
+\end{definition}
+
+The inference algorithm returns the \emph{greatest lower bound}
+(narrowest type) consistent with all observed operations.
+
 \section{The Inference Algorithm}
 
-\begin{lstlisting}[caption={Duck type inference}]
-def infer_duck_type(func_f, func_g, param_name):
-    ops_f = extract_operations(func_f, param_name)
-    ops_g = extract_operations(func_g, param_name)
-    ops = ops_f | ops_g  # union of operations from both programs
+The algorithm has three phases: (1)~extract operations from both
+programs, (2)~union the operation sets, (3)~apply the priority
+cascade:
 
-    if ops & NUMERIC_ONLY_OPS:
-        return 'int'    # arithmetic forces integer
-    if ops & STRING_METHOD_OPS:
-        return 'str'    # string methods force string
-    if ops & DICT_METHOD_OPS:
-        return 'ref'    # dict methods force reference
-    if ops & LIST_METHOD_OPS:
-        return 'list'   # list methods force list/ref
-    if ops & ITERATION_OPS:
-        return 'collection'  # iteration allows pair/ref/str
-    return 'any'        # no constraints
+\begin{lstlisting}[caption={Duck type inference (from \texttt{duck.py})}]
+def infer_duck_type(func_f, func_g, pname):
+    ops_f = extract_duck_ops(func_f, pname)
+    ops_g = extract_duck_ops(func_g, pname)
+    ops = ops_f | ops_g  # union: both programs' usage
+
+    # Phase 1: isinstance checks (strongest evidence)
+    isinstance_types = {o.replace('isinstance_', '')
+                        for o in ops if o.startswith('isinstance_')}
+    if isinstance_types:
+        return resolve_isinstance(isinstance_types)
+
+    # Phase 2: Priority cascade (most specific first)
+    if ops & NUMERIC_OPS:      return 'int'
+    if ops & ORDERING_OPS:     return 'int'
+    if ops & STRING_METHODS:   return 'str'
+    if ops & DICT_METHODS:     return 'ref'
+    if ops & LIST_METHODS:     return 'list'
+    if ops & SET_METHODS:      return 'ref'
+    if ops & COLLECTION_OPS:   return 'collection'
+
+    # Phase 3: Ambiguous operators
+    if ops & {'add', 'iadd'}:  return 'any'  # + is polymorphic
+    return 'unknown'
 \end{lstlisting}
 
 \textbf{Key insight}: we analyze \emph{both} programs to determine
-the duck type.  If program A uses arithmetic on parameter $x$ but
-program B only uses comparison, the union of operations includes
+the duck type.  If program $f$ uses arithmetic on parameter $x$ but
+program $g$ only uses comparison, the union of operations includes
 arithmetic, so $x$ is constrained to $\mathsf{int}$.  This ensures
 both programs are compared on the \emph{same} type fiber.
 
+\textbf{The \texttt{+} ambiguity}: The operator \texttt{+} is
+polymorphic in Python: it means addition on \texttt{int}, concatenation
+on \texttt{str}, and extension on \texttt{list}.  Without additional
+evidence (a numeric operation like \texttt{-} or \texttt{*}, or a
+string method like \texttt{.upper()}), the algorithm conservatively
+returns $\mathsf{any}$, ensuring soundness at the cost of more fibers.
+
 \section{Operation Extraction from AST}
 
-The operation extractor walks the AST and collects all operations
-applied to a given parameter:
+The operation extractor (\texttt{extract\_duck\_ops}) walks the
+AST and collects all operations applied to a given parameter, with
+\emph{transitive reference tracking}:
 
-\begin{lstlisting}[caption={Operation extraction}]
-def extract_operations(func_node, param_name):
+\begin{lstlisting}[caption={Operation extraction with transitive references}]
+def extract_duck_ops(func_node, param):
     ops = set()
-    for node in ast.walk(func_node):
-        # Binary op with param on either side
-        if isinstance(node, BinOp):
-            if mentions(node.left, param_name) or \
-               mentions(node.right, param_name):
-                ops.add(binop_name(node.op))  # 'add', 'mul', etc.
+    for child in ast.walk(func_node):
+        if isinstance(child, BinOp):
+            # Transitive: (a + b) refers to param if a or b does
+            if _refers_to(child.left, param) or \
+               _refers_to(child.right, param):
+                ops.add(binop_name(child.op))
 
-        # Method call on param
-        if isinstance(node, Call) and \
-           isinstance(node.func, Attribute) and \
-           isinstance(node.func.value, Name) and \
-           node.func.value.id == param_name:
-            ops.add('method_' + node.func.attr)
+        if isinstance(child, Call):
+            # Method call on param: param.method()
+            if isinstance(child.func, Attribute) and \
+               _refers_to(child.func.value, param):
+                ops.add('method_' + child.func.attr)
+            # Builtin call with param: len(param), sorted(param)
+            if isinstance(child.func, Name):
+                for arg in child.args:
+                    if _refers_to(arg, param):
+                        ops.add('call_' + child.func.id)
 
-        # Iteration over param
-        if isinstance(node, For) and \
-           isinstance(node.iter, Name) and \
-           node.iter.id == param_name:
+        if isinstance(child, For) and _refers_to(child.iter, param):
             ops.add('iter')
 
-        # Builtin call with param as argument
-        if isinstance(node, Call) and \
-           isinstance(node.func, Name):
-            for arg in node.args:
-                if mentions(arg, param_name):
-                    ops.add('call_' + node.func.id)
+        if isinstance(child, Subscript):
+            if _refers_to(child.value, param):
+                ops.add('getitem')
+            if _refers_to(child.slice, param):
+                ops.add('used_as_index')  # forces int
+
+        # isinstance(param, T) extracts the tested type
+        if is_isinstance_call(child) and _refers_to(child.args[0], param):
+            ops.add('isinstance_check')
+            ops |= extract_isinstance_types(child.args[1])
+
+        # Comprehension iteration
+        if isinstance(child, (ListComp, SetComp, GeneratorExp)):
+            for gen in child.generators:
+                if _refers_to(gen.iter, param):
+                    ops.add('iter')
     return ops
 \end{lstlisting}
 
+The \texttt{\_refers\_to} function is \emph{transitive}: it follows
+sub-expressions so that \texttt{(a + b)} refers to parameter
+$\mathsf{a}$ even though the AST node is a \texttt{BinOp}, not a
+\texttt{Name}.  This transitivity handles expressions like
+\texttt{len(xs[:n])} where \texttt{xs} is a parameter buried inside
+a subscript inside a call.
+
+\section{Formal Connection to Galois Connections}
+
+The duck type inference forms a \emph{Galois connection} between the
+lattice of Python operations and the lattice of type fibers
+(Chapter~\ref{ch:galois}):
+
+\begin{definition}[Duck Type Galois Connection]
+Let $\mathcal{O}$ be the powerset lattice of operation names, and
+$\mathcal{D}$ be the duck type lattice.  Define:
+\begin{align}
+  \alpha &: \mathcal{P}(\mathcal{O}) \to \mathcal{D},
+    && \alpha(\mathrm{ops}) \coloneqq
+    \bigsqcap \{\tau \in \mathcal{D} \mid \mathrm{ops}
+    \subseteq \mathrm{Ops}(\tau)\} \\
+  \gamma &: \mathcal{D} \to \mathcal{P}(\mathcal{O}),
+    && \gamma(\tau) \coloneqq \mathrm{Ops}(\tau)
+\end{align}
+where $\mathrm{Ops}(\tau)$ is the set of operations supported by
+duck type $\tau$.
+\end{definition}
+
+\begin{proposition}[Galois Connection Property]
+$\alpha \dashv \gamma$: for all $O \subseteq \mathcal{O}$ and
+$\tau \in \mathcal{D}$:
+\[
+  \alpha(O) \sqsubseteq \tau \iff O \subseteq \gamma(\tau)
+\]
+Concretely: the inferred duck type is the narrowest type whose
+operation set contains all observed operations.
+\end{proposition}
+
+The priority cascade in \texttt{infer\_duck\_type} implements
+$\alpha$ by checking operation subsets from most specific
+($\mathsf{int}$) to least specific ($\mathsf{any}$), returning
+the first match.  This is sound because the operation sets are
+nested: $\mathrm{Ops}(\mathsf{int}) \subset
+\mathrm{Ops}(\mathsf{collection}) \subset \mathrm{Ops}(\mathsf{any})$.
+
 \section{Fiber Narrowing and the Site Category}
 
-Given duck types for all parameters, the site category is constructed:
+Given duck types for all parameters, the site category is
+constructed as the product of fiber sets.
+For a function with parameters $(p_1, \ldots, p_n)$ and inferred
+duck types $(\tau_1, \ldots, \tau_n)$, the site category has:
+\[
+  \mathrm{Sites} = F(\tau_1) \times F(\tau_2) \times \cdots \times
+    F(\tau_n)
+\]
+fiber combinations, capped at 12 to prevent Z3 memory blow-up.
 
-\begin{lstlisting}[caption={Site category construction}]
-def build_site_category(param_fibers):
-    """param_fibers: list of lists of allowed tags per param."""
-    import itertools
-    combos = list(itertools.product(*param_fibers))
-    # Limit combinatorial explosion
-    if len(combos) > 50:
-        combos = combos[:50]
+\textbf{Overlap computation.}  Two fiber combinations
+$(f_1, \ldots, f_n)$ and $(g_1, \ldots, g_n)$ overlap iff they
+share at least one component: $\exists k.\, f_k = g_k$.  This
+defines the \v{C}ech nerve of the covering.
 
-    sites = {}
-    for combo in combos:
-        site_id = SiteId(name='fiber_' + 'x'.join(combo))
-        sites[combo] = site_id
-
-    # Overlaps: two combos that share at least one fiber component
-    overlaps = []
-    for i, ci in enumerate(combos):
-        for j, cj in enumerate(combos):
-            if i < j and any(ci[k] == cj[k] for k in range(len(ci))):
-                overlaps.append((sites[ci], sites[cj]))
-
-    return sites, overlaps
-\end{lstlisting}
+\begin{example}[Two-parameter site category]
+For a function \texttt{f(x, lst)} with $\tau_x = \mathsf{int}$
+and $\tau_\mathsf{lst} = \mathsf{list}$:
+\begin{align*}
+  F(\mathsf{int}) &= \{\mathsf{TInt}\}, \quad
+  F(\mathsf{list}) = \{\mathsf{TPair}, \mathsf{TRef}\} \\
+  \mathrm{Sites} &= \{(\mathsf{TInt}, \mathsf{TPair}),\;
+    (\mathsf{TInt}, \mathsf{TRef})\} \\
+  \mathrm{Overlaps} &= \{((\mathsf{TInt}, \mathsf{TPair}),\;
+    (\mathsf{TInt}, \mathsf{TRef}))\}
+\end{align*}
+The two sites overlap on the $\mathsf{TInt}$ axis.
+\end{example}
 
 
 \chapter{The \v{C}ech Complex Construction Algorithm}
@@ -14789,156 +15174,241 @@ def build_site_category(param_fibers):
 
 This chapter gives the complete algorithm for building the \v{C}ech
 complex from local equivalence judgments, computing the coboundary
-operators, and determining $\Hone$.
+operators, and determining $\Hone$.  The implementation
+(\texttt{cohomology.py}, $\approx$150~lines) is deliberately compact:
+the mathematical structure does the heavy lifting.
+
+\section{Data Structures}
+
+\begin{definition}[LocalJudgment]
+Each fiber produces a \emph{local judgment}:
+\[
+  \mathsf{LocalJudgment} \coloneqq \left\{
+  \begin{array}{l}
+    \mathsf{fiber} : (\mathsf{str}, \ldots), \quad
+    \mathsf{is\_equivalent} : \Bool \cup \{\bot\}, \\
+    \mathsf{counterexample} : \mathsf{str}?, \quad
+    \mathsf{explanation} : \mathsf{str}, \\
+    \mathsf{concrete\_obstruction} : \Bool
+  \end{array}\right\}
+\]
+where $\bot$ denotes timeout/inconclusive.
+The $\mathsf{concrete\_obstruction}$ flag indicates whether the
+counterexample uses only interpreted Z3 functions (a ``hard''
+proof of inequivalence) versus uninterpreted functions (a ``soft''
+proof that might be vacuous).
+\end{definition}
+
+\begin{definition}[CechResult]
+The output of the cohomology computation:
+\[
+  \mathsf{CechResult} \coloneqq \left\{
+  \begin{array}{l}
+    \mathsf{h0} : \Nat, \quad
+    \mathsf{h1\_rank} : \Nat, \quad
+    \mathsf{total\_fibers} : \Nat, \\
+    \mathsf{unknown\_fibers} : \Nat, \quad
+    \mathsf{obstructions} : [(\mathsf{str}, \ldots)]
+  \end{array}\right\}
+\]
+The verdict is derived from these counts:
+\begin{itemize}
+  \item $\mathsf{equivalent} = \mathsf{True}$ when $\mathsf{h0} > 0$
+    and $\mathsf{h1\_rank} = 0$ and
+    $\mathsf{unknown\_fibers} = 0$ (or coverage $\geq 50\%$).
+  \item $\mathsf{equivalent} = \mathsf{False}$ when
+    $\mathsf{obstructions} \neq \emptyset$.
+  \item $\mathsf{equivalent} = \bot$ otherwise (inconclusive).
+\end{itemize}
+\end{definition}
 
 \section{Step 1: Local Equivalence Judgments}
 
-For each site $U_i$ (type fiber combination), run the Z3 query:
+For each site $U_i$ (type fiber combination), the checker
+(\texttt{\_check\_fiber} in \texttt{checker.py}) runs a Z3
+query.  The procedure is more nuanced than a single
+$\mathsf{sat}/\mathsf{unsat}$ check:
 
-\begin{lstlisting}[caption={Local equivalence check}]
-def check_local(fiber_combo, secs_f, secs_g, params, T, timeout):
+\begin{lstlisting}[caption={Local equivalence check per fiber}]
+def check_fiber(T, params, secs_f, secs_g, combo, timeout_ms):
     solver = Solver()
-    solver.set('timeout', timeout)
-
-    # Add semantic axioms
+    solver.set('timeout', min(timeout_ms, 3000))
+    solver.set('max_memory', 256)  # MB
     T.semantic_axioms(solver)
 
     # Constrain params to this fiber
-    for idx, fiber in enumerate(fiber_combo):
-        solver.add(T.tag(params[idx]) == tag_constant(fiber))
-        solver.add(T.tag(params[idx]) != T.TBot)
+    for idx, fiber in enumerate(combo):
+        solver.add(tag(params[idx]) == tag_const(fiber))
+        solver.add(tag(params[idx]) != TBot)
 
-    # Check each section pair
+    h0 = inconclusive = 0
     for sf in secs_f:
         for sg in secs_g:
             overlap = And(sf.guard, sg.guard)
+            # First: can guards overlap at all?
+            solver.push(); solver.add(overlap)
+            if solver.check() == unsat:
+                solver.pop(); continue
+            solver.pop()
+
+            # Check if terms can differ under overlapping guards
             solver.push()
             solver.add(overlap)
             solver.add(sf.term != sg.term)
-            result = solver.check()
+            r = solver.check()
+            if r == unsat:
+                # Only trust if both terms have same opacity
+                if terms_same_opacity(sf.term, sg.term):
+                    h0 += 1
+                else:
+                    inconclusive += 1  # vacuously equal
+            elif r == sat:
+                # Counterexample found
+                return LocalJudgment(combo, False, model_info)
+            else:
+                inconclusive += 1
             solver.pop()
-            if result == sat:
-                return INEQUIVALENT, solver.model()
-            elif result == unsat:
-                continue  # this pair agrees
-    return EQUIVALENT, None
+
+    if h0 > 0 and inconclusive == 0:
+        return LocalJudgment(combo, True)
+    return LocalJudgment(combo, None)  # inconclusive
 \end{lstlisting}
 
-\section{Step 2: Building $C^0$}
+\textbf{The opacity check.}  A critical subtlety: when Z3 reports
+$\mathsf{unsat}$ for $t_f \neq t_g$, the proof may be
+\emph{vacuously true} if either term involves uninterpreted functions.
+Z3 is free to choose \emph{any} interpretation for uninterpreted
+function symbols, so it can make them equal by fiat.  The
+\texttt{\_terms\_same\_opacity} function checks that both terms
+are \emph{fully interpreted} (only using Z3 RecFunctions with known
+semantics like $\mathsf{binop}$, $\mathsf{truthy}$, $\fold$).
+Only then is the $\mathsf{unsat}$ result trusted.
+
+\section{Step 2: The Short-Circuit}
+
+Before building any coboundary matrices, the algorithm checks for
+the common fast cases:
+
+\begin{enumerate}
+  \item \textbf{Any inequivalent fiber}: If any
+    $\mathsf{LocalJudgment}$ has $\mathsf{is\_equivalent} = \mathsf{False}$,
+    immediately return
+    $\mathsf{CechResult}(\mathsf{h1\_rank} = |\{\text{inequivalent fibers}\}|)$
+    with the obstructions list.
+    No matrix computation needed.
+  \item \textbf{No equivalent fibers}: If all fibers timed out,
+    return $\mathsf{CechResult}(\mathsf{h0} = 0, \mathsf{h1\_rank} = 0)$.
+  \item \textbf{Single fiber or no overlaps}: If there is only one
+    equivalent fiber or no overlaps exist, $\Hone = 0$ trivially.
+\end{enumerate}
+
+These short-circuits handle $>90\%$ of practical cases.  The full
+matrix computation is only needed when multiple equivalent fibers
+exist with non-trivial overlaps.
+
+\section{Step 3: Building $C^0$}
 
 The 0-cochain group is a vector over $\mathrm{GF}(2)$, one entry per
 site:
 \[
   C^0 = \mathrm{GF}(2)^{|I|}
 \]
-where entry $i$ is 1 if site $U_i$ is locally equivalent, 0 otherwise.
+where entry $i$ is $1$ if site $U_i$ is locally equivalent, $0$
+otherwise.  Only the \emph{equivalent} fibers participate in the
+$\delta^0$ matrix; inequivalent fibers contribute to the
+obstruction count directly.
 
-\begin{lstlisting}[caption={Building $C^0$}]
-def build_c0(local_judgments):
-    """Returns dict: site_id -> CochainElement."""
-    c0 = {}
-    for site_id, judgment in local_judgments.items():
-        is_iso = (judgment.verdict == EQUIVALENT)
-        c0[site_id] = CochainElement(
-            sites=(site_id,),
-            is_iso=is_iso,
-            predicate=TruePred() if is_iso else FalsePred()
-        )
-    return CochainGroup(degree=0, elements=c0)
+\section{Step 4: Computing $\delta^0 : C^0 \to C^1$}
+
+The coboundary operator $\delta^0$ is represented as a binary
+matrix of size $m \times n$ where $m = |\mathrm{overlaps}|$ and
+$n = |\mathrm{equiv\_fibers}|$:
+\[
+  (\delta^0)_{k,i} = \begin{cases}
+    1 & \text{if overlap $k$ involves fiber $i$} \\
+    0 & \text{otherwise}
+  \end{cases}
+\]
+
+Each overlap $(U_a, U_b)$ produces a row with exactly two $1$s
+in columns $a$ and $b$.  This is the standard \v{C}ech coboundary:
+$(\delta^0 f)(U_a \cap U_b) = f(U_b) - f(U_a)$ over
+$\mathrm{GF}(2)$.
+
+\begin{lstlisting}[caption={$\delta^0$ matrix construction
+  (from \texttt{cohomology.py})}]
+fiber_idx = {f: i for i, f in enumerate(equiv_fibers)}
+overlap_list = [(a, b) for a, b in overlaps
+                if a in fiber_idx and b in fiber_idx]
+m = len(overlap_list)
+
+delta0 = [[0] * len(equiv_fibers) for _ in range(m)]
+for k, (a, b) in enumerate(overlap_list):
+    delta0[k][fiber_idx[a]] = 1
+    delta0[k][fiber_idx[b]] = 1
 \end{lstlisting}
 
-\section{Step 3: Computing $\delta^0 : C^0 \to C^1$}
+\section{Step 5: Computing $\delta^1 : C^1 \to C^2$}
 
-The coboundary operator $\delta^0$ computes transition functions
-on pairwise overlaps:
+The second coboundary checks the cocycle condition on triple overlaps.
+Triple overlaps are identified by finding pairs of overlaps that share
+a common fiber:
 
-\begin{lstlisting}[caption={Coboundary $\delta^0$}]
-def delta_0(c0, overlaps):
-    """Compute C^1 from C^0 and overlap list."""
-    c1 = {}
-    for (site_i, site_j) in overlaps:
-        phi_i = c0.at(site_i)
-        phi_j = c0.at(site_j)
-        if phi_i is None or phi_j is None:
-            continue
-        # Transition: phi_j|_{ij} o (phi_i|_{ij})^{-1}
-        # Both are truth values, so transition is trivial
-        # iff both are isomorphisms
-        is_trivial = phi_i.is_iso and phi_j.is_iso
-        c1[(site_i, site_j)] = CochainElement(
-            sites=(site_i, site_j),
-            is_iso=is_trivial,
-            predicate=TruePred() if is_trivial else FalsePred()
-        )
-    return CochainGroup(degree=1, elements=c1)
+\begin{lstlisting}[caption={Triple overlap detection and $\delta^1$
+  construction}]
+triples = []
+for i, (a1, b1) in enumerate(overlap_list):
+    for j, (a2, b2) in enumerate(overlap_list):
+        if j <= i: continue
+        common = {a1, b1} & {a2, b2}
+        if common:
+            third = ({a1, b1} | {a2, b2}) - common
+            if third:
+                triples.append((i, j))
+
+delta1 = [[0] * m for _ in range(len(triples))]
+for t, (i, j) in enumerate(triples):
+    delta1[t][i] = 1
+    delta1[t][j] = 1
 \end{lstlisting}
 
-\section{Step 4: Computing $\delta^1 : C^1 \to C^2$}
+\section{Step 6: Computing $\Hone$ via GF(2) Rank}
 
-The second coboundary checks the cocycle condition on triple overlaps:
+The first cohomology group is:
+\[
+  \Hone = \ker(\delta^1) / \mathrm{im}(\delta^0)
+\]
+Its rank over $\mathrm{GF}(2)$ is computed as:
+\[
+  \mathrm{rank}(\Hone) = \dim(\ker(\delta^1)) -
+    \mathrm{rank}(\delta^0) =
+    (m - \mathrm{rank}(\delta^1)) - \mathrm{rank}(\delta^0)
+\]
 
-\begin{lstlisting}[caption={Coboundary $\delta^1$}]
-def delta_1(c1, triple_overlaps):
-    """Compute C^2 from C^1 and triple overlap list."""
-    c2 = {}
-    for (si, sj, sk) in triple_overlaps:
-        psi_ij = c1.at(si, sj)
-        psi_jk = c1.at(sj, sk)
-        psi_ik = c1.at(si, sk)
-        # Cocycle condition: psi_jk o psi_ij^{-1} o psi_ik
-        # Over GF(2): sum mod 2
-        vals = [psi_ij, psi_jk, psi_ik]
-        non_trivial_count = sum(1 for v in vals
-                                if v and not v.is_iso)
-        is_cocycle = (non_trivial_count % 2 == 0)
-        c2[(si, sj, sk)] = CochainElement(
-            sites=(si, sj, sk),
-            is_iso=is_cocycle
-        )
-    return CochainGroup(degree=2, elements=c2)
-\end{lstlisting}
-
-\section{Step 5: Computing $\Hone$}
-
-\begin{lstlisting}[caption={$\Hone$ computation}]
-def compute_h1(c0, c1, c2, overlaps, triple_overlaps):
-    """Compute H^1 = ker(delta^1) / im(delta^0)."""
-    # Build coboundary matrices over GF(2)
-    # delta^0 matrix: rows = overlaps, cols = sites
-    # delta^1 matrix: rows = triple overlaps, cols = overlaps
-
-    n_sites = len(c0.elements)
-    n_overlaps = len(overlaps)
-    n_triples = len(triple_overlaps)
-
-    # Compute rank of kernel and image
-    rank_ker_d1 = n_overlaps - gf2_rank(delta1_matrix)
-    rank_im_d0 = gf2_rank(delta0_matrix)
-
-    h1_rank = rank_ker_d1 - rank_im_d0
-    return h1_rank  # 0 means equivalence glues
+\begin{lstlisting}[caption={$\Hone$ rank computation
+  (from \texttt{cohomology.py})}]
+rank_delta0 = gf2_rank(delta0)
+rank_delta1 = gf2_rank(delta1) if delta1 else 0
+ker_delta1 = m - rank_delta1
+h1_rank = max(0, ker_delta1 - rank_delta0)
 \end{lstlisting}
 
 \section{The GF(2) Rank Algorithm}
 
+Gaussian elimination over $\mathrm{GF}(2)$ uses XOR as addition:
+
 \begin{lstlisting}[caption={Gaussian elimination over GF(2)}]
 def gf2_rank(matrix):
-    """Row-reduce a binary matrix and return its rank."""
-    m = [row[:] for row in matrix]  # copy
+    m = [row[:] for row in matrix]
     rows, cols = len(m), len(m[0]) if m else 0
     rank = 0
     for col in range(cols):
-        # Find pivot
         pivot = None
         for row in range(rank, rows):
             if m[row][col] == 1:
-                pivot = row
-                break
-        if pivot is None:
-            continue
-        # Swap pivot row to position 'rank'
+                pivot = row; break
+        if pivot is None: continue
         m[rank], m[pivot] = m[pivot], m[rank]
-        # Eliminate column in other rows
         for row in range(rows):
             if row != rank and m[row][col] == 1:
                 m[row] = [(m[row][j] + m[rank][j]) % 2
@@ -14947,7 +15417,7 @@ def gf2_rank(matrix):
     return rank
 \end{lstlisting}
 
-\section{Correctness Theorem}
+\section{Correctness and Complexity}
 
 \begin{theorem}[Correctness of the $\Hone$ Algorithm]
 The algorithm computes the rank of $\Hone(\covers, \Iso) =
@@ -14955,11 +15425,11 @@ The algorithm computes the rank of $\Hone(\covers, \Iso) =
 correctly.  Specifically:
 \begin{enumerate}
   \item $\mathrm{rank}(\Hone) = 0$ iff all 1-cocycles are
-    coboundaries iff local equivalences glue.
+    coboundaries iff local equivalences glue to a global equivalence.
   \item $\mathrm{rank}(\Hone) > 0$ gives the number of independent
-    obstructions.
-  \item The algorithm runs in $O(n^3)$ where $n$ is the number of
-    overlaps.
+    obstructions to gluing.
+  \item The GF(2) elimination runs in $O(n^3)$ where $n$ is the
+    number of overlaps.
 \end{enumerate}
 \end{theorem}
 
@@ -14967,57 +15437,27 @@ correctly.  Specifically:
 Standard linear algebra over a finite field.  The rank is the
 dimension of the quotient space, which equals the dimension of the
 kernel minus the dimension of the image.  Gaussian elimination
-computes both dimensions in $O(n^3)$.
+computes both dimensions in $O(n^3)$.  The $\max(0, \ldots)$ clamp
+handles the degenerate case where the matrix dimensions are
+inconsistent (no overlaps or no triples).
 \end{proof}
-\label{ch:z3-theories}
 
-\section{The UserPropagator API}
-
-Z3's \texttt{UserPropagator} allows implementing custom theory
-solvers that participate in Z3's DPLL(T) solving loop:
-
-\begin{lstlisting}[caption={UserPropagator skeleton}]
-class MyProp(UserPropagateBase):
-    def __init__(self, s=None, ctx=None):
-        super().__init__(s, ctx)
-        self.add_fixed(self._on_fixed)
-        self.add_final(self._on_final)
-        self.add_eq(self._on_eq)
-        self.add_created(self._on_created)
-
-    def push(self): ...   # save state
-    def pop(self, n): ... # restore state
-    def fresh(self, ctx): return MyProp(ctx=ctx)
-
-    def _on_fixed(self, t, v): ...
-    def _on_final(self): ...
-    def _on_eq(self, a, b): ...
-    def _on_created(self, t):
-        self.add(t)  # register for tracking
-\end{lstlisting}
-
-\section{PropagateFunction}
-
-A \texttt{PropagateFunction} is a Z3 function declaration that triggers
-the propagator's \texttt{\_on\_created} callback whenever a term using
-that function appears:
-
-\begin{lstlisting}
-sem = PropagateFunction('sem', IntSort(), IntSort())
-# When sem(x) appears, the propagator is notified
-\end{lstlisting}
-
-\section{Planned Propagators}
-
+\begin{theorem}[When $\Hone = 0$ vs.\ $\Hone \neq 0$]
+\label{thm:h1-interpretation}
+Let $J$ be the set of local judgments.
 \begin{enumerate}
-  \item \textbf{Commutativity Propagator}: When Z3 assigns
-    $\mathsf{op}(a, b) = v$, propagate $\mathsf{op}(b, a) = v$
-    for commutative operations.
-  \item \textbf{Fold Propagator}: Track fold terms and enforce
-    permutation invariance for commutative+associative operations.
-  \item \textbf{Effect Propagator}: Distinguish mutation operations
-    from pure operations to prevent false equivalences.
+  \item If all fibers are equivalent ($J_i = \mathsf{True}$
+    for all $i$) and the overlap structure is connected, then
+    $\Hone = 0$ and the programs are globally equivalent.
+  \item If any fiber is inequivalent ($J_k = \mathsf{False}$),
+    then $\Hone \geq 1$ and the programs are inequivalent, with
+    the counterexample localized to fiber $k$.
+  \item If all checked fibers agree but some timed out ($J_k = \bot$),
+    the result is inconclusive: coverage $= |\{i : J_i =
+    \mathsf{True}\}| / |I|$.  If coverage $\geq 50\%$, the
+    algorithm reports equivalence with reduced confidence.
 \end{enumerate}
+\end{theorem}
 
 
 % ══════════════════════════════════════════════════════════
@@ -15027,10 +15467,15 @@ sem = PropagateFunction('sem', IntSort(), IntSort())
 \chapter{End-to-End Pipeline Trace}
 \label{ch:e2e}
 
-This chapter traces a \emph{complete} equivalence check from raw
+This chapter traces \emph{two} complete equivalence checks from raw
 Python source to final verdict, showing every intermediate step.
+The first example (equivalent programs) illustrates the happy path;
+the second (inequivalent programs with multiple parameters)
+illustrates obstruction detection.
 
-\section{The Input Pair}
+\section{Example 1: Recursive vs.\ Iterative Sum (EQUIVALENT)}
+
+\subsection{The Input Pair}
 
 \begin{lstlisting}[caption={Program A: recursive sum}]
 def f(n):
@@ -15046,7 +15491,7 @@ def g(n):
     return total
 \end{lstlisting}
 
-\section{Step 1: Parse to AST}
+\subsection{Step 1: Parse to AST}
 
 Both sources are parsed by Python's \texttt{ast.parse}.  Program A
 produces a \texttt{FunctionDef} with an \texttt{If} and a
@@ -15055,56 +15500,58 @@ produces a \texttt{FunctionDef} with an \texttt{If} and a
 \texttt{Assign}, a \texttt{For} over \texttt{range}, and a
 \texttt{Return}.
 
-\section{Step 2: Create Theory}
+\subsection{Step 2: Strategy 0 --- Closed-Term Evaluation}
 
-A fresh \texttt{Theory} is instantiated:
-\begin{itemize}
-  \item $\PyObj$ ADT created (7 constructors).
-  \item $\mathsf{binop}$, $\mathsf{unop}$, $\mathsf{truthy}$,
-    $\fold$ RecFunctions defined.
-  \item $\mathsf{TypeTag}$ EnumSort and $\mathsf{tag}$ RecFunction
-    defined.
-  \item Shared function registry initialized (empty).
-\end{itemize}
+The pipeline first checks whether the functions are zero-argument.
+Both have one parameter ($n$), so this strategy is skipped.
 
-\section{Step 3: Compile Program A}
+\subsection{Step 3: Strategy 1 --- Denotational OTerm Equivalence}
 
+The denotational engine normalizes both programs to canonical OTerms.
+If both reduce to the same canonical form, equivalence is proved
+without Z3.  For this pair, the OTerm normalizer detects the sum
+pattern and may prove equivalence here.  If it does, the pipeline
+returns immediately.  Otherwise, it falls through to Z3.
+
+\subsection{Step 4: Create Theory and Compile}
+
+A fresh \texttt{Theory} $T$ is instantiated: $\PyObj$ ADT with 7
+constructors, $\mathsf{binop}$/$\mathsf{unop}$/$\mathsf{truthy}$/$\fold$
+RecFunctions, $\mathsf{TypeTag}$ EnumSort, $\mathsf{tag}$ RecFunction,
+empty shared function registry.
+
+\textbf{Compile Program A.}
 Parameters: $[\texttt{n}]$.  Create $p_0 = \mathsf{Const}(\texttt{p0},
 \PyObj)$.  Env: $\{\texttt{n} \mapsto p_0\}$.
 
-Detect self-recursion ($\texttt{f}$ appears in body).  Invoke
-Nat-eliminator extractor:
+Self-recursion detected ($\texttt{f}$ appears in body).
+Nat-eliminator extractor fires:
 \begin{itemize}
-  \item Base guard: \texttt{n <= 0} $\Rightarrow$ threshold $= 0$.
-  \item Base value: \texttt{0} $\Rightarrow$ $\mathsf{IntObj}(0)$.
-  \item Step: \texttt{n + f(n-1)} $\Rightarrow$ $\op = \mathsf{ADD}$,
-    param left, recursive call right.
+  \item Base case: \texttt{if n <= 0: return 0}.
+    Threshold = $0$, base value = $\mathsf{IntObj}(0)$.
+  \item Recursive case: \texttt{return n + f(n-1)}.
+    Operator = $\mathsf{ADD}$, parameter on left, recursive call
+    ($f(n-1)$) on right.
 \end{itemize}
-
 Result: $\den{f} = \fold(\mathsf{ADD}, 0, \mathsf{ival}(p_0) + 1,
 \mathsf{IntObj}(0))$.
 
-Sections: $[(\top, \fold(\mathsf{ADD}, 0, \mathsf{ival}(p_0)+1,
-\mathsf{IntObj}(0)))]$.
+Sections: $\presheaf_f = [(\top, \fold(\mathsf{ADD}, 0,
+\mathsf{ival}(p_0)+1, \mathsf{IntObj}(0)))]$.
 
-\section{Step 4: Compile Program B}
-
-Parameters: $[\texttt{n}]$.  Create $p_0$ (same as A).
-
-\texttt{total = 0}: env $\leftarrow \{\texttt{n} \mapsto p_0,
+\textbf{Compile Program B.}
+$\texttt{total = 0}$: env $\leftarrow \{\texttt{n} \mapsto p_0,
 \texttt{total} \mapsto \mathsf{IntObj}(0)\}$.
 
-\texttt{for i in range(1, n+1)}: extract range: $\mathsf{start} = 1$,
-$\mathsf{stop} = \mathsf{ival}(p_0) + 1$.
+$\texttt{for i in range(1, n+1)}$: range extraction gives
+$\mathsf{start} = 1$, $\mathsf{stop} = \mathsf{ival}(p_0) + 1$.
+The loop body $\texttt{total += i}$ is a single
+$\texttt{AugAssign(Add)}$ with target \texttt{total} and value
+\texttt{i}.  This matches the canonical fold pattern.
+Result: $\mathsf{env}[\texttt{total}] \leftarrow
+\fold(\mathsf{ADD}, 1, \mathsf{ival}(p_0)+1, \mathsf{IntObj}(0))$.
 
-Loop body: \texttt{total += i} is \texttt{AugAssign(Add)}, target
-\texttt{total}, value \texttt{i} (the loop variable).  This matches
-the canonical fold pattern: single accumulator, augmented by loop var.
-
-Result: env[\texttt{total}] $\leftarrow \fold(\mathsf{ADD}, 1,
-\mathsf{ival}(p_0)+1, \mathsf{IntObj}(0))$.
-
-\texttt{return total}: section $(\top, \fold(\mathsf{ADD}, 1,
+$\texttt{return total}$: section $(\top, \fold(\mathsf{ADD}, 1,
 \mathsf{ival}(p_0)+1, \mathsf{IntObj}(0)))$.
 
 \textbf{Note}: A starts fold at $0$, B starts at $1$.  But
@@ -15113,64 +15560,127 @@ $\mathsf{binop}(\mathsf{ADD}, \mathsf{IntObj}(0), \ldots) =
 \ldots$ (adding 0 is identity by R3).  So both compute
 $0 + 1 + 2 + \ldots + n$.
 
-\section{Step 5: Unify Parameters}
+\subsection{Step 5: Unify Parameters and Structural Check}
 
-Both have 1 parameter.  $p_0$ is shared (same Z3 Const).
-No substitution needed.
+Both have 1 parameter.  $p_0$ is shared (same Z3 Const), so no
+substitution needed.  The terms are \emph{not} structurally equal
+(different fold start indices), so the structural check does not
+short-circuit.
 
-\section{Step 6: Duck Type Inference}
+\subsection{Step 6: Duck Type Inference}
 
 Analyze both programs for operations on \texttt{n}:
 \begin{itemize}
-  \item A: comparison (\texttt{n <= 0}), subtraction (\texttt{n-1}),
-    addition (\texttt{n + f(n-1)}).
-  \item B: \texttt{range(1, n+1)} (addition).
+  \item A: comparison (\texttt{n <= 0} $\to$ $\mathsf{le}$),
+    subtraction (\texttt{n - 1} $\to$ $\mathsf{sub}$),
+    addition (\texttt{n + f(n-1)} $\to$ $\mathsf{add}$).
+  \item B: \texttt{range(1, n+1)} $\to$ $\mathsf{call\_range}$,
+    addition (\texttt{n + 1} $\to$ $\mathsf{add}$).
 \end{itemize}
 
-Union of operations: $\{\mathsf{le}, \mathsf{sub}, \mathsf{add},
-\mathsf{call\_range}\}$.  Numeric operations present $\Rightarrow$
-duck type = \texttt{int}.
+Union: $\{\mathsf{le}, \mathsf{sub}, \mathsf{add},
+\mathsf{call\_range}\}$.  The set $\{\mathsf{sub},
+\mathsf{call\_range}\} \cap \mathrm{NUMERIC\_OPS} \neq \emptyset$,
+so duck type $= \mathsf{int}$, fibers $= \{\mathsf{TInt}\}$.
 
-\section{Step 7: Build Site Category}
+\subsection{Step 7: Build Site Category}
 
-Single parameter, single type (int).  Site category:
-\begin{itemize}
-  \item One site: $U_\mathsf{int} = (\mathsf{TInt})$.
-  \item No overlaps (single site).
-\end{itemize}
+Single parameter, single fiber.  Site category:
+$\{U_{(\mathsf{int})}\}$, no overlaps.
 
-\section{Step 8: Local Equivalence Check}
+\subsection{Step 8: Local Equivalence Check}
 
-Solver created.  Semantic axioms added (none relevant --- no shared
-builtins used).  Tag constraint: $\mathsf{tag}(p_0) = \mathsf{TInt}$,
+Solver created.  Semantic axioms loaded.  Tag constraint:
+$\mathsf{tag}(p_0) = \mathsf{TInt}$,
 $\mathsf{tag}(p_0) \neq \mathsf{TBot}$.
 
-Section comparison: A has 1 section, B has 1 section.
-Overlap: $\top \land \top = \top$ (always overlapping).
+One section pair: $(\top, t_f)$ vs.\ $(\top, t_g)$.
+Guard overlap: $\top \land \top = \top$.
 
 Z3 query: $\fold(\mathsf{ADD}, 0, \mathsf{ival}(p_0)+1,
 \mathsf{IntObj}(0)) \neq \fold(\mathsf{ADD}, 1,
 \mathsf{ival}(p_0)+1, \mathsf{IntObj}(0))$?
 
 Z3 unfolds the fold RecFunction: the first fold includes $i=0$
-(adding $\mathsf{IntObj}(0)$, which is identity by Z3's integer
-arithmetic).  Both produce the same sum.
+(adding $\mathsf{IntObj}(0)$, which is identity by R3).
+Both produce the same sum.
 
-Result: \textbf{UNSAT}.  Local equivalence holds.
+Result: \textbf{UNSAT}.  Both terms are fully interpreted
+($\mathsf{uninterp\_depth} = 0$), so the proof is trusted.
+$\mathsf{LocalJudgment}((\texttt{int},), \mathsf{True})$.
 
-\section{Step 9: \v{C}ech Cohomology}
+\subsection{Step 9: \v{C}ech Cohomology}
 
-Single site, no overlaps.  $C^0 = \{1\}$ (one local isomorphism).
-$C^1 = \emptyset$ (no overlaps).  $\Hone = 0$ trivially.
+One fiber, no overlaps.  $C^0 = (1)$, $C^1 = \emptyset$,
+$\Hone = 0$ trivially.
 
-\section{Step 10: Verdict}
+\subsection{Step 10: Verdict}
 
-$\Hone = 0$, $\Hzero = 1$.
+$\Hone = 0$, $\Hzero = 1$, confidence $= 1.0$.
 
-\textbf{EQUIVALENT}: $f \equiv g$.  H$^0$ = 1 section verified
-across 1 type fiber.  The cubical path is:
+\textbf{EQUIVALENT}: $f \equiv g$.  The cubical path is:
 $\den{f} \xrightarrow{\mathsf{D1}} \fold(\mathsf{ADD}, \ldots)
 = \den{g}$.
+
+
+\section{Example 2: Sorting with Different Tie-Breaking (INEQUIVALENT)}
+
+\subsection{The Input Pair}
+
+\begin{lstlisting}[caption={Program C: sort by value}]
+def f(pairs):
+    return sorted(pairs, key=lambda p: p[1])
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Program D: sort by value, then key}]
+def g(pairs):
+    return sorted(pairs, key=lambda p: (p[1], p[0]))
+\end{lstlisting}
+
+\subsection{Compilation}
+
+Both programs have one parameter: $\texttt{pairs}$.
+
+Program C compiles to:
+$\mathsf{py\_sorted\_key}(p_0, \mathsf{fresh}(\texttt{lambda}))$.
+The lambda produces a fresh constant (lambdas cannot be inlined).
+
+Program D compiles to:
+$\mathsf{py\_sorted\_key}(p_0, \mathsf{fresh}(\texttt{lambda}))$.
+A \emph{different} fresh constant, because the lambda AST differs.
+
+\subsection{Duck Type Inference}
+
+Operations on $\texttt{pairs}$: $\{\mathsf{call\_sorted}\}$.
+This matches $\mathrm{COLLECTION\_OPS}$, so
+duck type $= \mathsf{collection}$,
+fibers $= \{\mathsf{TPair}, \mathsf{TRef}, \mathsf{TStr}\}$.
+
+\subsection{Local Checks}
+
+Three fibers.  On each fiber, the Z3 query asks:
+$\mathsf{py\_sorted\_key}(p_0, \lambda_C) \neq
+\mathsf{py\_sorted\_key}(p_0, \lambda_D)$?
+
+Since $\lambda_C \neq \lambda_D$ (different fresh constants),
+Z3 can satisfy this by choosing an interpretation where the two
+sort keys produce different orderings.
+
+Result: $\mathsf{SAT}$ on the $\mathsf{TPair}$ fiber.
+The counterexample: a list of pairs where elements have equal
+second components but different first components.
+$\mathsf{LocalJudgment}((\texttt{pair},), \mathsf{False},
+\texttt{``obstruction on [TPair]''})$.
+
+\subsection{\v{C}ech Result}
+
+Short-circuit: inequivalent fiber found.
+$\mathsf{CechResult}(\mathsf{h0} = 0, \mathsf{h1\_rank} = 1,
+\mathsf{obstructions} = [(\texttt{pair},)])$.
+
+Verdict: \textbf{INEQUIVALENT}.  The obstruction is localized to
+the $\mathsf{TPair}$ fiber --- exactly the fiber where list-of-pairs
+tie-breaking matters.
 
 
 \chapter{Bridging the Intensional--Extensional Gap}
