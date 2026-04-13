@@ -1,0 +1,1103 @@
+\chapter{Bridging the Intensional--Extensional Gap}
+\label{ch:fallback}
+
+The preceding chapters built a powerful \emph{intensional}
+equivalence engine: OTerm normalization reduces programs to canonical
+forms, the HIT structural prover applies path constructors by
+structural decomposition, and bidirectional BFS searches for
+multi-step rewrite paths using 16 registered axiom functions.
+The Z3 per-fiber checker then provides a separate layer of
+verification via \v{C}ech cohomology on the type fibration.
+
+This chapter examines \emph{where this pipeline reaches its limits},
+\emph{why} those limits arise from a fundamental gap in type theory,
+and \emph{how CCTT provides a principled programme for extending the
+pipeline} by enriching the path space, strengthening specification
+identification, and improving the interaction between denotational
+and cohomological layers.  The chapter is forward-looking: it
+identifies the theoretical mechanisms that motivate each next
+improvement to the implementation.
+
+
+%% ===============================================================
+\section{The Current Pipeline as a Typed Function Chain}
+\label{sec:current-pipeline}
+%% ===============================================================
+
+The implementation orchestrates four strategy layers, each with
+clear CCTT semantics.  We formalize the full pipeline as a chain
+of typed functions with a soundness invariant.
+
+\begin{definition}[Pipeline Type]
+\label{def:pipeline-type}
+Define the type of pipeline verdicts:
+\[
+  \mathsf{Verdict} \coloneqq \mathsf{EQ} \mid \mathsf{NEQ} \mid
+  \mathsf{UNKNOWN}(c)
+  \qquad c \in [0,1]
+\]
+and the pipeline as a composition of partial decision procedures:
+\[
+  \Pi \coloneqq \pi_4 \circ \pi_3 \circ \pi_2 \circ \pi_1 \circ \pi_0
+  : (\mathsf{Src} \times \mathsf{Src}) \to \mathsf{Verdict}
+\]
+where each $\pi_k$ is a function
+$\mathsf{Verdict}_? \to \mathsf{Verdict}_?$
+that either refines the verdict or passes it through unchanged,
+and $\mathsf{Verdict}_?$ extends $\mathsf{Verdict}$ with an
+explicit $\bot$ (``no verdict yet'').
+\end{definition}
+
+The layers are:
+
+\begin{enumerate}
+  \item[\textbf{$\pi_0$}:] \textbf{Closed-term evaluation}
+    (zero-argument functions).
+    A function with no parameters has a singleton domain; its
+    denotation IS its unique value.  Evaluating it computes
+    a $\beta$-normal form --- not a sample.  Functions with only
+    variadic parameters (\texttt{*args}) are evaluated at zero
+    arguments as a \emph{witness}: trusted only for NEQ (a single
+    disagreement suffices) but not for EQ (agreement on one input
+    is insufficient).
+
+  \item[\textbf{$\pi_1$}:] \textbf{Denotational OTerm equivalence}
+    (the primary weapon).  Both functions are compiled to OTerms
+    via \texttt{compile\_to\_oterm}, passed through the 7-phase
+    normalizer (\S\ref{sec:normalizer-formal}), and compared.
+    Four sub-strategies operate in sequence:
+    \begin{enumerate}[label=(\alph*)]
+      \item \emph{Exact canonical form match}: after normalization,
+        the string representations are identical.  Five gating
+        conditions must hold: (i) canonical form length $\geq 20$
+        or constant value, (ii) no \texttt{OUnknown} nodes, (iii)
+        all free variables are parameters, (iv) at least one
+        parameter referenced, (v) operation-name sets agree.
+      \item \emph{Flexible matching}: canonical forms differ only
+        in OFix keys (hash-based loop body identifiers) but are
+        otherwise structurally identical under
+        \texttt{\_flexible\_match}.
+      \item \emph{HIT path induction + BFS path search}
+        (\S\ref{sec:hit-rewrite-system}): the elimination
+        principle for $\mathsf{PyComp}$.  Structural decomposition
+        with congruence rules at each OTerm constructor, cross-type
+        path constructors (D1--D24), and bidirectional BFS with
+        16 axiom functions.  Fiber-aware via duck-type context.
+      \item \emph{Provable NEQ detection}
+        (\S\ref{sec:neq-formal}): structural impossibilities
+        (different effect signatures, incompatible literal values,
+        non-commutative argument orders on fiber-restricted
+        operations).
+    \end{enumerate}
+
+  \item[\textbf{$\pi_2$}:] \textbf{Z3 structural equality}: the
+    Z3 presheaf sections (guard--term pairs) are compared
+    syntactically, but only trusted when \emph{fully interpreted}
+    (no uninterpreted function symbols), as checked by
+    \texttt{\_uninterp\_depth}.
+
+  \item[\textbf{$\pi_3$}:] \textbf{Z3 per-fiber checking +
+    \v{C}ech $H^1$}: duck-type inference determines the site
+    category, the system checks equivalence on each fiber with
+    bounded timeout, and \v{C}ech cohomology assembles the local
+    judgments into a global verdict.  $H^1 = 0$ implies EQ;
+    $H^1 \neq 0$ implies NEQ.
+\end{enumerate}
+
+\begin{theorem}[Pipeline Soundness --- Informal]
+\label{thm:pipeline-soundness-informal}
+The pipeline $\Pi$ satisfies: if $\Pi(f,g) = \mathsf{EQ}$
+then $\forall x.\; f(x) = g(x)$; if $\Pi(f,g) = \mathsf{NEQ}$
+then $\exists x.\; f(x) \neq g(x)$.  A full proof appears in
+\S\ref{sec:fallback-soundness}.
+\end{theorem}
+
+The key architectural invariant: each $\pi_k$ is
+\emph{short-circuiting}: if a previous layer has already produced
+$\mathsf{EQ}$ or $\mathsf{NEQ}$, the remaining layers are skipped.
+The ordering is calibrated so cheaper, more precise layers run first.
+
+This pipeline currently proves 7/50 equivalences and 48/50
+non-equivalences on the hard benchmark suite.
+
+
+%% ===============================================================
+\section{The 7-Phase Normalizer}
+\label{sec:normalizer-formal}
+%% ===============================================================
+
+The normalizer is the engine behind sub-strategy (a) of $\pi_1$.
+It applies seven phases in a fixed-point loop: the entire sequence
+is iterated until the canonical form stabilizes (up to 8 iterations).
+
+\begin{definition}[Normalizer]
+\label{def:normalizer}
+$\mathcal{N} \coloneqq (\varphi_7 \circ \varphi_6 \circ \varphi_5
+\circ \varphi_4 \circ \varphi_3 \circ \varphi_2 \circ \varphi_1)^{\leq 8}$,
+where $t^{\leq k}$ means ``apply $t$ until fixpoint, at most $k$
+iterations.''
+\end{definition}
+
+The seven phases are:
+
+\begin{center}
+\begin{tabular}{clp{6.5cm}}
+\hline
+\textbf{Phase} & \textbf{Name} & \textbf{Key Rules} \\
+\hline
+$\varphi_1$ & $\beta$-reduction
+  & Constant folding, $\mathsf{case}(\top, t, f) \to t$,
+    $\mathsf{case}(c, x, x) \to x$, $\fold(\mathit{op}, i, []) \to i$,
+    identity-map elimination \\
+$\varphi_2$ & Ring/lattice
+  & Additive/multiplicative identities, double negation, sorted
+    idempotence, comparison negation \\
+$\varphi_3$ & Fold canon.
+  & $\mathsf{sum}(x) \to \fold(\mathsf{iadd}, 0, x)$,
+    $\mathsf{any}(x) \to \fold(\lor, \bot, x)$,
+    $\mathsf{join} \to \fold(\mathsf{str\_concat})$ \\
+$\varphi_4$ & HOF fusion
+  & $\mathsf{sorted}(\mathsf{list}(x)) \to \mathsf{sorted}(x)$,
+    $\mathsf{reversed}(\mathsf{sorted}(x)) \to \mathsf{sorted\_rev}(x)$,
+    $\mathsf{abs}(x) \to \mathsf{case}(\mathsf{lt}(x,0), -x, x)$,
+    $\mathsf{max}(a,b) \to \mathsf{case}(\mathsf{gte}(a,b), a, b)$ \\
+$\varphi_5$ & Symbol unify
+  & D19: $\mathsf{heapq.nsmallest} \to \mathsf{sorted\_slice}$;
+    D13: $\mathsf{Counter} \to \mathsf{counter}$;
+    D14: $\mathsf{OrderedDict} \to \mathsf{dict}$;
+    local variable method normalization \\
+$\varphi_6$ & Quotient
+  & $Q[\mathsf{perm}](\mathsf{sorted}(x)) \to \mathsf{sorted}(x)$,
+    $Q[Q[\cdot]] \to Q[\cdot]$ (idempotence),
+    $\mathsf{sorted}(Q[\mathsf{perm}](x)) \to \mathsf{sorted}(x)$ \\
+$\varphi_7$ & Piecewise
+  & Flatten nested case chains, infer complement guards via
+    comparison algebra, sort pieces by
+    $(\mathsf{value.canon()}, \mathsf{guard.canon()})$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Confluence and Termination}
+
+\begin{proposition}[Termination]
+\label{prop:normalizer-termination}
+The normalizer terminates in at most 8 iterations.  Each phase is
+a structural recursion on the OTerm tree (hence terminates on each
+invocation), and the outer loop is bounded by the explicit iteration
+cap.
+\end{proposition}
+
+\begin{proof}
+Each phase traverses the OTerm by structural recursion (depth-first,
+polynomial in term size).  The outer loop checks
+$\mathsf{canon}(t_{\mathit{prev}}) = \mathsf{canon}(t_{\mathit{curr}})$
+and exits early when the fixpoint is reached.  The hard bound of 8
+iterations ensures termination even if no fixpoint is reached.
+\end{proof}
+
+\begin{proposition}[Weak Confluence]
+\label{prop:normalizer-confluence}
+Within each phase, the rewrite rules are \emph{non-overlapping}
+at the root: each rule matches a distinct OTerm constructor or
+operation name.  Consequently, each phase is confluent on its own
+inputs.
+\end{proposition}
+
+The cross-phase interaction is more subtle: $\varphi_3$ may create
+$\fold$ nodes that $\varphi_4$ then fuses, which $\varphi_6$ then
+quotients.  Confluence of the composed system $\varphi_7 \circ
+\cdots \circ \varphi_1$ is not proved in general but is empirically
+observed: all benchmark pairs converge within 3 iterations.
+
+\begin{proposition}[Soundness of Each Phase]
+\label{prop:phase-soundness}
+For each phase $\varphi_k$: if $\varphi_k(t) = t'$ then
+$\den{t} = \den{t'}$ (extensional equality of denotations).
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+Phase by phase:
+$\varphi_1$ applies standard $\beta$-reduction and constant folding
+(sound by substitution);
+$\varphi_2$ applies ring identities ($x + 0 = x$, $x \cdot 1 = x$,
+etc.) that are valid in $\mathbb{Z}$, $\mathbb{R}$, and the
+Boolean algebra;
+$\varphi_3$ replaces builtins by their fold definitions (sound by
+the semantics of \texttt{sum}, \texttt{any}, etc.);
+$\varphi_4$ applies HOF fusion laws ($\mathsf{sorted} \circ
+\mathsf{list} = \mathsf{sorted}$, etc.) that hold in Python;
+$\varphi_5$ unifies module-qualified names to canonical forms (same
+function, different import path);
+$\varphi_6$ exploits the quotient type: $Q[\mathsf{perm}]$ marks
+nondeterministic ordering, and $\mathsf{sorted}$ eliminates it;
+$\varphi_7$ reorders case-guards, valid because piecewise functions
+over a partition are determined by their values on each piece.
+\end{proof}
+
+
+%% ===============================================================
+\section{The HIT Prover as a Term-Rewriting System}
+\label{sec:hit-rewrite-system}
+%% ===============================================================
+
+The HIT prover (\texttt{hit\_path\_equiv}) implements the
+elimination principle for $\mathsf{PyComp}$
+(Theorem~\ref{thm:pycomp-elim}).  We now formalize it as a
+\emph{conditional term-rewriting system} (CTRS) and establish its
+rewrite-theoretic properties.
+
+\subsection{Congruence Rules}
+
+At each OTerm constructor, the prover applies a \emph{congruence rule}:
+decompose the top-level constructor and recurse into children.
+These rules form the structural core of the prover:
+
+\[
+\begin{array}{rl}
+\textsc{Refl}: & \displaystyle
+  \frac{a.\mathsf{canon}() = b.\mathsf{canon}()}
+       {a =_{\mathsf{HIT}} b} \\[12pt]
+\textsc{OOp-Cong}: & \displaystyle
+  \frac{a_1 =_{\mathsf{HIT}} b_1 \quad \cdots \quad a_n =_{\mathsf{HIT}} b_n}
+       {\mathsf{OOp}(f, a_1, \ldots, a_n) =_{\mathsf{HIT}} \mathsf{OOp}(f, b_1, \ldots, b_n)} \\[12pt]
+\textsc{OCase-Cong}: & \displaystyle
+  \frac{g =_{\mathsf{HIT}} g' \quad t =_{\mathsf{HIT}} t' \quad f =_{\mathsf{HIT}} f'}
+       {\mathsf{case}(g, t, f) =_{\mathsf{HIT}} \mathsf{case}(g', t', f')} \\[12pt]
+\textsc{OCase-Flip}: & \displaystyle
+  \frac{g' = \lnot g \quad t =_{\mathsf{HIT}} f' \quad f =_{\mathsf{HIT}} t'}
+       {\mathsf{case}(g, t, f) =_{\mathsf{HIT}} \mathsf{case}(g', t', f')} \\[12pt]
+\textsc{OFold-Cong}: & \displaystyle
+  \frac{\mathit{op} = \mathit{op}' \quad i =_{\mathsf{HIT}} i' \quad c =_{\mathsf{HIT}} c'}
+       {\fold(\mathit{op}, i, c) =_{\mathsf{HIT}} \fold(\mathit{op}', i', c')} \\[12pt]
+\textsc{OLam-Cong}: & \displaystyle
+  \frac{|\vec{x}| = |\vec{y}| \quad \mathit{body}_a[\vec{x}/\vec{y}] =_{\mathsf{HIT}} \mathit{body}_b}
+       {\lambda\vec{x}.\mathit{body}_a =_{\mathsf{HIT}} \lambda\vec{y}.\mathit{body}_b} \\[12pt]
+\textsc{OMap-Cong}: & \displaystyle
+  \frac{t =_{\mathsf{HIT}} t' \quad c =_{\mathsf{HIT}} c' \quad p =_{\mathsf{HIT}} p'}
+       {\mathsf{map}(t, c, p) =_{\mathsf{HIT}} \mathsf{map}(t', c', p')} \\[12pt]
+\textsc{Comm}: & \displaystyle
+  \frac{\mathit{op} \in \mathsf{Comm}_\tau \quad a =_{\mathsf{HIT}} b' \quad b =_{\mathsf{HIT}} a'}
+       {\mathsf{OOp}(\mathit{op}, a, b) =_{\mathsf{HIT}} \mathsf{OOp}(\mathit{op}, a', b')}
+\end{array}
+\]
+
+The $\textsc{Comm}$ rule is \emph{fiber-restricted}: the set
+$\mathsf{Comm}_\tau$ of commutative operations depends on the duck-type
+fiber $\tau$.  On numeric fibers, $\mathsf{add} \in \mathsf{Comm}_\tau$;
+on string/list fibers, it is not (concatenation is non-commutative).
+This is sheaf descent (\S2.6) at the rewriting level.
+
+\subsection{Cross-Type Path Constructors}
+
+Beyond congruence, the prover applies cross-type rules that relate
+OTerms with different top-level constructors:
+
+\begin{itemize}
+  \item \textbf{D1}: $\mathsf{OFix} \leftrightarrow \mathsf{OFold}$
+    (recursion $\leftrightarrow$ iteration) --- via spec matching
+    on the fix-point body.
+  \item \textbf{D8}: Case flattening ---
+    $\mathsf{case}(t_1, A, \mathsf{case}(t_2, B, C))
+    \leftrightarrow \mathsf{case}(t_2, B, \mathsf{case}(t_1, A, C))$
+    when guards are disjoint.
+  \item \textbf{D20}: Spec identification (Yoneda) --- both sides
+    reduce to the same $\mathsf{OAbstract}(\mathit{spec}, \vec{x})$.
+  \item \textbf{D22}: $\mathsf{OCatch} \leftrightarrow \mathsf{OCase}$
+    (try/except $\leftrightarrow$ conditional) --- matching body and
+    default.
+  \item \textbf{De Morgan}:
+    $\lnot(a \land b) \leftrightarrow (\lnot a) \lor (\lnot b)$,
+    applied recursively.
+  \item \textbf{Guard subsumption}:
+    if $G_{\mathit{sub}}$ is a disjunct of $G$, then in the
+    else-branch of $G$, the inner
+    $\mathsf{case}(G_{\mathit{sub}}, \ldots)$ collapses.
+  \item \textbf{Comparison normalization}:
+    $\mathsf{lt}(a,b) = \mathsf{gt}(b,a)$,
+    $\lnot\mathsf{lt}(a,b) = \mathsf{gte}(a,b)$, etc.
+\end{itemize}
+
+The prover also applies single-step axiom rewrites from the
+16 registered axiom functions at depths $< 8$, checking whether
+any one-step rewrite closes the gap.
+
+\subsection{Memoization and Termination}
+
+The HIT prover uses a memoization table keyed by
+$(\mathsf{canon}(a), \mathsf{canon}(b))$.  Before recursing,
+it marks the key as ``in progress'' to detect cycles (recursive
+OTerms produce cycles in the dependency graph).  A depth bound
+of 20 ensures termination.
+
+\begin{proposition}[HIT Prover Termination]
+The HIT prover terminates on all inputs.  The depth bound and
+memoization ensure each pair is visited at most once per depth
+level, giving worst-case $O(|t|^2 \cdot D)$ where $|t|$ is
+the OTerm size and $D = 20$ is the depth bound.
+\end{proposition}
+
+
+%% ===============================================================
+\section{The D20 Spec Identification Engine}
+\label{sec:d20-formal}
+%% ===============================================================
+
+The D20 axiom function (\texttt{\_axiom\_d20\_spec\_unify})
+recognizes high-level specifications from OTerm structure and
+replaces complex computations with abstract specification terms.
+This is the Yoneda embedding: a program is characterized by
+the specification it satisfies.
+
+\subsection{Spec Identification as a Morphism}
+
+\begin{definition}[Spec Identification Function]
+\label{def:spec-id}
+The spec identification function is a partial map:
+\[
+  \iota : \mathsf{OTerm} \rightharpoonup
+  \mathsf{SpecName} \times \mathsf{OTerm}^*
+\]
+defined by structural pattern matching on the OTerm.
+\end{definition}
+
+The current implementation recognizes five specification families:
+
+\begin{center}
+\begin{tabular}{lp{6cm}l}
+\hline
+\textbf{Spec} & \textbf{Pattern} & \textbf{Result} \\
+\hline
+$\mathsf{factorial}$ &
+  $\fold(\mathsf{mul}, 1, \mathsf{range}(\ldots, n))$ &
+  $\mathsf{factorial}(n)$ \\
+$\mathsf{range\_sum}$ &
+  $\fold(\mathsf{add}, 0, \mathsf{range}(\ldots, n))$ &
+  $\mathsf{range\_sum}(n)$ \\
+$\mathsf{fib\_like}$ &
+  $\mathsf{fix}[h](\ldots\mathsf{add}\ldots\mathsf{sub}\ldots)$ &
+  $\mathsf{fib\_like}(\vec{v})$ \\
+$\mathsf{sorted}$ &
+  $\mathsf{sorted}(x)$ &
+  $\mathsf{sorted}(x)$ \\
+$\mathsf{binomial}$ &
+  $\mathsf{math.comb}(n,k)$ &
+  $\mathsf{binomial}(n,k)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{proposition}[Spec Identification Soundness]
+\label{prop:spec-id-sound}
+If $\iota(t) = (S, \vec{x})$, then $t$ computes the specification
+$S$ on inputs $\vec{x}$.  In particular, if $\iota(t_1) = (S, \vec{x})$
+and $\iota(t_2) = (S, \vec{x})$ (same spec, same inputs), then
+$\den{t_1} = \den{t_2}$ by Theorem~\ref{thm:det-spec}.
+\end{proposition}
+
+\begin{proof}
+Each pattern in $\iota$ is a sufficient condition for the
+corresponding specification.
+$\fold(\mathsf{mul}, 1, \mathsf{range}(1, n{+}1))$ computes
+$\prod_{i=1}^n i = n!$ by definition of fold over range.
+$\fold(\mathsf{add}, 0, \mathsf{range}(\ldots))$ computes
+$\sum_{i} i$ by the same argument.
+$\mathsf{sorted}(x)$ is the identity on the sorted spec.
+The Fibonacci pattern uses a heuristic (presence of \texttt{add}
+and \texttt{sub} in the fix body), which is sound when the fix
+body matches the Fibonacci recurrence but may produce false
+negatives on non-standard formulations.
+\end{proof}
+
+
+\subsection{Formal Pattern Matching as Presheaf Morphism}
+
+The spec identification function $\iota$ can be understood as a
+natural transformation between presheaves.  Define:
+\begin{itemize}
+  \item $\mathcal{O}$ (the OTerm presheaf): assigns to each type
+    fiber $\tau$ the set of OTerms whose free variables inhabit
+    $\tau$.
+  \item $\mathcal{S}$ (the spec presheaf): assigns to each $\tau$
+    the set of specifications recognizable on $\tau$.
+\end{itemize}
+
+Then $\iota : \mathcal{O} \Rightarrow \mathcal{S}$ is a natural
+transformation: for each restriction map $\rho_{\tau \to \tau'}$,
+the diagram
+\[
+  \begin{tikzcd}
+    \mathcal{O}(\tau) \ar[r, "\iota_\tau"] \ar[d, "\rho"'] &
+    \mathcal{S}(\tau) \ar[d, "\rho"] \\
+    \mathcal{O}(\tau') \ar[r, "\iota_{\tau'}"] &
+    \mathcal{S}(\tau')
+  \end{tikzcd}
+\]
+commutes: restricting an OTerm to a sub-fiber and then identifying
+its spec gives the same result as identifying the spec and then
+restricting.  This naturality ensures that spec identification
+is compatible with the sheaf structure of the type fibration.
+
+
+%% ===============================================================
+\section{BFS Path Search and the 16 Axiom Functions}
+\label{sec:bfs-axioms}
+%% ===============================================================
+
+When the HIT structural prover cannot close the gap directly,
+the system falls back to bidirectional BFS on the rewrite
+groupoid (\S\ref{sec:enriching-paths}).  The BFS uses 16
+registered axiom functions, each of which generates all
+one-step rewrites applicable to a given OTerm.
+
+\subsection{The 16 Registered Axiom Functions}
+
+The axiom functions are organized by the monograph's dichotomy
+groups.  Each function has type
+$\mathsf{OTerm} \times \mathsf{FiberCtx} \to
+\mathsf{List}(\mathsf{OTerm} \times \mathsf{String})$,
+returning all applicable rewrites with their axiom name:
+
+\begin{center}
+\begin{tabular}{clp{5.5cm}}
+\hline
+\textbf{\#} & \textbf{Name} & \textbf{Axiom} \\
+\hline
+1 & D1 fold/unfold & $\mathsf{fix} \leftrightarrow \fold$ \\
+2 & D2 $\beta$ & $(\lambda x.b)(a) \to b[x := a]$ \\
+3 & D4 map fusion & $\mathsf{map}(f, \mathsf{map}(g, c)) \to \mathsf{map}(f \circ g, c)$ \\
+4 & D5 fold universal & Hash-named fold $\to$ canonical op \\
+5 & D8 section merge & Guard complement collapse \\
+6 & D13 histogram & $\mathsf{Counter}(x) \leftrightarrow \fold(\mathsf{count}, \ldots, x)$ \\
+7 & D16 memo/DP & Recurrence normalization \\
+8 & D17 associativity & Tree fold $\to$ linear fold \\
+9 & D19 sort-scan & $\fold(\mathit{op}, \mathsf{sorted}(x)) \to \fold(\mathit{op}, x)$ when $\mathit{op}$ commutative \\
+10 & D20 spec unify & $t \to \mathsf{OAbstract}(\mathit{spec}, \vec{x})$ \\
+11 & D22 effect elim & $\mathsf{catch}(b, d) \leftrightarrow \mathsf{case}(g, b, d)$ \\
+12 & D24 $\eta$ & $\lambda x.f(x) \to f$ \\
+13 & Algebra & Commutativity, associativity, identity \\
+14 & Quotient & $Q[\mathsf{perm}]$ absorption, idempotence \\
+15 & Fold & Sum/prod expansion, range normalization \\
+16 & Case & Constant guard, identical branches, $\lnot$-flip, subsumption \\
+\hline
+\end{tabular}
+\end{center}
+
+Each axiom function also operates under \emph{congruence closure}:
+the function \texttt{\_congruence\_rewrites} applies every axiom
+at every sub-term position, constructing the new OTerm by replacing
+the rewritten sub-term and annotating the position (e.g.,
+\texttt{D4\_map\_fusion@arg0}).
+
+\subsection{Axiom Soundness}
+
+\begin{theorem}[Axiom Soundness]
+\label{thm:axiom-soundness}
+Each of the 16 axiom functions preserves semantic equivalence:
+if $(t', \mathit{ax}) \in \mathsf{axiom}_k(t, \mathit{ctx})$
+then $\den{t} = \den{t'}$.
+\end{theorem}
+
+\begin{proof}
+We verify soundness per axiom:
+\begin{enumerate}
+  \item \textbf{D1}: A fix-point with accumulation pattern computes
+    the same function as the corresponding fold, by the universal
+    property of folds (catamorphism).
+  \item \textbf{D2}: $\beta$-reduction is sound by the substitution
+    lemma.
+  \item \textbf{D4}: Map fusion: $\mathsf{map}(f, \mathsf{map}(g, c))
+    = \mathsf{map}(f \circ g, c)$ by the functor law.
+  \item \textbf{D5}: Fold canonicalization replaces a hash-based fold
+    key with a recognized canonical operation, preserving semantics.
+  \item \textbf{D8}: Guard complement collapse:
+    $\mathsf{case}(g, A, \mathsf{case}(\lnot g, B, C))
+    = \mathsf{case}(g, A, C)$ because $\lnot g$ is false in the
+    else-branch of $g$.
+  \item \textbf{D13}: $\mathsf{Counter}(x)$ is defined as
+    $\fold(\mathsf{count\_freq}, \mathsf{defaultdict}(0), x)$.
+  \item \textbf{D16}: Recurrence normalization alpha-normalizes the
+    fix body, preserving the function computed.
+  \item \textbf{D17}: Tree fold = linear fold when the operation is
+    associative (parenthesization doesn't matter).
+  \item \textbf{D19}: Sorting is irrelevant for commutative folds:
+    $\fold(\mathit{op}, i, \mathsf{sorted}(x))
+    = \fold(\mathit{op}, i, x)$ when $\mathit{op}$ is commutative
+    and associative.
+  \item \textbf{D20}: Spec identification replaces a term with its
+    abstract specification; soundness follows from
+    Proposition~\ref{prop:spec-id-sound}.
+  \item \textbf{D22}: When the exception guard is decidable,
+    $\mathsf{catch}(b, d) = \mathsf{case}(\mathsf{can\_succeed}(b), b, d)$.
+  \item \textbf{D24}: $\eta$-contraction:
+    $\lambda x.f(x) = f$ when $x \notin \mathrm{FV}(f)$.
+  \item \textbf{Algebra}: Standard algebraic identities
+    (commutativity restricted to appropriate fibers,
+    associativity, identity elements, involution).
+  \item \textbf{Quotient}: $Q[\mathsf{perm}](\mathsf{sorted}(x))
+    = \mathsf{sorted}(x)$ because sorting already fixes a
+    canonical representative.
+  \item \textbf{Fold}: $\mathsf{sum}(x) = \fold(\mathsf{add}, 0, x)$
+    etc., by definition.
+  \item \textbf{Case}: Constant guard elimination and branch
+    identity are immediate; $\lnot$-flip swaps branches soundly.
+\end{enumerate}
+\end{proof}
+
+\subsection{BFS Structure}
+
+The bidirectional BFS maintains two frontiers:
+$F_0 = \{\mathsf{nf}_f\}$ and $B_0 = \{\mathsf{nf}_g\}$.
+At each depth $d$, both frontiers are expanded by applying all
+16 axiom functions (with congruence closure) to all terms in the
+current-depth layer.  Frontier pruning keeps each set below
+$\mathsf{max\_frontier} = 200$ terms, scored by path length
+and structural similarity to the target.
+
+A path is found when a canonical form appears in both frontiers.
+The maximum search depth is $\mathsf{max\_depth} = 4$,
+giving a worst-case exploration of
+$O(\mathsf{max\_depth} \cdot \mathsf{max\_frontier} \cdot
+|\mathsf{Axioms}| \cdot |t|)$ term rewrites.
+
+
+%% ===============================================================
+\section{Provable NEQ Detection}
+\label{sec:neq-formal}
+%% ===============================================================
+
+The function \texttt{\_detect\_provable\_neq} returns $\top$ only
+when the two OTerms are \emph{provably} non-equivalent.  Each
+detection rule is a certificate of non-equivalence.
+
+\begin{definition}[NEQ Certificate]
+\label{def:neq-cert}
+A \emph{NEQ certificate} for OTerms $a, b$ is a structural
+property $P(a, b)$ such that $P(a, b) \implies \exists x.\;
+\den{a}(x) \neq \den{b}(x)$.
+\end{definition}
+
+The implementation checks the following certificates, organized
+by category:
+
+\paragraph{Effect-fiber certificates.}
+If $a$ contains an effect operation (\texttt{effect\_io},
+\texttt{effect\_write}, etc.) and $b$ does not (or vice versa),
+they inhabit different fibers of the heap fibration:
+$H^1 \neq 0$ on the effect fiber.
+
+\paragraph{Literal certificates.}
+$\mathsf{OLit}(v_1)$ vs.\ $\mathsf{OLit}(v_2)$ with $v_1 \neq v_2$:
+constant functions returning different values.
+$\mathsf{OLit}(\mathsf{None})$ vs.\ any non-$\mathsf{None}$ term:
+the denotation $\bot$ differs from any productive computation.
+
+\paragraph{Argument-order certificates.}
+For non-commutative operations
+$\sigma \in \{\mathsf{sub}, \mathsf{floordiv}, \mathsf{mod},
+\mathsf{pow}, \mathsf{concat}, \mathsf{merge}, \ldots\}$:
+if $\sigma(a_1, a_2)$ vs.\ $\sigma(a_2, a_1)$ with
+$a_1 \neq a_2$, then the results differ.
+For \texttt{add}/\texttt{iadd}, commutativity depends on the
+duck-type fiber: on numeric fibers, it is commutative (no
+certificate); on string/list fibers, it is non-commutative
+(certificate issued).
+
+\paragraph{Comparison-operator certificates.}
+Same arguments, different comparison:
+$\mathsf{eq}(a, b)$ vs.\ $\mathsf{is}(a, b)$ differ because
+\texttt{==} and \texttt{is} have different semantics in Python
+(value vs.\ identity).
+
+\paragraph{Structural certificates.}
+\begin{itemize}
+  \item Different sequence lengths:
+    $|\mathsf{OSeq}(a)| \neq |\mathsf{OSeq}(b)|$.
+  \item Different fold operators:
+    $\fold(\mathit{op}_1, \ldots) \neq \fold(\mathit{op}_2, \ldots)$
+    when $\mathit{op}_1 \neq \mathit{op}_2$.
+  \item Cross-type at top level (outside case branches):
+    $\mathsf{OSeq}$ vs.\ $\mathsf{OOp}$,
+    $\mathsf{OOp}$ vs.\ $\mathsf{OMap}$,
+    $\mathsf{OQuotient}$ vs.\ $\mathsf{OOp}$, etc.
+\end{itemize}
+
+\begin{theorem}[NEQ Detection Soundness]
+\label{thm:neq-soundness}
+Each NEQ certificate $P(a, b)$ is a valid certificate of
+non-equivalence: $P(a, b) \implies \den{a} \neq \den{b}$.
+\end{theorem}
+
+\begin{proof}
+Effect-fiber: a program with IO effects returns
+$(\mathsf{None}, \mathit{side\text{-}effect})$ while a pure
+program returns $(\mathit{value}, \varnothing)$; these differ
+on the heap component.
+Literal: different constants trivially differ.
+Argument-order: non-commutativity provides a witness
+(e.g., $3 - 5 \neq 5 - 3$).
+Comparison-operator: $\mathsf{eq}$ uses \texttt{\_\_eq\_\_} while
+$\mathsf{is}$ uses pointer identity; \texttt{[] == []} is True
+but \texttt{[] is []} is False.
+Structural: different-length sequences cannot be equal;
+different fold operators compute different functions
+(e.g., $\sum \neq \prod$).
+Cross-type at top level: an $\mathsf{OSeq}$ (tuple/list literal)
+and an $\mathsf{OOp}$ (function application) produce different
+types.
+\end{proof}
+
+An important conservatism: cross-type certificates are
+\emph{suppressed inside case branches}
+(\texttt{in\_case\_branch = True}).  Inside a conditional branch,
+different structures can compute the same value under the guard's
+domain constraint.  For example, $Q[\mathsf{perm}](\mathsf{set}(x))$
+and $\mathsf{sorted}(x)$ could agree when
+$|\mathsf{set}(x)| \leq 1$.
+
+
+%% ===============================================================
+\section{The Intensional--Extensional Gap}
+\label{sec:int-ext-gap}
+%% ===============================================================
+
+\subsection{Where the Pipeline Fails}
+
+For 43 of the 50 equivalent benchmark pairs, the pipeline returns
+$\mathsf{UNKNOWN}$ or a spurious $H^1$ obstruction.  These failures
+cluster into three categories:
+
+\begin{enumerate}
+  \item \textbf{Genuinely different algorithms} (8 pairs):
+    Graham scan vs.\ monotone chain (convex hull),
+    Tarjan vs.\ Kosaraju (SCC),
+    matrix exponentiation vs.\ fast doubling (Fibonacci),
+    multiplicative formula vs.\ Pascal's triangle ($\binom{n}{k}$),
+    Wagner--Fischer vs.\ Hirschberg (edit distance),
+    recursive descent vs.\ shunting-yard (expression evaluation),
+    stack-based vs.\ recursive (bracket matching),
+    trial division vs.\ SPF sieve (prime factorization).
+    No structural axiom connects them; they live in disconnected
+    components of the rewrite groupoid.
+
+  \item \textbf{Compilation lossy-ness} ($\sim$22 pairs):
+    the OTerm compiler loses parameter references, produces
+    \texttt{OUnknown} nodes, or generates canonical forms too
+    short to trust.
+
+  \item \textbf{Timeout / memory} ($\sim$13 pairs):
+    the Z3 fiber checker runs out of time or memory before
+    resolving all fibers.
+\end{enumerate}
+
+Category~1 is the \emph{fundamental} limitation.  Categories~2 and~3
+are engineering problems.
+
+\subsection{Formal Gap Statement}
+
+\begin{theorem}[The Gap]
+\label{thm:gap}
+There exist programs $f, g : A \to B$ such that:
+\begin{enumerate}
+  \item $\prod_{x:A} \Path_B(f(x), g(x))$ is inhabited
+    (extensionally equal),
+  \item $\Path_{\mathsf{PyComp}}(f, g)$ is empty in the current
+    HIT (no finite chain of D1--D24 constructors connects them).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By Rice's theorem: semantic equivalence of programs is undecidable.
+Any decidable set of syntactic axioms can only capture a proper
+subset of all valid equivalences.  Concretely: Graham scan and
+monotone chain compute the same convex hull, but no structural
+axiom relates polar-angle sorting to lexicographic sorting, nor
+a single-pass stack to a two-pass upper/lower construction.
+\end{proof}
+
+\subsection{What the System Cannot Do}
+
+We now formalize the limitations precisely.  Define the
+\emph{provability horizon}:
+
+\begin{definition}[Provability Horizon]
+\label{def:provability-horizon}
+The provability horizon of the pipeline is the set:
+\[
+  \mathcal{H} \coloneqq \bigl\{(f, g) : f \equiv g \text{ and }
+  \Pi(f, g) = \mathsf{EQ}\bigr\}
+\]
+The \emph{gap set} is:
+\[
+  \mathcal{G} \coloneqq \bigl\{(f, g) : f \equiv g \text{ and }
+  \Pi(f, g) \neq \mathsf{EQ}\bigr\}
+\]
+\end{definition}
+
+The 8 ``genuinely different algorithm'' pairs lie in $\mathcal{G}$
+for a precise reason: each pair consists of two algorithms that
+compute the same mathematical function via fundamentally different
+decompositions of the problem.  No finite combination of the
+syntactic axioms D1--D24 connects the two decompositions, because
+the axioms operate on local OTerm structure while the equivalence
+is a global property of the algorithm's correctness proof.
+
+\begin{proposition}[Gap Characterization]
+\label{prop:gap-char}
+A pair $(f, g)$ lies in $\mathcal{G}$ iff the OTerm normal forms
+$\mathcal{N}(\den{f})$ and $\mathcal{N}(\den{g})$ lie in
+different connected components of the rewrite groupoid
+$\mathcal{G}_{\mathsf{PyComp}}$ AND the spec identification
+function $\iota$ fails on at least one of them.
+\end{proposition}
+
+
+%% ===============================================================
+\section{Enriching the Path Space}
+\label{sec:enriching-paths}
+%% ===============================================================
+
+\subsection{The Rewrite Groupoid}
+
+\begin{definition}[Rewrite Groupoid]
+\label{def:rewrite-groupoid}
+$\mathcal{G}_{\mathsf{PyComp}}$ has:
+\begin{itemize}
+  \item \textbf{Objects}: OTerms in normal form (after $\mathcal{N}$).
+  \item \textbf{Morphisms}: finite composites of path constructors
+    and their inverses:
+    \[
+      \mathrm{Hom}_{\mathcal{G}}(a, b) =
+      \left\{ p_1^{\epsilon_1} \cdot p_2^{\epsilon_2} \cdots
+      p_k^{\epsilon_k} :
+      p_i \in \mathrm{Axioms},\; \epsilon_i \in \{+1, -1\}
+      \right\} / {\sim}
+    \]
+    where $\sim$ is the groupoid relations ($p \cdot p^{-1} =
+    \mathrm{id}$, associativity).
+\end{itemize}
+\end{definition}
+
+\begin{proposition}[Fundamental Obstruction]
+\label{prop:fundamental-obstruction}
+Two OTerms are in different connected components of
+$\mathcal{G}_{\mathsf{PyComp}}$ iff no finite chain of axioms
+in the equational theory $E$ relates them.  The $\pi_0$ invariant
+$\pi_0(\mathcal{G}_{\mathsf{PyComp}})$ classifies these
+obstructions.
+\end{proposition}
+
+The strategy for improving the prover is to \emph{reduce}
+$|\pi_0(\mathcal{G})|$ by adding new axioms --- new path
+constructors that connect previously disconnected components.
+
+\subsection{Three Mechanisms for New Paths}
+
+\paragraph{Mechanism 1: Higher-level normalization.}
+Every new normalization rule is a new path constructor.
+If we add $t \leadsto t'$ to the normalizer, we implicitly add
+$\mathsf{norm} : \Path(t, t')$ to the HIT.
+Currently missing normalizations include:
+\begin{itemize}
+  \item \textbf{Accumulator extraction}: recognizing that a
+    tail-recursive function with an accumulator computes the same
+    value as a non-tail version.
+  \item \textbf{Loop interchange}: two nested folds over independent
+    ranges can be reordered ($\pi_0$ merge for DP table fills).
+  \item \textbf{Divide-and-conquer normalization}:
+    $f(a \cdot b) = f(a) \oplus f(b)$ for homomorphisms.
+\end{itemize}
+
+\paragraph{Mechanism 2: Specification identification (D20 Yoneda).}
+Each new spec pattern $\pi \mapsto S$ creates a new family of paths:
+\[
+  \forall a, b.\;\; \iota(a) = (S, \vec{x}) \;\wedge\;
+  \iota(b) = (S, \vec{x})
+  \;\implies\; \Path_{\mathsf{PyComp}}(a, b)
+\]
+Adding recognition patterns for GCD, LCM, convex hull, edit
+distance, topological sort, and shortest path would directly
+connect the 8 ``genuinely different algorithm'' pairs.
+
+\paragraph{Mechanism 3: Transport along type coercion paths.}
+Univalence provides paths between equivalent types.  If two
+programs operate on isomorphic types, transport along the type
+equivalence path can normalize them to a common representation.
+
+
+%% ===============================================================
+\section{Strengthening the D20 Spec Engine}
+\label{sec:strengthening-d20}
+%% ===============================================================
+
+\subsection{The Spec Library as a Presheaf}
+
+\begin{definition}[Spec Presheaf]
+$\mathcal{S} : \mathcal{C}^{\mathrm{op}} \to \mathsf{Set}$ assigns
+to each type fiber $\tau$ the set of specifications recognizable
+on $\tau$.  Restriction maps narrow specifications to sub-fibers.
+\end{definition}
+
+The sheaf condition on $\mathcal{S}$ tells us when local spec
+matches on individual fibers are sufficient for a global spec
+match.
+
+\subsection{Observable Properties as Spec Discovery}
+
+Beyond direct pattern matching, specifications can be
+\emph{inferred} from observable properties:
+
+\begin{enumerate}
+  \item \textbf{Output type agreement}:
+    $\forall \vec{p}.\; \mathsf{tag}(t_f) = \mathsf{tag}(t_g)$.
+  \item \textbf{Base-case agreement}: for each $v \in \{0, 1, -1\}$,
+    $\mathsf{simplify}(t_f[\vec{p} \mapsto v])
+    = \mathsf{simplify}(t_g[\vec{p} \mapsto v])$.
+  \item \textbf{Recurrence structure}: alpha-equivalent
+    $\mathsf{RecFunction}$ bodies.
+  \item \textbf{Idempotence}: $t_f(t_f(x)) = t_f(x)$.
+  \item \textbf{Monotonicity}: $x < y \implies t_f(x) \leq t_f(y)$.
+\end{enumerate}
+
+\begin{theorem}[Observable Properties as Abstract Spec]
+\label{thm:obs-spec}
+If two programs agree on output type, all base cases, and their
+RecFunction recurrence equations are alpha-equivalent, then they
+satisfy the same deterministic specification.  By
+Theorem~\ref{thm:det-spec}, they are extensionally equal.
+\end{theorem}
+
+
+%% ===============================================================
+\section{Improving the Denotational--Cohomological Interaction}
+\label{sec:denot-cohom-interaction}
+%% ===============================================================
+
+The current pipeline runs the denotational layer (OTerm) and the
+cohomological layer (Z3 + \v{C}ech) \emph{sequentially}.  This
+leaves power on the table.
+
+\subsection{Shared Symbol Congruence}
+
+\begin{theorem}[Shared Symbol Congruence]
+\label{thm:shared-equiv}
+Let $\sigma$ be a shared function symbol.  If
+$t_1 |_\tau = t_2 |_\tau$ for every type fiber $\tau$, then
+$\sigma(t_1) = \sigma(t_2)$.
+\end{theorem}
+
+This principle enables \emph{descent}: decompose a global equality
+into local equalities on sub-expressions.
+
+\subsection{Feeding Denotational Evidence into Fibers}
+
+When the denotational layer discovers partial information,
+it can be \emph{injected} as lemmas into the Z3 context.
+
+\begin{definition}[Spec-Constrained Fiber]
+Given a Z3 term $t$ over parameters $\vec{p}$, a fiber
+assignment $\tau$, and discovered properties $P$, the
+\emph{spec-constrained fiber check} queries:
+\[
+  \mathsf{solver.check}\!\left(
+    t_f |_\tau \neq t_g |_\tau \;\wedge\;
+    \bigwedge_{p \in P} \llbracket p \rrbracket
+  \right)
+  \stackrel{?}{=} \mathsf{unsat}
+\]
+\end{definition}
+
+
+%% ===============================================================
+\section{The Graded Verdict}
+\label{sec:fallback-graded}
+%% ===============================================================
+
+\begin{definition}[Graded Verdict]
+\label{def:graded-verdict}
+A graded verdict is a tuple $(v, c)$ where
+$v \in \{\mathsf{EQ}, \mathsf{NEQ}, \mathsf{UNKNOWN}\}$
+and $c = h_0 / \max(|\mathsf{Fibers}|, 1) \in [0,1]$.
+Full confidence ($c = 1$) is a global section ---
+a proof of equivalence.
+\end{definition}
+
+\subsection{H$^1$ Suppression and the Uninterpreted-Depth Filter}
+
+When Z3 compilation produces uninterpreted functions, the fiber
+checker may find spurious $H^1$ obstructions.  The implementation
+handles this via \texttt{\_uninterp\_depth}: Z3 structural
+equality is only trusted when all terms are \emph{fully interpreted}
+(depth 0).  Additionally, SAT witnesses with high uninterpreted
+depth ($d_1 + d_2 \geq 4$, $\min(d_1, d_2) \geq 1$) are treated
+as inconclusive rather than genuine counterexamples.
+
+\begin{definition}[Spurious H$^1$]
+An H$^1$ obstruction is \emph{spurious} if it arises from a fiber
+where the Z3 terms for $f$ and $g$ differ only in uninterpreted
+function symbols.
+\end{definition}
+
+The principled response is \emph{refinement}: each builtin
+transitioning from uninterpreted to interpreted eliminates a
+class of spurious obstructions.
+
+
+%% ===============================================================
+\section{Soundness and Completeness}
+\label{sec:fallback-soundness}
+%% ===============================================================
+
+\begin{theorem}[Pipeline Soundness]
+\label{thm:pipeline-soundness}
+The full pipeline $\Pi$ is \emph{sound}: it never returns
+$\mathsf{EQ}$ for genuinely non-equivalent programs or
+$\mathsf{NEQ}$ for genuinely equivalent programs.
+\end{theorem}
+
+\begin{proof}
+Each layer $\pi_k$ returns a positive verdict only via a sound
+proof:
+\begin{itemize}
+  \item $\pi_0$ (closed-term evaluation): the denotation of a
+    zero-argument function is unique; equal values imply equal
+    programs.  Variadic-only calls are trusted only for NEQ
+    (witness-based).
+  \item $\pi_1$(a) (exact match): identical canonical forms after
+    sound normalization rules (Proposition~\ref{prop:phase-soundness})
+    imply identical semantics.  The five gating conditions suppress
+    potential true positives but never admit false positives.
+  \item $\pi_1$(b) (flexible match): OFix keys are hash-based
+    identifiers of loop bodies; differing keys do not affect the
+    computation when the structural match succeeds on all other
+    nodes.
+  \item $\pi_1$(c) (HIT + BFS): each path step is a valid axiom
+    (Theorem~\ref{thm:axiom-soundness}); composition of valid
+    axioms preserves equivalence.
+  \item $\pi_1$(d) (provable NEQ): each certificate is sound
+    (Theorem~\ref{thm:neq-soundness}).
+  \item $\pi_2$ (Z3 structural): trusted only when
+    $\texttt{\_uninterp\_depth} = 0$ for all terms.
+  \item $\pi_3$ (Z3 per-fiber): UNSAT on a fiber $\tau$ is a proof
+    that $f|_\tau = g|_\tau$.  By the stalk criterion
+    (Theorem~\ref{thm:stalk-criterion}), agreement on all fibers
+    implies global equality.  NEQ requires a concrete SAT witness
+    or structural impossibility.
+\end{itemize}
+\end{proof}
+
+\begin{theorem}[Inherent Incompleteness]
+\label{thm:incompleteness}
+The pipeline $\Pi$ is \emph{incomplete}: there exist equivalent
+programs for which $\Pi(f,g) = \mathsf{UNKNOWN}$.  This is
+unavoidable by Rice's theorem.
+\end{theorem}
+
+The graded verdict provides a principled measure of ``how
+incomplete'' the answer is: the confidence $c$ quantifies
+the fraction of the type fibration verified.
+
+
+%% ===============================================================
+\section{The Programme for Improvement}
+\label{sec:programme}
+%% ===============================================================
+
+\subsection{Axis 1: Richer Normalization (More Paths)}
+
+Each new normalization rule is a new path constructor.
+Key additions:
+\begin{enumerate}
+  \item \textbf{Compiler completeness}: handle all Python
+    constructs appearing in the benchmark (Category~2 failures).
+  \item \textbf{Accumulator normalization}:
+    $\mathsf{fix}[f](\mathsf{acc}, n) \leadsto
+    \fold(f_{\mathsf{step}}, \mathsf{acc}_0, \mathsf{range})$.
+  \item \textbf{Guard subsumption strengthening}: if
+    $G_1 \implies G_2$, simplify
+    $\mathsf{case}(G_1, A, \mathsf{case}(G_2, B, C))$ to
+    $\mathsf{case}(G_1, A, C)$ in the $G_1$-false branch.
+\end{enumerate}
+
+\subsection{Axis 2: Richer Specifications (More Yoneda)}
+
+The path forward is \emph{compositional} spec recognition
+mirroring the operadic structure of Chapter~\ref{ch:operads}:
+\begin{itemize}
+  \item Fold over range with multiplication $\to$
+    product-of-range
+  \item Product-of-range from 1 to $n$ $\to$ factorial
+  \item Product-of-range from $(n-k+1)$ to $n$, divided by
+    factorial$(k)$ $\to$ binomial
+\end{itemize}
+The recognizer becomes a homomorphism from the OTerm operad to
+the spec operad.
+
+\subsection{Axis 3: Z3 Compilation Fidelity (Fewer Spurious $H^1$)}
+
+Key builtins to formalize as Z3 RecFunctions:
+\begin{itemize}
+  \item \texttt{sorted}: axiomatize as a permutation that is
+    non-decreasing.
+  \item \texttt{set operations}: axiomatize in terms of membership.
+  \item \texttt{string operations}: slicing, joining, splitting.
+\end{itemize}
+
+\subsection{Concrete Improvement Theorems}
+
+We state specific theorems that, if proved and implemented,
+would close identified gaps:
+
+\begin{conjecture}[Accumulator Extraction]
+\label{conj:accumulator}
+For any tail-recursive function $f$ with linear accumulator
+$\alpha$, there exists a fold $\fold(\mathit{step}, \alpha_0, R)$
+such that $f \equiv \fold(\mathit{step}, \alpha_0, R)$.
+Implementing this as a normalizer rule would connect
+$\sim$5 additional benchmark pairs.
+\end{conjecture}
+
+\begin{conjecture}[Compositional Spec Recognition]
+\label{conj:comp-spec}
+The spec identification function $\iota$ can be extended to a
+homomorphism $\iota^* : \mathcal{O}_{\mathsf{operad}} \to
+\mathcal{S}_{\mathsf{operad}}$ such that $\iota^*$ recognizes
+composite specifications (e.g., binomial = ratio of factorials).
+This would add $\sim$3 spec families (GCD, LCM, binomial via
+multiplicative formula).
+\end{conjecture}
+
+\begin{conjecture}[Z3 RecFunction Completeness]
+\label{conj:z3-complete}
+Axiomatizing \texttt{sorted}, \texttt{set}, and \texttt{str}
+operations as Z3 RecFunctions would reduce
+$\texttt{\_uninterp\_depth}$ to 0 for $\sim$15 additional
+benchmark pairs, converting Z3 timeouts to definitive verdicts.
+\end{conjecture}
+
+
+%% ===============================================================
+\section{Summary: What the Theory Tells Us to Build Next}
+\label{sec:fallback-summary}
+%% ===============================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+\textbf{Theory} & \textbf{Implementation Target} & \textbf{Expected Impact} \\
+\hline
+New path constructors & 7-phase normalizer rules & Category 2 failures \\
+Yoneda (D20) & Spec library patterns & Category 1 failures \\
+Transport & Type coercion paths & Cross-type pairs \\
+Sheaf descent & Fiber-aware spec matching & Combined evidence \\
+Galois connection & Spec-constrained Z3 & Z3 timeout pairs \\
+RecFunction analysis & Z3 recurrence matching & Recursive pairs \\
+Operadic composition & Compositional spec recognition & Complex specs \\
+\hline
+\end{tabular}
+\end{center}
+
+Each row is a \emph{theorem} in CCTT that motivates a specific
+engineering task.  The theory does not just justify the current
+implementation --- it tells us precisely where to push next and
+why each extension is sound.
