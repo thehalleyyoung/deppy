@@ -1,4 +1,4 @@
-"""CCTT Axiom System — the 24 dichotomy path constructors.
+"""CCTT Axiom System — the 36 dichotomy path constructors.
 
 Each axiom module provides:
   - apply(term, ctx) → List[(OTerm, str)]   forward rewrite
@@ -6,11 +6,12 @@ Each axiom module provides:
   - recognizes(term) → bool                 quick applicability check
   - relevance_score(term, other) → float    how likely to help
 
-Axiom groups (monograph chapters 19-24):
+Axiom groups (monograph chapters 19-25):
   Control Flow  (D1-D8):   rec↔iter, beta, guards, fold fusion
   Data Structure (D9-D14):  stack↔rec, ADT, histogram, indexing
   Algorithm     (D15-D20):  BFS↔DFS, memo↔DP, greedy, Yoneda
   Language      (D21-D24):  dispatch, try↔cond, sort, η
+  Control Flow Transforms (D25-D30): unroll, short-circuit, guards, fusion, fission, CPS
 """
 from __future__ import annotations
 
@@ -41,6 +42,18 @@ from cctt.axioms import (
     d21_dispatch,
     d22_effect_elim,
     d23_sort_process,
+    d25_loop_unroll,
+    d26_short_circuit,
+    d27_early_return,
+    d28_loop_fusion,
+    d29_loop_fission,
+    d30_cps,
+    d37_distributivity,
+    d38_partial_eval,
+    d39_defunc,
+    d40_curry,
+    d41_monad,
+    d42_generator,
 )
 
 # Re-export the OTerm type for convenience
@@ -75,6 +88,18 @@ _AXIOM_MODULES = [
     d21_dispatch,
     d22_effect_elim,
     d23_sort_process,
+    d25_loop_unroll,
+    d26_short_circuit,
+    d27_early_return,
+    d28_loop_fusion,
+    d29_loop_fission,
+    d30_cps,
+    d37_distributivity,
+    d38_partial_eval,
+    d39_defunc,
+    d40_curry,
+    d41_monad,
+    d42_generator,
 ]
 
 # ── ALL_AXIOMS: ordered list of (name, apply_fn) pairs ────────
@@ -164,4 +189,16 @@ __all__ = [
     'd21_dispatch',
     'd22_effect_elim',
     'd23_sort_process',
+    'd25_loop_unroll',
+    'd26_short_circuit',
+    'd27_early_return',
+    'd28_loop_fusion',
+    'd29_loop_fission',
+    'd30_cps',
+    'd37_distributivity',
+    'd38_partial_eval',
+    'd39_defunc',
+    'd40_curry',
+    'd41_monad',
+    'd42_generator',
 ]
