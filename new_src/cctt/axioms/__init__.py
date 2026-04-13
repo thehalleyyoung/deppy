@@ -1,4 +1,4 @@
-"""CCTT Axiom System — the 48 dichotomy path constructors.
+"""CCTT Axiom System — 48 dichotomy + 48 Python-idiom path constructors.
 
 Each axiom module provides:
   - apply(term, ctx) → List[(OTerm, str)]   forward rewrite
@@ -17,13 +17,15 @@ Axiom groups (monograph chapters 19-25):
                       sliding-window, two-pointer, divide-conquer, string-build,
                       bitwise, DeMorgan
   Utility axioms: algebra, fold, case, quotient
-  Python Idioms (P1-P38): comprehensions, builtins, dict-ops, string-ops, sort-variants,
+  Python Idioms (P1-P48): comprehensions, builtins, dict-ops, string-ops, sort-variants,
                           itertools, collections, unpacking, exceptions, class-patterns,
                           functional, numeric, bool, slicing, sets, types, context,
                           decorators, walrus, args, comparisons, format, iteration, copy,
                           regex, pathlib, dataclasses, typing, async, serialization,
-                          counter, property, metaclass, generator, map-filter-reduce,
-                          dict-merge, range-enumerate, zip-patterns
+                          counter, property, metaclass, generator-coroutine,
+                          map-filter-reduce, dict-merge, range-enumerate, zip-patterns,
+                          any-all, flatten, string-build, conditional, math-ops,
+                          heap-bisect, functools, operator, dunder, match
 """
 from __future__ import annotations
 
@@ -87,7 +89,7 @@ from cctt.axioms import (
     fold,
     case,
     quotient,
-    # Python idiom axioms (P1-P38)
+    # Python idiom axioms (P1-P48)
     p01_comprehension,
     p02_builtins,
     p03_dict_ops,
@@ -126,6 +128,17 @@ from cctt.axioms import (
     p36_dict_merge,
     p37_range_enumerate,
     p38_zip_patterns,
+    # Python idiom axioms (P39-P48)
+    p39_any_all,
+    p40_flatten,
+    p41_string_build,
+    p42_conditional,
+    p43_math_ops,
+    p44_heap_bisect,
+    p45_functools,
+    p46_operator,
+    p47_dunder,
+    p48_match,
 )
 
 # Re-export the OTerm type for convenience
@@ -192,7 +205,7 @@ _AXIOM_MODULES = [
     fold,
     case,
     quotient,
-    # Python idioms (P1-P38)
+    # Python idioms (P1-P48)
     p01_comprehension,
     p02_builtins,
     p03_dict_ops,
@@ -231,6 +244,16 @@ _AXIOM_MODULES = [
     p36_dict_merge,
     p37_range_enumerate,
     p38_zip_patterns,
+    p39_any_all,
+    p40_flatten,
+    p41_string_build,
+    p42_conditional,
+    p43_math_ops,
+    p44_heap_bisect,
+    p45_functools,
+    p46_operator,
+    p47_dunder,
+    p48_match,
 ]
 
 # ── ALL_AXIOMS: ordered list of (name, apply_fn) pairs ────────
@@ -351,7 +374,7 @@ __all__ = [
     'fold',
     'case',
     'quotient',
-    # Python idiom axioms (P1-P38)
+    # Python idiom axioms (P1-P48)
     'p01_comprehension',
     'p02_builtins',
     'p03_dict_ops',
@@ -390,4 +413,14 @@ __all__ = [
     'p36_dict_merge',
     'p37_range_enumerate',
     'p38_zip_patterns',
+    'p39_any_all',
+    'p40_flatten',
+    'p41_string_build',
+    'p42_conditional',
+    'p43_math_ops',
+    'p44_heap_bisect',
+    'p45_functools',
+    'p46_operator',
+    'p47_dunder',
+    'p48_match',
 ]
