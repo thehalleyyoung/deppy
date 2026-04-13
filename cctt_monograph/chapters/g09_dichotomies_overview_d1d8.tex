@@ -1,0 +1,960 @@
+\chapter{Overview of the Dichotomies}
+\label{ch:dichotomy-overview}
+
+We identify twenty-four fundamental \emph{computational dichotomies}
+--- pairs of implementation strategies that compute the same function.
+Each dichotomy is a path constructor in the HIT $\mathsf{PyComp}$
+(Definition~\ref{def:pycomp}).
+
+The dichotomies are organized into four groups:
+
+\begin{center}
+\begin{tabular}{c l l}
+  \textbf{Group} & \textbf{Dichotomies} & \textbf{OTerm Types Involved} \\
+  \hline
+  \emph{Control Flow} & D1--D8 & \texttt{OFix}, \texttt{OFold}, \texttt{OCase}, \texttt{OLam} \\
+  \emph{Data Structure} & D9--D14 & \texttt{OOp}, \texttt{OFold}, \texttt{ODict} \\
+  \emph{Algorithm Strategy} & D15--D20 & \texttt{OFix}, \texttt{OFold}, \texttt{OAbstract} \\
+  \emph{Language Feature} & D21--D24 & \texttt{OCatch}, \texttt{OCase}, \texttt{OLam} \\
+\end{tabular}
+\end{center}
+
+Each dichotomy manifests in two complementary ways within the system:
+\begin{enumerate}
+  \item \textbf{Normalizer rewrite} (in \texttt{denotation.py}, phases 1--7):
+    a directed rule that reduces one form to a canonical OTerm,
+    applied during the 7-phase normalization pass.
+  \item \textbf{Path constructor} (in \texttt{path\_search.py}):
+    a bidirectional axiom that, given an OTerm matching one paradigm,
+    produces the equivalent OTerm in the other paradigm together with
+    a named proof step.
+\end{enumerate}
+When both sides of a dichotomy normalize to the same canonical OTerm
+the path is $\mathsf{refl}$.  When normalization produces distinct
+but equivalent OTerms, the HIT structural prover
+(\texttt{hit\_path\_equiv}) applies the path constructor to close the
+gap.
+
+\section{Complete Dichotomy Table}
+
+\begin{longtable}{r p{3.5cm} p{3.5cm} p{3.0cm} p{2.2cm}}
+  \toprule
+  \textbf{\#} & \textbf{Dichotomy} & \textbf{Path Constructor} &
+  \textbf{Normalizer Phase} & \textbf{Axiom fn} \\
+  \midrule
+  \endhead
+  \multicolumn{5}{l}{\emph{Control Flow Dichotomies}} \\
+  \midrule
+  D1 & Recursive $\leftrightarrow$ Iterative &
+    Nat-eliminator uniqueness &
+    Phase 3 (fold) &
+    \texttt{\_axiom\_d1} \\
+  D2 & Nested helpers $\leftrightarrow$ Flat &
+    $\beta$-reduction &
+    Phase 1 ($\beta$) &
+    \texttt{\_axiom\_d2} \\
+  D3 & \texttt{while} $\leftrightarrow$ \texttt{for} &
+    Loop normal form &
+    Phase 3 (fold) &
+    --- \\
+  D4 & Comprehension $\leftrightarrow$ Loop &
+    Catamorphism fusion &
+    Phase 4 (HOF) &
+    \texttt{\_axiom\_d4} \\
+  D5 & \texttt{reduce} $\leftrightarrow$ Loop &
+    Fold universality &
+    Phase 3 (fold) &
+    \texttt{\_axiom\_d5} \\
+  D6 & Generator $\leftrightarrow$ Eager &
+    Laziness adjunction &
+    Phase 4 (HOF) &
+    --- \\
+  D7 & Tail-recursive $\leftrightarrow$ Loop &
+    CPS transform &
+    Phase 3 (fold) &
+    --- \\
+  D8 & Multi-return $\leftrightarrow$ Single &
+    Section merging &
+    Phase 7 (piecewise) &
+    \texttt{\_axiom\_d8} \\
+  \midrule
+  \multicolumn{5}{l}{\emph{Data Structure Dichotomies}} \\
+  \midrule
+  D9 & Stack $\leftrightarrow$ Recursion &
+    Defunctionalization &
+    Phase 5 (unify) &
+    --- \\
+  D10 & \texttt{heapq} $\leftrightarrow$ \texttt{bisect} &
+    Priority queue abstr. &
+    Phase 5 (unify) &
+    --- \\
+  D11 & \texttt{OrderedDict} $\leftrightarrow$ LinkedList &
+    ADT refinement &
+    Phase 5 (unify) &
+    --- \\
+  D12 & \texttt{defaultdict} $\leftrightarrow$ \texttt{setdefault} &
+    Map construction equiv &
+    Phase 5 (unify) &
+    --- \\
+  D13 & \texttt{Counter} $\leftrightarrow$ Manual count &
+    Histogram equivalence &
+    Phase 5 (unify) &
+    \texttt{\_axiom\_d13} \\
+  D14 & Array $\leftrightarrow$ Dict table &
+    Indexing abstraction &
+    Phase 5 (unify) &
+    --- \\
+  \midrule
+  \multicolumn{5}{l}{\emph{Algorithm Strategy Dichotomies}} \\
+  \midrule
+  D15 & BFS $\leftrightarrow$ DFS &
+    Traversal-order invariance &
+    Phase 6 (quotient) &
+    --- \\
+  D16 & Memoized $\leftrightarrow$ DP &
+    Eval-order independence &
+    Phase 5 (unify) &
+    \texttt{\_axiom\_d16} \\
+  D17 & Divide-and-conquer $\leftrightarrow$ Iterative &
+    Tree fold = list fold &
+    Phase 4 (HOF) &
+    \texttt{\_axiom\_d17} \\
+  D18 & Greedy $\leftrightarrow$ DP &
+    Matroid/greedy theorem &
+    --- &
+    --- \\
+  D19 & Sort-then-scan $\leftrightarrow$ Sweep &
+    Sorting abstraction &
+    Phase 5 (unify) &
+    \texttt{\_axiom\_d19} \\
+  D20 & Different algorithms for same spec &
+    Specification HIT &
+    --- &
+    \texttt{\_axiom\_d20} \\
+  \midrule
+  \multicolumn{5}{l}{\emph{Language Feature Dichotomies}} \\
+  \midrule
+  D21 & \texttt{isinstance} $\leftrightarrow$ Dispatch &
+    Fiber projection &
+    Phase 7 (piecewise) &
+    --- \\
+  D22 & \texttt{try/except} $\leftrightarrow$ Conditional &
+    Effect elimination &
+    Phase 2 (ring) &
+    \texttt{\_axiom\_d22} \\
+  D23 & Sorted-then-process $\leftrightarrow$ Direct &
+    Canonical ordering path &
+    Phase 5 (unify) &
+    --- \\
+  D24 & Lambda $\leftrightarrow$ Named function &
+    $\eta$-expansion &
+    Phase 1 ($\beta$) &
+    \texttt{\_axiom\_d24} \\
+  \bottomrule
+\end{longtable}
+
+\begin{remark}[Axiom registration]
+All root axiom functions listed above are collected in the list
+\texttt{\_ROOT\_AXIOMS} (path\_search.py, line 1580).
+During bidirectional BFS, each axiom is applied to every sub-expression
+of the current OTerm; the resulting rewrites form the neighbour set
+for the next BFS layer.  Axioms marked ``---'' are handled entirely
+by the normalizer and never need a separate path-search step.
+\end{remark}
+
+
+\chapter{Control Flow Dichotomies (D1--D8)}
+\label{ch:cf-dichotomies}
+
+Each section below follows the same structure: (1)~two concrete programs
+illustrating paradigm A and paradigm B, (2)~how each is compiled to
+OTerms, (3)~the formal path constructor definition, (4)~a soundness
+theorem with proof, (5)~the implementation mapping to
+\texttt{path\_search.py} and \texttt{denotation.py}, and (6)~a benchmark
+example where this dichotomy applies.
+
+%% ────────────────────────────────────────────────────
+\section{D1: Recursive $\leftrightarrow$ Iterative}
+\label{sec:d1}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- recursive descent:
+\begin{lstlisting}
+def f(n):
+    if n <= 1: return 1
+    return n * f(n - 1)
+\end{lstlisting}
+
+\textbf{Paradigm B} --- iterative accumulation:
+\begin{lstlisting}
+def g(n):
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The compiler sees a self-recursive function with one parameter.  It
+invokes the \emph{Nat-eliminator extractor}, which detects:
+\begin{itemize}
+  \item Base guard: \texttt{n <= 1}, so $\mathsf{threshold} = 1$.
+  \item Base value: literal \texttt{1}, so $\mathsf{base} = 1$.
+  \item Step: \texttt{n * f(n-1)}, a $\mathsf{BinOp}(\times)$ with
+    the parameter on the left and the recursive call on the right.
+    The operation tag is $\mathsf{MUL}$.
+\end{itemize}
+The extractor produces: $\den{f} = \fold(\mathsf{MUL}, 1,
+\mathsf{ival}(p_0) + 1, \mathsf{IntObj}(1))$.
+
+\textbf{Compilation of B.}
+The compiler sees an assignment \texttt{result = 1} (init), then
+\texttt{for i in range(2, n+1): result *= i}.  The loop-to-fold
+optimizer (Phase~3, \texttt{\_phase3\_fold}) detects:
+\begin{itemize}
+  \item Single accumulator \texttt{result} with init $= 1$.
+  \item \texttt{AugAssign} with $\mathsf{Mult}$: \texttt{result *= i}.
+    The function \texttt{\_detect\_augassign\_fold} returns semantic
+    key \texttt{imul}.
+  \item $\mathsf{range}(2, n+1)$ gives $\mathsf{start} = 2$,
+    $\mathsf{stop} = \mathsf{ival}(p_0) + 1$.
+\end{itemize}
+The optimizer produces: $\den{g} = \fold(\mathsf{MUL}, 1,
+\mathsf{ival}(p_0) + 1, \mathsf{IntObj}(1))$.
+
+\textbf{Path.}
+$\den{f}$ and $\den{g}$ are \emph{the same OTerm}.  The path is
+$\mathsf{refl}$ (reflexivity) --- no axiom application needed.
+
+When the step has $f(n-1) * n$ instead of $n * f(n-1)$, the terms
+differ: $\fold(\mathsf{MUL}, \ldots)$ vs.\ $\fold(\mathsf{MUL},
+\ldots)$ but with swapped operands inside the RecFunction body.
+The $\mathsf{mul\_comm}$ path constructor bridges the gap:
+the ring-normalization phase (Phase~2, \texttt{\_phase2\_ring})
+sorts commutative operands into canonical order, yielding
+$\mathsf{refl}$ after normalization.
+
+\begin{definition}[D1 Path Constructor --- formal]
+\label{def:d1-path}
+Define the path constructor for $\mathsf{D1}$ as the family
+\[
+  \mathsf{D1} \;\coloneqq\; \lambda\, b\, s\, n.\;
+  \mathsf{path}(\mathsf{OFix}(\mathsf{h},\;
+    \mathsf{case}(\mathsf{le}(n, 0),\; b,\; s(n, \mathsf{h}(n-1)))),\;
+  \mathsf{OFold}(s, b, n))
+\]
+where $b : \mathsf{OTerm}$ is the base value, $s$ is the step
+operation name, and $n$ is the collection/range bound.  The path
+witnesses that a recursive fixed point with accumulation pattern
+is equal to the corresponding fold.
+\end{definition}
+
+\begin{theorem}[D1 Soundness]
+\label{thm:d1-sound}
+For any base value $b$, binary operation $\otimes$ satisfying
+$\otimes(x, y) = \otimes(y, x)$ (commutativity is optional;
+required only for operand-swapped variants), and natural number $n$:
+\[
+  \mathsf{D1} : \prod_{b,\, \otimes,\, n}
+  \Path\!\big(\rec_\Nat(b, \lambda k.\, k \otimes \rec_\Nat(b, \ldots)(k-1)),\;
+  \fold(\otimes, b, n)\big)
+\]
+\end{theorem}
+
+\begin{proof}
+By the uniqueness of the $\Nat$-eliminator (the universal property of
+$\Nat$ as an initial algebra):  any function $h : \Nat \to A$ satisfying
+$h(0) = b$ and $h(k+1) = k \otimes h(k)$ is uniquely determined.
+The recursive form $\rec_\Nat(b, s)$ satisfies this recurrence by
+definition.  The fold $\fold(\otimes, b, n)$ unfolds to the same
+recurrence: $\fold(\otimes, b, 0) = b$ and $\fold(\otimes, b, k+1)
+= \otimes(k, \fold(\otimes, b, k))$.  By initiality, both are the
+same morphism from $\Nat$ to $A$, hence equal.
+\end{proof}
+
+\textbf{Implementation mapping.}
+\begin{itemize}
+  \item \textbf{Normalizer}: \texttt{\_phase3\_fold} in
+    \texttt{denotation.py} (line 1379) rewrites builtin reducers to
+    \texttt{OFold}; the compiler's \texttt{\_exec\_for\_ot}
+    (line 762) detects augmented-assignment loops and emits
+    \texttt{OFold} with a semantic key via
+    \texttt{\_detect\_augassign\_fold} (line 808).
+  \item \textbf{Path search}: \texttt{\_axiom\_d1\_fold\_unfold}
+    (line 188) applies in direction OFix $\to$ OFold by calling
+    \texttt{\_try\_extract\_fold\_from\_fix}.
+  \item \textbf{HIT prover}: \texttt{\_fix\_fold\_equiv}
+    (line 1492) handles the cross-type case
+    $\mathsf{OFix} \leftrightarrow \mathsf{OFold}$ by comparing
+    fix-point names, free variables, and spec identifications.
+\end{itemize}
+
+\textbf{Benchmark example.}
+The factorial pair (\texttt{demo\_factorial\_rec.py} vs.\
+\texttt{demo\_factorial\_iter.py}): the recursive version compiles to
+$\mathsf{OFix}[\mathsf{h}](\mathsf{case}(\mathsf{le}(p_0, 1),
+\mathsf{1}, \mathsf{mult}(p_0, \mathsf{h}(\mathsf{sub}(p_0,1)))))$
+while the iterative version compiles directly to
+$\mathsf{OFold}(\mathsf{imul}, \mathsf{1}, p_0)$.
+Phase~3 normalizes the recursive form to the same fold,
+producing $\mathsf{refl}$.
+
+
+%% ────────────────────────────────────────────────────
+\section{D2: Nested Helpers $\leftrightarrow$ Flat Code}
+\label{sec:d2}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- nested helper function:
+\begin{lstlisting}
+def f(x):
+    def helper(a, b):
+        return a * a + b * b
+    return helper(x, x + 1)
+\end{lstlisting}
+
+\textbf{Paradigm B} --- inlined flat code:
+\begin{lstlisting}
+def g(x):
+    return x * x + (x + 1) * (x + 1)
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The compiler encounters \texttt{def helper}: it stores an
+$\mathsf{OLam}((\texttt{a}, \texttt{b}), \mathsf{body})$ in the
+environment (denotation.py, line 241).  When it reaches
+\texttt{helper(x, x+1)}, it performs $\beta$-reduction:
+substituting $a \mapsto p_0$ and
+$b \mapsto \mathsf{add}(p_0, \mathsf{1})$
+into the body.  Result:
+\[
+  \den{f} = \mathsf{add}(\mathsf{mult}(p_0, p_0),\;
+    \mathsf{mult}(\mathsf{add}(p_0, \mathsf{1}),
+                   \mathsf{add}(p_0, \mathsf{1})))
+\]
+
+\textbf{Compilation of B.}
+Direct compilation produces the identical OTerm (same expression
+tree).
+
+\textbf{Path.}
+$\den{f} \equiv \den{g}$ by $\beta$-reduction.  The path is
+$\mathsf{refl}$ after inlining.
+
+\begin{definition}[D2 Path Constructor --- formal]
+\label{def:d2-path}
+\[
+  \mathsf{D2} \;\coloneqq\; \lambda\, \vec{x}\, \vec{a}\, e.\;
+  \mathsf{path}\!\big(
+    \mathsf{OOp}(\mathsf{apply},\,
+      \mathsf{OLam}(\vec{x},\, e),\, \vec{a}),\;
+    e[\vec{x} \coloneqq \vec{a}]
+  \big)
+\]
+where $e[\vec{x} \coloneqq \vec{a}]$ denotes simultaneous
+capture-avoiding substitution of actuals $\vec{a}$ for formals
+$\vec{x}$ in the body $e$.
+\end{definition}
+
+\begin{theorem}[D2 Soundness --- $\beta$-Reduction]
+\label{thm:d2-sound}
+For any $\mathsf{OLam}(\vec{x}, e)$ and arguments $\vec{a}$ of
+matching arity:
+\[
+  \mathsf{D2} : \Path\!\big(
+    (\lambda \vec{x}.\, e)(\vec{a}),\;
+    e[\vec{x} \coloneqq \vec{a}]
+  \big)
+\]
+\end{theorem}
+
+\begin{proof}
+This is the $\beta$-rule of the simply typed $\lambda$-calculus,
+which is a definitional equality in cubical type theory.  The
+substitution $e[\vec{x} \coloneqq \vec{a}]$ is computed by
+\texttt{\_subst\_term} (path\_search.py) and is capture-avoiding
+because OTerm variables are globally fresh parameter names $p_i$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+\begin{itemize}
+  \item \textbf{Normalizer}: \texttt{\_phase1\_beta} in
+    \texttt{denotation.py} (line 1096) collapses trivial cases
+    ($\mathsf{case}(\top, t, f) \to t$, $\mathsf{case}(c, x, x) \to x$).
+    The compiler itself performs $\beta$-reduction at call sites by
+    inlining the stored \texttt{OLam} body.
+  \item \textbf{Path search}: \texttt{\_axiom\_d2\_beta}
+    (line 221) fires on $\mathsf{OOp}(\mathsf{apply}, \mathsf{OLam}(\ldots), \ldots)$
+    nodes.  It pattern-matches the apply-of-lambda form, substitutes
+    actuals for formals, and returns the reduced body tagged
+    \texttt{D2\_beta}.
+\end{itemize}
+
+\textbf{Benchmark example.}
+22 benchmark pairs involve nested helper functions.  A typical case:
+one program defines \texttt{def helper(a, b): return a + b} then
+calls \texttt{helper(x, y)}, while the equivalent program writes
+\texttt{x + y} directly.  After $\beta$-reduction both yield
+$\mathsf{add}(p_0, p_1)$.
+
+
+%% ────────────────────────────────────────────────────
+\section{D3: \texttt{while} $\leftrightarrow$ \texttt{for}}
+\label{sec:d3}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- \texttt{while} with explicit counter:
+\begin{lstlisting}
+def f(n):
+    result, i = 0, 1
+    while i <= n:
+        result += i
+        i += 1
+    return result
+\end{lstlisting}
+
+\textbf{Paradigm B} --- \texttt{for} over range:
+\begin{lstlisting}
+def g(n):
+    result = 0
+    for i in range(1, n + 1):
+        result += i
+    return result
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The compiler encounters a \texttt{while} loop.  It identifies modified
+variables $\{\texttt{result}, \texttt{i}\}$ and creates a RecFunction
+for each:
+\[
+  \mathsf{wh\_result}(k) = \begin{cases}
+    \mathsf{IntObj}(0) & \text{if } k > 50 \lor \lnot(i \leq n) \\
+    \mathsf{add}(\mathsf{wh\_result}(k+1), \ldots)
+      & \text{otherwise}
+  \end{cases}
+\]
+
+\textbf{Compilation of B.}
+The compiler encounters \texttt{for i in range(1, n+1)}.  It extracts
+$\mathsf{start} = 1$, $\mathsf{stop} = \mathsf{ival}(p_0) + 1$.
+The single-accumulator fold pattern
+(\texttt{result += i}) is detected by \texttt{\_detect\_augassign\_fold}
+which returns semantic key \texttt{iadd}, producing:
+\[
+  \den{g} = \mathsf{OFold}(\mathsf{iadd},\;
+    \mathsf{0},\; p_0)
+\]
+
+\textbf{Path.}
+Both RecFunctions satisfy the same recurrence:
+$h(0) = 0$, $h(k) = h(k-1) + k$.
+The \texttt{while} version's guard $i \leq n$ is equivalent to the
+\texttt{for} range $[1, n+1)$, and both step by 1.  The RecFunctions
+unfold identically.
+
+When Z3 checks $\den{f}(p_0) \neq \den{g}(p_0)$ on the integer fiber
+($\mathsf{tag}(p_0) = \mathsf{TInt}$), it finds UNSAT because both
+RecFunctions compute the same value for every integer input.
+
+\begin{definition}[D3 Path Constructor --- formal]
+\label{def:d3-path}
+\[
+  \mathsf{D3} \;\coloneqq\; \lambda\, g\, s\, \mathit{init}.\;
+  \mathsf{path}\!\big(
+    \mathsf{OFix}(\mathsf{h},\;
+      \mathsf{case}(g,\; s(\mathsf{h}),\; \mathit{init})),\;
+    \mathsf{OFold}(s,\; \mathit{init},\; \mathsf{range}(g))
+  \big)
+\]
+where $\mathsf{range}(g)$ denotes the iteration range induced by
+the while-guard $g$ with unit step.
+\end{definition}
+
+\textbf{Automatic inference.}
+The compiler automatically canonicalizes both loop forms to
+RecFunctions.  The \texttt{for}-range version gets the additional
+fold optimization.  Z3's recursive function reasoning handles the
+comparison.  The path is:
+$\mathsf{D3} = \mathsf{while\_rec} \xrightarrow{\text{unfold}} 
+\mathsf{for\_fold}$, mediated by the shared recurrence structure.
+D3 has no dedicated axiom function in \texttt{path\_search.py}
+because the normalizer (phases 1--3) already reduces both loop
+forms to the same canonical OTerm.
+
+
+%% ────────────────────────────────────────────────────
+\section{D4: Comprehension $\leftrightarrow$ Loop}
+\label{sec:d4}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- list comprehension:
+\begin{lstlisting}
+def f(xs):
+    return [x * 2 for x in xs]
+\end{lstlisting}
+
+\textbf{Paradigm B} --- explicit loop with append:
+\begin{lstlisting}
+def g(xs):
+    result = []
+    for x in xs:
+        result.append(x * 2)
+    return result
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The compiler encounters a \texttt{ListComp}.  The function
+\texttt{\_compile\_comprehension\_ot} (denotation.py, line 556)
+builds an $\mathsf{OMap}$:
+\[
+  \den{f} = \mathsf{OMap}\!\big(
+    \mathsf{OLam}(x,\, \mathsf{mult}(x, 2)),\; p_0\big)
+\]
+The transform is captured as an \texttt{OLam} with the comprehension
+variable as the bound parameter and the element expression as the
+body.
+
+\textbf{Compilation of B.}
+The compiler sees \texttt{result = []} followed by
+\texttt{for x in xs: result.append(x * 2)}.  The function
+\texttt{\_detect\_map\_pattern} (denotation.py, line 774) recognizes
+the append-in-loop idiom and produces the same $\mathsf{OMap}$:
+\[
+  \den{g} = \mathsf{OMap}\!\big(
+    \mathsf{OLam}(x,\, \mathsf{mult}(x, 2)),\; p_0\big)
+\]
+
+\textbf{Path.}
+Both programs normalize to structurally identical \texttt{OMap} terms.
+The path is $\mathsf{refl}$.
+
+When normalization does not fully unify the terms (e.g.\ the loop
+body contains additional logic), the path constructor applies
+catamorphism fusion:
+
+\begin{definition}[D4 Path Constructor --- formal]
+\label{def:d4-path}
+\[
+  \mathsf{D4} \;\coloneqq\; \lambda\, f\, g\, c.\;
+  \mathsf{path}\!\big(
+    \mathsf{OFold}(\mathsf{op},\;
+      \mathsf{OMap}(f, c),\; e),\;
+    \mathsf{OFold}(\mathsf{op} \circ f,\; c,\; e)
+  \big)
+\]
+This is the \emph{fold-map fusion} law:
+$\fold(\mathsf{op}, \mathsf{map}(f, c)) = \fold(\mathsf{op} \circ f, c)$.
+The auxiliary direction
+$\mathsf{OMap}(f, c) = \mathsf{OFold}(\mathsf{append} \circ f,
+\varepsilon, c)$ expresses the comprehension as a fold over the
+input that accumulates into an initially-empty list.
+\end{definition}
+
+\begin{theorem}[D4 Soundness --- Catamorphism Fusion]
+\label{thm:d4-sound}
+Let $(L, \varepsilon, \mathsf{cons})$ be the initial algebra of
+finite lists.  For any $f : A \to B$ and fold algebra
+$(B, e, \otimes)$:
+\[
+  \cata_{(B,e,\otimes)} \circ \mathsf{map}(f)
+  = \cata_{(B,e,\otimes \circ (\mathsf{id} \times f))}
+\]
+\end{theorem}
+
+\begin{proof}
+By the universal property of the initial algebra.
+$\cata$ is the unique homomorphism from the initial algebra to
+$(B, e, \otimes)$.  The composition $\cata \circ \mathsf{map}(f)$
+is also a homomorphism from $(L, \varepsilon, \mathsf{cons})$ to
+$(B, e, \otimes)$, with step $\otimes(b, f(a))$.
+By uniqueness of the catamorphism, it equals
+$\cata_{(B, e, \otimes \circ (\mathsf{id} \times f))}$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+\begin{itemize}
+  \item \textbf{Normalizer}: the compiler emits \texttt{OMap} for
+    both comprehensions (\texttt{\_compile\_comprehension\_ot},
+    line 556) and append-loops (\texttt{\_detect\_map\_pattern},
+    line 774).  The \texttt{OLam} body uses alpha-normalized
+    parameter names so that $\lambda x.\,x*2$ and
+    $\lambda y.\,y*2$ produce the same canonical form.
+  \item \textbf{Path search}: \texttt{\_axiom\_d4\_comp\_fusion}
+    (line 250) applies the fold-map fusion rule:
+    when an \texttt{OFold} has an \texttt{OMap} as its collection
+    and the map's filter is \texttt{None}, the map is absorbed into
+    the fold by composing transforms.
+\end{itemize}
+
+\textbf{Benchmark example.}
+\texttt{[x**2 for x in xs]} vs.\
+\texttt{result = []; for x in xs: result.append(x**2); return result}.
+Both compile to $\mathsf{OMap}(\mathsf{OLam}(x,\,
+\mathsf{pow}(x, 2)),\, p_0)$.
+
+
+%% ────────────────────────────────────────────────────
+\section{D5: \texttt{reduce} $\leftrightarrow$ Loop}
+\label{sec:d5}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- \texttt{functools.reduce}:
+\begin{lstlisting}
+def f(xs):
+    return reduce(operator.add, xs, 0)
+\end{lstlisting}
+
+\textbf{Paradigm B} --- explicit accumulation loop:
+\begin{lstlisting}
+def g(xs):
+    acc = 0
+    for x in xs:
+        acc += x
+    return acc
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+\texttt{reduce(operator.add, xs, 0)} compiles to an OTerm via
+Phase~3 (fold canonicalization):
+$\den{f} = \mathsf{OFold}(\mathsf{iadd},\; \mathsf{0},\; p_0)$.
+The normalizer recognizes \texttt{reduce} with a known operator
+and rewrites it directly to a fold with the corresponding semantic
+key.
+
+\textbf{Compilation of B.}
+The loop compiles to a fold via \texttt{\_detect\_augassign\_fold}:
+$\den{g} = \mathsf{OFold}(\mathsf{iadd},\; \mathsf{0},\; p_0)$.
+The augmented assignment \texttt{acc += x} yields semantic key
+\texttt{iadd}; the init value \texttt{0} becomes the fold's initial
+accumulator.
+
+\textbf{Path.}
+$\den{f} = \den{g}$ syntactically.  Path is $\mathsf{refl}$.
+
+When the fold keys differ (e.g.\ a hash-based key from a complex
+loop body vs.\ the semantic key from \texttt{reduce}), the path
+constructor bridges the gap via fold universality:
+
+\begin{definition}[D5 Path Constructor --- formal]
+\label{def:d5-path}
+\[
+  \mathsf{D5} \;\coloneqq\; \lambda\, k_1\, k_2\, e\, c.\;
+  \mathsf{path}\!\big(
+    \mathsf{OFold}(k_1,\; e,\; c),\;
+    \mathsf{OFold}(k_2,\; e,\; c)
+  \big)
+  \quad\text{when } k_1 \sim k_2
+\]
+where $k_1 \sim k_2$ means both keys denote the same binary
+operation (verified by \texttt{\_identify\_fold\_op}).
+\end{definition}
+
+\begin{theorem}[D5 Soundness --- Fold Universality]
+\label{thm:d5-sound}
+Let $\otimes_1, \otimes_2 : A \times A \to A$ be binary operations.
+If $\otimes_1 = \otimes_2$ as functions, and $e_1 = e_2$, then
+for any collection $c$:
+\[
+  \mathsf{OFold}(\otimes_1, e_1, c) = \mathsf{OFold}(\otimes_2, e_2, c)
+\]
+\end{theorem}
+
+\begin{proof}
+By the universal property of the list catamorphism:
+$\cata_{(A, e, \otimes)}$ is the unique homomorphism from the
+initial list algebra to $(A, e, \otimes)$.  If $\otimes_1 = \otimes_2$
+and $e_1 = e_2$, the target algebras are identical, so by uniqueness
+the catamorphisms agree.
+\end{proof}
+
+\textbf{Implementation mapping.}
+\begin{itemize}
+  \item \textbf{Normalizer}: Phase~3 (\texttt{\_phase3\_fold},
+    line 1379) rewrites builtin reducers:
+    \texttt{sum(xs)} $\to$ \texttt{OFold('iadd', 0, xs)},
+    \texttt{any(xs)} $\to$ \texttt{OFold('or', False, xs)},
+    \texttt{all(xs)} $\to$ \texttt{OFold('and', True, xs)},
+    \texttt{''.join(xs)} $\to$ \texttt{OFold('str\_concat', '', xs)}.
+  \item \textbf{Path search}: \texttt{\_axiom\_d5\_fold\_universal}
+    (line 276) fires on hash-named folds (8-character op\_name).
+    It calls \texttt{\_identify\_fold\_op} to determine the canonical
+    operation; if successful, it replaces the hash key with the
+    semantic key.
+  \item \textbf{HIT prover}: the OFold congruence rule (line 1274)
+    handles the general case: when two \texttt{OFold}s have matching
+    \texttt{init} and \texttt{collection} (checked recursively),
+    it compares \texttt{op\_name}s directly, then falls back to
+    \texttt{\_identify\_fold\_op} for hash-key resolution.
+\end{itemize}
+
+\textbf{Benchmark example.}
+\texttt{sum(xs)} vs.\ \texttt{acc = 0; for x in xs: acc += x;
+return acc}.  Phase~3 rewrites \texttt{sum} to
+$\mathsf{OFold}(\mathsf{iadd}, 0, p_0)$; the loop compiles to
+the same fold via \texttt{\_detect\_augassign\_fold} with key
+\texttt{iadd}.
+
+
+%% ────────────────────────────────────────────────────
+\section{D6: Generator $\leftrightarrow$ Eager}
+\label{sec:d6}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- generator with \texttt{yield}:
+\begin{lstlisting}
+def f(data):
+    def helper(obj):
+        if isinstance(obj, list):
+            for item in obj:
+                yield from helper(item)
+        else:
+            yield obj
+    return list(helper(data))
+\end{lstlisting}
+
+\textbf{Paradigm B} --- eager list building:
+\begin{lstlisting}
+def g(data):
+    result = []
+    stack = [data]
+    while stack:
+        obj = stack.pop()
+        if isinstance(obj, list):
+            stack.extend(reversed(obj))
+        else:
+            result.append(obj)
+    return result
+\end{lstlisting}
+
+\textbf{Compilation.}
+Both programs traverse a nested structure and collect atomic elements.
+The generator version yields elements lazily; the eager version
+appends them to a list.  When the generator is fully consumed by
+\texttt{list()}, the result is identical.
+
+In the OTerm encoding, both compile to sequences of shared function
+applications on the input.  The generator's \texttt{yield} is modeled
+as producing a sequence.  Phase~4 (\texttt{\_phase4\_hof}) simplifies
+$\mathsf{list}(\mathsf{gen}(\ldots))$ to the underlying sequence when
+the generator is stateless.
+
+\begin{definition}[D6 Path Constructor --- formal]
+\label{def:d6-path}
+\[
+  \mathsf{D6} \;\coloneqq\; \lambda\, e.\;
+  \mathsf{path}\!\big(
+    \mathsf{OOp}(\mathsf{list},\;
+      \mathsf{OOp}(\mathsf{gen},\; e)),\;
+    \mathsf{OOp}(\mathsf{eager},\; e)
+  \big)
+\]
+This is the \emph{laziness adjunction}: full consumption of a lazy
+stream is naturally isomorphic to eager construction.
+\end{definition}
+
+\textbf{Path.}
+$\mathsf{D6} : \Path(\mathsf{list}(\mathsf{gen}(\mathsf{body})),\;
+\mathsf{eager}(\mathsf{body}))$
+where $\mathsf{list} \circ \mathsf{gen}$ is the ``consume generator''
+operation.  This path holds because full consumption of a generator
+produces the same sequence as eager construction --- both visit the
+same elements in the same order.
+
+\textbf{Automatic inference.}
+The compiler detects \texttt{yield} and \texttt{yield from} and models
+the generator as producing a sequence.  The \texttt{list()} call
+(or \texttt{for} loop consumption) triggers the D6 path.  The
+traversal order equivalence (generator DFS vs.\ stack-with-reversed
+DFS) is handled by D9 (Stack $\leftrightarrow$ Recursion).  D6 has
+no dedicated axiom function because Phase~4 of the normalizer handles
+the $\mathsf{list}(\mathsf{gen}(\ldots))$ pattern directly.
+
+
+%% ────────────────────────────────────────────────────
+\section{D7: Tail-Recursive $\leftrightarrow$ Loop}
+\label{sec:d7}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- tail-recursive with accumulator:
+\begin{lstlisting}
+def f(n, acc=0):
+    if n <= 0: return acc
+    return f(n - 1, acc + n)
+\end{lstlisting}
+
+\textbf{Paradigm B} --- iterative with accumulator:
+\begin{lstlisting}
+def g(n):
+    acc = 0
+    while n > 0:
+        acc += n
+        n -= 1
+    return acc
+\end{lstlisting}
+
+\textbf{Compilation.}
+The tail-recursive version has the recursive call in tail position:
+$f(n-1, \mathsf{acc} + n)$.  The accumulator $\mathsf{acc}$ is
+passed as a parameter rather than composed in the return value
+(contrast with D1 where the return value is $n \times f(n-1)$).
+
+The compiler detects tail position and creates a RecFunction:
+\[
+  \mathsf{rec\_f}(n, \mathsf{acc}) = \begin{cases}
+    \mathsf{acc} & n \leq 0 \\
+    \mathsf{rec\_f}(n-1, \mathsf{acc} + n) & \text{otherwise}
+  \end{cases}
+\]
+
+The iterative version produces the same RecFunction via the while
+loop compiler (D3), with $\mathsf{acc}$ as the modified variable and
+$n$ as the counter.
+
+\begin{definition}[D7 Path Constructor --- formal]
+\label{def:d7-path}
+\[
+  \mathsf{D7} \;\coloneqq\; \lambda\, g\, s\, \mathit{acc}_0.\;
+  \mathsf{path}\!\big(
+    \mathsf{OFix}(\mathsf{h},\;
+      \mathsf{case}(g,\; s(\mathsf{h},\, \mathit{acc}),\;
+        \mathit{acc})),\;
+    \mathsf{OFold}(s,\; \mathit{acc}_0,\; \mathsf{range}(g))
+  \big)
+\]
+This is the CPS/accumulator transform: a tail-recursive function
+whose only use of the recursive result is to return it immediately
+is isomorphic to a loop that threads the accumulator as mutable
+state.
+\end{definition}
+
+\textbf{Path.}
+$\mathsf{D7}$ identifies tail recursion with iteration.  This is the
+CPS transform in action: a tail-recursive function is a loop with
+the accumulator as explicit state.  Both RecFunctions have the same
+defining equation, so the path is $\mathsf{refl}$.
+
+\textbf{Automatic inference.}
+The compiler detects tail position by checking whether the recursive
+call is the \emph{last} operation before return (no wrapping BinOp).
+When detected, it generates the same RecFunction structure as the
+while-loop compiler, producing identical OTerms.
+D7 is subsumed by D1 in the OTerm representation (both reduce to
+the same OFix/OFold comparison), so no separate axiom function is
+needed.
+
+
+%% ────────────────────────────────────────────────────
+\section{D8: Multi-Return $\leftrightarrow$ Single Return}
+\label{sec:d8}
+%% ────────────────────────────────────────────────────
+
+\textbf{Paradigm A} --- early returns:
+\begin{lstlisting}
+def f(x):
+    if x < 0: return -1
+    if x == 0: return 0
+    return 1
+\end{lstlisting}
+
+\textbf{Paradigm B} --- single return with nested conditional:
+\begin{lstlisting}
+def g(x):
+    return -1 if x < 0 else (0 if x == 0 else 1)
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The compiler produces a nested $\mathsf{OCase}$ chain:
+\[
+  \den{f} = \mathsf{OCase}\!\big(\mathsf{lt}(p_0, 0),\; -1,\;
+    \mathsf{OCase}(\mathsf{eq}(p_0, 0),\; 0,\; 1)\big)
+\]
+
+\textbf{Compilation of B.}
+The \texttt{IfExp} chain compiles to the same nested
+$\mathsf{OCase}$:
+\[
+  \den{g} = \mathsf{OCase}\!\big(\mathsf{lt}(p_0, 0),\; -1,\;
+    \mathsf{OCase}(\mathsf{eq}(p_0, 0),\; 0,\; 1)\big)
+\]
+
+When the guard ordering differs between A and B, Phase~7
+(\texttt{\_phase7\_piecewise}) canonicalizes both by:
+\begin{enumerate}
+  \item Flattening the case chain into $(g_i, v_i)$ pieces
+    via \texttt{\_flatten\_case\_chain}.
+  \item Inferring the implicit else-guard from the comparison algebra
+    via \texttt{\_infer\_complement\_guard}.
+  \item Sorting pieces canonically by $(\mathsf{value.canon()},
+    \mathsf{guard.canon()})$.
+  \item Reconstructing a canonical case chain.
+\end{enumerate}
+
+\begin{definition}[D8 Path Constructor --- formal]
+\label{def:d8-path}
+Let $\{(g_i, v_i)\}_{i=1}^{n}$ and $\{(g'_{\sigma(i)},
+v'_{\sigma(i)})\}_{i=1}^{n}$ be two enumerations of the same
+piecewise function (i.e.\ the guards form a partition and
+$v_i = v'_{\sigma(i)}$ on the region $g_i$).  Then:
+\[
+  \mathsf{D8} \;\coloneqq\; \lambda\, \vec{g}\, \vec{v}\, \sigma.\;
+  \mathsf{path}\!\big(
+    \mathsf{OCase}(g_1, v_1, \mathsf{OCase}(g_2, v_2, \ldots)),\;
+    \mathsf{OCase}(g'_{\sigma(1)}, v'_{\sigma(1)},
+      \mathsf{OCase}(g'_{\sigma(2)}, v'_{\sigma(2)}, \ldots))
+  \big)
+\]
+This is the \emph{section merging} path: two case chains over the
+same partition are equal as piecewise functions.
+\end{definition}
+
+\begin{theorem}[D8 Soundness --- Section Merging]
+\label{thm:d8-sound}
+Let $\{U_i\}_{i=1}^{n}$ be a finite cover of the input space by
+decidable predicates (guards).  Let $s_i, s'_i : U_i \to A$ be
+sections such that $s_i = s'_{\sigma(i)}$ on each $U_i$.  Then
+the piecewise functions $\bigsqcup_i s_i$ and
+$\bigsqcup_i s'_{\sigma(i)}$ are equal.
+\end{theorem}
+
+\begin{proof}
+This is the sheaf condition for the constant presheaf on a finite
+decidable cover.  The sections agree on every fiber of the cover, and
+since the cover is a partition (the guards are disjoint and
+exhaustive), there is a unique global section.  Reordering the
+enumeration of a partition does not change the global section.
+Formally, this follows from the fact that $\Hone = 0$ for the
+constant presheaf on a finite cover by decidable predicates.
+\end{proof}
+
+\textbf{Implementation mapping.}
+\begin{itemize}
+  \item \textbf{Normalizer}: Phase~7 (\texttt{\_phase7\_piecewise},
+    line 1696) is the primary mechanism.  It calls
+    \texttt{\_try\_canonicalize\_piecewise} (line 1742) which
+    flattens, infers complement guards, sorts, and reconstructs.
+  \item \textbf{Path search}: \texttt{\_axiom\_d8\_section\_merge}
+    (line 313) handles residual nested-case flattening after other
+    axioms have fired.  It detects
+    $\mathsf{OCase}(g, A, \mathsf{OCase}(g', B, C))$ where $g$
+    and $g'$ are complementary guards (checked by
+    \texttt{\_guards\_complementary}), and flattens to
+    $\mathsf{OCase}(g, A, C)$.
+  \item \textbf{HIT prover}: \texttt{\_try\_case\_flatten}
+    (line 1552) handles the cross-case permutation:
+    $\mathsf{case}(t_1, A, \mathsf{case}(t_2, B, C))$ vs.\
+    $\mathsf{case}(t_2, B', \mathsf{case}(t_1, A', C'))$.
+    It verifies that the guards and branches match up to
+    reordering, proving equivalence of two enumerations of the
+    same piecewise function.
+\end{itemize}
+
+\textbf{Benchmark example.}
+The sign function: one version uses two \texttt{if} guards with
+early returns (negative, zero) and a fallthrough positive case;
+the other uses a single ternary expression.  Phase~7 flattens both
+to the canonical piecewise form
+$\mathsf{OCase}(\mathsf{eq}(p_0, 0), 0,
+\mathsf{OCase}(\mathsf{lt}(p_0, 0), -1, 1))$
+(sorted by value then guard), producing $\mathsf{refl}$.
+
+
