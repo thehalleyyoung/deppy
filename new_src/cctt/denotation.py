@@ -384,9 +384,27 @@ def _compile_expr_ot(node: ast.expr, env: DenotEnv) -> OTerm:
 
     if isinstance(node, ast.Dict):
         pairs = []
+        unpacks = []
         for k, v in zip(node.keys, node.values):
             if k is not None:
                 pairs.append((_compile_expr_ot(k, env), _compile_expr_ot(v, env)))
+            else:
+                # {**d} — dict unpacking
+                unpacks.append(_compile_expr_ot(v, env))
+        if unpacks and not pairs:
+            # Pure unpacking: {**d1, **d2, ...} → merge chain
+            # merge is left-associative: {**a, **b, **c} = merge(merge(a, b), c)
+            # where later args overwrite earlier on overlap (non-commutative!)
+            result = unpacks[0]
+            for u in unpacks[1:]:
+                result = OOp('merge', (result, u))
+            return result
+        elif unpacks:
+            # Mixed: {k: v, **d} — compile unpacks as merge base
+            base = unpacks[0]
+            for u in unpacks[1:]:
+                base = OOp('merge', (base, u))
+            return OOp('merge', (base, ODict(tuple(pairs))))
         return ODict(tuple(pairs))
 
     if isinstance(node, ast.Attribute):
@@ -412,6 +430,20 @@ def _compile_expr_ot(node: ast.expr, env: DenotEnv) -> OTerm:
     if isinstance(node, ast.Set):
         elts = tuple(_compile_expr_ot(e, env) for e in node.elts)
         return OOp('set_literal', elts)
+
+    # F-strings: f"text {expr} text" → fstring(parts...)
+    # §11.15: f-strings are pure value computations (no effect fiber),
+    # unlike print() which has IO effect.
+    if isinstance(node, ast.JoinedStr):
+        parts = []
+        for v in node.values:
+            if isinstance(v, ast.Constant):
+                parts.append(OLit(v.value))
+            elif isinstance(v, ast.FormattedValue):
+                parts.append(_compile_expr_ot(v.value, env))
+            else:
+                parts.append(_compile_expr_ot(v, env))
+        return OOp('fstring', tuple(parts))
 
     return OUnknown(type(node).__name__)
 
@@ -453,9 +485,13 @@ def _compile_call_ot(node: ast.Call, env: DenotEnv) -> OTerm:
         if name == env.func_name:
             return OFix(name, OSeq(args))
 
-        # print() always returns None — model the return value, not the side effect
+        # print() is an IO effect — §11.15: effects are non-trivial H¹
+        # on the heap fibration.  The return value is None, but the program
+        # inhabits the IO fiber.  A program returning print(x) differs from
+        # one returning a computed value on the effect fiber.
+        # Model as OOp('effect_io', (arg,)) to preserve the effect annotation.
         if name == 'print':
-            return OLit(None)
+            return OOp('effect_io', tuple(args) if args else (OLit(''),))
 
         return OOp(name, args)
 
@@ -1054,6 +1090,8 @@ def normalize(term: OTerm) -> OTerm:
         if prev is not None and current.canon() == prev.canon():
             break
         prev = current
+    # Final pass: de Bruijn normalize all bound variables
+    current = _de_bruijn_normalize(current)
     return current
 
 
@@ -1080,6 +1118,12 @@ def _phase1_beta(term: OTerm) -> OTerm:
             result = _try_const_fold(term.name, [a.value for a in args])
             if result is not None:
                 return OLit(result)
+        # getitem([a, b, ...], literal_idx) → direct element
+        if term.name == 'getitem' and len(args) == 2:
+            base, idx = args
+            if isinstance(idx, OLit) and isinstance(idx.value, int):
+                if isinstance(base, OSeq) and 0 <= idx.value < len(base.elements):
+                    return base.elements[idx.value]
         # Empty collection simplifications
         if len(args) == 1:
             a0 = args[0]
@@ -1303,6 +1347,11 @@ def _phase2_ring(term: OTerm) -> OTerm:
         test = _phase2_ring(term.test)
         t = _phase2_ring(term.true_branch)
         f = _phase2_ring(term.false_branch)
+        # case(True, t, f) → t, case(False, t, f) → f
+        if isinstance(test, OLit) and test.value is True:
+            return t
+        if isinstance(test, OLit) and test.value is False:
+            return f
         # case(c, x, x) → x (already in phase1 but reinforce)
         if t.canon() == f.canon():
             return t
@@ -1350,6 +1399,7 @@ def _phase3_fold(term: OTerm) -> OTerm:
     - any(xs) → fold[or](False, xs)
     - all(xs) → fold[and](True, xs)
     - ''.join(xs) → fold[concat]('', xs)
+    - math.prod(xs) → fold[imult](1, xs)
     """
     if isinstance(term, OOp):
         args = tuple(_phase3_fold(a) for a in term.args)
@@ -1362,9 +1412,17 @@ def _phase3_fold(term: OTerm) -> OTerm:
                 return OFold('or', OLit(False), args[0])
             if name == 'all':
                 return OFold('and', OLit(True), args[0])
+            if name in ('math.prod', 'prod'):
+                return OFold('imult', OLit(1), args[0])
         # .join is also a fold
         if name == '.join' and len(args) == 2:
             return OFold('str_concat', args[0], args[1])
+        # functools.reduce is a fold
+        if name == 'fold' and len(args) >= 2:
+            # reduce(op, iterable) or reduce(op, iterable, init)
+            if len(args) == 3:
+                return OFold('reduce', args[2], args[1])
+            return OFold('reduce', OUnknown('reduce_no_init'), args[1])
         return OOp(name, args)
     if isinstance(term, OCase):
         return OCase(_phase3_fold(term.test),
@@ -1388,36 +1446,52 @@ def _phase3_fold(term: OTerm) -> OTerm:
         return OMap(t, c, f)
     if isinstance(term, OCatch):
         return OCatch(_phase3_fold(term.body), _phase3_fold(term.default))
+    if isinstance(term, ODict):
+        return ODict(tuple((_phase3_fold(k), _phase3_fold(v)) for k, v in term.pairs))
     return term
 
 
 def _phase4_hof(term: OTerm) -> OTerm:
-    """Phase 4: HOF fusion rules + dichotomy path constructors."""
+    """Phase 4: HOF fusion rules + absorption laws + dichotomy path constructors.
+
+    HOF fusion (§30):
+      map(f, map(g, xs)) → map(f∘g, xs)
+      fold(op, init, map(f, xs)) → fold(op, init, xs) when f is absorbed
+    Absorption laws (Theorem 14.7):
+      sorted(list(x)) → sorted(x), len(list(x)) → len(x),
+      sum(sorted(x)) → sum(x), etc.
+    """
     if isinstance(term, OOp):
         args = tuple(_phase4_hof(a) for a in term.args)
         name = term.name
 
-        # sorted(list(x)) → sorted(x)
-        if name == 'sorted' and len(args) == 1:
-            if isinstance(args[0], OOp) and args[0].name in ('list', 'tuple'):
-                return OOp('sorted', args[0].args)
+        # ── Absorption laws: outer(inner(x)) → outer(x) ──
+        # When the inner operation is operadically redundant inside the outer
+        if len(args) == 1 and isinstance(args[0], OOp) and len(args[0].args) >= 1:
+            inner_name = args[0].name
+            absorbed = _try_absorb(name, inner_name)
+            if absorbed is not None:
+                return OOp(absorbed, args[0].args)
 
-        # sorted(set(x)) → sorted(x) (sorted resolves set nondeterminism)
+        # sorted(Q[perm](x)) → sorted(x)
         if name == 'sorted' and len(args) == 1:
-            if isinstance(args[0], OOp) and args[0].name in ('set', 'frozenset'):
-                return OOp('sorted', args[0].args)
-            # sorted(Q[perm](x)) → sorted(x)
             if isinstance(args[0], OQuotient):
                 return OOp('sorted', (args[0].inner,))
 
         # list(reversed(sorted(x))) → sorted_rev(x)
         if name == 'list' and len(args) == 1:
+            # list(Q[perm](x)) → Q[perm](x)
+            if isinstance(args[0], OQuotient) and args[0].equiv_class == 'perm':
+                return args[0]
             if isinstance(args[0], OOp) and args[0].name == 'reversed':
                 inner = args[0].args[0]
                 if isinstance(inner, OOp) and inner.name == 'sorted':
                     return OOp('sorted_rev', inner.args)
                 if isinstance(inner, OOp) and inner.name == 'sorted_key':
                     return OOp('sorted_key_rev', inner.args)
+            # list(map(f, xs)) → map(f, xs) (map already produces a list-like)
+            if isinstance(args[0], OMap):
+                return args[0]
 
         # reversed(sorted(x)) → sorted_rev(x)
         if name == 'reversed' and len(args) == 1:
@@ -1432,30 +1506,135 @@ def _phase4_hof(term: OTerm) -> OTerm:
                 n = args[0].args[0] if args[0].args else OLit(0)
                 return OOp('floordiv', (OOp('mult', (n, OOp('sub', (n, OLit(1))))), OLit(2)))
 
-        # map(f, x) → comprehension (D6 generator↔eager)
-        # filter(f, x) → filtered comprehension
-
-        # len(list(x)) → len(x)
+        # len(list/tuple/sorted(x)) → len(x)
         if name == 'len' and len(args) == 1:
-            if isinstance(args[0], OOp) and args[0].name in ('list', 'tuple', 'sorted'):
+            if isinstance(args[0], OOp) and args[0].name in ('list', 'tuple', 'sorted', 'reversed'):
                 return OOp('len', args[0].args)
+            # len(map(f, xs)) → len(xs)
+            if isinstance(args[0], OMap) and args[0].filter_pred is None:
+                return OOp('len', (args[0].collection,))
+
+        # NOTE: abs(x) is NOT expanded to piecewise case(lt(x,0), -x, x)
+        # because abs() handles complex numbers (returns magnitude) while
+        # manual piecewise only handles real numbers.
+
+        # max(a, b) → case(gte(a, b), a, b)
+        if name == 'max' and len(args) == 2:
+            return OCase(OOp('gte', (args[0], args[1])), args[0], args[1])
+
+        # min(a, b) → case(lte(a, b), a, b)
+        if name == 'min' and len(args) == 2:
+            return OCase(OOp('lte', (args[0], args[1])), args[0], args[1])
 
         return OOp(name, args)
+
+    # ── HOF map∘map fusion (§30) ──
+    if isinstance(term, OMap):
+        t = _phase4_hof(term.transform)
+        c = _phase4_hof(term.collection)
+        f = _phase4_hof(term.filter_pred) if term.filter_pred else None
+
+        # map(id, xs) → xs (identity map elimination)
+        if isinstance(t, OLam) and len(t.params) == 1:
+            if isinstance(t.body, OVar) and t.body.name == t.params[0]:
+                if f is None:
+                    return c
+
+        # map(f, map(g, xs)) → map(f∘g, xs)
+        if isinstance(c, OMap) and c.filter_pred is None:
+            if isinstance(t, OLam) and isinstance(c.transform, OLam):
+                if len(t.params) == 1 and len(c.transform.params) == 1:
+                    composed = _compose_lam(t, c.transform)
+                    return OMap(composed, c.collection, f)
+
+        # map(f, map(g, xs)) where inner has filter → map(f∘g, xs, filter)
+        if isinstance(c, OMap) and c.filter_pred is not None and f is None:
+            if isinstance(t, OLam) and isinstance(c.transform, OLam):
+                if len(t.params) == 1 and len(c.transform.params) == 1:
+                    composed = _compose_lam(t, c.transform)
+                    return OMap(composed, c.collection, c.filter_pred)
+
+        return OMap(t, c, f)
 
     if isinstance(term, OCase):
         return OCase(_phase4_hof(term.test),
                      _phase4_hof(term.true_branch),
                      _phase4_hof(term.false_branch))
     if isinstance(term, OFold):
-        return OFold(term.op_name, _phase4_hof(term.init),
-                     _phase4_hof(term.collection))
+        init = _phase4_hof(term.init)
+        coll = _phase4_hof(term.collection)
+        # fold(op, init, map(f, xs)) → fold(op, init, xs) when f is identity
+        if isinstance(coll, OMap) and coll.filter_pred is None:
+            if isinstance(coll.transform, OLam) and len(coll.transform.params) == 1:
+                if (isinstance(coll.transform.body, OVar) and
+                        coll.transform.body.name == coll.transform.params[0]):
+                    return OFold(term.op_name, init, coll.collection)
+        return OFold(term.op_name, init, coll)
     if isinstance(term, OFix):
         return OFix(term.name, _phase4_hof(term.body))
     if isinstance(term, OSeq):
         return OSeq(tuple(_phase4_hof(e) for e in term.elements))
     if isinstance(term, OQuotient):
         return OQuotient(_phase4_hof(term.inner), term.equiv_class)
+    if isinstance(term, OLam):
+        return OLam(term.params, _phase4_hof(term.body))
+    if isinstance(term, ODict):
+        return ODict(tuple((_phase4_hof(k), _phase4_hof(v)) for k, v in term.pairs))
+    if isinstance(term, OCatch):
+        return OCatch(_phase4_hof(term.body), _phase4_hof(term.default))
     return term
+
+
+# ── Absorption law lookup table (Theorem 14.7) ──
+_ABSORPTION: Dict[tuple, str] = {
+    ('sorted', 'list'): 'sorted',
+    ('sorted', 'tuple'): 'sorted',
+    ('sorted', 'set'): 'sorted',
+    ('sorted', 'frozenset'): 'sorted',
+    ('sorted', 'sorted'): 'sorted',
+    ('sorted', 'reversed'): 'sorted',
+    ('list', 'list'): 'list',
+    ('list', 'sorted'): 'sorted',
+    ('list', 'reversed'): 'reversed',
+    ('len', 'list'): 'len',
+    ('len', 'tuple'): 'len',
+    ('len', 'sorted'): 'len',
+    ('len', 'reversed'): 'len',
+    ('set', 'list'): 'set',
+    ('set', 'tuple'): 'set',
+    ('set', 'set'): 'set',
+    ('sum', 'list'): 'sum',
+    ('sum', 'tuple'): 'sum',
+    ('sum', 'sorted'): 'sum',
+    ('sum', 'reversed'): 'sum',
+    ('min', 'list'): 'min',
+    ('min', 'tuple'): 'min',
+    ('min', 'sorted'): 'min',
+    ('min', 'reversed'): 'min',
+    ('max', 'list'): 'max',
+    ('max', 'tuple'): 'max',
+    ('max', 'sorted'): 'max',
+    ('max', 'reversed'): 'max',
+    ('any', 'list'): 'any',
+    ('any', 'tuple'): 'any',
+    ('all', 'list'): 'all',
+    ('all', 'tuple'): 'all',
+    ('tuple', 'list'): 'tuple',
+    ('tuple', 'tuple'): 'tuple',
+}
+
+
+def _try_absorb(outer: str, inner: str) -> Optional[str]:
+    """Apply an absorption law if one matches."""
+    return _ABSORPTION.get((outer, inner))
+
+
+def _compose_lam(f: OLam, g: OLam) -> OLam:
+    """Compose two unary OLam: f ∘ g = λx. f(g(x))."""
+    z = '_composed_0'
+    inner_applied = _subst(g.body, {g.params[0]: OVar(z)})
+    composed_body = _subst(f.body, {f.params[0]: inner_applied})
+    return OLam((z,), composed_body)
 
 
 def _phase5_unify(term: OTerm) -> OTerm:
@@ -1869,9 +2048,67 @@ def _try_const_fold(name: str, args: list):
             return args[0] // args[1]
         if name == 'mod' and len(args) == 2 and args[1] != 0:
             return args[0] % args[1]
+        if name == 'u_usub' and len(args) == 1:
+            return -args[0]
+        if name == 'u_not' and len(args) == 1:
+            return not args[0]
+        if name == 'eq' and len(args) == 2:
+            return args[0] == args[1]
+        if name == 'noteq' and len(args) == 2:
+            return args[0] != args[1]
+        if name == 'lt' and len(args) == 2:
+            return args[0] < args[1]
+        if name == 'lte' and len(args) == 2:
+            return args[0] <= args[1]
+        if name == 'gt' and len(args) == 2:
+            return args[0] > args[1]
+        if name == 'gte' and len(args) == 2:
+            return args[0] >= args[1]
     except Exception:
         pass
     return None
+
+
+def _de_bruijn_normalize(term: OTerm) -> OTerm:
+    """Normalize all bound variables in OLam to de Bruijn-style names (_b0, _b1, ...).
+
+    Ensures alpha-equivalent terms produce identical canonical forms.
+    """
+    if isinstance(term, OLam):
+        mapping = {p: f'_b{i}' for i, p in enumerate(term.params)}
+        normalized_body = _subst(term.body, mapping)
+        normalized_body = _de_bruijn_normalize(normalized_body)
+        new_params = tuple(f'_b{i}' for i in range(len(term.params)))
+        return OLam(new_params, normalized_body)
+    if isinstance(term, OOp):
+        return OOp(term.name, tuple(_de_bruijn_normalize(a) for a in term.args))
+    if isinstance(term, OCase):
+        return OCase(_de_bruijn_normalize(term.test),
+                     _de_bruijn_normalize(term.true_branch),
+                     _de_bruijn_normalize(term.false_branch))
+    if isinstance(term, OFold):
+        return OFold(term.op_name, _de_bruijn_normalize(term.init),
+                     _de_bruijn_normalize(term.collection))
+    if isinstance(term, OFix):
+        return OFix(term.name, _de_bruijn_normalize(term.body))
+    if isinstance(term, OSeq):
+        return OSeq(tuple(_de_bruijn_normalize(e) for e in term.elements))
+    if isinstance(term, ODict):
+        return ODict(tuple((_de_bruijn_normalize(k), _de_bruijn_normalize(v))
+                          for k, v in term.pairs))
+    if isinstance(term, OQuotient):
+        return OQuotient(_de_bruijn_normalize(term.inner), term.equiv_class)
+    if isinstance(term, OAbstract):
+        return OAbstract(term.spec, tuple(_de_bruijn_normalize(a) for a in term.inputs))
+    if isinstance(term, OMap):
+        t = _de_bruijn_normalize(term.transform)
+        c = _de_bruijn_normalize(term.collection)
+        f = _de_bruijn_normalize(term.filter_pred) if term.filter_pred else None
+        return OMap(t, c, f)
+    if isinstance(term, OCatch):
+        return OCatch(_de_bruijn_normalize(term.body),
+                     _de_bruijn_normalize(term.default))
+    return term
 
 
 # ═══════════════════════════════════════════════════════════
@@ -2014,7 +2251,7 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
     Multi-strategy approach:
     1. Exact canonical form match after normalization → True
     2. Structural similarity with quotient type unification → True
-    3. Provable difference detection → False
+    3. Provable difference detection (with duck-typed fibers) → False
     4. Otherwise → None (inconclusive)
 
     Returns True/False/None.
@@ -2041,6 +2278,30 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
 
     cf = nf_f.canon()
     cg = nf_g.canon()
+
+    # Extract duck types once — used by path search (Strategy 2.5)
+    # and provable NEQ (Strategy 3) for fiber-aware decisions.
+    param_duck_types: Dict[str, str] = {}
+    try:
+        from .duck import infer_duck_type
+        tree_f = ast.parse(source_f)
+        tree_g = ast.parse(source_g)
+        func_f_node = func_g_node = None
+        for node in ast.walk(tree_f):
+            if isinstance(node, ast.FunctionDef):
+                func_f_node = node
+                break
+        for node in ast.walk(tree_g):
+            if isinstance(node, ast.FunctionDef):
+                func_g_node = node
+                break
+        if func_f_node and func_g_node:
+            for i, pname in enumerate(params_f):
+                orig_f = func_f_node.args.args[i].arg if i < len(func_f_node.args.args) else pname
+                dt, _ = infer_duck_type(func_f_node, func_g_node, orig_f)
+                param_duck_types[f'p{i}'] = dt
+    except Exception:
+        pass
 
     if cf == cg:
         # Don't trust matches containing OUnknown — they represent
@@ -2074,6 +2335,26 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
         # Such matches are unreliable.
         if len(params_f) > 0 and not (f_vars & param_names):
             return None
+        # Zero-arg functions with method calls or constructors in the
+        # canonical form may involve aliasing/mutation that the compiler
+        # can't track. Defer to the checker for these.
+        if len(params_f) == 0:
+            def _has_method_or_constructor(t):
+                if isinstance(t, OOp):
+                    if t.name.startswith('.') or t.name[0].isupper():
+                        return True
+                    return any(_has_method_or_constructor(a) for a in t.args)
+                if isinstance(t, OSeq):
+                    return any(_has_method_or_constructor(e) for e in t.elements)
+                if isinstance(t, OFold):
+                    return _has_method_or_constructor(t.init) or _has_method_or_constructor(t.collection)
+                if isinstance(t, OCase):
+                    return (_has_method_or_constructor(t.test) or
+                            _has_method_or_constructor(t.true_branch) or
+                            _has_method_or_constructor(t.false_branch))
+                return False
+            if _has_method_or_constructor(nf_f):
+                return None
         # Check for unresolved names in operation names.
         f_ops = _collect_op_names(nf_f)
         g_ops = _collect_op_names(nf_g)
@@ -2084,35 +2365,142 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
     # Strategy 2: Flexible matching — match terms that only differ
     # in OFix keys (while loop body hashes) but are otherwise identical.
     # Only if terms are non-trivial and don't contain unknowns.
+    # Also requires parameter references (same gating as Strategy 1).
     if (not _contains_unknown(nf_f) and not _contains_unknown(nf_g)
             and len(cf) >= 10 and _flexible_match(nf_f, nf_g)):
-        return True
+        f_vars_2 = _collect_vars(nf_f)
+        g_vars_2 = _collect_vars(nf_g)
+        param_set_2 = {f'p{i}' for i in range(len(params_f))}
+        has_params_2 = bool(f_vars_2 & param_set_2) and bool(g_vars_2 & param_set_2)
+        has_nonparams_2 = bool(f_vars_2 - param_set_2) or bool(g_vars_2 - param_set_2)
+        if has_params_2 and not has_nonparams_2:
+            return True
+
+    # Strategy 2.5: Path search (Ch.10) — Kan composition
+    # When canonical forms don't match, search for a multi-step
+    # rewrite path using the 24 dichotomy axioms.
+    # Fiber-aware via sheaf descent (§2.6): duck types restrict axioms.
+    if (not _contains_unknown(nf_f) and not _contains_unknown(nf_g)
+            and len(cf) >= 10 and len(cg) >= 10):
+        # Don't trust path search when terms lost parameter references
+        f_vars = _collect_vars(nf_f)
+        g_vars = _collect_vars(nf_g)
+        param_set = {f'p{i}' for i in range(len(params_f))}
+        has_params = bool(f_vars & param_set) and bool(g_vars & param_set)
+        has_nonparams = bool(f_vars - param_set) or bool(g_vars - param_set)
+        if has_params and not has_nonparams:
+            try:
+                from .path_search import search_path
+                path_result = search_path(nf_f, nf_g, max_depth=3, max_frontier=150,
+                                          param_duck_types=param_duck_types)
+                if path_result.found is True:
+                    return True
+            except Exception:
+                pass
 
     # Strategy 3: Provable difference detection
     # If both terms compiled cleanly (no unknowns) and they differ in
     # specific ways that are guaranteed to produce different results,
     # we can declare non-equivalence.
+    # Uses duck types already extracted above for fiber-aware decisions.
     if not _contains_unknown(nf_f) and not _contains_unknown(nf_g):
-        neq = _detect_provable_neq(nf_f, nf_g, params_f)
+        neq = _detect_provable_neq(nf_f, nf_g, params_f,
+                                    param_duck_types=param_duck_types)
         if neq:
             return False
 
     return None
 
 
-def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
+def _has_effect(term: OTerm) -> bool:
+    """Check if an OTerm contains an effect operation (§11.15).
+
+    Effects are non-trivial H¹ classes on the heap fibration.
+    A program with effects lives on a different fiber than a pure one.
+    """
+    if isinstance(term, OOp):
+        if term.name.startswith('effect_'):
+            return True
+        return any(_has_effect(a) for a in term.args)
+    if isinstance(term, OSeq):
+        return any(_has_effect(e) for e in term.elements)
+    if isinstance(term, OFold):
+        return _has_effect(term.init) or _has_effect(term.collection)
+    if isinstance(term, OCase):
+        return (_has_effect(term.test) or _has_effect(term.true_branch)
+                or _has_effect(term.false_branch))
+    if isinstance(term, OMap):
+        return _has_effect(term.transform) or _has_effect(term.collection)
+    if isinstance(term, OLam):
+        return _has_effect(term.body)
+    if isinstance(term, OCatch):
+        return _has_effect(term.body) or _has_effect(term.default)
+    if isinstance(term, OQuotient):
+        return _has_effect(term.inner)
+    if isinstance(term, ODict):
+        return any(_has_effect(k) or _has_effect(v) for k, v in term.pairs)
+    return False
+
+
+def _extract_params(term: OTerm) -> set:
+    """Extract parameter names (p0, p1, ...) from an OTerm."""
+    if isinstance(term, OVar):
+        return {term.name}
+    if isinstance(term, OOp):
+        result = set()
+        for a in term.args:
+            result |= _extract_params(a)
+        return result
+    if isinstance(term, OSeq):
+        result = set()
+        for e in term.elements:
+            result |= _extract_params(e)
+        return result
+    if isinstance(term, OCase):
+        return (_extract_params(term.test) | _extract_params(term.true_branch)
+                | _extract_params(term.false_branch))
+    if isinstance(term, OFold):
+        return _extract_params(term.init) | _extract_params(term.collection)
+    if isinstance(term, OMap):
+        return _extract_params(term.transform) | _extract_params(term.collection)
+    if isinstance(term, OLam):
+        return _extract_params(term.body)
+    if isinstance(term, OQuotient):
+        return _extract_params(term.inner)
+    if isinstance(term, ODict):
+        result = set()
+        for k, v in term.pairs:
+            result |= _extract_params(k) | _extract_params(v)
+        return result
+    return set()
+
+
+def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
+                         in_case_branch: bool = False,
+                         param_duck_types: Optional[Dict[str, str]] = None) -> bool:
     """Detect provably non-equivalent OTerms.
 
     Returns True ONLY for differences that are guaranteed to produce
     different runtime behavior. Conservative — only catches clear cases.
 
-    Patterns detected:
-    - Different literal return values: OLit(X) vs OLit(Y)
-    - One returns None (from print), other returns a computed value
-    - == vs is (different comparison operators on same args)
-    - Different root operation types (OOp vs OLit, etc.)
-    - Argument order swap on non-commutative operations
+    in_case_branch suppresses cross-type rules (OQuotient vs OOp, OOp vs OCase)
+    because inside case branches, different structures can compute the same
+    value under the guard's domain constraint.
+
+    param_duck_types maps parameter names (p0, p1, ...) to duck-typed fibers
+    (int, str, collection, etc.) from §3 duck type inference. Used to determine
+    commutativity on the type fibration.
     """
+    if param_duck_types is None:
+        param_duck_types = {}
+
+    # §11.15: Effect fiber — programs with different effect signatures
+    # live on different fibers of the heap fibration → H¹ ≠ 0
+    a_eff = _has_effect(a)
+    b_eff = _has_effect(b)
+    if a_eff != b_eff:
+        return True
+
     # Different constant returns
     if isinstance(a, OLit) and isinstance(b, OLit):
         return a.value != b.value
@@ -2143,9 +2531,22 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
     if isinstance(a, OOp) and isinstance(b, OOp):
         if a.name == b.name and len(a.args) == len(b.args) == 2:
             # Non-commutative operations where argument order matters
-            non_commutative = {'add', 'iadd', 'sub', 'isub', 'floordiv', 'truediv',
+            non_commutative = {'sub', 'isub', 'floordiv', 'truediv',
                                'mod', 'pow', 'lshift', 'rshift', 'getitem',
-                               'concat', 'matmult'}
+                               'concat', 'matmult', 'merge'}
+            # add/iadd: commutative on int/float, non-commutative on str/list
+            # Use duck typing (§3) to determine the fiber
+            if a.name in ('add', 'iadd'):
+                # Extract which params are involved in the operands
+                involved = _extract_params(a)
+                all_int = True
+                for p in involved:
+                    dt = param_duck_types.get(p, 'any')
+                    if dt not in ('int', 'float', 'number'):
+                        all_int = False
+                        break
+                if not all_int:
+                    non_commutative.add(a.name)
             if a.name in non_commutative:
                 # Check if args are swapped: f(a,b) vs f(b,a)
                 if (a.args[0].canon() == b.args[1].canon() and
@@ -2165,7 +2566,24 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
         # Same operation, different arguments — recurse
         if a.name == b.name and len(a.args) == len(b.args):
             for ai, bi in zip(a.args, b.args):
-                if _detect_provable_neq(ai, bi, params):
+                if _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types):
+                    return True
+
+        # Same operation, different arity — extra args are non-default
+        # e.g. enumerate(x) vs enumerate(x, 1): default start=0, 1≠0
+        # e.g. split(s) vs split(s, ' '): different splitting behavior
+        if a.name == b.name and len(a.args) != len(b.args):
+            longer, shorter = (a, b) if len(a.args) > len(b.args) else (b, a)
+            # Check that the common prefix matches
+            prefix_ok = all(
+                not _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types)
+                for ai, bi in zip(shorter.args, longer.args[:len(shorter.args)])
+            )
+            if prefix_ok:
+                extra = longer.args[len(shorter.args):]
+                # Default values: 0, None, False, '', []
+                _defaults = {'0', 'None', 'False', "''", '[]'}
+                if any(x.canon() not in _defaults for x in extra):
                     return True
 
         # Generator vs list comprehension with same body hash —
@@ -2192,12 +2610,29 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
                 # Same args, different operation — definitely different
                 # unless the operations are known aliases
                 aliases = {
-                    frozenset({'sorted', 'list'}),  # sorted returns a list
                     frozenset({'iadd', 'add'}),  # for immutable types
                     frozenset({'imult', 'mult'}),
                 }
                 if frozenset({a.name, b.name}) not in aliases:
                     return True
+
+        # Different OOps with same-level args but one wraps in a
+        # non-identity function: sorted(x) vs list(f(x)) where f ≠ sorted.
+        # sorted produces a sorted list; list(f(x)) produces f(x) as a list
+        # which has different ordering when f is not sorted.
+        if a.name != b.name and len(a.args) == 1 and len(b.args) == 1:
+            a0, b0 = a.args[0], b.args[0]
+            # Check if one arg is a simple variable and the other wraps it
+            if isinstance(a0, OVar) and isinstance(b0, OOp):
+                # a = op_a(var), b = op_b(op_c(var))
+                # Different transformation chains → NEQ
+                if len(b0.args) == 1 and isinstance(b0.args[0], OVar):
+                    if a0.canon() == b0.args[0].canon():
+                        return True
+            if isinstance(b0, OVar) and isinstance(a0, OOp):
+                if len(a0.args) == 1 and isinstance(a0.args[0], OVar):
+                    if b0.canon() == a0.args[0].canon():
+                        return True
 
     # OVar vs OLit/OOp/OSeq — a variable vs a concrete value
     if isinstance(a, OVar) and isinstance(b, (OLit, OSeq)):
@@ -2207,10 +2642,53 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
 
     # Same sequence type — recurse into elements
     if isinstance(a, OSeq) and isinstance(b, OSeq):
-        if len(a.elements) == len(b.elements):
-            for ai, bi in zip(a.elements, b.elements):
-                if _detect_provable_neq(ai, bi, params):
-                    return True
+        if len(a.elements) != len(b.elements):
+            return True  # different-length tuples/lists
+        for ai, bi in zip(a.elements, b.elements):
+            if _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types):
+                return True
+
+    # Same fold structure — recurse into components
+    if isinstance(a, OFold) and isinstance(b, OFold):
+        if a.op_name == b.op_name:
+            if _detect_provable_neq(a.init, b.init, params, in_case_branch, param_duck_types):
+                return True
+            if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
+                return True
+        else:
+            # Different fold operations (e.g., iadd vs imult)
+            return True
+
+    # OMap — same transform structure, recurse
+    if isinstance(a, OMap) and isinstance(b, OMap):
+        if _detect_provable_neq(a.transform, b.transform, params, in_case_branch, param_duck_types):
+            return True
+        if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
+            return True
+
+    # OLam — same body structure, recurse
+    if isinstance(a, OLam) and isinstance(b, OLam):
+        if len(a.params) != len(b.params):
+            return True
+        if _detect_provable_neq(a.body, b.body, params, in_case_branch, param_duck_types):
+            return True
+
+    # OCatch — recurse into body and default
+    if isinstance(a, OCatch) and isinstance(b, OCatch):
+        if _detect_provable_neq(a.body, b.body, params, in_case_branch, param_duck_types):
+            return True
+        if _detect_provable_neq(a.default, b.default, params, in_case_branch, param_duck_types):
+            return True
+
+    # ODict — same keys, recurse into values
+    if isinstance(a, ODict) and isinstance(b, ODict):
+        if len(a.pairs) != len(b.pairs):
+            return True
+        for (ka, va), (kb, vb) in zip(a.pairs, b.pairs):
+            if _detect_provable_neq(ka, kb, params, in_case_branch, param_duck_types):
+                return True
+            if _detect_provable_neq(va, vb, params, in_case_branch, param_duck_types):
+                return True
 
     # Same case structure — only recurse when tests are IDENTICAL.
     # Different case-tree structures (different guard orderings) can still
@@ -2220,17 +2698,85 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str]) -> bool:
     # trees are structurally aligned.
     if isinstance(a, OCase) and isinstance(b, OCase):
         if a.test.canon() == b.test.canon():
-            if _detect_provable_neq(a.true_branch, b.true_branch, params):
+            if _detect_provable_neq(a.true_branch, b.true_branch, params, True, param_duck_types):
                 return True
-            if _detect_provable_neq(a.false_branch, b.false_branch, params):
+            if _detect_provable_neq(a.false_branch, b.false_branch, params, True, param_duck_types):
+                return True
+        else:
+            # Tests differ: safe to recurse when a and b are "parameterized"
+            # by the same operation with different args (e.g. case(f(x), g(f(x)), d)
+            # vs case(f(x,a), g(f(x,a)), d) — the test appears inside branches too).
+            # Detect: tests are same-named OOp with different args, AND
+            # each test's canon appears in its own branch canons.
+            if (isinstance(a.test, OOp) and isinstance(b.test, OOp) and
+                    a.test.name == b.test.name):
+                ta_c = a.test.canon()
+                tb_c = b.test.canon()
+                # Check that the test subexpression is used in a branch
+                a_true_c = a.true_branch.canon()
+                b_true_c = b.true_branch.canon()
+                if ta_c in a_true_c and tb_c in b_true_c:
+                    # Both are "case(X, f(X), ...)" — parameterized by X
+                    # If X and X' are provably NEQ, then f(X) ≠ f(X')
+                    if _detect_provable_neq(a.test, b.test, params, False, param_duck_types):
+                        return True
+
+    # Cross-type rules — only at top level (depth 0).
+    # Inside case branches, different structures can compute the same
+    # value under the guard's domain constraint (e.g., Q[perm](set(x))
+    # and sorted(x) agree when len(set(x)) <= 1).
+    if type(a) != type(b):
+        if not in_case_branch:
+            # OSeq vs OOp — structural literal vs function call
+            # Only fire when the OSeq is non-empty (a real literal sequence).
+            # Empty OSeq often represents lost compiler state (result=[]).
+            if isinstance(a, OSeq) and isinstance(b, OOp):
+                if len(a.elements) > 0:
+                    return True
+            if isinstance(b, OSeq) and isinstance(a, OOp):
+                if len(b.elements) > 0:
+                    return True
+            # OOp vs OMap — different computation kinds
+            # (e.g. _genexpr_var vs map: generator consumed once vs reusable list)
+            if isinstance(a, OOp) and isinstance(b, OMap):
+                return True
+            if isinstance(b, OOp) and isinstance(a, OMap):
+                return True
+            # OFold vs OOp — iterative accumulation vs simple operation.
+            # Only fire when the OOp is a known builtin/operation, not
+            # an unresolved function call (which might wrap a fold internally).
+            if isinstance(a, OFold) and isinstance(b, OOp):
+                if not b.name.startswith('_') and not b.name.startswith('?'):
+                    return True
+            if isinstance(b, OFold) and isinstance(a, OOp):
+                if not a.name.startswith('_') and not a.name.startswith('?'):
+                    return True
+            # OOp vs OCase — method/builtin call vs conditional
+            if isinstance(a, OOp) and isinstance(b, OCase):
+                if a.name.startswith('.') or a.name in (
+                    'len', 'sum', 'sorted', 'list', 'set', 'tuple',
+                    'map', 'filter', 'zip', 'enumerate', 'range',
+                    'str', 'int', 'float', 'bool', 'type',
+                ):
+                    return True
+            if isinstance(b, OOp) and isinstance(a, OCase):
+                if b.name.startswith('.') or b.name in (
+                    'len', 'sum', 'sorted', 'list', 'set', 'tuple',
+                    'map', 'filter', 'zip', 'enumerate', 'range',
+                    'str', 'int', 'float', 'bool', 'type',
+                ):
+                    return True
+            # OQuotient vs OOp — unordered vs deterministic
+            if isinstance(a, OQuotient) and isinstance(b, OOp):
+                return True
+            if isinstance(b, OQuotient) and isinstance(a, OOp):
                 return True
 
-    # Different structure types (Seq vs Op, etc.)
-    if type(a) != type(b):
-        # OSeq (tuple/list literal) vs OOp (function call) — different
-        if isinstance(a, OSeq) and isinstance(b, OOp):
+    # OQuotient — recurse into inner term
+    if isinstance(a, OQuotient) and isinstance(b, OQuotient):
+        if a.equiv_class != b.equiv_class:
             return True
-        if isinstance(b, OSeq) and isinstance(a, OOp):
+        if _detect_provable_neq(a.inner, b.inner, params, in_case_branch, param_duck_types):
             return True
 
     return False

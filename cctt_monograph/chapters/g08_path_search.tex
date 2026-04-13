@@ -1,0 +1,860 @@
+% Automated Path Search (Ch 18)
+% Lines 2761-3617 of main.tex
+% This file is for agent editing — will be merged back
+
+\chapter{Automated Path Search}
+\label{ch:path-search}
+
+This is the algorithmic heart of CTTT.  Given two Z3 terms $\den{f}$
+and $\den{g}$ that are not syntactically equal, the \emph{path search
+engine} automatically discovers a multi-step cubical path
+$\den{f} \xrightarrow{p_1} h_1 \xrightarrow{p_2} h_2
+\xrightarrow{p_3} \ldots \xrightarrow{p_k} \den{g}$
+where each $p_i$ is a single path constructor application.
+
+\section{The Path Search Problem}
+
+\begin{definition}[Path Search]
+Given Z3 terms $s, t : \PyObj$ (the source and target), the
+\emph{path search problem} is:
+\[
+  \text{Find } p_1, \ldots, p_k \in \mathsf{PathConstructors}
+  \text{ such that } s \xrightarrow{p_1} \cdot \xrightarrow{p_2}
+  \cdots \xrightarrow{p_k} t
+\]
+or prove that no such sequence exists (by finding a
+counterexample --- a concrete input where $s \neq t$).
+\end{definition}
+
+The path constructors are the axioms from the HIT $\mathsf{PyComp}$
+(Definition~\ref{def:pycomp}): commutativity, associativity,
+fold--unfold, $\beta$-reduction, etc.
+
+\section{The Path Graph}
+
+\begin{definition}[Path Graph]
+The \emph{path graph} $G_\mathsf{path}$ has:
+\begin{itemize}
+  \item \textbf{Vertices}: equivalence classes of Z3 terms modulo
+    syntactic identity.
+  \item \textbf{Edges}: for each path constructor $p$ and each
+    applicable subterm, an edge from the term to the rewritten term.
+\end{itemize}
+The path search is a graph search from $s$ to $t$ in $G_\mathsf{path}$.
+\end{definition}
+
+The path graph is infinite (Z3 terms form an infinite set), but
+the search is bounded because:
+\begin{enumerate}
+  \item Each path constructor application either \emph{simplifies}
+    the term (reduces its size/complexity) or \emph{normalizes} it
+    (moves it toward a canonical form).
+  \item A confluent and terminating rewrite system has a unique
+    normal form per equivalence class --- if both $s$ and $t$ reduce
+    to the same normal form, a path exists.
+\end{enumerate}
+
+\section{The Normalization Strategy}
+
+Rather than searching the full path graph, we normalize both terms
+and check if the normal forms coincide:
+
+\begin{definition}[Canonical Normal Form]
+\label{def:cnf}
+The \emph{canonical normal form} of a Z3 term $t$ is obtained by
+exhaustively applying the following rewrite rules (in priority order):
+
+\textbf{Phase 1: $\beta$-reduction (definitional equality).}
+\begin{enumerate}
+  \item Inline all nested function applications
+    ($(\lambda x.\, B)(a) \to B[x := a]$).
+  \item Unfold all \texttt{\_\_func\_\_} references.
+  \item Collapse trivial \texttt{If} branches
+    ($\mathsf{If}(\top, a, b) \to a$; $\mathsf{If}(\bot, a, b) \to b$).
+\end{enumerate}
+
+\textbf{Phase 2: Arithmetic normalization (ring axioms).}
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item Commute operands to canonical order
+    ($b + a \to a + b$ when $a <_\mathsf{lex} b$).
+  \item Associate right ($((a+b)+c) \to (a+(b+c))$).
+  \item Eliminate identities ($a + 0 \to a$; $a \times 1 \to a$).
+  \item Absorb zeros ($a \times 0 \to 0$).
+  \item Cancel double negation ($-(-a) \to a$).
+\end{enumerate}
+
+\textbf{Phase 3: Fold canonicalization (Nat-recursor).}
+\begin{enumerate}
+  \setcounter{enumi}{8}
+  \item Detect recursive descent patterns and replace with
+    canonical $\fold(\op, \mathsf{start}, \mathsf{stop}, \mathsf{acc})$.
+  \item Detect accumulation loops and replace with canonical $\fold$.
+  \item When both rec and iter produce $\fold$ terms with the same
+    $(\op, \mathsf{start}, \mathsf{stop}, \mathsf{acc})$, they
+    are syntactically identical.
+\end{enumerate}
+
+\textbf{Phase 4: Higher-order normalization (operadic).}
+\begin{enumerate}
+  \setcounter{enumi}{11}
+  \item Apply map--fold fusion
+    ($\mathsf{reduce}(\oplus, e, \mathsf{map}(h, xs)) \to
+    \mathsf{reduce}(\lambda a,x.\, a \oplus h(x), e, xs)$).
+  \item Apply comprehension canonicalization
+    ($[e(x) \text{ for } x \text{ in } xs] \to
+    \mathsf{comp}_{\mathsf{hash}(e)}(xs)$).
+  \item Apply idempotence ($\mathsf{sorted}(\mathsf{sorted}(x)) \to
+    \mathsf{sorted}(x)$).
+  \item Apply involutions ($\mathsf{reversed}(\mathsf{reversed}(x))
+    \to x$).
+\end{enumerate}
+
+\textbf{Phase 5: Shared symbol unification (univalence).}
+\begin{enumerate}
+  \setcounter{enumi}{15}
+  \item Replace all builtin calls with shared function symbols
+    ($\mathsf{sorted}_k(x) \to \mathsf{py\_sorted}(x)$).
+  \item Replace all method calls with shared method symbols
+    ($\mathsf{meth\_append}_k(o, v) \to
+    \mathsf{py\_meth\_append}(o, v)$).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Normalization Confluence]
+\label{thm:confluence}
+The rewrite system of Definition~\ref{def:cnf} is \emph{locally
+confluent}: if $t \to t_1$ and $t \to t_2$ by different rules,
+there exists $t'$ such that $t_1 \to^* t'$ and $t_2 \to^* t'$.
+
+Combined with termination (each rule decreases a complexity measure),
+the system is \emph{confluent} (by Newman's lemma): every term has
+a unique normal form.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The phases are ordered by priority, and rules within each phase are
+orthogonal (they apply to disjoint subterms).  Critical pairs arise
+only between commutativity and associativity, which are resolved by
+the canonical ordering $<_\mathsf{lex}$.
+\end{proof}
+
+\begin{corollary}[Path Existence from Normal Forms]
+\label{cor:path-nf}
+A cubical path from $\den{f}$ to $\den{g}$ exists if and only if
+their canonical normal forms are identical:
+\[
+  \mathsf{nf}(\den{f}) = \mathsf{nf}(\den{g})
+  \iff
+  \exists p : \Path(\den{f}, \den{g})
+\]
+The path is reconstructed by composing the rewrite steps:
+$\den{f} \to^* \mathsf{nf}(\den{f}) = \mathsf{nf}(\den{g})
+\leftarrow^* \den{g}$.
+\end{corollary}
+
+\section{The Path Search Algorithm}
+
+\begin{lstlisting}[caption={Automated path search}]
+def search_path(term_f, term_g, theory):
+    """Search for a cubical path from term_f to term_g.
+
+    Returns:
+      PathResult(found=True, path=[step1, step2, ...])
+      or PathResult(found=False, reason=...)
+    """
+    # Phase 1-5: normalize both terms
+    nf_f, steps_f = normalize(term_f, theory)
+    nf_g, steps_g = normalize(term_g, theory)
+
+    # Check syntactic equality of normal forms
+    if z3_syntactic_eq(nf_f, nf_g):
+        # Path found! Compose forward and backward steps.
+        path = steps_f + reversed(steps_g)
+        return PathResult(found=True, path=path)
+
+    # Normal forms differ: try Z3 semantic check
+    # (maybe the terms are equal but our rewrite system
+    # doesn't know the right axioms)
+    solver = Solver()
+    theory.semantic_axioms(solver)
+    solver.add(nf_f != nf_g)
+    result = solver.check()
+
+    if result == unsat:
+        # Z3 proved equality using axioms we didn't rewrite
+        return PathResult(found=True,
+                          path=steps_f + ['z3_axiom'] + reversed(steps_g))
+    elif result == sat:
+        # Genuine counterexample: no path exists
+        return PathResult(found=False,
+                          counterexample=solver.model())
+    else:
+        return PathResult(found=None, reason='timeout')
+\end{lstlisting}
+
+\section{Path Search on Each Fiber}
+
+The path search is performed \emph{per fiber} (per type assignment),
+not globally.  This is the cubical--cohomological interaction:
+
+\begin{lstlisting}[caption={Fiber-wise path search}]
+def fiber_wise_path_search(secs_f, secs_g, sites, theory):
+    """Search for paths on each fiber independently.
+
+    Returns per-fiber path results and the global H^1.
+    """
+    local_paths = {}
+
+    for combo, site_id in sites.items():
+        # Restrict terms to this fiber
+        fiber_f = restrict_to_fiber(secs_f, combo, theory)
+        fiber_g = restrict_to_fiber(secs_g, combo, theory)
+
+        # Search for path on this fiber
+        for sf in fiber_f:
+            for sg in fiber_g:
+                if not guards_overlap(sf.guard, sg.guard):
+                    continue
+                result = search_path(sf.term, sg.term, theory)
+                if result.found == False:
+                    return GlobalResult(equiv=False,
+                        fiber=combo, cx=result.counterexample)
+                elif result.found == True:
+                    local_paths[site_id] = result.path
+
+    # All fibers have paths: check gluing via Cech H^1
+    h1 = compute_cech_h1(local_paths, sites)
+    if h1 == 0:
+        return GlobalResult(equiv=True, paths=local_paths)
+    else:
+        return GlobalResult(equiv=False, obstruction=h1)
+\end{lstlisting}
+
+\section{Path Composition and the Proof Certificate}
+
+When the path search succeeds, it produces a \emph{proof certificate}:
+a sequence of named path constructor applications that transforms
+$\den{f}$ into $\den{g}$.
+
+\begin{definition}[Proof Certificate]
+A \emph{proof certificate} for $f \equiv g$ is a list of triples:
+\[
+  [(r_1, \mathsf{pos}_1, \mathsf{ax}_1),\;
+   (r_2, \mathsf{pos}_2, \mathsf{ax}_2),\;
+   \ldots,\;
+   (r_k, \mathsf{pos}_k, \mathsf{ax}_k)]
+\]
+where $r_i$ is the term at step $i$, $\mathsf{pos}_i$ is the subterm
+position, and $\mathsf{ax}_i$ is the axiom applied.  The certificate
+satisfies:
+\begin{align}
+  r_0 &= \den{f} \\
+  r_{i+1} &= r_i[\mathsf{pos}_i := \mathsf{ax}_i(r_i|_{\mathsf{pos}_i})] \\
+  r_k &= \den{g}
+\end{align}
+\end{definition}
+
+\begin{example}[Certificate for Factorial Equivalence]
+\begin{align}
+  \den{f} &= \mathsf{rec\_f}(p_0)
+    && \text{(recursive definition)} \\
+  \xrightarrow{\mathsf{D1},\, \text{root}} &\;
+    \fold(\mathsf{MUL}, 1, \mathsf{ival}(p_0)+1, \mathsf{IntObj}(1))
+    && \text{(Nat-eliminator extraction)} \\
+  &= \den{g}
+    && \text{(same as iterative fold)}
+\end{align}
+Certificate: $[(\mathsf{rec\_f}(p_0), \epsilon, \mathsf{D1})]$.
+One step, at the root, using the Nat-recursor path.
+\end{example}
+
+\begin{example}[Multi-Step Certificate]
+Programs that compute $\mathsf{sum}(\mathsf{reversed}(\mathsf{sorted}(x)))$
+vs.\ $\mathsf{sum}(x)$:
+\begin{align}
+  &\mathsf{py\_sum}(\mathsf{py\_reversed}(\mathsf{py\_sorted}(p_0))) \\
+  \xrightarrow{\mathsf{reversed\_invol},\, [1,1]} &\;
+    \mathsf{py\_sum}(\mathsf{py\_sorted}(p_0))
+    && \text{(sorted absorbs reversed)} \\
+  \xrightarrow{\mathsf{sum\_perm},\, [1]} &\;
+    \mathsf{py\_sum}(p_0)
+    && \text{(sum is perm-invariant)}
+\end{align}
+Certificate: $[(\ldots, [1,1], \mathsf{sorted\_absorbs\_reversed}),\;
+(\ldots, [1], \mathsf{sum\_perm\_invariant})]$.
+\end{example}
+
+\section{Path Search Strategies}
+
+The basic normalization strategy (Definition~\ref{def:cnf}) is
+``normalize both sides and compare.''  But more sophisticated
+strategies exist:
+
+\subsection{Bidirectional Search}
+
+Search from both $\den{f}$ and $\den{g}$ simultaneously,
+meeting in the middle:
+
+\begin{lstlisting}[caption={Bidirectional path search}]
+def bidirectional_search(s, t, axioms, max_depth=5):
+    forward = {hash(s): (s, [])}    # term -> (term, path)
+    backward = {hash(t): (t, [])}
+
+    for depth in range(max_depth):
+        # Expand forward frontier
+        new_forward = {}
+        for h, (term, path) in forward.items():
+            for ax in axioms:
+                for pos in applicable_positions(term, ax):
+                    new_term = apply_axiom(term, ax, pos)
+                    nh = hash(new_term)
+                    if nh in backward:
+                        # FOUND: path from s to t
+                        _, bpath = backward[nh]
+                        return path + [(term, pos, ax)] + \
+                               reversed(bpath)
+                    new_forward[nh] = (new_term,
+                        path + [(term, pos, ax)])
+        forward.update(new_forward)
+
+        # Similarly expand backward frontier
+        # ...
+
+    return None  # no path within depth bound
+\end{lstlisting}
+
+\subsection{Fiber-Guided Search}
+
+Use the \v{C}ech decomposition to \emph{guide} the search:
+\begin{enumerate}
+  \item Identify which fibers are ``easy'' (terms already match or
+    nearly match after normalization).
+  \item On hard fibers, use the easy fibers' solutions as hints:
+    if the path on the Int fiber used axiom $\mathsf{D1}$, try
+    $\mathsf{D1}$ on the Str fiber first.
+  \item This is \emph{transfer along the fibration}: a successful
+    path on one fiber is transported to adjacent fibers.
+\end{enumerate}
+
+\subsection{Axiom Relevance Filtering}
+
+Not all axioms are relevant for a given pair.  Filter by:
+\begin{enumerate}
+  \item \textbf{Symbol filtering}: only use axioms mentioning
+    symbols that appear in $\den{f}$ or $\den{g}$.
+  \item \textbf{Sort filtering}: only use axioms whose type
+    signature matches the current fiber.
+  \item \textbf{Depth filtering}: prioritize axioms that reduce
+    term depth (simplifying rules before complexifying ones).
+\end{enumerate}
+
+\section{Sheaf Descent for Tractability of Undecidable Problems}
+\label{sec:descent-tractability}
+
+Program equivalence is undecidable in general (Rice's theorem).
+Specification checking and bug finding reduce to it, so they are
+also undecidable.  Yet we claim CTTT makes these problems
+\emph{tractable} for a large class of real programs.  This section
+explains \emph{why} --- the mathematical mechanism by which sheaf
+descent converts undecidable global problems into decidable local ones.
+
+\subsection{The Undecidability Barrier}
+
+The global equivalence query is:
+\[
+  \forall x : \PyObj.\; \den{f}(x) = \den{g}(x)
+\]
+This is a universal quantification over an infinite domain ($\PyObj$
+has infinitely many inhabitants via $\mathsf{IntObj}(n)$ for all
+$n \in \Int$).  No algorithm can decide this in general.
+
+But the undecidability proof (Rice's theorem) requires adversarial
+programs --- programs specifically constructed to defeat any analysis.
+Real programs are not adversarial.  They have \emph{structure} that
+can be exploited.
+
+\subsection{How Descent Exploits Structure}
+
+Sheaf descent exploits two kinds of structure:
+
+\textbf{1. Type structure (the fibration).}
+Real Python programs dispatch on types --- they use
+\texttt{isinstance}, duck typing, different code paths for different
+input types.  This means the universal quantification decomposes
+into a \emph{finite} disjunction:
+\[
+  \forall x.\; \den{f}(x) = \den{g}(x)
+  \iff
+  \bigwedge_{\tau \in \mathsf{TypeTag}} \forall x.\;
+    \mathsf{tag}(x) = \tau \implies \den{f}(x) = \den{g}(x)
+\]
+
+Each conjunct is a \emph{fiber-restricted} query.  The finite
+conjunction is decidable if each conjunct is.
+
+\textbf{2. Algebraic structure (the path constructors).}
+Within each fiber, the Z3 terms have algebraic structure:
+commutativity, associativity, fold patterns.  The path constructors
+(equational axioms) transform this structure, often collapsing
+complex terms to simple canonical forms.
+
+The canonical form is unique (by confluence, Theorem~\ref{thm:confluence}),
+and comparing canonical forms is decidable (syntactic equality check).
+
+\subsection{The Descent Decomposition Theorem}
+
+\begin{theorem}[Descent Makes Equivalence Tractable]
+\label{thm:descent-tractable}
+Let $\covers = \{U_\tau\}_{\tau \in T}$ be the covering of
+$\PyObj$ by type fibers, where $T$ is a finite set of type tags.
+Then:
+\begin{enumerate}
+  \item The global equivalence query
+    $\forall x.\, \den{f}(x) = \den{g}(x)$ reduces to
+    $|T|$ local queries plus one $\Hone$ computation.
+  \item Each local query is in the theory QF\_DT + QF\_LIA + QF\_S
+    (quantifier-free datatypes + linear integer arithmetic + strings),
+    which is \emph{decidable}.
+  \item The $\Hone$ computation is decidable ($O(|T|^3)$ via GF(2)
+    rank).
+  \item Therefore: the full equivalence check is decidable for
+    programs whose Z3 denotations fall in the quantifier-free
+    fragment (no RecFunctions, no universally quantified axioms).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By the descent theorem (\ref{thm:descent-full}), the global query
+decomposes into local queries on each fiber plus the gluing check
+($\Hone = 0$).
+
+(2) On each fiber $U_\tau$, the type is fixed (e.g., $\mathsf{tag}(x) =
+\mathsf{TInt}$ forces $x = \mathsf{IntObj}(n)$ for some $n$).
+The Z3 terms reduce to expressions over $\mathsf{IntSort}$
+(decidable QF\_LIA), $\mathsf{BoolSort}$ (propositional, decidable),
+$\mathsf{StringSort}$ (decidable QF\_S), or $\mathsf{PyObj}$ constructors
+(decidable QF\_DT).  The combined theory QF\_DT + QF\_LIA + QF\_S
+is decidable by Nelson--Oppen combination.
+
+(3) GF(2) linear algebra is decidable, $O(n^3)$.
+
+(4) Combining (1)--(3): decidable $+$ decidable $+$ decidable $=$
+decidable.
+\end{proof}
+
+\begin{remark}[Beyond the Quantifier-Free Fragment]
+When programs use RecFunctions (from loops/recursion), the local
+queries may exit the QF fragment.  The Nat-eliminator extraction
+(Chapter~\ref{ch:nat-elim}) recovers decidability for many such
+programs by converting RecFunctions to canonical folds, which are
+ground terms (no quantifiers).
+
+When equational axioms involve universal quantifiers ($\forall x.\,
+\mathsf{sorted}(\mathsf{sorted}(x)) = \mathsf{sorted}(x)$), the
+local queries are semi-decidable (Z3 may timeout).  But the axioms
+are applied \emph{as rewrite rules} during normalization, not as
+quantified constraints --- so they terminate (the rewrite system is
+terminating by Theorem~\ref{thm:confluence}).
+\end{remark}
+
+\subsection{Complexity Analysis}
+
+\begin{theorem}[Complexity of Descent-Based Equivalence]
+\label{thm:descent-complexity}
+For programs with $n$ parameters, each having at most $k$ possible
+type tags, the descent-based equivalence check has complexity:
+\[
+  O(k^n \cdot C_\mathsf{local} + k^{3n})
+\]
+where $C_\mathsf{local}$ is the cost of a single local Z3 query.
+
+For the common case of single-typed parameters ($k = 1$):
+\[
+  O(C_\mathsf{local} + 1) = O(C_\mathsf{local})
+\]
+--- a single Z3 query, no combinatorial blowup.
+
+For the worst case ($k = 7$ types, $n$ parameters):
+$k^n = 7^n$ fibers --- exponential in the number of parameters.
+But duck type inference typically reduces $k$ to 1--2 per parameter,
+so the practical complexity is $O(2^n \cdot C_\mathsf{local})$.
+\end{theorem}
+
+\subsection{Comparison with Prior Approaches}
+
+\begin{center}
+\small
+\begin{tabular}{l l l l}
+  \textbf{Approach} & \textbf{Global query} & \textbf{Decidable?} &
+  \textbf{Practical?} \\
+  \hline
+  Direct Z3 & $\forall x.\, f(x) = g(x)$ & Semi-decidable &
+    Slow/timeout \\
+  Testing & Sample $x_1, \ldots, x_N$ & Incomplete &
+    Fast but unsound \\
+  Abs.\ interp. & $\alpha(f) = \alpha(g)$ & Decidable &
+    Fast but imprecise \\
+  CTTT descent & $\bigwedge_\tau (\forall x_\tau.\, f = g) \land
+    \Hone = 0$ & \textbf{Decidable (QF)} & \textbf{Fast \& sound} \\
+\end{tabular}
+\end{center}
+
+CTTT descent is the only approach that is simultaneously decidable
+(for the QF fragment), sound (no false positives/negatives within
+the modeled domain), and practical (scales with duck-type narrowing).
+
+\subsection{The Refinement Principle}
+
+When descent alone is insufficient (the local Z3 query times out or
+returns ``unknown''), we can \emph{refine} the covering:
+
+\begin{definition}[Covering Refinement]
+A refinement $\covers' = \{V_j\}$ of covering $\covers = \{U_i\}$
+is a covering such that each $V_j \subseteq U_i$ for some $i$.
+Refinement makes fibers \emph{smaller} (more constrained), which
+makes local queries \emph{easier}.
+\end{definition}
+
+\begin{theorem}[Refinement Soundness]
+\label{thm:refinement}
+If the equivalence check succeeds on a refinement $\covers'$
+($\Hone(\covers', \Iso) = 0$), it also succeeds on the original
+covering ($\Hone(\covers, \Iso) = 0$).
+
+The converse is NOT true: a refinement may introduce new overlaps
+and new transition checks, which could fail even if the original
+covering succeeds.
+\end{theorem}
+
+\begin{proof}
+The refinement morphism $\covers' \to \covers$ induces a morphism
+of \v{C}ech complexes $C^\bullet(\covers) \to C^\bullet(\covers')$.
+By functoriality of cohomology, $\Hone(\covers) = 0$ implies
+$\Hone(\covers') = 0$ (the image of a trivial class is trivial).
+\end{proof}
+
+Refinement strategies:
+\begin{enumerate}
+  \item \textbf{Value-range refinement}: split the Int fiber into
+    $\{n \geq 0\}$ and $\{n < 0\}$ (positive and negative integers).
+    This helps with programs that have different behavior for positive
+    vs.\ negative inputs.
+  \item \textbf{Size refinement}: split the Pair fiber into
+    $\{|xs| = 0\}$, $\{|xs| = 1\}$, $\{|xs| \geq 2\}$ (empty,
+    singleton, longer lists).  This helps with programs that have
+    base cases for short inputs.
+  \item \textbf{Predicate refinement}: split a fiber by a predicate
+    derived from the program's branch conditions.  E.g., if $f$
+    branches on $n \leq 1$, split the Int fiber at $n = 1$.
+\end{enumerate}
+
+\begin{theorem}[Predicate Refinement from Branch Conditions]
+\label{thm:pred-refinement}
+Let $\mathsf{guards}_f = \{g_1, \ldots, g_m\}$ and
+$\mathsf{guards}_g = \{h_1, \ldots, h_p\}$ be the branch conditions
+of programs $f$ and $g$ respectively.  The \emph{branch-condition
+refinement} is the covering:
+\[
+  \covers_\mathsf{branch} = \{U \cap R \mid U \in \covers,\;
+    R \in \mathsf{atoms}(\{g_i\} \cup \{h_j\})\}
+\]
+where $\mathsf{atoms}$ are the minimal non-empty regions of the
+partition induced by the guards.
+
+On each atom, \emph{both} programs follow a single code path
+(no branching), so their Z3 terms are ground expressions
+(no $\mathsf{If}$), which are decidable.
+\end{theorem}
+
+\begin{proof}
+Within an atom $R$, all guard conditions have fixed truth values.
+Therefore $\mathsf{If}(\mathsf{guard}, t, f)$ simplifies to $t$ or
+$f$ (no conditional).  The resulting Z3 terms are quantifier-free
+ground expressions over the base theories, which are decidable.
+\end{proof}
+
+\begin{corollary}[Branch-Refined Descent is Decidable]
+The branch-condition refinement produces decidable local queries
+for \emph{any} program (not just QF programs).  The only remaining
+source of undecidability is the RecFunction bodies (loops/recursion).
+\end{corollary}
+
+This is a powerful result: by refining the covering using the
+programs' own branch conditions, we eliminate branching complexity
+from the local queries, leaving only loop/recursion complexity.
+
+\subsection{Iterated Descent: The Descent Tower}
+
+For programs with nested structure (loops inside branches inside
+loops), we can apply descent \emph{iteratively}:
+
+\begin{definition}[Descent Tower]
+\label{def:descent-tower}
+A \emph{descent tower} is a sequence of coverings:
+\[
+  \covers_0 \leftarrow \covers_1 \leftarrow \covers_2
+    \leftarrow \ldots \leftarrow \covers_k
+\]
+where each $\covers_{i+1}$ is a refinement of $\covers_i$.
+
+Level 0: type fibers (Int, Str, List, ...).
+Level 1: type fibers $\times$ branch conditions.
+Level 2: type fibers $\times$ branch conditions $\times$ loop bounds.
+Level 3: type fibers $\times$ branch conditions $\times$ loop bounds
+  $\times$ recursion depth.
+\end{definition}
+
+At each level, the local queries become simpler (more constrained,
+fewer degrees of freedom).  Eventually, the local queries are ground
+and decidable.
+
+\begin{theorem}[Descent Tower Convergence]
+\label{thm:tower-convergence}
+For programs with finitely many branches and bounded-depth
+recursion, the descent tower converges at a finite level $k$:
+all local queries at level $k$ are ground and decidable.
+\end{theorem}
+
+\begin{proof}
+Each level refines by a finite partition (finitely many branches,
+finitely many loop bound values).  The atoms at level $k$ correspond
+to complete execution traces of bounded depth.  On each trace, the
+Z3 term is ground (no $\mathsf{If}$, no RecFunction unfolding needed
+beyond the bound).
+\end{proof}
+
+\begin{remark}[Unbounded Recursion]
+For programs with unbounded recursion, the descent tower does NOT
+converge.  This is the residual source of undecidability in CTTT.
+The Nat-eliminator extraction (Chapter~\ref{ch:nat-elim}) handles
+many unbounded cases by recognizing them as folds, but general
+recursion remains semi-decidable.
+\end{remark}
+
+\subsection{The Effective Descent Condition}
+
+Not every covering admits effective descent.  We characterize when
+descent is most useful:
+
+\begin{definition}[Effective Descent]
+A covering $\covers$ admits \emph{effective descent} for the
+equivalence check $f \equiv g$ if:
+\begin{enumerate}
+  \item Each local query $\Iso(U_i)$ is decidable (terminates with
+    a definite answer).
+  \item The number of overlaps is polynomial in $|\covers|$ (the
+    \v{C}ech complex is sparse).
+  \item The transition checks $\varphi_{ij}$ are all trivial
+    (both local paths agree automatically on overlaps).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[When Descent is Effective]
+\label{thm:effective-descent}
+Descent is effective when:
+\begin{enumerate}
+  \item \textbf{Duck type inference is sharp}: each parameter has
+    a unique type (no polymorphism).  Then $|\covers| = 1$, no
+    overlaps, no transitions.  This is the common case.
+  \item \textbf{Fibers are independent}: the program's behavior on
+    fiber $U_i$ does not depend on behavior on fiber $U_j$.  Then
+    transitions are trivial.
+  \item \textbf{Branch conditions align}: both programs branch on
+    the same conditions.  Then the branch-condition refinement
+    produces the same atoms for both.
+\end{enumerate}
+\end{theorem}
+
+\subsection{Extensions: Beyond Type Fibers}
+
+The descent framework is not limited to type-based coverings.  Any
+\emph{partition} of the input space that respects program structure
+can serve as a covering:
+
+\begin{enumerate}
+  \item \textbf{Value-range covering}: partition by value ranges
+    ($n < 0$, $n = 0$, $n > 0$, $n > 100$, etc.).  Useful for
+    programs with thresholds.
+  \item \textbf{Shape covering}: partition by data structure shape
+    (empty list, singleton, doubleton, general list).  Useful for
+    recursive programs with base cases.
+  \item \textbf{Reachability covering}: partition by reachable
+    code paths (which branches are taken).  This is the
+    branch-condition refinement from Theorem~\ref{thm:pred-refinement}.
+  \item \textbf{Symmetry covering}: partition by symmetry group
+    orbits (inputs related by permutation).  Useful for programs
+    whose output is permutation-invariant.
+  \item \textbf{Norm covering}: partition by norm/size ($|x| \leq k$
+    for various $k$).  The spectral sequence
+    (Chapter~\ref{ch:spectral}) is the cohomology of this filtration.
+\end{enumerate}
+
+Each covering type provides a different decomposition strategy,
+and the optimal covering depends on the programs being compared.
+The \emph{covering selection heuristic} is:
+\begin{enumerate}
+  \item Start with type fibers (cheapest, most effective for
+    well-typed programs).
+  \item If local queries fail, refine by branch conditions.
+  \item If still failing, refine by value ranges or shapes.
+  \item If still failing, try symmetry or norm coverings.
+\end{enumerate}
+
+This hierarchical refinement is the \emph{spectral sequence in
+action}: each refinement level corresponds to a page of the
+spectral sequence, and the sequence converges when the local
+queries become decidable.
+
+
+\section{Soundness and Completeness}
+
+\begin{theorem}[Path Search Soundness]
+If the path search returns a certificate $[r_0, \ldots, r_k]$, then
+$r_0 = \den{f}$, $r_k = \den{g}$, and each step $r_i \to r_{i+1}$
+is justified by a valid path constructor.  Therefore
+$\den{f} \equiv \den{g}$ (the programs are semantically equivalent).
+\end{theorem}
+
+\begin{proof}
+Each path constructor is a theorem of the cubical type theory
+(proved in the relevant dichotomy chapter).  Kan composition
+(Chapter~\ref{ch:kan}) ensures the steps compose to a valid path.
+\end{proof}
+
+\begin{theorem}[Path Search Completeness (Relative)]
+\label{thm:path-completeness}
+The path search is \emph{complete relative to the axiom set}: if
+a path exists using only the axioms in the HIT $\mathsf{PyComp}$,
+the normalization procedure finds it (assuming the rewrite system
+is confluent and terminating for the applicable axiom subset).
+
+The path search is \emph{incomplete} in general: there exist
+equivalent programs for which no path exists in $\mathsf{PyComp}$
+(because the axiom set doesn't cover all valid equalities ---
+Rice's theorem prevents completeness).
+\end{theorem}
+
+\section{Path Search for Spec Checking}
+
+The same path search engine handles spec checking by searching for
+a path from $\den{f}$ to $\den{S}$ (the specification's canonical
+form):
+
+\begin{lstlisting}[caption={Spec check via path search}]
+def spec_check(program_source, spec_source, theory):
+    """Check if program satisfies spec via path search.
+
+    spec_source is a reference implementation or a Z3 formula.
+    """
+    term_f = compile(program_source, theory)
+    term_spec = compile(spec_source, theory)
+
+    result = fiber_wise_path_search(
+        sections_of(term_f),
+        sections_of(term_spec),
+        build_sites(program_source, spec_source, theory),
+        theory
+    )
+
+    if result.equiv:
+        return SpecResult(satisfies=True,
+                          certificate=result.paths)
+    else:
+        return SpecResult(satisfies=False,
+                          bug_fiber=result.fiber,
+                          counterexample=result.cx)
+\end{lstlisting}
+
+\section{Path Search for Bug Finding}
+
+Bug finding is path search with \emph{failure analysis}: when no
+path exists on a fiber, the failure point reveals the bug.
+
+\begin{lstlisting}[caption={Bug finding via failed path search}]
+def find_bugs(program_source, spec_source, theory):
+    """Find bugs by attempting path search on each fiber.
+
+    Returns list of (fiber, depth, counterexample) triples.
+    """
+    bugs = []
+    term_f = compile(program_source, theory)
+    term_spec = compile(spec_source, theory)
+    sites = build_sites(program_source, spec_source, theory)
+
+    for combo, site_id in sites.items():
+        result = search_path(
+            restrict(term_f, combo),
+            restrict(term_spec, combo),
+            theory
+        )
+        if result.found == False:
+            bugs.append(Bug(
+                fiber=combo,
+                counterexample=result.counterexample,
+                # How far did the path get before failing?
+                partial_path=result.partial_steps,
+                # What axiom would be needed?
+                missing_axiom=result.stuck_on
+            ))
+
+    return BugReport(bugs=bugs,
+                     severity=len(bugs) / len(sites),
+                     h1_rank=compute_h1_rank(bugs, sites))
+\end{lstlisting}
+
+The \texttt{partial\_path} and \texttt{missing\_axiom} fields provide
+\emph{diagnostic information}: they tell the developer not just
+\emph{that} the program is wrong, but \emph{why} the proof failed
+and \emph{what kind of fix} is needed.
+
+\section{Path-Based Automatic Repair Suggestion}
+
+When the path search fails at a specific step, the failure point
+suggests a repair:
+
+\begin{theorem}[Repair from Path Failure]
+\label{thm:repair-from-path}
+If the path search from $\den{f}$ toward $\den{S}$ succeeds for
+$k$ steps and fails at step $k+1$ because axiom $\mathsf{ax}$ is
+not applicable:
+\[
+  \den{f} \xrightarrow{p_1} \cdots \xrightarrow{p_k} h_k
+  \xrightarrow{\mathsf{ax}?} \text{STUCK}
+\]
+then the \emph{repair} is: modify $f$ so that $h_k$ satisfies the
+precondition of $\mathsf{ax}$.  The modification is localized to
+the subterm at position $\mathsf{pos}_{k+1}$ of $h_k$.
+\end{theorem}
+
+\begin{example}
+A program tries to compute the sum of a list but uses multiplication
+instead of addition:
+\begin{lstlisting}
+def f(xs):
+    acc = 0
+    for x in xs: acc *= x  # BUG: should be +=
+    return acc
+\end{lstlisting}
+
+Path search toward spec $S = \mathsf{py\_sum}(xs)$:
+\begin{enumerate}
+  \item $\den{f} = \fold(\mathsf{MUL}, \ldots)$ (detected from loop).
+  \item Normalize: $\fold(\mathsf{MUL}, 0, \ldots) = 0$ (because
+    $0 \times \text{anything} = 0$ by absorbing zero axiom).
+  \item Target: $\mathsf{py\_sum}(xs)$ normalizes to
+    $\fold(\mathsf{ADD}, 0, \ldots)$.
+  \item STUCK: $\fold(\mathsf{MUL}, \ldots) \neq \fold(\mathsf{ADD}, \ldots)$.
+    The path constructor D1 applies but the operation tag differs:
+    $\mathsf{MUL} \neq \mathsf{ADD}$.
+\end{enumerate}
+
+Repair suggestion: ``Change $\mathsf{MUL}$ to $\mathsf{ADD}$ at
+the loop accumulation step (line 3: \texttt{*=} $\to$ \texttt{+=}).''
+\end{example}
+
+
+% ══════════════════════════════════════════════════════════
+\part{The Twenty-Four Dichotomies}
+% ══════════════════════════════════════════════════════════
+

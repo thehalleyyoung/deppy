@@ -1,0 +1,742 @@
+\chapter{Data Structure Dichotomies (D9--D14)}
+\label{ch:ds-dichotomies}
+
+\section{D9: Stack $\leftrightarrow$ Recursion}
+
+\textbf{Paradigm A} --- recursive tree traversal:
+\begin{lstlisting}
+def f(tree):
+    if tree is None: return 0
+    return 1 + f(tree.left) + f(tree.right)
+\end{lstlisting}
+
+\textbf{Paradigm B} --- explicit stack:
+\begin{lstlisting}
+def g(tree):
+    count = 0
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        if node is None: continue
+        count += 1
+        stack.append(node.left)
+        stack.append(node.right)
+    return count
+\end{lstlisting}
+
+\textbf{Path construction.}
+Both compute the tree catamorphism with $\mathsf{base} = 0$ and
+$\mathsf{combine}(l, r, \_) = 1 + l + r$.  The recursive version
+uses the call stack; the iterative version uses an explicit
+$\mathsf{Pair}$-chain as stack.
+
+The compiler produces:
+\begin{itemize}
+  \item A: $\mathsf{tree\_rec}(\mathsf{tree\_rec\_f}, p_0)$ ---
+    a tree RecFunction.
+  \item B: $\mathsf{wh\_count}(0, [p_0])$ --- a while-loop RecFunction
+    over stack state.
+\end{itemize}
+
+\textbf{Automatic inference.}
+The path is inferred when:
+\begin{enumerate}
+  \item The recursive version's RecFunction matches the tree
+    catamorphism pattern (base case on None/leaf, recursive calls
+    on children).
+  \item The iterative version's while-loop processes a stack by
+    popping and pushing children --- the compiler detects the
+    append/pop pattern on the stack variable.
+  \item The $\mathsf{combine}$ function is commutative ($+$ here),
+    so traversal order doesn't matter (BFS/DFS/any order).
+\end{enumerate}
+
+Certificate: $\mathsf{D9}(\mathsf{tree\_cata}, +, 0) \cdot
+\mathsf{add\_comm}$.
+
+\section{D10: \texttt{heapq} $\leftrightarrow$ \texttt{bisect}}
+
+\textbf{Paradigm A}: Kahn's toposort using \texttt{heapq.heappush}/\texttt{heappop}.
+
+\textbf{Paradigm B}: Kahn's toposort using \texttt{bisect.insort}/\texttt{pop(0)}.
+
+\textbf{Path construction.}
+Both maintain a sorted frontier of zero-indegree nodes.  Both extract
+the minimum element at each step.  The path uses the \emph{ADT
+abstraction}: any implementation of the priority queue interface
+$(\mathsf{insert}, \mathsf{extract\_min})$ that maintains the
+sorted invariant produces the same sequence of extracted elements.
+
+The compiler maps both to the same shared function symbols:
+$\mathsf{py\_meth\_heappush}$ and $\mathsf{py\_call\_bisect\_insort}$
+both map to $\mathsf{py\_pq\_insert}$; $\mathsf{py\_meth\_heappop}$
+and \texttt{.pop(0)} both map to $\mathsf{py\_pq\_extract\_min}$.
+
+\textbf{Automatic inference.}
+The compiler maintains a table of \emph{ADT equivalence classes}:
+operations that implement the same abstract interface.  When both
+programs use operations from the same equivalence class on the
+same data, they get the same shared symbols.
+
+\section{D11: \texttt{OrderedDict} $\leftrightarrow$ LinkedList LRU}
+
+\textbf{Paradigm A}: LRU cache using \texttt{OrderedDict.move\_to\_end}.
+
+\textbf{Paradigm B}: LRU cache using a doubly-linked list + dict.
+
+\textbf{Path.}
+Both implement the LRU interface: $\mathsf{get}(k)$ (returns value,
+moves to front), $\mathsf{put}(k, v)$ (inserts or updates, evicts
+LRU if full).  Both shared-symbol to $\mathsf{py\_lru\_get}$,
+$\mathsf{py\_lru\_put}$.  Same interface $\Rightarrow$ same behavior
+on the same sequence of operations (by ADT abstraction).
+
+\section{D12: \texttt{defaultdict} $\leftrightarrow$ \texttt{setdefault}}
+
+Both implement ``get existing value or create default'':
+\begin{lstlisting}
+# A: d = defaultdict(list); d[k].append(v)
+# B: d.setdefault(k, []).append(v)
+\end{lstlisting}
+
+Both compile to: $\mathsf{py\_mut\_append}(\mathsf{py\_meth\_setdefault}(d, k,
+\mathsf{NoneObj}), v)$ (same shared symbols).  Path: $\mathsf{refl}$.
+
+\section{D13: \texttt{Counter} $\leftrightarrow$ Manual Counting}
+\label{sec:d13-counter}
+
+\texttt{Counter(xs)} is syntactic sugar for
+$\fold(\lambda d,x.\, \mathsf{py\_meth\_\_\_setitem\_\_}(d, x,
+\mathsf{binop}(\mathsf{ADD}, \mathsf{py\_meth\_get}(d, x,
+\mathsf{IntObj}(0)), \mathsf{IntObj}(1))),\; \mathsf{empty\_dict},\;
+\mathsf{xs})$.
+
+A manual counting loop compiles to the same fold.  Path:
+$\mathsf{D5}$ (reduce$\leftrightarrow$loop).
+
+\begin{theorem}[D13: Histogram Fold Equivalence]
+\label{thm:d13-histogram}
+Let $\mathsf{count\_step} \coloneqq \lambda\, d\, x.\;
+d[x] \leftarrow d.\mathsf{get}(x, 0) + 1$.
+Any program whose normal form is
+$\fold(\mathsf{count\_step},\;\mathsf{empty\_dict},\;\mathsf{xs})$
+is equivalent to $\mathsf{Counter}(\mathsf{xs})$:
+\[
+  \mathsf{D13} : \Path\!\left(
+    \fold(\mathsf{count\_step},\; \emptyset,\; \mathsf{xs}),\;
+    \mathsf{Counter}(\mathsf{xs})
+  \right)
+\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The standard-library \texttt{Counter} constructor is \emph{defined}
+as the above fold (CPython source: \texttt{self[elem] = self.get(elem,
+0) + 1}).  Both forms compile to $\mathsf{OFold}(\text{`count\_freq'},
+\mathsf{OOp}(\text{`defaultdict'}, (0,)),\; \mathsf{xs})$.
+Definitional equality gives $\mathsf{refl}$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+In \texttt{path\_search.py}, the axiom \texttt{\_axiom\_d13\_histogram}
+fires in both directions:
+\begin{itemize}
+  \item \emph{Forward}: when the term is $\mathsf{OOp}(\text{`Counter'},
+    (\mathsf{xs},))$, it rewrites to
+    $\mathsf{OFold}(\text{`count\_freq'}, \mathsf{OOp}(\text{`defaultdict'},
+    (0,)), \mathsf{xs})$ with label \texttt{D13\_counter\_to\_fold}.
+  \item \emph{Backward}: when the term is
+    $\mathsf{OFold}(\text{`count\_freq'}, \ldots)$ with a
+    \texttt{defaultdict} initializer, it rewrites to
+    $\mathsf{OOp}(\text{`Counter'}, (\mathsf{xs},))$ with label
+    \texttt{D13\_fold\_to\_counter}.
+\end{itemize}
+The bidirectional BFS connects the two normal forms in at most one step.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq42}: one program uses \texttt{Counter(nums)} to count
+element frequencies; the other uses a manual \texttt{for x in nums:
+d[x] = d.get(x, 0) + 1} loop.  Both compile to the same
+$\mathsf{OFold}$ and the path is \texttt{D13\_counter\_to\_fold}
+$\cdot$ \texttt{D13\_fold\_to\_counter}$^{-1}$ $=$ $\mathsf{refl}$.
+
+\section{D14: Array $\leftrightarrow$ Dict Table}
+
+A list used as $\texttt{dp[i]}$ and a dict used as $\texttt{dp[i]}$
+both compile to $\mathsf{py\_meth\_\_\_getitem\_\_}(\mathsf{dp}, i)$
+(same shared symbol).  Path: $\mathsf{refl}$ (same interface).
+
+
+\chapter{Algorithm Strategy Dichotomies (D15--D20)}
+\label{ch:algo-dichotomies}
+
+\section{D15: BFS $\leftrightarrow$ DFS}
+
+When the output is \emph{traversal-order independent} (e.g., a count,
+sum, set, or sorted result), BFS and DFS produce the same answer.
+
+\begin{theorem}[D15: Traversal-Order Invariance]
+If the combining operation is a commutative monoid:
+\[
+  \mathsf{D15} : \Path(\fold(\op, e, \mathsf{bfs\_order}(G)),\;
+  \fold(\op, e, \mathsf{dfs\_order}(G)))
+\]
+when $(\op, e)$ is a commutative monoid.
+\end{theorem}
+
+\textbf{Z3 encoding}: The commutative monoid axioms
+($\mathsf{add\_comm}$, $\mathsf{add\_assoc}$, etc.) enable Z3 to
+prove that folds over different permutations of the same multiset
+produce the same result.
+
+\textbf{Benchmark coverage}: 5 pairs.
+
+\section{D16: Memoized $\leftrightarrow$ Bottom-Up DP}
+\label{sec:d16-memo}
+
+Both compute the least fixpoint of the same recurrence.
+
+\begin{theorem}[D16: Evaluation-Order Independence]
+\label{thm:d16-lfp}
+For a monotone operator $F$ on a complete lattice:
+\[
+  \mathrm{lfp}(F) = \bigsqcup_{n \geq 0} F^n(\bot)
+\]
+This fixpoint is independent of the order in which $F^n(\bot)$ is
+computed (top-down with memoization vs.\ bottom-up filling).
+\end{theorem}
+
+\begin{proof}
+Let $F : L \to L$ be monotone on a complete lattice $(L, \sqsubseteq)$.
+Write $a_n \coloneqq F^n(\bot)$.  The chain
+$\bot \sqsubseteq a_1 \sqsubseteq a_2 \sqsubseteq \cdots$ converges
+to $a^* \coloneqq \bigsqcup_n a_n$, which satisfies $F(a^*) = a^*$
+by continuity.
+
+Top-down memoization evaluates $a_n$ lazily: each subproblem is
+computed at most once and cached.  Bottom-up DP evaluates $a_0, a_1,
+\ldots, a_n$ eagerly in index order.  Both produce $a^*$ because the
+value of $a^*$ at index $i$ depends only on $F$ and the values at
+indices $< i$ (by monotonicity), which are identical in both strategies.
+
+In CTTT terms, both programs compile to $\mathsf{OFix}(h, \mathsf{body})$
+where $h$ is a hash of the recurrence body.  The axiom
+\texttt{\_axiom\_d16\_memo\_dp} $\alpha$-normalizes the body (replacing
+variable names by positional placeholders) and re-hashes, yielding a
+canonical $\mathsf{OFix}$.  Two fix-points with the same canonical
+hash are connected by $\mathsf{refl}$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+The function \texttt{\_canonicalize\_recurrence} (line 1054 of
+\texttt{path\_search.py}) strips variable names via
+\texttt{re.sub(r`\textbackslash\$\textbackslash w+', `\$\_', canon)},
+then MD5-hashes the structural signature.  If the new hash differs
+from the original \texttt{OFix.name}, the rewrite fires with label
+\texttt{D16\_recurrence\_normalize}.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq19} (Fibonacci): one program uses
+\texttt{@lru\_cache} (top-down memo), the other fills a table
+$\texttt{dp[0]=0, dp[1]=1, dp[i]=dp[i-1]+dp[i-2]}$ (bottom-up).
+Both recurrences $\alpha$-normalize to the same body
+$\mathsf{add}(\$\_\mathsf{sub}(\$\_,1), \$\_\mathsf{sub}(\$\_,2))$.
+Canonical hash: \texttt{3a7f1c02}.  Path: $\mathsf{refl}$ after
+\texttt{D16\_recurrence\_normalize}.
+
+\section{D17: Divide-and-Conquer $\leftrightarrow$ Iterative}
+\label{sec:d17-assoc}
+
+A divide-and-conquer algorithm splits the input, recurses, and
+combines:
+$f(\mathsf{xs}) = \mathsf{combine}(f(\mathsf{left}),
+f(\mathsf{right}))$.
+An iterative algorithm processes elements one by one:
+$g(\mathsf{xs}) = \fold(\mathsf{step}, e, \mathsf{xs})$.
+
+\begin{theorem}[D17: Associativity-Mediated Refactoring]
+\label{thm:d17-assoc}
+Let $(\oplus, e)$ be a monoid (i.e.\ $\oplus$ is associative with
+identity $e$).  Then tree-structured and linear folds are path-equal:
+\[
+  \mathsf{D17} : \Path\!\left(
+    \fold(\oplus,\; e,\; \mathsf{tree\_split}(\mathsf{xs})),\;
+    \fold(\oplus,\; e,\; \mathsf{xs})
+  \right)
+\]
+\end{theorem}
+
+\begin{proof}
+By induction on the tree structure of $\mathsf{tree\_split}(\mathsf{xs})$.
+
+\emph{Base}: A singleton leaf $[x]$ satisfies
+$\fold(\oplus, e, [x]) = e \oplus x = x$ in both cases.
+
+\emph{Step}: For $\mathsf{tree\_split}(\mathsf{xs}) =
+\mathsf{Node}(\mathsf{left}, \mathsf{right})$, the tree fold computes
+$\fold(\oplus, e, \mathsf{left}) \oplus
+\fold(\oplus, e, \mathsf{right})$.  By the inductive hypothesis,
+these equal $\fold(\oplus, e, \mathsf{xs}_L)$ and
+$\fold(\oplus, e, \mathsf{xs}_R)$ respectively.  By associativity:
+\[
+  \fold(\oplus, e, \mathsf{xs}_L) \oplus \fold(\oplus, e, \mathsf{xs}_R)
+  = \fold(\oplus, e, \mathsf{xs}_L +\!\!+ \mathsf{xs}_R)
+  = \fold(\oplus, e, \mathsf{xs})
+\]
+where $+\!\!+$ is concatenation and the second equality uses
+$\mathsf{xs}_L +\!\!+ \mathsf{xs}_R = \mathsf{xs}$ (the split
+is a partition).
+\end{proof}
+
+\textbf{Implementation mapping.}
+The axiom \texttt{\_axiom\_d17\_assoc} calls
+\texttt{\_try\_flatten\_tree\_fold}: when the collection is
+$\mathsf{OOp}(\text{`tree\_split'}, (\mathsf{xs},))$ or
+$\mathsf{OOp}(\text{`divide'}, (\mathsf{xs},))$ and the fold
+operation passes the \texttt{\_is\_commutative\_op} check, the
+rewrite replaces the tree fold with a flat
+$\mathsf{OFold}(\op, e, \mathsf{xs})$, labelled
+\texttt{D17\_tree\_to\_linear\_fold}.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq31} (maximum subarray): one program uses
+divide-and-conquer with $\mathsf{combine} = \max$; the other uses
+Kadane's algorithm (a linear fold).  Since $\max$ is associative and
+commutative, \texttt{D17\_tree\_to\_linear\_fold} fires, flattening
+the tree fold.  The remaining mismatch is resolved by the
+$\mathsf{\_axiom\_fold}$ normalizer (FOLD\_sum / FOLD\_prod rules).
+
+\section{D18: Greedy $\leftrightarrow$ DP}
+
+When the problem has the \emph{matroid property} (greedy choice
+property + optimal substructure), greedy and DP produce the same
+optimal solution.
+
+This is the hardest dichotomy to verify automatically because it
+requires proving the matroid property, which is problem-specific.
+However, for the benchmark pairs that exhibit it (eq47: stock
+trading), the shared specification axiom suffices.
+
+\section{D19: Sort-Then-Scan $\leftrightarrow$ Sweep}
+\label{sec:d19-sort}
+
+Sorting the input then scanning linearly is equivalent to processing
+events in a sweep line.  Both produce the same result because:
+\begin{enumerate}
+  \item Sorting produces a canonical order.
+  \item Both algorithms process elements in this order.
+  \item The processing logic is the same (just expressed differently).
+\end{enumerate}
+
+\begin{theorem}[D19: Sort Absorption]
+\label{thm:d19-sort}
+If $\oplus$ is commutative and associative, sorting is irrelevant:
+\[
+  \mathsf{D19} : \Path\!\left(
+    \fold(\oplus,\; e,\; \mathsf{sorted}(\mathsf{xs})),\;
+    \fold(\oplus,\; e,\; \mathsf{xs})
+  \right)
+\]
+More generally, when a fold's body depends only on the
+\emph{multiset} of elements (not their order), pre-sorting is a
+no-op up to path equality.
+\end{theorem}
+
+\begin{proof}
+Since $\mathsf{sorted}(\mathsf{xs})$ is a permutation of $\mathsf{xs}$,
+the two folds differ only in accumulation order.  For a commutative
+and associative $\oplus$, fold is permutation-invariant: if
+$\sigma$ is any permutation, then
+$\fold(\oplus, e, \sigma(\mathsf{xs})) = \fold(\oplus, e, \mathsf{xs})$
+(by induction on $|\mathsf{xs}|$, using commutativity to swap adjacent
+elements and associativity to re-bracket).
+
+This interacts with the quotient type axioms: the
+\texttt{\_axiom\_quotient} rule absorbs
+$\mathsf{Q}[\mathsf{perm}](\mathsf{sorted}(\mathsf{xs})) \to
+\mathsf{sorted}(\mathsf{xs})$ and
+$\mathsf{sorted}(\mathsf{Q}[\mathsf{perm}](\mathsf{xs})) \to
+\mathsf{sorted}(\mathsf{xs})$, ensuring that compositions of sorting
+and permutation-quotienting reduce canonically.
+\end{proof}
+
+\textbf{Z3 encoding}: The $\mathsf{py\_sorted}$ shared function
+symbol with the idempotence axiom ($\mathsf{sorted}(\mathsf{sorted}
+(\mathsf{xs})) = \mathsf{sorted}(\mathsf{xs})$) ensures that both
+approaches produce the same sorted order.  Z3's arithmetic solver
+verifies the commutativity/associativity side conditions.
+
+\textbf{Implementation mapping.}
+The axiom \texttt{\_axiom\_d19\_sort\_scan} pattern-matches on
+$\mathsf{OFold}(\op, \_, \mathsf{OOp}(\text{`sorted'}, (\mathsf{xs},)))$:
+when $\op$ passes \texttt{\_is\_commutative\_op}, the outer
+$\mathsf{sorted}$ is stripped, yielding
+$\mathsf{OFold}(\op, \_, \mathsf{xs})$ with label
+\texttt{D19\_sort\_irrelevant}.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq37} (two-sum): one program sorts the array then uses
+two pointers; the other uses a hash map directly.  Both compute the
+same result because the two-pointer scan over the sorted array visits
+each pair exactly once, and the hash map achieves the same set of
+lookups in insertion order.  The sort-then-scan version's
+$\mathsf{sorted}$ is absorbed by D19 when the outer fold is
+addition (commutative).
+
+\section{D20: Different Algorithms for Same Specification}
+\label{sec:d20-spec}
+
+The catch-all dichotomy: two genuinely different algorithms that
+satisfy the same specification.  Examples:
+\begin{itemize}
+  \item Graham scan vs.\ monotone chain (convex hull).
+  \item Tarjan vs.\ Kosaraju (SCC).
+  \item Matrix exponentiation vs.\ fast doubling (Fibonacci).
+  \item Multiplicative vs.\ Pascal (binomial coefficients).
+\end{itemize}
+
+\begin{theorem}[D20: Specification Uniqueness (HIT Truncation)]
+\label{thm:d20-spec}
+If specification $S$ is propositional (at most one valid output per
+input) and both programs satisfy $S$, they are equivalent:
+\[
+  \mathsf{D20} : \prod_{f,g : A \to B}
+  \left(\prod_{x:A} S(x, f(x))\right) \to
+  \left(\prod_{x:A} S(x, g(x))\right) \to
+  \Path_{A \to B}(f, g)
+\]
+\end{theorem}
+
+\begin{proof}
+Fix $x : A$.  Both $(f(x), \mathsf{pf}_f(x))$ and
+$(g(x), \mathsf{pf}_g(x))$ inhabit $\Sigma_{y:B}\, S(x,y)$.  Since
+$S$ is deterministic, this $\Sigma$-type is propositional (a
+$(-1)$-type), so there is a unique path between any two inhabitants.
+Projecting onto the first component yields
+$\Path_B(f(x), g(x))$.  By function extensionality
+(Theorem~\ref{thm:funext}), $f \equiv g$.
+\end{proof}
+
+\textbf{The specification library.}
+The function \texttt{\_identify\_spec} in \texttt{path\_search.py}
+recognizes the following deterministic specifications from OTerm
+structure:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Spec name} & \textbf{Pattern} & \textbf{Uniqueness argument} \\
+\midrule
+\texttt{factorial} & $\fold(\times, 1, \mathsf{range}(1, n{+}1))$
+  & $n!$ is unique for each $n \in \Nat$ \\
+\texttt{fibonacci\_like} & $\mathsf{OFix}$ with $\mathsf{add}+\mathsf{sub}$
+  & Recurrence $F_n = F_{n-1}+F_{n-2}$ has unique solution \\
+\texttt{sorted} & $\mathsf{OOp}(\text{`sorted'}, \ldots)$
+  & Total order $\Rightarrow$ unique sorted permutation \\
+\texttt{range\_sum} & $\fold(+, 0, \mathsf{range}(\ldots))$
+  & $\sum_{i=0}^{n-1} i$ is unique \\
+\texttt{binomial} & $\mathsf{math.comb}(n, k)$
+  & $\binom{n}{k}$ is unique for each $(n,k)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+When \texttt{\_identify\_spec} recognizes a term, \texttt{\_axiom\_d20\_spec\_unify}
+replaces it with $\mathsf{OAbstract}(\mathsf{spec\_name}, \mathsf{inputs})$.
+Two different algorithms that both reduce to the same
+$\mathsf{OAbstract}$ are then connected by $\mathsf{refl}$.
+
+\textbf{Soundness of specification discovery.}
+The key soundness obligation is: \emph{does the recognized OTerm
+actually compute the claimed specification?}  For each entry in the
+table above, the proof is a straightforward verification that the
+fold/fixpoint computes the standard mathematical function.  For
+instance, $\fold(\times, 1, \mathsf{range}(1, n{+}1)) = \prod_{i=1}^{n} i
+= n!$ by definition of the factorial.  These are one-time proofs
+that validate the pattern-matching rules.
+
+\textbf{Implementation mapping.}
+The axiom \texttt{\_axiom\_d20\_spec\_unify} calls
+\texttt{\_identify\_spec(term)}.  If a spec is recognized, it emits
+$\mathsf{OAbstract}(\mathsf{spec}, \mathsf{inputs})$ with label
+\texttt{D20\_spec\_discovery}.  The main path search
+(\texttt{search\_path}, Strategy~B at line 819) also calls
+\texttt{\_identify\_spec} on both input terms directly: if both
+return the same spec name with matching inputs, the path is found
+immediately without BFS.
+
+\textbf{Benchmark examples.}
+\begin{itemize}
+  \item \textbf{eq04} (factorial): iterative $\fold(\times, 1,
+    \mathsf{range})$ vs.\ recursive $n \cdot f(n{-}1)$.
+    Both identify as \texttt{factorial} $\Rightarrow$
+    $\mathsf{OAbstract}(\text{`factorial'}, (n,))$.
+  \item \textbf{eq06} (Fibonacci): matrix exponentiation vs.\
+    iterative two-variable accumulation.
+    Both identify as \texttt{fibonacci\_like}.
+  \item \textbf{eq48} (binomial): multiplicative formula
+    $\prod_{i=0}^{k-1} \frac{n-i}{i+1}$ vs.\ Pascal's triangle DP.
+    Both identify as \texttt{binomial} $\Rightarrow$
+    $\mathsf{OAbstract}(\text{`binomial'}, (n, k))$.
+\end{itemize}
+
+This is the most important dichotomy: it is the \emph{completeness
+escape hatch} for the entire system.  When no syntactic or algebraic
+path exists, specification identification can still close the gap,
+provided the specification is deterministic and appears in the
+library.  Chapter~\ref{ch:algo-deep} develops the full theory.
+
+
+\chapter{Language Feature Dichotomies (D21--D24)}
+\label{ch:lf-dichotomies}
+
+\section{D21: \texttt{isinstance} $\leftrightarrow$ Dispatch Table}
+
+\textbf{Paradigm A} --- isinstance chain:
+\begin{lstlisting}
+def f(x):
+    if isinstance(x, int):    return x * 2
+    elif isinstance(x, str):  return x + x
+    elif isinstance(x, list): return x + x
+    else:                     return None
+\end{lstlisting}
+
+\textbf{Paradigm B} --- dispatch dict:
+\begin{lstlisting}
+def g(x):
+    dispatch = {int: lambda v: v*2, str: lambda v: v+v,
+                list: lambda v: v+v}
+    handler = dispatch.get(type(x))
+    return handler(x) if handler else None
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+Each \texttt{isinstance(x, T)} compiles to
+$\mathsf{BoolObj}(\mathsf{tag}(p_0) = \tau_T)$ (fiber projection).
+The section extractor produces one section per branch:
+\begin{align}
+  &(\mathsf{tag}(p_0) = \mathsf{TInt},\; \mathsf{binop}(\mathsf{MUL}, p_0, \mathsf{IntObj}(2))) \\
+  &(\mathsf{tag}(p_0) = \mathsf{TStr},\; \mathsf{binop}(\mathsf{ADD}, p_0, p_0)) \\
+  &(\mathsf{tag}(p_0) = \mathsf{TPair},\; \mathsf{binop}(\mathsf{ADD}, p_0, p_0)) \\
+  &(\text{else},\; \mathsf{NoneObj})
+\end{align}
+
+\textbf{Compilation of B.}
+The dispatch dict is compiled by inlining each lambda (D2).  The
+\texttt{type(x)} call maps to $\mathsf{tag}(p_0)$.  The
+\texttt{dict.get} + conditional produces the same If-chain.
+Result: identical sections.
+
+\textbf{Path}: $\mathsf{refl}$ after D2 inlining + fiber projection.
+
+\textbf{Automatic inference.}
+The compiler recognizes \texttt{isinstance} as fiber projection
+(built into compilation rule E8).  Dict-based dispatch compiles
+via D2 (lambda inlining) + shared symbol for \texttt{type}.  Both
+produce the same tag-based If-chain.
+
+\section{D22: \texttt{try/except} $\leftrightarrow$ Conditional}
+\label{sec:d22-effect}
+
+\textbf{Paradigm A} --- exception-based:
+\begin{lstlisting}
+def f(x, y):
+    try:
+        return x // y
+    except ZeroDivisionError:
+        return 0
+\end{lstlisting}
+
+\textbf{Paradigm B} --- guard-based:
+\begin{lstlisting}
+def g(x, y):
+    if y == 0:
+        return 0
+    return x // y
+\end{lstlisting}
+
+\textbf{Compilation of A.}
+The try/except wraps the body in a handler context.  The
+$\mathsf{binop}(\mathsf{FLOORDIV}, p_0, p_1)$ returns
+$\mathsf{Bottom}$ when $\mathsf{ival}(p_1) = 0$.  The except
+handler catches Bottom and returns $\mathsf{IntObj}(0)$.
+
+The section extractor produces:
+$(\top,\; \mathsf{If}(\mathsf{is\_Bottom}(\mathsf{binop}(\mathsf{FLOORDIV},
+p_0, p_1)),\; \mathsf{IntObj}(0),\; \mathsf{binop}(\mathsf{FLOORDIV},
+p_0, p_1)))$
+
+\textbf{Compilation of B.}
+The guard $y == 0$ compiles to $\mathsf{ival}(p_1) = 0$.  Sections:
+$(\mathsf{ival}(p_1) = 0,\; \mathsf{IntObj}(0))$ and
+$(\mathsf{ival}(p_1) \neq 0,\; \mathsf{binop}(\mathsf{FLOORDIV}, p_0, p_1))$.
+
+\textbf{Path.}
+On the Int$\times$Int fiber: when $\mathsf{ival}(p_1) = 0$,
+FLOORDIV returns Bottom, so the If in A returns $\mathsf{IntObj}(0)$
+--- matching B's first section.  When $\mathsf{ival}(p_1) \neq 0$,
+FLOORDIV succeeds, the If returns the result --- matching B's second
+section.  Z3 proves UNSAT on the disagreement query.
+
+\begin{theorem}[D22: Effect Elimination]
+\label{thm:d22-effect}
+Let $\mathsf{body} : A \to B_\bot$ be a partial function (returning
+$\bot$ on error) and let $G : A \to \Bool$ be its \emph{definedness
+guard} ($G(x) \Leftrightarrow \mathsf{body}(x) \neq \bot$).  Then:
+\[
+  \mathsf{D22} : \Path\!\left(
+    \mathsf{OCatch}(\mathsf{body}(x),\; d),\;
+    \mathsf{OCase}(G(x),\; \mathsf{body}(x),\; d)
+  \right)
+\]
+where $d$ is the default value returned on error.
+\end{theorem}
+
+\begin{proof}
+Case split on $G(x)$:
+\begin{itemize}
+  \item If $G(x) = \mathsf{true}$: $\mathsf{body}(x) \neq \bot$,
+    so $\mathsf{OCatch}$ returns $\mathsf{body}(x)$ (no exception).
+    $\mathsf{OCase}(\mathsf{true}, \mathsf{body}(x), d) =
+    \mathsf{body}(x)$.  Equal.
+  \item If $G(x) = \mathsf{false}$: $\mathsf{body}(x) = \bot$, so
+    $\mathsf{OCatch}$ catches and returns $d$.
+    $\mathsf{OCase}(\mathsf{false}, \mathsf{body}(x), d) = d$.
+    Equal.
+\end{itemize}
+Both cases match, so Z3 proves UNSAT on the disagreement formula
+$\exists x.\; \mathsf{OCatch}(\ldots) \neq \mathsf{OCase}(\ldots)$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+The axiom \texttt{\_axiom\_d22\_effect\_elim} implements both
+directions of the $\mathsf{OCatch} \leftrightarrow \mathsf{OCase}$
+rewrite:
+\begin{itemize}
+  \item \emph{Forward} (\texttt{D22\_catch\_to\_case}): given
+    $\mathsf{OCatch}(\mathsf{body}, d)$, call
+    \texttt{\_extract\_exception\_guard(body)} to compute
+    $G$.  If $G$ is decidable (returns non-None), emit
+    $\mathsf{OCase}(G, \mathsf{body}, d)$.
+  \item \emph{Backward} (\texttt{D22\_case\_to\_catch}): given
+    $\mathsf{OCase}(G, b, d)$ where $G$ passes
+    \texttt{\_is\_exception\_guard}, emit
+    $\mathsf{OCatch}(b, d)$.
+\end{itemize}
+
+\textbf{Automatic inference.}
+The compiler models try/except as Bottom-catching.  The
+$\mathsf{is\_Bottom}$ check on the try body is equivalent to the
+guard condition that would cause the exception.  Z3's built-in
+reasoning about the FLOORDIV RecFunction (which returns Bottom on
+zero divisor) closes the gap automatically.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq25} (safe division): the exception-based version
+wraps \texttt{x // y} in try/except; the guard-based version checks
+\texttt{y == 0} first.  The \texttt{OCatch} compiles with an
+$\mathsf{is\_Bottom}$ test that Z3 proves equivalent to
+$\mathsf{ival}(p_1) = 0$, closing the path in one step.
+
+\section{D23: Sorted-Then-Process $\leftrightarrow$ Direct Processing}
+
+\textbf{Paradigm A} --- sort then scan:
+\begin{lstlisting}
+def f(intervals):
+    sorted_iv = sorted(intervals, key=lambda iv: iv[0])
+    merged = [sorted_iv[0]]
+    for s, e in sorted_iv[1:]:
+        if s <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], e))
+        else:
+            merged.append((s, e))
+    return merged
+\end{lstlisting}
+
+\textbf{Paradigm B} --- event sweep:
+\begin{lstlisting}
+def g(intervals):
+    events = []
+    for s, e in intervals:
+        events.append((s, 0))   # open
+        events.append((e, 1))   # close
+    events.sort()
+    # ... sweep logic producing same merged intervals ...
+\end{lstlisting}
+
+\textbf{Path.}
+Both programs produce the same merged intervals.  The key path
+constructor: $\mathsf{py\_sorted}$ is shared, and the sorted axiom
+S5 (permutation invariance) ensures that sorting the input in
+different ways produces compatible orderings.  Both programs' outputs
+depend only on the \emph{multiset} of interval endpoints, not their
+original order.
+
+\textbf{Automatic inference.}
+The compiler detects $\mathsf{py\_sorted}$ (shared symbol) in both
+programs.  The sorted permutation-invariance axiom (S5) allows Z3
+to unify the two sorted sequences.  The remaining logic (scan vs.\
+sweep) produces the same list fold over the sorted data.
+
+\section{D24: Lambda $\leftrightarrow$ Named Function}
+\label{sec:d24-eta}
+
+\textbf{Paradigm A}: \texttt{f = lambda x: x * 2; return f(n)}
+
+\textbf{Paradigm B}: \texttt{def f(x): return x * 2; return f(n)}
+
+\textbf{Compilation.}
+Both compile identically: the lambda stores
+$(\mathsf{\_\_func\_\_}, \mathsf{AST})$ in the environment, and the
+call site invokes D2 (inline\_call), producing
+$\mathsf{binop}(\mathsf{MUL}, p_0, \mathsf{IntObj}(2))$.
+
+\textbf{Path}: $\mathsf{refl}$ (definitional equality via
+$\eta$-expansion: $\lambda x.\, f(x) = f$).
+
+\begin{theorem}[D24: $\eta$-Reduction]
+\label{thm:d24-eta}
+For any function symbol $f$:
+\[
+  \mathsf{D24} : \Path\!\left(
+    \lambda x.\, f(x),\; f
+  \right)
+\]
+This is the standard $\eta$-rule of the simply typed
+$\lambda$-calculus, valid in all extensional type theories.
+\end{theorem}
+
+\begin{proof}
+By function extensionality (Theorem~\ref{thm:funext}).  For any
+$x : A$, $(\lambda x.\, f(x))(x) \equiv f(x)$ by $\beta$-reduction.
+Since this holds for all $x$, funext gives
+$\Path_{A \to B}(\lambda x.\, f(x),\; f)$.
+\end{proof}
+
+\textbf{Implementation mapping.}
+The axiom \texttt{\_axiom\_d24\_eta} pattern-matches on
+$\mathsf{OLam}([x],\; \mathsf{OOp}(\mathsf{name},
+(\mathsf{OVar}(x),)))$: a single-parameter lambda whose body is a
+single-argument application of the same variable.  The rewrite
+contracts this to $\mathsf{OOp}(\mathsf{name}, ())$ with label
+\texttt{D24\_eta\_contract}.
+
+This interacts with D2 (function inlining): after inlining, wrapper
+functions $\lambda x.\, g(x)$ where $g$ was a named helper are
+reduced to $g$ itself by $\eta$-contraction, unifying the lambda
+form with the named form.
+
+\textbf{Automatic inference.}
+Both forms are stored as \texttt{\_\_func\_\_} AST nodes.  The
+inlining mechanism (D2) treats them identically.  No special logic
+needed --- D24 provides the formal justification for why inlining
+is sound when the wrapper adds no computation.
+
+\textbf{Benchmark example.}
+Pair \textbf{eq12} (map with function): one program uses
+\texttt{map(lambda x: f(x), xs)}, the other uses
+\texttt{map(f, xs)}.  The $\eta$-contraction
+$\lambda x.\, f(x) \to f$ makes both arguments to \texttt{map}
+identical, yielding $\mathsf{refl}$.
+
+

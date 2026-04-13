@@ -1,0 +1,741 @@
+\chapter{The \v{C}ech Complex}
+\label{ch:cech}
+
+The \v{C}ech complex translates the question ``do local equivalence
+judgments glue to a global equivalence?'' into finite-dimensional
+linear algebra.  We construct it in full, mirroring the implementation
+in \texttt{cohomology.py}.
+
+\section{Cochain Groups}
+
+\begin{definition}[\v{C}ech Cochain Groups]
+\label{def:cech-cochain}
+Given a covering $\covers = \{U_i\}_{i \in I}$ of the parameter space,
+the \v{C}ech cochain groups of the isomorphism sheaf are:
+\begin{align}
+  C^0(\covers, \Iso) &\coloneqq \prod_{i \in I} \Iso(U_i) \\
+  C^1(\covers, \Iso) &\coloneqq \prod_{(i,j) \in I^{(2)}} \Iso(U_i \cap U_j) \\
+  C^2(\covers, \Iso) &\coloneqq \prod_{(i,j,k) \in I^{(3)}}
+    \Iso(U_i \cap U_j \cap U_k)
+\end{align}
+where $I^{(2)} = \{(i,j) : i < j\}$ and
+$I^{(3)} = \{(i,j,k) : i < j < k\}$ are the sets of ordered pairs
+and triples of covering indices.
+\end{definition}
+
+A 0-cochain $\varphi \in C^0$ is a collection of local
+equivalence judgments --- one per fiber.  A 1-cochain
+$\psi \in C^1$ is a collection of ``transition functions'' on
+pairwise overlaps.
+
+\begin{definition}[LocalJudgment --- Algorithmic $C^0$ Entry]
+\label{def:local-judgment}
+Each entry of $C^0$ is computed by the function
+\texttt{\_check\_fiber} and recorded as a \emph{LocalJudgment}:
+\[
+  \mathsf{LocalJudgment}(U_i) \coloneqq
+  \bigl(\,\mathit{fiber} : I,\;
+         \mathit{is\_eq} : \{0, 1, {?}\},\;
+         \mathit{cex} : \PyObj \cup \{\bot\},\;
+         \mathit{concrete} : \Bool
+  \bigr)
+\]
+Here $\mathit{is\_eq} = 1$ iff the Z3 query
+$\exists x \in U_i.\;\den{f}(x) \neq \den{g}(x)$ returns
+\textsc{unsat}; $\mathit{is\_eq} = 0$ iff it returns \textsc{sat}
+with a concrete counterexample $\mathit{cex}$; and
+$\mathit{is\_eq} = {?}$ on timeout.  The flag $\mathit{concrete}$
+is $\mathsf{true}$ when the counterexample uses only interpreted
+functions (no uninterpreted symbols).
+\end{definition}
+
+\begin{remark}[From LocalJudgments to $C^0$]
+The 0-cochain is the vector
+$\varphi = (\varphi_i)_{i \in I}$ with
+$\varphi_i \coloneqq \mathit{is\_eq}(U_i) \in \mathrm{GF}(2)$
+(mapping $1 \mapsto 1$, $0 \mapsto 0$, ${?} \mapsto 0$).
+\end{remark}
+
+\section{Coboundary Operators}
+
+\begin{definition}[Coboundary $\delta^0 : C^0 \to C^1$]
+\label{def:delta0}
+For $\varphi = (\varphi_i)_{i \in I} \in C^0$:
+\[
+  (\delta^0 \varphi)_{ij} \coloneqq \restr{\varphi_j}{U_{ij}} \circ
+    \restr{\varphi_i}{U_{ij}}^{-1}
+\]
+This measures the ``twist'' between two local equivalences on their
+overlap.  If both are isomorphisms (local equivalence holds on both
+fibers), the transition function is the identity.
+\end{definition}
+
+\begin{definition}[Coboundary $\delta^1 : C^1 \to C^2$]
+\label{def:delta1}
+For $\psi = (\psi_{ij})_{(i,j) \in I^{(2)}} \in C^1$:
+\[
+  (\delta^1 \psi)_{ijk} \coloneqq \restr{\psi_{jk}}{U_{ijk}} \circ
+    \restr{\psi_{ij}}{U_{ijk}}^{-1} \circ \restr{\psi_{ik}}{U_{ijk}}
+\]
+This is the \emph{cocycle condition}: the transition functions around
+every triple overlap must compose to the identity.
+\end{definition}
+
+\begin{definition}[Overlap Relation --- Implementation]
+\label{def:overlap-impl}
+In the implementation, two fiber combos $U_i = (t_1^i, \ldots, t_n^i)$
+and $U_j = (t_1^j, \ldots, t_n^j)$ are declared to \emph{overlap}
+when they share at least one axis:
+\[
+  U_i \cap U_j \neq \emptyset
+  \quad\Longleftrightarrow\quad
+  \exists\, k \in \{1, \ldots, n\}.\;
+    t_k^i = t_k^j
+\]
+This captures the geometric fact that fibers in a product space
+intersect along shared coordinate hyperplanes.
+\end{definition}
+
+\begin{lemma}[$\delta^1 \circ \delta^0 = 0$]
+\label{lem:d1d0}
+The composition of coboundary operators is zero:
+$\delta^1(\delta^0(\varphi)) = 0$ for all $\varphi \in C^0$.
+\end{lemma}
+
+\begin{proof}
+Let $\varphi = (\varphi_i)$ and set $\psi_{ij} \coloneqq (\delta^0\varphi)_{ij}
+= \restr{\varphi_j}{U_{ij}} \circ \restr{\varphi_i}{U_{ij}}^{-1}$.
+On a triple overlap $U_{ijk}$:
+\begin{align*}
+  (\delta^1\psi)_{ijk}
+  &= \restr{\psi_{jk}}{U_{ijk}} \circ \restr{\psi_{ij}}{U_{ijk}}^{-1}
+     \circ \restr{\psi_{ik}}{U_{ijk}} \\
+  &= \bigl(\varphi_k \circ \varphi_j^{-1}\bigr) \circ
+     \bigl(\varphi_j \circ \varphi_i^{-1}\bigr)^{-1} \circ
+     \bigl(\varphi_k \circ \varphi_i^{-1}\bigr) \\
+  &= \varphi_k \circ \varphi_j^{-1} \circ \varphi_i \circ \varphi_j^{-1}
+     \circ \varphi_k \circ \varphi_i^{-1}
+\end{align*}
+where all restrictions are to $U_{ijk}$.  Over $\mathrm{GF}(2)$ (where
+every element is its own inverse and the group is abelian), this reduces
+to $0 + 0 + 0 = 0$.  In general, one may verify directly that the
+six terms cancel pairwise by the group structure: $\varphi_k \varphi_k^{-1} =
+\mathrm{id}$ etc., giving the identity.
+\end{proof}
+
+\section{Cohomology Groups}
+
+\begin{definition}[\v{C}ech Cohomology Groups]
+\label{def:cech-cohomology}
+\begin{align}
+  \Hzero(\covers, \Iso) &\coloneqq \ker(\delta^0) \\
+  \Hone(\covers, \Iso) &\coloneqq \ker(\delta^1) / \mathrm{im}(\delta^0)
+\end{align}
+\end{definition}
+
+\begin{remark}[Interpretation of $\Hzero$ and $\Hone$]
+\label{rem:h0h1-meaning}
+$\Hzero$ is the group of \emph{global sections}: 0-cochains whose local
+judgments already agree on all overlaps (i.e., a consistent global
+equivalence witness).
+
+$\Hone$ measures the \emph{obstruction to gluing}.  A 1-cocycle
+$\psi \in \ker(\delta^1)$ satisfies the cocycle condition on every
+triple overlap, but may not arise as the coboundary of a 0-cochain.
+When $\Hone \neq 0$, there exist ``twisted'' transition functions
+that cannot be straightened --- the local equivalences fail to extend
+globally.
+\end{remark}
+
+\begin{theorem}[The Descent Theorem]
+\label{thm:descent-full}
+$\Sem_f \iso \Sem_g$ (global equivalence) if and only if:
+\begin{enumerate}
+  \item $\Hzero(\covers, \Iso) \neq 0$ (there exist local equivalences), and
+  \item $\Hone(\covers, \Iso) = 0$ (local equivalences glue to a
+    global one).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+$(\Rightarrow)$ If $\Sem_f \iso \Sem_g$ globally, restricting to
+each fiber gives local equivalences that trivially glue (the
+transition functions are all identities).  The resulting 1-cocycle
+$\psi_{ij} = \mathrm{id}$ is manifestly $\delta^0$ of the constant
+global section, so $[\psi] = 0 \in \Hone$.
+
+$(\Leftarrow)$ If local equivalences exist and $\Hone = 0$, every
+1-cocycle is a coboundary: there exists $\varphi \in C^0$ with
+$\delta^0 \varphi = \psi$.  In particular, the transition functions
+$(\delta^0 \varphi)_{ij}$ are identities (since each $\varphi_i$ is
+an isomorphism).  By the gluing axiom of the sheaf $\Iso$, the
+family $(\varphi_i)$ extends uniquely to a global section
+$\varphi \in \Gamma(X, \Iso)$, which is the desired global
+isomorphism $\Sem_f \iso \Sem_g$.
+\end{proof}
+
+\section{Computation over GF(2)}
+
+In our setting, the coefficient sheaf takes values in $\{0, 1\}$
+(isomorphism or not).  The \v{C}ech complex reduces to a chain
+complex over $\mathrm{GF}(2)$ (the field with two elements):
+\[
+  \mathrm{GF}(2)^{|I|} \xrightarrow{\delta^0}
+  \mathrm{GF}(2)^{|I^{(2)}|} \xrightarrow{\delta^1}
+  \mathrm{GF}(2)^{|I^{(3)}|}
+\]
+
+\begin{proposition}[$\Hone$ via Rank--Nullity over $\mathrm{GF}(2)$]
+\label{prop:h1-rank}
+Let $D_0$ and $D_1$ denote the matrix representations of $\delta^0$
+and $\delta^1$ over $\mathrm{GF}(2)$.  Then:
+\[
+  \dim_{\mathrm{GF}(2)} \Hone
+  = \dim \ker(D_1) - \dim \mathrm{im}(D_0)
+  = \bigl(|I^{(2)}| - \mathrm{rank}(D_1)\bigr) - \mathrm{rank}(D_0)
+\]
+This is a finite linear algebra computation, decidable in
+$O(n^3)$ where $n = |I^{(2)}|$ via Gaussian elimination over
+$\mathrm{GF}(2)$.
+\end{proposition}
+
+\begin{proof}
+By the rank--nullity theorem, $\dim \ker(D_1) = |I^{(2)}| - \mathrm{rank}(D_1)$.
+The first isomorphism theorem gives
+$\Hone = \ker(D_1) / \mathrm{im}(D_0)$, so
+$\dim \Hone = \dim \ker(D_1) - \dim \mathrm{im}(D_0) = \dim \ker(D_1) - \mathrm{rank}(D_0)$.
+(Note $\mathrm{im}(D_0) \subseteq \ker(D_1)$ by Lemma~\ref{lem:d1d0}.)
+\end{proof}
+
+\begin{definition}[$D_0$ and $D_1$ Matrices (Implementation)]
+\label{def:d0d1-matrices}
+Given an enumeration of fibers $U_0, \ldots, U_{n-1}$ and overlaps
+$o_0, \ldots, o_{m-1}$:
+\begin{itemize}
+  \item $(D_0)_{k,i} = 1$ iff fiber $U_i$ participates in overlap $o_k$
+    (i.e., $o_k = (U_a, U_b)$ and $i \in \{a, b\}$).
+  \item $(D_1)_{t,(k)} = 1$ iff overlap $o_k$ participates in triple
+    $t$ (overlaps sharing a common fiber form a triple).
+\end{itemize}
+The function \texttt{compute\_cech\_h1} constructs these matrices
+and calls \texttt{\_gf2\_rank} (Gaussian elimination) to compute
+the ranks.
+\end{definition}
+
+\begin{definition}[CechResult --- Algorithmic Output]
+\label{def:cech-result}
+The output of the full \v{C}ech computation is a record:
+\[
+  \mathsf{CechResult} \coloneqq
+  \bigl(\,
+    h_0 : \Nat,\;\;
+    h_1 : \Nat,\;\;
+    n : \Nat,\;\;
+    u : \Nat,\;\;
+    \mathit{obs} : \mathcal{P}(I)
+  \bigr)
+\]
+where $h_0 = |\{i : \varphi_i = 1\}|$ (number of equivalent fibers),
+$h_1 = \dim \Hone$, $n$ is the total number of fibers, $u$ is the
+number of timeouts, and $\mathit{obs}$ is the set of fibers carrying
+concrete counterexamples.  The verdict is:
+\[
+  \mathsf{CechResult}.\mathit{equivalent} =
+  \begin{cases}
+    \mathsf{True}  & \text{if } \mathit{obs} = \emptyset,\; h_0 > 0,\;
+                      h_1 = 0,\; u = 0 \\
+    \mathsf{False} & \text{if } \mathit{obs} \neq \emptyset \\
+    \mathsf{None}  & \text{otherwise (inconclusive)}
+  \end{cases}
+\]
+\end{definition}
+
+
+\chapter{The Mayer--Vietoris Sequence}
+\label{ch:mayer-vietoris}
+
+The Mayer--Vietoris sequence is the principal tool for splitting a
+cohomological computation into smaller, independently solvable pieces.
+When a covering admits a two-piece decomposition, the long exact
+sequence relates the cohomology of the whole to the cohomology of the
+parts and their intersection.
+
+\section{Setup and Statement}
+
+\begin{definition}[Two-Piece Decomposition]
+\label{def:two-piece}
+Let $X$ be the parameter space with covering $\covers$.  A
+\emph{two-piece decomposition} is a pair of open subsets $A, B
+\subseteq X$ with $X = A \cup B$.  We write $\covers_A = \{U_i
+\cap A\}$, $\covers_B = \{U_i \cap B\}$ for the induced coverings
+of $A$ and $B$, and $\covers_{A \cap B}$ for the covering of
+$A \cap B$.
+\end{definition}
+
+\begin{theorem}[Mayer--Vietoris]
+\label{thm:mv}
+For $X = A \cup B$, there is a long exact sequence:
+\[
+  0 \to \Hzero(X) \xrightarrow{\rho} \Hzero(A) \oplus \Hzero(B)
+  \xrightarrow{\alpha} \Hzero(A \cap B)
+  \xrightarrow{\delta^*} \Hone(X) \xrightarrow{\sigma} \Hone(A) \oplus \Hone(B)
+  \to \Hone(A \cap B) \to \ldots
+\]
+where $\rho$ is the restriction map, $\alpha(s_A, s_B) \coloneqq
+\restr{s_A}{A \cap B} - \restr{s_B}{A \cap B}$, and $\delta^*$
+is the connecting homomorphism.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The sequence arises from the short exact sequence of cochain
+complexes
+\[
+  0 \to C^\bullet(\covers, \Iso) \xrightarrow{\rho}
+  C^\bullet(\covers_A, \Iso) \oplus C^\bullet(\covers_B, \Iso)
+  \xrightarrow{\alpha}
+  C^\bullet(\covers_{A\cap B}, \Iso) \to 0
+\]
+where $\rho$ is diagonal restriction and $\alpha$ is the difference
+of restrictions.  Exactness at each level follows from the sheaf
+axiom (sections that agree on an overlap patch to a section of
+the union).  Applying the snake lemma / zig-zag construction to
+this short exact sequence of cochain complexes yields the long
+exact sequence in cohomology.
+\end{proof}
+
+\section{The Connecting Homomorphism}
+
+\begin{definition}[Connecting Homomorphism $\delta^*$]
+\label{def:connecting-hom}
+Given $\gamma \in \Hzero(A \cap B)$ (a local equivalence on the
+overlap), the connecting homomorphism $\delta^*(\gamma) \in \Hone(X)$
+is constructed as follows:
+\begin{enumerate}
+  \item Since $\alpha$ is surjective on cochains, lift $\gamma$ to
+    $(c_A, c_B) \in C^0(\covers_A) \oplus C^0(\covers_B)$ with
+    $\alpha(c_A, c_B) = \gamma$.
+  \item Apply $\delta^0$ to get $(\delta^0 c_A, \delta^0 c_B) \in
+    C^1(\covers_A) \oplus C^1(\covers_B)$.
+  \item The element $\delta^0 c_A$ and $\delta^0 c_B$ patch to a
+    well-defined 1-cocycle on $X$ (by the exactness of the cochain
+    sequence).  Its class in $\Hone(X)$ is $\delta^*(\gamma)$.
+\end{enumerate}
+\end{definition}
+
+\begin{corollary}[Mayer--Vietoris Vanishing Criterion]
+\label{cor:mv-vanishing}
+If $\Hone(A) = \Hone(B) = 0$ and the map $\alpha : \Hzero(A) \oplus
+\Hzero(B) \to \Hzero(A \cap B)$ is surjective, then $\Hone(X) = 0$.
+
+In words: if both pieces are locally equivalent and they agree on
+their overlap, then global equivalence holds.
+\end{corollary}
+
+\begin{proof}
+Exactness at $\Hone(X)$ in the Mayer--Vietoris sequence gives
+$\ker(\sigma) = \mathrm{im}(\delta^*)$.  Surjectivity of $\alpha$
+implies $\Hzero(A \cap B) / \mathrm{im}(\alpha) = 0$, so by
+exactness at $\Hzero(A \cap B)$ we have $\mathrm{im}(\delta^*) = 0$.
+Exactness at $\Hone(X)$ further gives $\ker(\sigma) = 0$, and since
+$\sigma$ maps into $\Hone(A) \oplus \Hone(B) = 0$, we conclude
+$\Hone(X) = 0$.
+\end{proof}
+
+\section{Application: Type-Fiber Splitting}
+
+\begin{example}[Typed vs.\ Untyped Inputs]
+\label{ex:mv-typed}
+A common decomposition: $A = \{$inputs where both programs agree
+on types$\}$ and $B = \{$inputs where type inference is ambiguous$\}$.
+If equivalence holds on both pieces and they agree on the overlap
+(inputs where both type inferences apply), global equivalence follows
+by Corollary~\ref{cor:mv-vanishing}.
+\end{example}
+
+\begin{proposition}[Mayer--Vietoris for the Type Fibration]
+\label{prop:mv-fibration}
+Let $\pi : \PyObj \to \mathsf{TypeTag}$ be the type fibration with
+fibers $U_\tau = \pi^{-1}(\tau)$.  Partition the type tags into two
+disjoint subsets $S_A, S_B \subseteq \mathsf{TypeTag}$ with
+$S_A \cup S_B = \mathsf{TypeTag}$.  Set
+$A \coloneqq \bigsqcup_{\tau \in S_A} U_\tau$ and
+$B \coloneqq \bigsqcup_{\tau \in S_B} U_\tau$.  Then:
+\begin{enumerate}
+  \item If $S_A \cap S_B = \emptyset$ (the partition is strict), then
+    $A \cap B = \emptyset$ and the Mayer--Vietoris sequence degenerates:
+    $\Hone(X) \cong \Hone(A) \oplus \Hone(B)$.
+  \item If the partition is not strict (some fibers are shared), the
+    connecting homomorphism $\delta^*$ measures the mismatch of local
+    equivalences on the shared fibers.
+\end{enumerate}
+\end{proposition}
+
+
+\chapter{Stalks and the Stalk Criterion}
+\label{ch:stalks}
+
+We now develop the \emph{stalk} of the semantic presheaf, the
+infinitesimal counterpart to the fiber-wise sections of the \v{C}ech
+complex.  The stalk criterion provides the bridge between
+point-by-point semantic equality and sheaf-theoretic isomorphism.
+
+\section{Stalks of the Value Presheaf}
+
+\begin{definition}[Stalk]
+\label{def:stalk}
+The \emph{stalk} of $\Sem_f$ at a point $x = (v_1, \ldots, v_n)$ is
+the filtered colimit:
+\[
+  (\Sem_f)_x \coloneqq \varinjlim_{x \in U} \Sem_f(U) = \den{f}(v_1, \ldots, v_n)
+\]
+--- the program's output on the specific input $x$.  The colimit is
+taken over all open sets $U$ containing $x$ in the site $\site$.
+\end{definition}
+
+\begin{definition}[Germ]
+\label{def:germ}
+A \emph{germ} of $\Sem_f$ at $x$ is an equivalence class $[s, U]$ where
+$s \in \Sem_f(U)$ and $x \in U$.  Two germs $[s, U]$ and $[t, V]$
+are equivalent if there exists $W \subseteq U \cap V$ with $x \in W$
+and $\restr{s}{W} = \restr{t}{W}$.
+\end{definition}
+
+\begin{remark}
+For the semantic presheaf, the stalk $(\Sem_f)_x$ is literally the
+value $f(x)$: a concrete Python object.  Germs capture the idea that
+two programs may be ``locally the same near $x$'' even when their
+global definitions differ.
+\end{remark}
+
+\section{The Stalk Criterion}
+
+\begin{theorem}[Stalk Criterion for Presheaf Isomorphism]
+\label{thm:stalk-criterion}
+Let $\eta : \presheaf \to \mathcal{G}$ be a morphism of sheaves on
+a topological space (or site) $X$.  Then $\eta$ is an isomorphism
+if and only if the induced map on stalks
+$\eta_x : \presheaf_x \to \mathcal{G}_x$
+is an isomorphism for every point $x \in X$.
+\end{theorem}
+
+\begin{proof}
+$(\Rightarrow)$ Immediate: an isomorphism of sheaves induces isomorphisms
+on all stalks (colimits commute with isomorphisms).
+
+$(\Leftarrow)$ We must show $\eta$ is both injective and surjective
+on sections.
+
+\emph{Injectivity.}
+Let $s, t \in \presheaf(U)$ with $\eta_U(s) = \eta_U(t)$.  For
+every $x \in U$, the stalk map satisfies
+$\eta_x([s, U]) = \eta_x([t, U])$.  Since $\eta_x$ is injective,
+$[s, U] = [t, U]$ in $\presheaf_x$ for all $x \in U$.
+That is, for each $x$ there exists $W_x \subseteq U$ with $x \in W_x$
+and $\restr{s}{W_x} = \restr{t}{W_x}$.  Since $\{W_x\}_{x \in U}$
+covers $U$ and $\presheaf$ is a sheaf (locality axiom), $s = t$.
+
+\emph{Surjectivity.}
+Let $r \in \mathcal{G}(U)$.  For each $x \in U$, surjectivity of
+$\eta_x$ yields a germ $[s_x, V_x]$ with $\eta_x([s_x, V_x]) =
+[r, U]$ in $\mathcal{G}_x$.  After shrinking $V_x$, we may
+assume $\eta_{V_x}(s_x) = \restr{r}{V_x}$.  On overlaps $V_x
+\cap V_y$, the sections $s_x$ and $s_y$ satisfy
+$\eta(\restr{s_x}{V_x \cap V_y}) = \eta(\restr{s_y}{V_x \cap V_y})
+= \restr{r}{V_x \cap V_y}$.  By the injectivity already established,
+$\restr{s_x}{V_x \cap V_y} = \restr{s_y}{V_x \cap V_y}$.  The
+gluing axiom of $\presheaf$ produces $s \in \presheaf(U)$ with
+$\restr{s}{V_x} = s_x$, and $\eta_U(s) = r$.
+\end{proof}
+
+\begin{corollary}[Stalk Criterion for Program Equivalence]
+\label{cor:stalk-equiv}
+Define the morphism $\eta : \Sem_f \to \Sem_g$ by
+$\eta_U(s) \coloneqq s$ whenever $\restr{\den{f}}{U} = \restr{\den{g}}{U}$.
+Then $f \equiv g$ if and only if $\eta_x$ is an isomorphism for
+every $x$ --- i.e., $f(x) = g(x)$ for all inputs $x$.
+\end{corollary}
+
+\begin{remark}
+This is trivially true: it restates the \emph{definition} of
+extensional equivalence.  The stalk criterion becomes non-trivial
+when combined with the \v{C}ech complex: it justifies reducing the
+check from ``all points $x$'' to ``all type fibers $U_i$'', since
+each fiber is an open set in the site.
+\end{remark}
+
+\section{Symbolic Stalks}
+
+\begin{definition}[Symbolic Stalk]
+\label{def:symbolic-stalk}
+Let $U_\tau = \pi^{-1}(\tau)$ be a type fiber.  The \emph{symbolic
+stalk} of $\Sem_f$ on $U_\tau$ is the Z3 term
+\[
+  (\Sem_f)_{U_\tau} \coloneqq \den{f}\bigl|_{U_\tau}
+  = \den{f}(x_1, \ldots, x_n)
+  \quad\text{subject to}\quad
+  \bigwedge_{k=1}^{n} \mathsf{tag}(x_k) = \tau_k
+\]
+where $x_1, \ldots, x_n$ are Z3 symbolic variables and
+$(\tau_1, \ldots, \tau_n)$ is the fiber combo.
+\end{definition}
+
+\begin{proposition}[Symbolic Stalk Criterion]
+\label{prop:symbolic-stalk}
+$f \equiv g$ on fiber $U_\tau$ if and only if the Z3 query
+\[
+  \bigwedge_{k=1}^{n} \mathsf{tag}(x_k) = \tau_k
+  \;\wedge\;
+  \den{f}(x_1, \ldots, x_n) \neq \den{g}(x_1, \ldots, x_n)
+\]
+returns \textsc{unsat}.  This is exactly the query performed by
+\texttt{\_check\_fiber} (line 626 of \texttt{checker.py}):
+it asserts the fiber constraints, then asks whether the two
+compiled terms can differ.
+\end{proposition}
+
+\begin{theorem}[Stalk Criterion $\Longleftrightarrow$ \v{C}ech $\Hzero$]
+\label{thm:stalk-h0}
+The following are equivalent:
+\begin{enumerate}
+  \item $\eta_x$ is an isomorphism for every $x \in U_i$ (stalk
+    criterion on fiber $U_i$).
+  \item $\varphi_i = 1$ in the 0-cochain (local equivalence on $U_i$).
+  \item The Z3 symbolic stalk query on $U_i$ returns \textsc{unsat}.
+\end{enumerate}
+In particular, $\Hzero(\covers, \Iso) \neq 0$ iff there exists at
+least one fiber on which the stalk criterion holds.
+\end{theorem}
+
+
+% ══════════════════════════════════════════════════════════
+\part{The Cubical--Cohomological Synthesis}
+% ══════════════════════════════════════════════════════════
+
+\chapter{Why Neither Alone Suffices}
+\label{ch:neither-alone}
+
+Cubical type theory and \v{C}ech cohomology are each powerful on their
+own, but each has a fundamental limitation when applied to program
+equivalence.  Their \emph{combination} overcomes both limitations,
+enabling results that neither achieves alone.  We formalize these
+limitations as impossibility propositions and illustrate the failure
+modes with concrete examples from the benchmark suite.
+
+\section{What Cubical Type Theory Alone Can Do}
+
+Cubical type theory provides:
+\begin{enumerate}
+  \item \textbf{Path types}: a constructive notion of equality between
+    programs ($\Path_{A \to B}(f, g)$).
+  \item \textbf{Function extensionality}: reduce global equivalence to
+    pointwise equality ($\forall x.\, f(x) = g(x)$).
+  \item \textbf{Path constructors}: equational axioms generate paths
+    (commutativity, fold fusion, $\beta$-reduction, etc.).
+  \item \textbf{Kan composition}: chain multiple axiom applications
+    into multi-step proofs.
+  \item \textbf{HITs}: quotient programs by equational theories.
+\end{enumerate}
+
+\textbf{Limitation}: cubical type theory alone treats the input space
+as \emph{monolithic}.  Function extensionality says ``check $f(x) =
+g(x)$ for all $x$'' --- but it gives no strategy for \emph{decomposing}
+the problem when the input space is large or polymorphic.  A single
+Z3 query over the full input space either succeeds (lucky --- the
+programs compile to the same term) or fails (the terms are too
+different for Z3 to handle).
+
+\begin{proposition}[Cubical Incompleteness for Polymorphic Inputs]
+\label{prop:cubical-incomplete}
+Let $f, g : \PyObj \to \PyObj$ be two programs such that:
+\begin{enumerate}
+  \item $f \equiv g$ (extensionally equal on all inputs), but
+  \item $\den{f} \not\equiv_{\mathrm{syn}} \den{g}$ (the compiled Z3
+    terms are syntactically distinct --- they use different
+    uninterpreted functions).
+\end{enumerate}
+Then no finite chain of equational axiom applications (cubical path
+constructors) reduces $\den{f}$ to $\den{g}$ in the monolithic
+setting: the Z3 query $\den{f}(x) \neq \den{g}(x)$ returns
+\textsc{sat} (with a spurious model assigning uninterpreted functions
+arbitrarily).
+\end{proposition}
+
+In practice: cubical path construction succeeds for 6 out of 50
+equivalent pairs (the ones where the compiler produces identical Z3
+terms).  The other 44 fail because the Z3 terms are structurally
+different.
+
+\section{What \v{C}ech Cohomology Alone Can Do}
+
+\v{C}ech cohomology provides:
+\begin{enumerate}
+  \item \textbf{Decomposition}: break the input space into type fibers
+    (a covering $\{U_i\}$).
+  \item \textbf{Local checking}: verify equivalence fiber by fiber
+    ($\Iso(U_i)$ for each $i$).
+  \item \textbf{Gluing}: the descent theorem says local equivalences
+    extend globally iff $\Hone = 0$.
+  \item \textbf{Obstruction detection}: if $\Hone \neq 0$, identify
+    the specific fiber where programs disagree.
+\end{enumerate}
+
+\textbf{Limitation}: cohomology alone has no mechanism for proving
+that two \emph{structurally different} Z3 terms are equal on a fiber.
+It can \emph{decompose} the problem into smaller queries, but each
+query still asks Z3 to prove term equality.  If the terms use different
+uninterpreted functions, Z3 returns SAT (false counterexample) on
+every fiber.
+
+\begin{proposition}[Cohomological Incompleteness without Normalization]
+\label{prop:coh-incomplete}
+There exist programs $f, g$ with $f \equiv g$ such that:
+\begin{enumerate}
+  \item On every fiber $U_i$, the Z3 terms $\den{f}|_{U_i}$ and
+    $\den{g}|_{U_i}$ are \emph{syntactically distinct} (they use
+    different uninterpreted function symbols).
+  \item The \v{C}ech complex with raw Z3 terms (no normalization)
+    reports $\Hone \neq 0$ on every fiber --- a false positive.
+\end{enumerate}
+The obstruction is not geometric but \emph{algebraic}: it arises
+from the uninterpreted function symbols, not from genuine behavioral
+disagreement.
+\end{proposition}
+
+In practice: the cohomological decomposition correctly identifies the
+relevant fibers and correctly glues local results, but the local
+checks produce the same false counterexamples as the monolithic query.
+
+\section{Example: eq02 --- Different OTerms, $\Hone = 0$}
+
+\begin{example}[eq02: Regex Tokenizer vs.\ State Machine]
+\label{ex:eq02}
+Consider the benchmark pair \texttt{eq02a} / \texttt{eq02b}:
+\begin{itemize}
+  \item \texttt{eq02a}: tokenizes text via \texttt{re.findall},
+    counts with \texttt{Counter}, sorts by frequency.
+  \item \texttt{eq02b}: tokenizes via a hand-written character-level
+    state machine, counts with \texttt{defaultdict}, sorts via
+    \texttt{heapq.nsmallest}.
+\end{itemize}
+
+The two implementations are extensionally equal (they produce
+identical sorted word-frequency lists), but they compile to
+\emph{completely different} Z3 OTerms:
+\begin{itemize}
+  \item $\den{\mathtt{eq02a}}$ uses uninterpreted functions for
+    \texttt{re.findall} and \texttt{Counter}.
+  \item $\den{\mathtt{eq02b}}$ uses uninterpreted functions for
+    character predicates and \texttt{heapq.nsmallest}.
+\end{itemize}
+
+\textbf{What cubical alone sees}: the Z3 query
+$\den{\mathtt{eq02a}}(x) \neq \den{\mathtt{eq02b}}(x)$ returns
+\textsc{sat} immediately --- Z3 assigns uninterpreted functions to
+make the terms differ.  No equational axiom closes this gap.
+
+\textbf{What cohomology alone sees}: the covering has a single
+fiber $U_{\mathsf{str}}$ (both functions take string input).  The
+local check on $U_{\mathsf{str}}$ still fails for the same reason
+--- the OTerms are structurally incomparable.
+
+\textbf{What the combination sees}: on fiber $U_{\mathsf{str}}$,
+the cubical normalization engine applies fold--unfold axioms and
+commutativity to canonicalize both OTerms into a common normal form
+(sorted word-frequency list).  With normalized terms, the Z3 query
+returns \textsc{unsat}, and since there is only one fiber,
+$\Hone = 0$ trivially.
+
+This pair demonstrates that \emph{normalization within fibers}
+(cubical) followed by \emph{gluing} (cohomological) succeeds
+where either method alone fails.
+\end{example}
+
+\section{What the Combination Achieves}
+
+The synthesis of cubical and cohomological methods overcomes both
+limitations:
+
+\begin{enumerate}
+  \item \textbf{Cubical paths on each fiber}: the path constructors
+    (equational axioms) are applied \emph{within} each fiber of the
+    covering, not globally.  This is more effective because:
+    \begin{itemize}
+      \item On a specific fiber (e.g., $\mathsf{tag}(p) = \mathsf{Int}$),
+        the Z3 terms are more constrained, and axioms like commutativity
+        and fold canonicalization are more likely to close the gap.
+      \item Different fibers may require \emph{different} axioms.
+    \end{itemize}
+
+  \item \textbf{Cohomological gluing of cubical paths}: the local paths
+    $p_i : \Path(\den{f}|_{U_i}, \den{g}|_{U_i})$ on each fiber must
+    \emph{glue} to a global path.  The \v{C}ech complex ensures
+    coherence: the transition functions on overlaps must be compatible.
+
+  \item \textbf{The cubical Kan condition as a sheaf condition}: in
+    cubical type theory, the Kan condition says ``every open box has a
+    filler.''  In sheaf theory, the gluing axiom says ``local sections
+    that agree on overlaps extend to a global section.''  These are
+    \emph{the same condition} expressed in different languages.
+\end{enumerate}
+
+\begin{theorem}[The Cubical--Cohomological Synthesis]
+\label{thm:synthesis}
+Let $\{U_i\}$ be a covering of the input space by type fibers.
+Let $p_i : \Path(\den{f}|_{U_i}, \den{g}|_{U_i})$ be cubical paths
+on each fiber, verified by Z3 with equational axioms.
+
+Then there exists a global path $p : \Path(\den{f}, \den{g})$
+if and only if $\Hone(\{U_i\}, \Iso(\Sem_f, \Sem_g)) = 0$.
+
+Moreover, the global path is constructed by the Kan filling operation
+applied to the open box formed by the local paths and the transition
+functions.
+\end{theorem}
+
+\begin{proof}
+\emph{(Existence $\Leftarrow$).}
+Each local path $p_i$ gives a section of the path sheaf
+$\Path(\Sem_f, \Sem_g)$ over $U_i$.  The transition functions on
+overlaps $U_{ij}$ check that $p_i|_{U_{ij}}$ and $p_j|_{U_{ij}}$
+are compatible (both prove the same equality on the overlap --- this
+is automatic since they both prove $\den{f} = \den{g}$, and equality
+is a proposition, so all proofs are equal by truncation).
+
+Since $\Hone = 0$, the local sections glue to a global section by
+the descent theorem.  This global section is the desired path $p$.
+
+The Kan construction: the local paths form an open box in the product
+$\prod_i \interval \to \PyObj^{U_i}$.  The Kan filling produces a
+function $p : \interval \to \PyObj^X$ (over the full input space)
+with $p(\mathsf{i0}) = \den{f}$ and $p(\mathsf{i1}) = \den{g}$.
+
+\emph{(Necessity $\Rightarrow$).}
+If a global path $p$ exists, restricting to each fiber gives local
+paths $p|_{U_i}$.  These automatically agree on overlaps (restriction
+of a global section to overlaps is coherent).  The corresponding
+1-cocycle is a coboundary ($\delta^0$ of the global section), so
+$\Hone = 0$.
+\end{proof}
+
+\begin{proposition}[Formalization of the Gap]
+\label{prop:gap}
+Define the following three decision procedures:
+\begin{enumerate}
+  \item $\mathsf{Cubical}(f, g)$: construct $\Path(\den{f}, \den{g})$
+    via equational axioms on the monolithic input space.
+  \item $\mathsf{Cech}(f, g)$: compute $\Hone$ from raw (unnormalized)
+    fiber judgments.
+  \item $\mathsf{CCTT}(f, g)$: normalize on each fiber (cubical), then
+    compute $\Hone$ (cohomological).
+\end{enumerate}
+Then there exist equivalent pairs $(f, g)$ such that
+$\mathsf{Cubical}(f, g) = {?}$ and $\mathsf{Cech}(f, g) = {?}$
+but $\mathsf{CCTT}(f, g) = \mathsf{True}$.
+
+Conversely, for all $(f, g)$: if $\mathsf{Cubical}(f, g) =
+\mathsf{True}$ or $\mathsf{Cech}(f, g) = \mathsf{True}$, then
+$\mathsf{CCTT}(f, g) = \mathsf{True}$.  The combined method
+\emph{strictly extends} both individual methods.
+\end{proposition}
+
+
