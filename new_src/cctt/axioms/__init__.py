@@ -424,3 +424,11 @@ __all__ = [
     'p47_dunder',
     'p48_match',
 ]
+
+# ── Mathlib axioms (auto-generated from Mathlib4) ─────────────
+try:
+    from cctt.axioms.mathlib import MATHLIB_AXIOMS, MATHLIB_REGISTRY
+    ALL_AXIOMS.extend(MATHLIB_AXIOMS)
+    AXIOM_REGISTRY.update(MATHLIB_REGISTRY)
+except ImportError:
+    pass  # mathlib axioms not yet generated
