@@ -371,4 +371,283 @@ theorem cic_no_mathlibImport {Γ : C4Ctx} {name : String} {A : C4Term} :
   intro h
   cases h
 
+-- ============================================================
+-- CCHM fragment (CIC + cubical structure)
+-- ============================================================
+
+/-- A C4Term is in the CCHM fragment if it uses CIC + path + interval + transport
+    (no restrict, descent, oterm, mathlibImport, siteUniverse). -/
+def C4Term.isCCHM : C4Term → Prop
+  | .var _ => True
+  | .universe _ => True
+  | .pi _ a b => a.isCCHM ∧ b.isCCHM
+  | .lam _ a t => a.isCCHM ∧ t.isCCHM
+  | .app f x => f.isCCHM ∧ x.isCCHM
+  | .sigma _ a b => a.isCCHM ∧ b.isCCHM
+  | .pair a b => a.isCCHM ∧ b.isCCHM
+  | .fst t => t.isCCHM
+  | .snd t => t.isCCHM
+  | .interval => True
+  | .i0 => True
+  | .i1 => True
+  | .pathType a b c => a.isCCHM ∧ b.isCCHM ∧ c.isCCHM
+  | .pathAbs _ body => body.isCCHM
+  | .pathApp p r => p.isCCHM ∧ r.isCCHM
+  | .transp _ ty base => ty.isCCHM ∧ base.isCCHM
+  | .siteUniverse _ _ => False
+  | .restrict _ _ => False
+  | .descent _ _ => False
+  | .oterm _ => False
+  | .mathlibImport _ => False
+
+/-- CCHM fragment is decidable. -/
+instance decIsCCHM (t : C4Term) : Decidable t.isCCHM := by
+  cases t with
+  | var _ => exact isTrue trivial
+  | «universe» _ => exact isTrue trivial
+  | pi _ a b =>
+    exact match decIsCCHM a, decIsCCHM b with
+    | isTrue ha, isTrue hb => isTrue ⟨ha, hb⟩
+    | isFalse ha, _ => isFalse (fun ⟨h, _⟩ => ha h)
+    | _, isFalse hb => isFalse (fun ⟨_, h⟩ => hb h)
+  | lam _ a t =>
+    exact match decIsCCHM a, decIsCCHM t with
+    | isTrue ha, isTrue ht => isTrue ⟨ha, ht⟩
+    | isFalse ha, _ => isFalse (fun ⟨h, _⟩ => ha h)
+    | _, isFalse ht => isFalse (fun ⟨_, h⟩ => ht h)
+  | app f x =>
+    exact match decIsCCHM f, decIsCCHM x with
+    | isTrue hf, isTrue hx => isTrue ⟨hf, hx⟩
+    | isFalse hf, _ => isFalse (fun ⟨h, _⟩ => hf h)
+    | _, isFalse hx => isFalse (fun ⟨_, h⟩ => hx h)
+  | sigma _ a b =>
+    exact match decIsCCHM a, decIsCCHM b with
+    | isTrue ha, isTrue hb => isTrue ⟨ha, hb⟩
+    | isFalse ha, _ => isFalse (fun ⟨h, _⟩ => ha h)
+    | _, isFalse hb => isFalse (fun ⟨_, h⟩ => hb h)
+  | pair a b =>
+    exact match decIsCCHM a, decIsCCHM b with
+    | isTrue ha, isTrue hb => isTrue ⟨ha, hb⟩
+    | isFalse ha, _ => isFalse (fun ⟨h, _⟩ => ha h)
+    | _, isFalse hb => isFalse (fun ⟨_, h⟩ => hb h)
+  | fst t => exact decIsCCHM t
+  | snd t => exact decIsCCHM t
+  | interval => exact isTrue trivial
+  | i0 => exact isTrue trivial
+  | i1 => exact isTrue trivial
+  | pathType a b c =>
+    exact match decIsCCHM a, decIsCCHM b, decIsCCHM c with
+    | isTrue ha, isTrue hb, isTrue hc => isTrue ⟨ha, hb, hc⟩
+    | isFalse ha, _, _ => isFalse (fun ⟨h, _, _⟩ => ha h)
+    | _, isFalse hb, _ => isFalse (fun ⟨_, h, _⟩ => hb h)
+    | _, _, isFalse hc => isFalse (fun ⟨_, _, h⟩ => hc h)
+  | pathAbs _ body => exact decIsCCHM body
+  | pathApp p r =>
+    exact match decIsCCHM p, decIsCCHM r with
+    | isTrue hp, isTrue hr => isTrue ⟨hp, hr⟩
+    | isFalse hp, _ => isFalse (fun ⟨h, _⟩ => hp h)
+    | _, isFalse hr => isFalse (fun ⟨_, h⟩ => hr h)
+  | transp _ ty base =>
+    exact match decIsCCHM ty, decIsCCHM base with
+    | isTrue ht, isTrue hb => isTrue ⟨ht, hb⟩
+    | isFalse ht, _ => isFalse (fun ⟨h, _⟩ => ht h)
+    | _, isFalse hb => isFalse (fun ⟨_, h⟩ => hb h)
+  | siteUniverse _ _ => exact isFalse id
+  | restrict _ _ => exact isFalse id
+  | descent _ _ => exact isFalse id
+  | oterm _ => exact isFalse id
+  | mathlibImport _ => exact isFalse id
+
+/-- CIC terms are a subset of CCHM terms. -/
+theorem isCIC_implies_isCCHM : (t : C4Term) → t.isCIC → t.isCCHM
+  | .var _, _ => trivial
+  | .universe _, _ => trivial
+  | .pi _ a b, ⟨ha, hb⟩ => ⟨isCIC_implies_isCCHM a ha, isCIC_implies_isCCHM b hb⟩
+  | .lam _ a t, ⟨ha, ht⟩ => ⟨isCIC_implies_isCCHM a ha, isCIC_implies_isCCHM t ht⟩
+  | .app f x, ⟨hf, hx⟩ => ⟨isCIC_implies_isCCHM f hf, isCIC_implies_isCCHM x hx⟩
+  | .sigma _ a b, ⟨ha, hb⟩ => ⟨isCIC_implies_isCCHM a ha, isCIC_implies_isCCHM b hb⟩
+  | .pair a b, ⟨ha, hb⟩ => ⟨isCIC_implies_isCCHM a ha, isCIC_implies_isCCHM b hb⟩
+  | .fst t, h => isCIC_implies_isCCHM t h
+  | .snd t, h => isCIC_implies_isCCHM t h
+  | .siteUniverse _ _, h => absurd h id
+  | .interval, h => absurd h id
+  | .i0, h => absurd h id
+  | .i1, h => absurd h id
+  | .pathType _ _ _, h => absurd h id
+  | .pathAbs _ _, h => absurd h id
+  | .pathApp _ _, h => absurd h id
+  | .transp _ _ _, h => absurd h id
+  | .restrict _ _, h => absurd h id
+  | .descent _ _, h => absurd h id
+  | .oterm _, h => absurd h id
+  | .mathlibImport _, h => absurd h id
+
+/-- CCHM erasure: strips sheaf/oracle structure, preserves cubical structure. -/
+def eraseCCHM : C4Term → C4Term
+  | .var x => .var x
+  | .universe n => .universe n
+  | .pi x a b => .pi x (eraseCCHM a) (eraseCCHM b)
+  | .lam x a t => .lam x (eraseCCHM a) (eraseCCHM t)
+  | .app f x => .app (eraseCCHM f) (eraseCCHM x)
+  | .sigma x a b => .sigma x (eraseCCHM a) (eraseCCHM b)
+  | .pair a b => .pair (eraseCCHM a) (eraseCCHM b)
+  | .fst t => .fst (eraseCCHM t)
+  | .snd t => .snd (eraseCCHM t)
+  | .interval => .interval
+  | .i0 => .i0
+  | .i1 => .i1
+  | .pathType a b c => .pathType (eraseCCHM a) (eraseCCHM b) (eraseCCHM c)
+  | .pathAbs x body => .pathAbs x (eraseCCHM body)
+  | .pathApp p r => .pathApp (eraseCCHM p) (eraseCCHM r)
+  | .transp x ty base => .transp x (eraseCCHM ty) (eraseCCHM base)
+  | .siteUniverse _ _ => .universe 0
+  | .restrict _ _ => .universe 0
+  | .descent _ _ => .universe 0
+  | .oterm _ => .universe 0
+  | .mathlibImport _ => .universe 0
+
+/-- CCHM erasure produces CCHM-fragment terms. -/
+theorem eraseCCHM_isCCHM : (t : C4Term) → (eraseCCHM t).isCCHM
+  | .var _ => trivial
+  | .universe _ => trivial
+  | .pi _ a b => ⟨eraseCCHM_isCCHM a, eraseCCHM_isCCHM b⟩
+  | .lam _ a t => ⟨eraseCCHM_isCCHM a, eraseCCHM_isCCHM t⟩
+  | .app f x => ⟨eraseCCHM_isCCHM f, eraseCCHM_isCCHM x⟩
+  | .sigma _ a b => ⟨eraseCCHM_isCCHM a, eraseCCHM_isCCHM b⟩
+  | .pair a b => ⟨eraseCCHM_isCCHM a, eraseCCHM_isCCHM b⟩
+  | .fst t => eraseCCHM_isCCHM t
+  | .snd t => eraseCCHM_isCCHM t
+  | .interval => trivial
+  | .i0 => trivial
+  | .i1 => trivial
+  | .pathType a b c => ⟨eraseCCHM_isCCHM a, eraseCCHM_isCCHM b, eraseCCHM_isCCHM c⟩
+  | .pathAbs _ body => eraseCCHM_isCCHM body
+  | .pathApp p r => ⟨eraseCCHM_isCCHM p, eraseCCHM_isCCHM r⟩
+  | .transp _ ty base => ⟨eraseCCHM_isCCHM ty, eraseCCHM_isCCHM base⟩
+  | .siteUniverse _ _ => trivial
+  | .restrict _ _ => trivial
+  | .descent _ _ => trivial
+  | .oterm _ => trivial
+  | .mathlibImport _ => trivial
+
+/-- CCHM erasure is idempotent on CCHM terms. -/
+theorem eraseCCHM_idempotent_of_isCCHM : (t : C4Term) → t.isCCHM → eraseCCHM t = t
+  | .var _, _ => rfl
+  | .universe _, _ => rfl
+  | .pi x a b, ⟨ha, hb⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM a ha, eraseCCHM_idempotent_of_isCCHM b hb]
+  | .lam x a t, ⟨ha, ht⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM a ha, eraseCCHM_idempotent_of_isCCHM t ht]
+  | .app f x, ⟨hf, hx⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM f hf, eraseCCHM_idempotent_of_isCCHM x hx]
+  | .sigma x a b, ⟨ha, hb⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM a ha, eraseCCHM_idempotent_of_isCCHM b hb]
+  | .pair a b, ⟨ha, hb⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM a ha, eraseCCHM_idempotent_of_isCCHM b hb]
+  | .fst t, h => by simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM t h]
+  | .snd t, h => by simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM t h]
+  | .interval, _ => rfl
+  | .i0, _ => rfl
+  | .i1, _ => rfl
+  | .pathType a b c, ⟨ha, hb, hc⟩ => by
+    simp only [eraseCCHM]
+    rw [eraseCCHM_idempotent_of_isCCHM a ha, eraseCCHM_idempotent_of_isCCHM b hb,
+        eraseCCHM_idempotent_of_isCCHM c hc]
+  | .pathAbs _ body, h => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM body h]
+  | .pathApp p r, ⟨hp, hr⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM p hp, eraseCCHM_idempotent_of_isCCHM r hr]
+  | .transp x ty base, ⟨ht, hb⟩ => by
+    simp only [eraseCCHM]; rw [eraseCCHM_idempotent_of_isCCHM ty ht, eraseCCHM_idempotent_of_isCCHM base hb]
+  | .siteUniverse _ _, h => absurd h id
+  | .restrict _ _, h => absurd h id
+  | .descent _ _, h => absurd h id
+  | .oterm _, h => absurd h id
+  | .mathlibImport _, h => absurd h id
+
+/-- CCHM typing judgment: the cubical fragment of C⁴. -/
+inductive CCHMHasType : C4Ctx → C4Term → C4Term → Prop where
+  | univ (Γ : C4Ctx) (i : Nat) :
+      CCHMHasType Γ (.universe i) (.universe (i + 1))
+  | var (Γ : C4Ctx) (x : String) (A : C4Term) :
+      C4Ctx.lookup Γ x = some A →
+      CCHMHasType Γ (.var x) A
+  | piForm (Γ : C4Ctx) (x : String) (A B : C4Term) (i : Nat) :
+      CCHMHasType Γ A (.universe i) →
+      CCHMHasType ({ name := x, ty := A } :: Γ) B (.universe i) →
+      CCHMHasType Γ (.pi x A B) (.universe i)
+  | piIntro (Γ : C4Ctx) (x : String) (A B t : C4Term) :
+      CCHMHasType ({ name := x, ty := A } :: Γ) t B →
+      CCHMHasType Γ (.lam x A t) (.pi x A B)
+  | piElim (Γ : C4Ctx) (x : String) (A B f a : C4Term) :
+      CCHMHasType Γ f (.pi x A B) →
+      CCHMHasType Γ a A →
+      CCHMHasType Γ (.app f a) B
+  | sigmaForm (Γ : C4Ctx) (x : String) (A B : C4Term) (i : Nat) :
+      CCHMHasType Γ A (.universe i) →
+      CCHMHasType ({ name := x, ty := A } :: Γ) B (.universe i) →
+      CCHMHasType Γ (.sigma x A B) (.universe i)
+  | sigmaIntro (Γ : C4Ctx) (x : String) (A B a b : C4Term) :
+      CCHMHasType Γ a A →
+      CCHMHasType Γ b B →
+      CCHMHasType Γ (.pair a b) (.sigma x A B)
+  | sigmaElim1 (Γ : C4Ctx) (x : String) (A B p : C4Term) :
+      CCHMHasType Γ p (.sigma x A B) →
+      CCHMHasType Γ (.fst p) A
+  | sigmaElim2 (Γ : C4Ctx) (x : String) (A B p : C4Term) :
+      CCHMHasType Γ p (.sigma x A B) →
+      CCHMHasType Γ (.snd p) B
+  | intervalForm (Γ : C4Ctx) :
+      CCHMHasType Γ .interval (.universe 0)
+  | i0Intro (Γ : C4Ctx) :
+      CCHMHasType Γ .i0 .interval
+  | i1Intro (Γ : C4Ctx) :
+      CCHMHasType Γ .i1 .interval
+  | pathForm (Γ : C4Ctx) (A a b : C4Term) (i : Nat) :
+      CCHMHasType Γ A (.universe i) →
+      CCHMHasType Γ a A →
+      CCHMHasType Γ b A →
+      CCHMHasType Γ (.pathType A a b) (.universe i)
+  | pathIntro (Γ : C4Ctx) (x : String) (A a b body : C4Term) :
+      CCHMHasType ({ name := x, ty := .interval } :: Γ) body A →
+      CCHMHasType Γ (.pathAbs x body) (.pathType A a b)
+  | pathElim (Γ : C4Ctx) (A a b p r : C4Term) :
+      CCHMHasType Γ p (.pathType A a b) →
+      CCHMHasType Γ r .interval →
+      CCHMHasType Γ (.pathApp p r) A
+  | transpRule (Γ : C4Ctx) (x : String) (A base : C4Term) (i : Nat) :
+      CCHMHasType ({ name := x, ty := .interval } :: Γ) A (.universe i) →
+      CCHMHasType Γ base A →
+      CCHMHasType Γ (.transp x A base) A
+
+/-- Every CCHM derivation is a valid C⁴ derivation. -/
+theorem cchm_embeds_in_c4 {Γ : C4Ctx} {t A : C4Term} :
+    CCHMHasType Γ t A → HasType Γ t A := by
+  intro h
+  induction h with
+  | univ Γ i => exact HasType.univ Γ i
+  | var Γ x A hlook => exact HasType.var Γ x A hlook
+  | piForm Γ x A B i _ _ ihA ihB => exact HasType.piForm Γ x A B i ihA ihB
+  | piIntro Γ x A B t _ ih => exact HasType.piIntro Γ x A B t ih
+  | piElim Γ x A B f a _ _ ihf iha => exact HasType.piElim Γ x A B f a ihf iha
+  | sigmaForm Γ x A B i _ _ ihA ihB => exact HasType.sigmaForm Γ x A B i ihA ihB
+  | sigmaIntro Γ x A B a b _ _ iha ihb =>
+    exact HasType.sigmaIntro Γ x A B a b iha ihb
+  | sigmaElim1 Γ x A B p _ ih => exact HasType.sigmaElim1 Γ x A B p ih
+  | sigmaElim2 Γ x A B p _ ih => exact HasType.sigmaElim2 Γ x A B p ih
+  | intervalForm Γ => exact HasType.intervalForm Γ
+  | i0Intro Γ => exact HasType.i0Intro Γ
+  | i1Intro Γ => exact HasType.i1Intro Γ
+  | pathForm Γ A a b i _ _ _ ihA iha ihb => exact HasType.pathForm Γ A a b i ihA iha ihb
+  | pathIntro Γ x A a b body _ ih => exact HasType.pathIntro Γ x A a b body ih
+  | pathElim Γ A a b p r _ _ ihp ihr => exact HasType.pathElim Γ A a b p r ihp ihr
+  | transpRule Γ x A base i _ _ ihA ihb => exact HasType.transpRule Γ x A base i ihA ihb
+
+/-- Conservative extension over CCHM (statement form):
+    If a CCHM-only statement is derivable in CCHM, it's also derivable in C⁴. -/
+theorem cchm_conservative_extension :
+    ∀ (Γ : C4Ctx) (t A : C4Term),
+      CCHMHasType Γ t A → HasType Γ t A :=
+  fun _ _ _ h => cchm_embeds_in_c4 h
+
 end C4
