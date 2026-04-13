@@ -10,4 +10,5 @@ specification checking, and bug finding via:
   - Automated path search with 5-phase normalization
   - Galois connections for abstract type-level pre-filtering (§12)
   - Stalk computations, spectral sequences, Mayer-Vietoris (stalks module)
+  - Duck-type lattice enrichment, decidability classification, strategy oracle (§15–17)
 """

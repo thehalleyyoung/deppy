@@ -1361,3 +1361,114 @@ def _handle_recursion(func, body, env, param_names, params):
     subst = list(zip(sym, params))
     return [Section(guard=_z3.substitute(s.guard, *subst) if subst else s.guard, term=gt)
             for s in secs]
+
+
+# ═══════════════════════════════════════════════════════════
+# Extended AST→Z3 helpers  (wired from proposals/g13_compilation)
+# ═══════════════════════════════════════════════════════════
+
+def compile_ann_assign(stmt, env):
+    """Handle annotated assignment (x: int = 5) — compile value and bind."""
+    if not isinstance(stmt, ast.AnnAssign):
+        return
+    if stmt.value is not None:
+        val = compile_expr(stmt.value, env)
+        val = _ensure_z3(val, env.T)
+        _assign_target(stmt.target, val, env)
+
+
+def compile_match_stmt(stmt, env):
+    """Handle match/case statement (Python 3.10+) — bind pattern vars and exec arms."""
+    T = env.T
+    if not hasattr(ast, 'Match'):
+        return
+    subject = compile_expr(stmt.subject, env)
+    for case in stmt.cases:
+        ce = env.copy()
+        _bind_match_pattern(case.pattern, subject, ce)
+        exec_stmts(case.body, ce)
+        for k, v in ce.bindings.items():
+            if v is not env.get(k):
+                env.put(k, v)
+
+
+def _bind_match_pattern(pattern, subject, env):
+    """Bind names from a match/case pattern into the compilation environment."""
+    T = env.T
+    if not hasattr(ast, 'MatchAs'):
+        return
+    if isinstance(pattern, ast.MatchAs):
+        if pattern.name:
+            env.put(pattern.name, subject)
+    elif isinstance(pattern, ast.MatchValue):
+        pass
+    elif isinstance(pattern, ast.MatchSequence):
+        for i, p in enumerate(pattern.patterns):
+            elem = T.binop(GETITEM, subject, T.mkint(i))
+            _bind_match_pattern(p, elem, env)
+    elif isinstance(pattern, ast.MatchMapping):
+        for key, p in zip(pattern.keys, pattern.patterns):
+            k = compile_expr(key, env)
+            v = T.binop(GETITEM, subject, k)
+            _bind_match_pattern(p, v, env)
+    elif isinstance(pattern, ast.MatchStar):
+        if pattern.name:
+            env.put(pattern.name, T.fresh(f'star_{pattern.name}'))
+    elif isinstance(pattern, ast.MatchOr):
+        if pattern.patterns:
+            _bind_match_pattern(pattern.patterns[0], subject, env)
+
+
+def compile_lambda_body(node, env):
+    """Compile a lambda by building a Z3 function from its body.
+
+    Instead of an opaque fresh symbol, creates a shared function keyed
+    by the body's AST so that semantically identical lambdas share the
+    same Z3 symbol.
+    """
+    T = env.T
+    if not isinstance(node, ast.Lambda):
+        return T.fresh('lambda')
+    params = [a.arg for a in node.args.args]
+    if not params:
+        return compile_expr(node.body, env)
+    sub = env.copy()
+    sub.depth += 1
+    syms = []
+    for p in params:
+        s = T.fresh(f'lam_{p}')
+        sub.put(p, s)
+        syms.append(s)
+    body_val = compile_expr(node.body, sub)
+    h = _stable_hash(ast.dump(node.body))
+    fn = T.shared_fn(f'lambda_{h}', len(params))
+    return fn(*syms)
+
+
+def compile_assert_guard(stmt, env):
+    """Compile an assert statement's test as a Z3 boolean guard.
+
+    Returns a Z3 Bool that can be And-ed with section guards.
+    """
+    T = env.T
+    if not isinstance(stmt, ast.Assert):
+        return _z3.BoolVal(True)
+    return T.truthy(compile_expr(stmt.test, env))
+
+
+def try_fold_builtin(name, args, T):
+    """Try to compile a reducer builtin (prod/any/all) as a Z3 fold.
+
+    Returns a Z3 term or None.
+    """
+    _FOLD_TABLE = {
+        'prod':      (MUL,    lambda t: t.mkint(1)),
+        'math.prod': (MUL,    lambda t: t.mkint(1)),
+        'any':       (BITOR,  lambda t: t.mkbool(False)),
+        'all':       (BITAND, lambda t: t.mkbool(True)),
+    }
+    if name not in _FOLD_TABLE or len(args) != 1:
+        return None
+    op, mk_init = _FOLD_TABLE[name]
+    fn = T.shared_fn(f'fold_{name}', 2)
+    return fn(mk_init(T), args[0])
