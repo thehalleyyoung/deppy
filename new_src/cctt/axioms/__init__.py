@@ -1,4 +1,4 @@
-"""CCTT Axiom System — the 36 dichotomy path constructors.
+"""CCTT Axiom System — the 48 dichotomy path constructors.
 
 Each axiom module provides:
   - apply(term, ctx) → List[(OTerm, str)]   forward rewrite
@@ -12,6 +12,7 @@ Axiom groups (monograph chapters 19-25):
   Algorithm     (D15-D20):  BFS↔DFS, memo↔DP, greedy, Yoneda
   Language      (D21-D24):  dispatch, try↔cond, sort, η
   Control Flow Transforms (D25-D30): unroll, short-circuit, guards, fusion, fission, CPS
+  Python Idioms (P13-P24): bool, slicing, sets, types, context, decorators, walrus, args, cmp, fmt, iter, copy
 """
 from __future__ import annotations
 
@@ -54,6 +55,18 @@ from cctt.axioms import (
     d40_curry,
     d41_monad,
     d42_generator,
+    p13_bool_idioms,
+    p14_slicing,
+    p15_set_ops,
+    p16_type_convert,
+    p17_context,
+    p18_decorators,
+    p19_walrus,
+    p20_args,
+    p21_comparisons,
+    p22_format,
+    p23_iteration,
+    p24_copy,
 )
 
 # Re-export the OTerm type for convenience
@@ -100,6 +113,18 @@ _AXIOM_MODULES = [
     d40_curry,
     d41_monad,
     d42_generator,
+    p13_bool_idioms,
+    p14_slicing,
+    p15_set_ops,
+    p16_type_convert,
+    p17_context,
+    p18_decorators,
+    p19_walrus,
+    p20_args,
+    p21_comparisons,
+    p22_format,
+    p23_iteration,
+    p24_copy,
 ]
 
 # ── ALL_AXIOMS: ordered list of (name, apply_fn) pairs ────────
@@ -201,4 +226,16 @@ __all__ = [
     'd40_curry',
     'd41_monad',
     'd42_generator',
+    'p13_bool_idioms',
+    'p14_slicing',
+    'p15_set_ops',
+    'p16_type_convert',
+    'p17_context',
+    'p18_decorators',
+    'p19_walrus',
+    'p20_args',
+    'p21_comparisons',
+    'p22_format',
+    'p23_iteration',
+    'p24_copy',
 ]
