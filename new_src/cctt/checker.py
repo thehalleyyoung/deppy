@@ -619,6 +619,8 @@ def _cohomological_path_search(source_f: str, source_g: str,
         duck_types.append(kind)
         if kind == 'int':
             param_fibers.append(['int'])
+        elif kind == 'positive_int':
+            param_fibers.append(['int'])
         elif kind == 'str':
             param_fibers.append(['str'])
         elif kind == 'bool':
@@ -627,7 +629,7 @@ def _cohomological_path_search(source_f: str, source_g: str,
             param_fibers.append(['bytes'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
-        elif kind in ('list', 'collection', 'numeric_list'):
+        elif kind in ('list', 'collection', 'numeric_list', 'matrix'):
             param_fibers.append(['ref'])
         elif kind == 'any':
             param_fibers.append(['int', 'str', 'ref'])
@@ -1242,11 +1244,13 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
             _duck_types.append(kind)
             fiber_map = {
-                'int': ['int'], 'str': ['str'], 'bool': ['bool'],
+                'int': ['int'], 'positive_int': ['int'],
+                'str': ['str'], 'bool': ['bool'],
                 'bytes': ['bytes'],
                 'ref': ['ref'], 'list': ['pair', 'ref'],
                 'collection': ['pair', 'ref', 'str'],
                 'numeric_list': ['pair', 'ref'],
+                'matrix': ['ref'],
             }
             param_fibers.append(fiber_map.get(kind, ['int', 'bool', 'str', 'pair', 'ref', 'none']))
         bt_result = _bounded_testing(source_f, source_g, param_names,
@@ -1334,6 +1338,8 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         duck_types.append(kind)
         if kind == 'int':
             param_fibers.append(['int'])
+        elif kind == 'positive_int':
+            param_fibers.append(['int'])
         elif kind == 'numeric':
             param_fibers.append(['int', 'float'])
         elif kind == 'str':
@@ -1350,6 +1356,8 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             param_fibers.append(['pair', 'ref', 'str'])
         elif kind == 'numeric_list':
             param_fibers.append(['pair', 'ref'])
+        elif kind == 'matrix':
+            param_fibers.append(['ref'])
         elif kind == 'any':
             param_fibers.append(['int', 'float', 'bool', 'str', 'pair', 'ref', 'none'])
         else:
@@ -1761,6 +1769,19 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                          '[1, -1, 2, -2, 3, -3]',
                          '[10, 20, 30, 40, 50]', '[1, 3, 5, 2, 4]',
                          '[0, 1, 2, 0, 1, 2, 0]', '[-100, 0, 100]'],
+        # Positive integers only (no 0, no negatives)
+        'positive_int': ['1', '2', '3', '5', '7', '10', '42', '100', '257',
+                         '4', '6', '8', '9', '11', '12', '13', '15', '16',
+                         '17', '20', '25', '50', '64', '128', '256'],
+        # 2D integer matrices (lists of lists)
+        'matrix': ['[[1]]', '[[0]]', '[[2]]',
+                   '[[1,0],[0,1]]', '[[1,2],[3,4]]', '[[2,3],[1,4]]',
+                   '[[0,1],[1,0]]', '[[1,1],[1,1]]', '[[-1,2],[3,-4]]',
+                   '[[1,2,3],[4,5,6],[7,8,9]]',
+                   '[[1,0,0],[0,1,0],[0,0,1]]',
+                   '[[2,1,3],[4,5,6],[7,8,0]]',
+                   '[[1,2],[3,4],[5,6]]',
+                   '[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]'],
     }
 
     # Build test input combinations (limited to avoid explosion)
@@ -1773,7 +1794,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
         # (e.g., numeric_list uses clean int-only lists instead of mixed-type
         # collection samples from pair+ref fibers)
         dt = duck_types[i] if duck_types and i < len(duck_types) else None
-        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes'}
+        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes', 'positive_int', 'matrix'}
         if dt and dt in _DUCK_TYPE_SAMPLE_OVERRIDE and dt in type_samples:
             samples = list(type_samples[dt])
         else:
@@ -1850,6 +1871,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
     # Build test script
     combo_strs = ', '.join(f'({", ".join(c)},)' for c in combos)
     param_fiber_info = repr(param_fibers)  # e.g. [['int'], ['ref']]
+    duck_type_info = repr(duck_types if duck_types else [])
 
     # Split source into future imports and rest
     lines_f = source_f.split('\n')
@@ -1897,6 +1919,8 @@ _cross_type_disagree = 0
 _tests_run = 0
 _both_ok_agree = 0
 _value_disagree = 0
+_mutation_disagree = 0
+_last_mut_args = None
 import time as _time
 _deadline = _time.monotonic() + 4.0  # hard deadline for all tests
 # Per-call timeout to prevent single calls from hanging (e.g., f('Hello World') → 11! perms)
@@ -1916,6 +1940,11 @@ except (AttributeError, OSError):
 # - pair: {{}}, (), None
 # - any/unknown: 0, '', None, False
 _param_fiber_info = {param_fiber_info}
+_duck_types = {duck_type_info}
+# Only do mutation checking if any param is list-typed (catches
+# sorted() vs .sort() style NEQ) but skip for matrix/collection
+# (where mutation is implementation detail, not semantic difference).
+_do_mutation_check = any(dt == 'list' for dt in _duck_types)
 _PARAM_SIMPLE = []
 for _fi in _param_fiber_info:
     _s = set()
@@ -2004,14 +2033,15 @@ for args in test_cases:
     # the functions have different side effects (e.g., sorted vs .sort).
     if r_f == r_g:
         _both_ok_agree += 1
-        try:
-            _mut_f = repr(_args_f)
-            _mut_g = repr(_args_g)
-            if _mut_f != _mut_g:
-                print(json.dumps({{"eq": False, "args": repr(args), "reason": "mutation_disagree", "mut_f": _mut_f[:50], "mut_g": _mut_g[:50]}}))
-                sys.exit(0)
-        except Exception:
-            pass
+        if _do_mutation_check:
+            try:
+                _mut_f = repr(_args_f)
+                _mut_g = repr(_args_g)
+                if _mut_f != _mut_g:
+                    _mutation_disagree += 1
+                    _last_mut_args = repr(args)
+            except Exception:
+                pass
     if r_f != r_g:
         # Skip cross-type disagreements (e.g., [] vs '') — these indicate
         # domain mismatches, not real semantic differences.  Functions
@@ -2068,6 +2098,11 @@ if _exception_disagree >= max(5, int(_tests_run * 0.2)) and _both_ok_agree == 0:
 # agreements, they are fundamentally different (e.g., sum vs collect).
 if _cross_type_disagree >= 3 and _both_ok_agree == 0:
     print(json.dumps({{"eq": False, "reason": "persistent_cross_type_disagree", "count": _cross_type_disagree}}))
+    sys.exit(0)
+# Mutation: report if enough tests show mutation disagree.
+# Only checked for list-typed params to catch sorted() vs .sort().
+if _do_mutation_check and _mutation_disagree >= 2 and _value_disagree == 0:
+    print(json.dumps({{"eq": False, "args": _last_mut_args, "reason": "mutation_disagree", "count": _mutation_disagree}}))
     sys.exit(0)
 # Report any remaining disagrees that didn't hit the threshold
 if _value_disagree > 0:

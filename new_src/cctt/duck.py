@@ -327,6 +327,59 @@ def _extract_element_ops(func_node, param: str) -> Set[str]:
     return elem_ops
 
 
+def _detect_double_subscript(func_node, param: str) -> bool:
+    """Detect param[i][j] pattern indicating a 2D list (matrix)."""
+    for child in ast.walk(func_node):
+        if isinstance(child, ast.Subscript):
+            # Check if the value is also a subscript of param
+            inner = child.value
+            if isinstance(inner, ast.Subscript) and _refers_to(inner.value, param):
+                return True
+            # Also check param[0][0]-style and len(param[0])
+        if isinstance(child, ast.Call):
+            if isinstance(child.func, ast.Name) and child.func.id == 'len':
+                if child.args and isinstance(child.args[0], ast.Subscript):
+                    if _refers_to(child.args[0].value, param):
+                        return True  # len(param[0]) → matrix
+    return False
+
+
+def _detect_positive_int_domain(func_node, param: str) -> bool:
+    """Detect if the function guards against non-positive param values.
+
+    Looks for patterns like:
+      if param < 2: return ...
+      if param <= 0: return ...
+      while param > 0: ...
+    """
+    for child in ast.walk(func_node):
+        # if param < N: return ... (where N is small positive)
+        if isinstance(child, ast.If):
+            test = child.test
+            if isinstance(test, ast.Compare) and len(test.ops) == 1:
+                left = test.left
+                op = test.ops[0]
+                comparator = test.comparators[0]
+                # param < N or param <= N
+                if (_refers_to(left, param) and
+                    isinstance(op, (ast.Lt, ast.LtE)) and
+                    isinstance(comparator, ast.Constant) and
+                    isinstance(comparator.value, (int, float)) and
+                    0 <= comparator.value <= 3):
+                    # Check if body contains return
+                    if any(isinstance(s, ast.Return) for s in child.body):
+                        return True
+                # N > param or N >= param
+                if (_refers_to(comparator, param) and
+                    isinstance(op, (ast.Gt, ast.GtE)) and
+                    isinstance(left, ast.Constant) and
+                    isinstance(left.value, (int, float)) and
+                    0 <= left.value <= 3):
+                    if any(isinstance(s, ast.Return) for s in child.body):
+                        return True
+    return False
+
+
 def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
     """Infer duck type for parameter pname from both programs."""
     ops_f = extract_duck_ops(func_f, pname)
@@ -424,12 +477,26 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
     if (ops & bytes_calls) or bytes_module_calls:
         return 'bytes', True
 
-    dict_methods = {'method_get', 'method_keys', 'method_values', 'method_items',
-                    'method_update', 'method_setdefault', 'method_pop',
-                    'method_popitem', 'method_clear',
-                    'call_defaultdict', 'call_Counter', 'call_OrderedDict'}
-    if ops & dict_methods:
+    # Dict-specific methods (not shared with list/set)
+    dict_specific = {'method_get', 'method_keys', 'method_values', 'method_items',
+                     'method_setdefault', 'method_popitem',
+                     'call_defaultdict', 'call_Counter', 'call_OrderedDict'}
+    # method_pop, method_clear, method_update are shared (dict+list or dict+set).
+    # Only classify as dict if dict-specific methods are present,
+    # to avoid misclassifying list.pop() as dict.pop().
+    dict_shared = {'method_pop', 'method_clear', 'method_update'}
+    if ops & dict_specific:
         return 'ref', True
+    if ops & dict_shared and not (ops & collection_ops):
+        # Shared method without collection ops -> likely dict
+        return 'ref', True
+
+    # Check for matrix (2D list) BEFORE list methods, because matrix params
+    # often use list.pop() on rows but should still be classified as matrix.
+    if (ops & collection_ops and
+        (_detect_double_subscript(func_f, pname) or
+         _detect_double_subscript(func_g, pname))):
+        return 'matrix', True
 
     list_methods = {'method_append', 'method_extend', 'method_sort', 'method_reverse',
                     'method_insert', 'method_remove', 'method_index', 'method_count',
@@ -444,29 +511,30 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
     if ops & set_methods:
         return 'ref', True
 
-    # math module functions (math.copysign, math.sqrt, etc.) → numeric
+    # math module functions (math.copysign, math.sqrt, etc.) -> numeric
     math_ops = {o for o in ops if o.startswith('math_')}
     if math_ops and not (ops & collection_ops):
         return 'numeric', True
 
-    # Numeric-only ops → integer parameter
+    # Numeric-only ops -> integer parameter
     # BUT only if there are no collection ops (getitem, iter, len, etc.)
-    # — a function might do `lst[len(lst) - 1]` which has both `sub`
-    # and `getitem`, and the parameter is a collection, not an int.
-    numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
-                    'neg', 'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
-                    'invert', 'call_range', 'used_as_index', 'truediv'}
     if ops & numeric_only and not (ops & collection_ops):
+        # Check for positive-int domain guards or used-as-index pattern
+        if (_detect_positive_int_domain(func_f, pname) or
+            _detect_positive_int_domain(func_g, pname) or
+            'used_as_index' in ops):
+            return 'positive_int', True
         return 'int', True
     if ops & {'lt', 'le', 'gt', 'ge'} and not (ops & collection_ops):
+        if (_detect_positive_int_domain(func_f, pname) or
+            _detect_positive_int_domain(func_g, pname) or
+            'used_as_index' in ops):
+            return 'positive_int', True
         return 'int', True
 
     # Generic collection (iter, getitem, len, etc.)
     if ops & collection_ops:
-        # Check if elements are used arithmetically via ITERATION → numeric_list
-        # Only loop-based and reduction-based detections qualify.
-        # Subscript-based (param[i] + ...) doesn't qualify because it's
-        # common for fixed-size containers (coordinates, points).
+        # Check if elements are used arithmetically via ITERATION
         numeric_elem_loop = {'elem_arith', 'elem_compare', 'numeric_reduction'}
         if elem_ops & numeric_elem_loop:
             return 'numeric_list', True
