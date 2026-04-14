@@ -477,6 +477,7 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
                 'collection': ['ref', 'str'],
                 'numeric_list': ['ref'],
                 'matrix': ['ref'],
+                'callable': ['ref'],  # placeholder; BT uses callable samples
             }
             param_fibers.append(fiber_map.get(kind, ['int', 'bool', 'str', 'pair', 'ref', 'none']))
         bt_result = _bounded_testing(source_f, source_g, param_names,
@@ -1140,6 +1141,14 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
         'positive_int': ['1', '2', '3', '5', '7', '10', '42', '100', '257',
                          '4', '6', '8', '9', '11', '12', '13', '15', '16',
                          '17', '20', '25', '50', '64', '128', '256'],
+        # Callable predicates/transforms for higher-order function testing
+        'callable': ['lambda x: x > 0', 'lambda x: x % 2 == 0',
+                     'lambda x: x < 3', 'lambda x: x != 0',
+                     'lambda x: True', 'lambda x: False',
+                     'lambda x: x', 'lambda x: not x',
+                     'lambda x: x >= 0', 'lambda x: x < 0',
+                     'lambda x: isinstance(x, int) and x > 1',
+                     'lambda x: x == x'],
         # 2D integer matrices (lists of lists)
         'matrix': ['[[1]]', '[[0]]', '[[2]]',
                    '[[1,0],[0,1]]', '[[1,2],[3,4]]', '[[2,3],[1,4]]',
@@ -1161,7 +1170,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
         # (e.g., numeric_list uses clean int-only lists instead of mixed-type
         # collection samples from pair+ref fibers)
         dt = duck_types[i] if duck_types and i < len(duck_types) else None
-        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes', 'positive_int', 'matrix'}
+        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes', 'positive_int', 'matrix', 'callable'}
         if dt and dt in _DUCK_TYPE_SAMPLE_OVERRIDE and dt in type_samples:
             samples = list(type_samples[dt])
         else:

@@ -87,6 +87,16 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
                     ops.add(f'math_{child.func.attr}')
             if isinstance(child.func, ast.Name):
                 fn_name = child.func.id
+                # Detect when the parameter ITSELF is the callable:
+                # e.g., pred(x) where pred is a parameter → called_as_func
+                if fn_name == param:
+                    ops.add('called_as_func')
+                # Detect param passed as callable arg to higher-order functions
+                _HOF_CALLABLE_POS = {
+                    'map': 0, 'filter': 0, 'takewhile': 0,
+                    'dropwhile': 0, 'starmap': 0, 'reduce': 0,
+                    'sorted': None,  # key= handled below
+                }
                 # Positional type hints: first arg is iterable, rest are int
                 _ITERABLE_FIRST = {'islice', 'chain', 'accumulate', 'takewhile',
                                    'dropwhile', 'starmap', 'groupby'}
@@ -96,7 +106,10 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
                     # e.g., len(n) → call_len (n is collection)
                     #        len(str(n)) → call_str only (n is int, str(n) is string)
                     if _is_direct_ref(arg, param):
-                        if fn_name in _ITERABLE_FIRST and i > 0:
+                        # Check if param is passed to a HOF callable position
+                        if fn_name in _HOF_CALLABLE_POS and _HOF_CALLABLE_POS[fn_name] == i:
+                            ops.add('passed_as_callable')
+                        elif fn_name in _ITERABLE_FIRST and i > 0:
                             ops.add('used_as_index')
                         else:
                             ops.add(f'call_{fn_name}')
@@ -105,6 +118,10 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
                         # record the wrapping function to help disambiguation.
                         # Don't add collection-inferring tags for indirect use.
                         pass
+                # Check keyword args: sorted(lst, key=pred)
+                for kw in child.keywords:
+                    if kw.arg == 'key' and _is_direct_ref(kw.value, param):
+                        ops.add('passed_as_callable')
 
         if isinstance(child, ast.For):
             # Only mark as 'iter' if param IS the iterable directly,
@@ -590,6 +607,11 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
         if ops & collection_ops:
             return 'collection', True
         return 'numeric', True
+
+    # Callable parameter: called directly as pred(x) or passed to HOFs
+    callable_ops = {'called_as_func', 'passed_as_callable'}
+    if ops & callable_ops:
+        return 'callable', True
 
     return 'unknown', False
 
