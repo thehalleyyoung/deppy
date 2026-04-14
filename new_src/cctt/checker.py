@@ -937,6 +937,84 @@ def _is_concrete(val, T) -> bool:
     return False
 
 
+def _bounded_testing_kwargs(source_f: str, source_g: str, deadline: float):
+    """BT for **kwargs-only functions. Tests with keyword argument combos."""
+    import subprocess, json
+
+    lines_f = source_f.strip().split('\n')
+    first_f = lines_f[0]
+    rest_f = lines_f[1:]
+    lines_g = source_g.strip().split('\n')
+    first_g = lines_g[0]
+    rest_g = lines_g[1:]
+
+    # Test with different kwarg dictionaries, including order-sensitive ones
+    kwargs_tests = [
+        "dict(a=1, b=2)",
+        "dict(b=1, a=2)",
+        "dict(x=10, y=20, z=30)",
+        "dict(z=30, y=20, x=10)",
+        "dict(a=1)",
+        "dict()",
+        "dict(b=3, a=4, c=5)",
+    ]
+    test_calls = ', '.join(f'({kt},)' for kt in kwargs_tests)
+
+    script = f'''
+import sys, json, types
+{first_f}
+{chr(10).join(rest_f)}
+
+_saved_f = None
+for _name, _obj in list(locals().items()):
+    if isinstance(_obj, types.FunctionType) and not _name.startswith('_'):
+        _saved_f = _obj
+        break
+
+{first_g}
+{chr(10).join(rest_g)}
+
+_fn_g = None
+for _name, _obj in list(locals().items()):
+    if isinstance(_obj, types.FunctionType) and not _name.startswith('_') and _obj is not _saved_f:
+        _fn_g = _obj
+        break
+
+_test_dicts = [{test_calls}]
+for (_kw_dict,) in _test_dicts:
+    try:
+        _rf = _saved_f(**_kw_dict)
+        _rg = _fn_g(**_kw_dict)
+        if repr(_rf) != repr(_rg):
+            print(json.dumps({{"eq": False, "args": repr(_kw_dict), "f": repr(_rf), "g": repr(_rg)}}))
+            sys.exit(0)
+    except Exception:
+        pass
+
+print(json.dumps({{"eq": True, "n": len(_test_dicts)}}))
+'''
+    remaining = max(0.5, deadline - time.monotonic())
+    try:
+        proc = subprocess.run(
+            ['python3.11', '-c', script],
+            capture_output=True, text=True,
+            timeout=min(remaining, 3.0)
+        )
+        if proc.returncode != 0:
+            return None
+        for line in proc.stdout.strip().split('\n'):
+            if not line.strip():
+                continue
+            try:
+                data = json.loads(line)
+                return data
+            except json.JSONDecodeError:
+                continue
+    except (subprocess.TimeoutExpired, Exception):
+        pass
+    return None
+
+
 def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                      param_fibers: List[List[str]], deadline: float,
                      require_n_disagree: int = 1,
@@ -951,6 +1029,15 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
     import subprocess, json
 
     if not param_names:
+        # Check for **kwargs-only functions — test with keyword arguments
+        try:
+            import ast as _ast
+            _tree_f = _ast.parse(source_f)
+            _func_f = next(n for n in _ast.walk(_tree_f) if isinstance(n, _ast.FunctionDef))
+            if _func_f.args.kwarg:
+                return _bounded_testing_kwargs(source_f, source_g, deadline)
+        except Exception:
+            pass
         return None
 
     # Generate representative test inputs based on fiber types
@@ -1416,6 +1503,49 @@ if _do_mutation_check and _mutation_disagree >= 2 and _value_disagree == 0:
 if _value_disagree > 0:
     print(json.dumps({{"eq": False, "args": _last_args, "f": _last_f, "g": _last_g, "n_disagree": _value_disagree}}))
     sys.exit(0)
+
+# ── Mutable default argument detection ──
+# If a function uses mutable default args (def f(x, lst=[])), repeated calls
+# without the default arg will accumulate state.  Test by calling each function
+# with only required arguments (dropping optional ones that have defaults),
+# twice, and checking if results change between calls.
+if _time.monotonic() < _deadline and _both_ok_agree > 0:
+    _mutable_detected = False
+    try:
+        import inspect as _insp
+        _sig_f = _insp.signature(_saved_f)
+        _sig_g = _insp.signature(_fn_g)
+        # Count required params (no default)
+        _n_req_f = sum(1 for p in _sig_f.parameters.values()
+                       if p.default is _insp.Parameter.empty
+                       and p.kind not in (_insp.Parameter.VAR_POSITIONAL, _insp.Parameter.VAR_KEYWORD))
+        _n_req_g = sum(1 for p in _sig_g.parameters.values()
+                       if p.default is _insp.Parameter.empty
+                       and p.kind not in (_insp.Parameter.VAR_POSITIONAL, _insp.Parameter.VAR_KEYWORD))
+        _n_req = max(_n_req_f, _n_req_g)
+        # Find a simple test input with only required params
+        _min_test = None
+        for _tc in test_cases:
+            if len(_tc) >= _n_req:
+                _min_test = _tc[:_n_req]
+                break
+        if _min_test is not None and (_n_req < len(_sig_f.parameters) or _n_req < len(_sig_g.parameters)):
+            import copy as _cp2
+            # Capture repr immediately after each call to detect mutation
+            _repr_f1 = repr(_saved_f(*_cp2.deepcopy(_min_test)))
+            _repr_f2 = repr(_saved_f(*_cp2.deepcopy(_min_test)))
+            _repr_g1 = repr(_fn_g(*_cp2.deepcopy(_min_test)))
+            _repr_g2 = repr(_fn_g(*_cp2.deepcopy(_min_test)))
+            _f_stable = (_repr_f1 == _repr_f2)
+            _g_stable = (_repr_g1 == _repr_g2)
+            if _f_stable != _g_stable:
+                _mutable_detected = True
+    except Exception:
+        pass
+    if _mutable_detected:
+        print(json.dumps({{"eq": False, "reason": "mutable_default_statefulness"}}))
+        sys.exit(0)
+
 print(json.dumps({{"eq": True, "n": len(test_cases), "exception_disagree": _exception_disagree, "cross_type_disagree": _cross_type_disagree}}))
 '''
 
