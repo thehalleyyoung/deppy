@@ -1805,7 +1805,10 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                          '[-5, -3, -1, 0, 2, 4]', '[7]',
                          '[1, -1, 2, -2, 3, -3]',
                          '[10, 20, 30, 40, 50]', '[1, 3, 5, 2, 4]',
-                         '[0, 1, 2, 0, 1, 2, 0]', '[-100, 0, 100]'],
+                         '[0, 1, 2, 0, 1, 2, 0]', '[-100, 0, 100]',
+                         # Float lists for sum vs fsum precision detection
+                         '[0.1] * 10', '[0.1, 0.2, 0.3]',
+                         '[1e16, 1.0, -1e16]', '[0.3, 0.3, 0.3]'],
         # Positive integers only (no 0, no negatives)
         'positive_int': ['1', '2', '3', '5', '7', '10', '42', '100', '257',
                          '4', '6', '8', '9', '11', '12', '13', '15', '16',
@@ -2080,6 +2083,23 @@ for args in test_cases:
                     _last_mut_args = repr(args)
             except Exception:
                 pass
+        # Output structural identity check: detect [[x]*m]*n vs
+        # [[x]*m for _ in range(n)] (shared vs independent references).
+        # If result is a list of lists and one has shared refs but the
+        # other doesn't, this is a genuine structural difference.
+        if isinstance(_val_f, list) and isinstance(_val_g, list):
+            if len(_val_f) >= 2 and len(_val_g) >= 2:
+                try:
+                    if (isinstance(_val_f[0], list) and isinstance(_val_g[0], list)):
+                        _shared_f = _val_f[0] is _val_f[1]
+                        _shared_g = _val_g[0] is _val_g[1]
+                        if _shared_f != _shared_g:
+                            _value_disagree += 1
+                            _last_args = repr(args)
+                            _last_f = 'shared_refs=' + str(_shared_f)
+                            _last_g = 'shared_refs=' + str(_shared_g)
+                except (IndexError, TypeError):
+                    pass
     if r_f != r_g:
         # Skip cross-type disagreements (e.g., [] vs '') — these indicate
         # domain mismatches, not real semantic differences.  Functions
