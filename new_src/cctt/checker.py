@@ -1428,6 +1428,37 @@ for args in test_cases:
                 except (IndexError, TypeError):
                     pass
     if r_f != r_g:
+        # When both return values are callable (higher-order functions),
+        # compare their behavior on test inputs rather than their reprs
+        # (function object reprs always differ due to memory addresses).
+        if callable(_val_f) and callable(_val_g):
+            _fn_agree = True
+            _fn_tested = 0
+            for _probe in [0, 1, -1, 2, 'a', True]:
+                try:
+                    _pf = repr(_val_f(_probe))
+                except Exception:
+                    _pf = None
+                try:
+                    _pg = repr(_val_g(_probe))
+                except Exception:
+                    _pg = None
+                if _pf is not None and _pg is not None:
+                    _fn_tested += 1
+                    if _pf != _pg:
+                        _fn_agree = False
+                        break
+                elif _pf is not None or _pg is not None:
+                    # One crashes, other doesn't — different behavior
+                    _fn_agree = False
+                    _fn_tested += 1
+                    break
+            if _fn_agree and _fn_tested > 0:
+                _both_ok_agree += 1
+                continue
+            elif _fn_tested == 0:
+                _cross_type_disagree += 1
+                continue  # no valid probes — count as structural divergence
         # Skip cross-type disagreements (e.g., [] vs '') — these indicate
         # domain mismatches, not real semantic differences.  Functions
         # that are equivalent on their intended domain may produce
