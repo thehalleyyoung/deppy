@@ -1462,6 +1462,28 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             f'H1=0: {cech.h0} faces verified across {cech.total_fibers} fibers',
             h0=cech.h0, confidence=confidence)
     elif cech.equivalent is False and has_concrete_obstruction:
+        # H1 > 0 with concrete counterexample. But before trusting the
+        # structural proof, run BT to check if the functions actually
+        # agree on concrete inputs. Z3 may produce false obstructions
+        # from recursive/while-loop compilation artifacts.
+        bt_confirm = _bounded_testing(source_f, source_g, param_names,
+                                      param_fibers, deadline,
+                                      duck_types=duck_types)
+        if bt_confirm is True:
+            # BT says all tests agree — override H1 obstruction
+            if fingerprint_match:
+                return Result(True,
+                    'bounded testing EQ overrides H1 obstruction (fingerprint match)',
+                    h0=cech.h0 or 1, confidence=0.80)
+            return Result(True,
+                'bounded testing EQ overrides H1 obstruction (all tests agree)',
+                h0=cech.h0 or 1, confidence=0.70)
+        if isinstance(bt_confirm, dict) and bt_confirm.get('eq') is False:
+            # BT confirms the disagreement — trust H1
+            pass
+        else:
+            # BT inconclusive — fall through to step 8
+            pass
         obs = cech.obstructions
         obs_desc = str(obs[0]) if obs else 'unknown fiber'
         j = judgments.get(obs[0]) if obs else None
@@ -1962,6 +1984,8 @@ for _fi in _param_fiber_info:
     _s.add(False)
     if 'int' in _fi or 'float' in _fi or 'bool' in _fi:
         _s.add(0)
+        _s.discard(False)  # Ensure 0 (int) is stored, not False (bool)
+        _s.add(0)
     if 'str' in _fi:
         _s.add('')
     if 'bytes' in _fi:
@@ -1981,14 +2005,17 @@ for args in test_cases:
         if _has_alarm: _sig.alarm(0)
         r_f = repr(_val_f)
         f_ok = True
+        f_resource_err = False
     except _RESOURCE_EXCS:
         if _has_alarm: _sig.alarm(0)
-        continue
+        f_ok = False
+        f_resource_err = True
     except _CallTimeout:
         continue
     except Exception as e:
         if _has_alarm: _sig.alarm(0)
         f_ok = False
+        f_resource_err = False
     try:
         _args_g = _cp.deepcopy(args)
         if _has_alarm: _sig.alarm(2)
@@ -1998,13 +2025,13 @@ for args in test_cases:
         g_ok = True
     except _RESOURCE_EXCS:
         if _has_alarm: _sig.alarm(0)
-        continue
-    except _CallTimeout:
         if f_ok:
-            # f succeeded but g timed out — possible disagree but not conclusive
-            continue
+            g_ok = False
+        elif f_resource_err:
+            continue  # both resource errors — skip
         else:
-            continue
+            continue  # f had other error, g had resource error — skip
+    except _CallTimeout:
         continue
     except Exception as e:
         g_ok = False
