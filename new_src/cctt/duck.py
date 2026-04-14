@@ -200,11 +200,143 @@ def _refers_to(node, param: str) -> bool:
     return False
 
 
+def _extract_element_ops(func_node, param: str) -> Set[str]:
+    """Extract operations performed on elements of a collection parameter.
+
+    Detects:
+    - `for x in param: ... x + ... ` → element used arithmetically
+    - `param[i] + ...` → subscript result used arithmetically
+    - `sum(param)`, `max(param)` → numeric reduction
+    """
+    elem_ops: Set[str] = set()
+    arith_ops = {ast.Add, ast.Sub, ast.Mult, ast.Div, ast.FloorDiv,
+                 ast.Mod, ast.Pow, ast.LShift, ast.RShift,
+                 ast.BitOr, ast.BitAnd, ast.BitXor}
+    cmp_ops = {ast.Lt, ast.LtE, ast.Gt, ast.GtE}
+
+    # 1. Direct numeric reductions on param
+    for child in ast.walk(func_node):
+        if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+            if child.func.id in ('sum', 'min', 'max') and child.args:
+                if isinstance(child.args[0], ast.Name) and child.args[0].id == param:
+                    elem_ops.add('numeric_reduction')
+
+    # 2. Find loop variables iterating over param
+    loop_vars = set()
+    for child in ast.walk(func_node):
+        if isinstance(child, ast.For):
+            iter_node = child.iter
+            # Direct: for x in param
+            is_param_iter = isinstance(iter_node, ast.Name) and iter_node.id == param
+            # Subscript/slice: for x in param[1:] or param[::2]
+            if not is_param_iter and isinstance(iter_node, ast.Subscript):
+                is_param_iter = isinstance(iter_node.value, ast.Name) and iter_node.value.id == param
+            # Call wrapping: for x in reversed(param), sorted(param), etc.
+            if not is_param_iter and isinstance(iter_node, ast.Call):
+                if isinstance(iter_node.func, ast.Name) and iter_node.args:
+                    arg0 = iter_node.args[0]
+                    if isinstance(arg0, ast.Name) and arg0.id == param:
+                        is_param_iter = True
+                    elif isinstance(arg0, ast.Subscript) and isinstance(arg0.value, ast.Name) and arg0.value.id == param:
+                        is_param_iter = True
+            if is_param_iter:
+                if isinstance(child.target, ast.Name):
+                    loop_vars.add(child.target.id)
+                elif isinstance(child.target, ast.Tuple):
+                    for elt in child.target.elts:
+                        if isinstance(elt, ast.Name):
+                            loop_vars.add(elt.id)
+            # enumerate(param) → for i, x in enumerate(param)
+            if (isinstance(child.iter, ast.Call) and isinstance(child.iter.func, ast.Name)
+                    and child.iter.func.id == 'enumerate' and child.iter.args):
+                arg = child.iter.args[0]
+                if isinstance(arg, ast.Name) and arg.id == param:
+                    if isinstance(child.target, ast.Tuple):
+                        for elt in child.target.elts:
+                            if isinstance(elt, ast.Name):
+                                loop_vars.add(elt.id)
+        # Comprehension generators
+        if isinstance(child, (ast.ListComp, ast.SetComp, ast.GeneratorExp)):
+            for gen in child.generators:
+                iter_node = gen.iter
+                is_param_iter = isinstance(iter_node, ast.Name) and iter_node.id == param
+                if not is_param_iter and isinstance(iter_node, ast.Subscript):
+                    is_param_iter = isinstance(iter_node.value, ast.Name) and iter_node.value.id == param
+                if is_param_iter:
+                    if isinstance(gen.target, ast.Name):
+                        loop_vars.add(gen.target.id)
+
+    # Check if loop vars are used with arithmetic/comparison
+    if loop_vars:
+        for child in ast.walk(func_node):
+            if isinstance(child, ast.BinOp):
+                for side in (child.left, child.right):
+                    if isinstance(side, ast.Name) and side.id in loop_vars:
+                        if type(child.op) in arith_ops:
+                            elem_ops.add('elem_arith')
+            # Augmented assignment: result ^= n, total += x, etc.
+            if isinstance(child, ast.AugAssign):
+                if isinstance(child.value, ast.Name) and child.value.id in loop_vars:
+                    if type(child.op) in arith_ops:
+                        elem_ops.add('elem_arith')
+            if isinstance(child, ast.Compare):
+                refs = set()
+                if isinstance(child.left, ast.Name) and child.left.id in loop_vars:
+                    refs.add(child.left.id)
+                for c in child.comparators:
+                    if isinstance(c, ast.Name) and c.id in loop_vars:
+                        refs.add(c.id)
+                if refs and any(type(op) in cmp_ops for op in child.ops):
+                    elem_ops.add('elem_compare')
+            if isinstance(child, ast.UnaryOp) and isinstance(child.op, (ast.USub, ast.Invert)):
+                if isinstance(child.operand, ast.Name) and child.operand.id in loop_vars:
+                    elem_ops.add('elem_arith')
+            # Function calls: max(x, ...), min(x, ...), abs(x), etc.
+            if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+                fname = child.func.id
+                if fname in ('abs', 'int', 'float', 'round') and child.args:
+                    if isinstance(child.args[0], ast.Name) and child.args[0].id in loop_vars:
+                        elem_ops.add('elem_arith')
+                if fname in ('max', 'min') and len(child.args) >= 2:
+                    if any(isinstance(a, ast.Name) and a.id in loop_vars for a in child.args):
+                        elem_ops.add('elem_compare')
+
+    # 3. Subscript result used arithmetically: param[i] + ...
+    # NOTE: This uses 'elem_subscript_arith' instead of 'elem_arith' because
+    # subscript arithmetic (p[0] + p[1]) is common for fixed-size containers
+    # like coordinates/points, which should NOT be classified as numeric_list.
+    for child in ast.walk(func_node):
+        if isinstance(child, ast.BinOp):
+            for side in (child.left, child.right):
+                if (isinstance(side, ast.Subscript)
+                        and isinstance(side.value, ast.Name)
+                        and side.value.id == param
+                        and type(child.op) in arith_ops):
+                    elem_ops.add('elem_subscript_arith')
+        if isinstance(child, ast.Compare):
+            all_nodes = [child.left] + child.comparators
+            has_subscript = False
+            for n in all_nodes:
+                if (isinstance(n, ast.Subscript)
+                        and isinstance(n.value, ast.Name)
+                        and n.value.id == param):
+                    has_subscript = True
+            if has_subscript and any(type(op) in cmp_ops for op in child.ops):
+                elem_ops.add('elem_subscript_compare')
+
+    return elem_ops
+
+
 def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
     """Infer duck type for parameter pname from both programs."""
     ops_f = extract_duck_ops(func_f, pname)
     ops_g = extract_duck_ops(func_g, pname)
     ops = ops_f | ops_g
+
+    # Detect numeric list: collection whose elements are used arithmetically
+    elem_ops_f = _extract_element_ops(func_f, pname)
+    elem_ops_g = _extract_element_ops(func_g, pname)
+    elem_ops = elem_ops_f | elem_ops_g
 
     # If isinstance checks are present, narrow by tested types
     isinstance_types = {o.replace('isinstance_', '') for o in ops if o.startswith('isinstance_')}
@@ -331,6 +463,13 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
 
     # Generic collection (iter, getitem, len, etc.)
     if ops & collection_ops:
+        # Check if elements are used arithmetically via ITERATION → numeric_list
+        # Only loop-based and reduction-based detections qualify.
+        # Subscript-based (param[i] + ...) doesn't qualify because it's
+        # common for fixed-size containers (coordinates, points).
+        numeric_elem_loop = {'elem_arith', 'elem_compare', 'numeric_reduction'}
+        if elem_ops & numeric_elem_loop:
+            return 'numeric_list', True
         return 'collection', True
 
     if ops & {'eq', 'ne', 'is', 'isnot'} and not (ops - {'eq', 'ne', 'is', 'isnot', 'isinstance_check'}):
@@ -360,6 +499,7 @@ DUCK_TYPE_FIBERS: dict[str, frozenset[str]] = {
     'ref': frozenset(['ref']),
     'list': frozenset(['pair', 'ref']),
     'collection': frozenset(['pair', 'ref', 'str']),
+    'numeric_list': frozenset(['pair', 'ref']),
     'bytes': frozenset(['str']),  # bytes shares string fiber but uses bytes samples
     'numeric': frozenset(['int']),
     'any': ALL_FIBERS,

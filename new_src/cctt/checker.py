@@ -613,8 +613,10 @@ def _cohomological_path_search(source_f: str, source_g: str,
         return None
 
     param_fibers = []
+    duck_types = []
     for pname in param_names_orig:
         kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
+        duck_types.append(kind)
         if kind == 'int':
             param_fibers.append(['int'])
         elif kind == 'str':
@@ -625,7 +627,7 @@ def _cohomological_path_search(source_f: str, source_g: str,
             param_fibers.append(['bytes'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
-        elif kind in ('list', 'collection'):
+        elif kind in ('list', 'collection', 'numeric_list'):
             param_fibers.append(['ref'])
         elif kind == 'any':
             param_fibers.append(['int', 'str', 'ref'])
@@ -694,7 +696,8 @@ def _cohomological_path_search(source_f: str, source_g: str,
         # Require 2+ disagrees to override — single disagree is likely
         # an out-of-domain edge case (n=-1, empty list, etc.)
         bt_check = _bounded_testing(source_f, source_g, param_names,
-                                    param_fibers, deadline)
+                                    param_fibers, deadline,
+                                    duck_types=duck_types)
         if isinstance(bt_check, dict) and bt_check.get('eq') is False:
             return Result(False,
                 'bounded testing NEQ overrides path search H1=0',
@@ -1234,17 +1237,21 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         except Exception:
             return Result(None, 'cannot compile or parse')
         param_fibers = []
+        _duck_types = []
         for pname in param_names:
             kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
+            _duck_types.append(kind)
             fiber_map = {
                 'int': ['int'], 'str': ['str'], 'bool': ['bool'],
                 'bytes': ['bytes'],
                 'ref': ['ref'], 'list': ['pair', 'ref'],
                 'collection': ['pair', 'ref', 'str'],
+                'numeric_list': ['pair', 'ref'],
             }
             param_fibers.append(fiber_map.get(kind, ['int', 'bool', 'str', 'pair', 'ref', 'none']))
         bt_result = _bounded_testing(source_f, source_g, param_names,
-                                     param_fibers, deadline)
+                                     param_fibers, deadline,
+                                     duck_types=_duck_types)
         if isinstance(bt_result, dict) and bt_result.get('eq') is False:
             return Result(False, 'bounded testing NEQ (Z3 OOM, concrete disagreement found)',
                           h0=0, h1=1)
@@ -1321,8 +1328,10 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         return Result(None, 'cannot parse for duck typing')
 
     param_fibers = []
+    duck_types = []
     for pname in param_names:
         kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
+        duck_types.append(kind)
         if kind == 'int':
             param_fibers.append(['int'])
         elif kind == 'numeric':
@@ -1339,6 +1348,8 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             param_fibers.append(['pair', 'ref'])
         elif kind == 'collection':
             param_fibers.append(['pair', 'ref', 'str'])
+        elif kind == 'numeric_list':
+            param_fibers.append(['pair', 'ref'])
         elif kind == 'any':
             param_fibers.append(['int', 'float', 'bool', 'str', 'pair', 'ref', 'none'])
         else:
@@ -1426,7 +1437,8 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         # issues and axiom unsoundness.  Require 2+ disagrees to override
         # — single disagree is likely an out-of-domain edge case.
         bt_check = _bounded_testing(source_f, source_g, param_names,
-                                    param_fibers, deadline)
+                                    param_fibers, deadline,
+                                    duck_types=duck_types)
         if isinstance(bt_check, dict) and bt_check.get('eq') is False:
             return Result(False, 'bounded testing NEQ overrides H1=0 (concrete disagreement found)',
                           h0=0, h1=1)
@@ -1446,7 +1458,8 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     # When Z3 is inconclusive or gives non-concrete NEQ (uninterpreted fns),
     # fall back to bounded testing for a practical verdict.
     bt_result = _bounded_testing(source_f, source_g, param_names,
-                                 param_fibers, deadline)
+                                 param_fibers, deadline,
+                                 duck_types=duck_types)
     if isinstance(bt_result, dict) and bt_result.get('eq') is False:
         return Result(False, 'bounded testing NEQ (concrete disagreement found)',
                       h0=0, h1=1)
@@ -1649,7 +1662,8 @@ def _is_concrete(val, T) -> bool:
 
 def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                      param_fibers: List[List[str]], deadline: float,
-                     require_n_disagree: int = 1):
+                     require_n_disagree: int = 1,
+                     duck_types: List[str] = None):
     """Bounded testing: evaluate both functions on representative inputs.
 
     Returns True if all test cases agree, a dict with 'eq'=False and details
@@ -1674,8 +1688,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                 # Financial rounding edge cases (x.xx5 not exactly representable
                 # in float, causing round(x, 2) to differ from Decimal rounding)
                 '2.675', '1.005',
-                '3', '5', '-7', '42', '100', '257', '10',
-                'True', 'False'],
+                '3', '5', '-7', '42', '100', '257', '10'],
         'float': ['0.0', '1.0', '-1.0', '0.5', '-0.5',
                   'float("nan")', 'float("inf")', 'float("-inf")', '-0.0',
                   '0.1', '0.2', '0.3', '1e16', '1e-16', '2**53+1'],
@@ -1738,6 +1751,16 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                        '["hello", "world"]', '[True, False, True]',
                        '[0, 0, 0]', '[-1, 0, 1]', '[1, 2, 3, 4, 5]',
                        '[3, 3, 3, 3]', '[1, 2, 1, 2, 1]'],
+        # Numeric-only lists: no tuples, strings, None, booleans, or nested lists
+        'numeric_list': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
+                         '[0, 0, 0]', '[-1, 0, 1]', '[1, 2, 3, 4, 5]',
+                         '[3, 3, 3, 3]', '[1, 2, 1, 2, 1]',
+                         '[1, 1, 2, 1, 3]', '[1, 1, 1, 2]',
+                         '[5, 4, 3, 2, 1]', '[100, 1, 50]',
+                         '[-5, -3, -1, 0, 2, 4]', '[7]',
+                         '[1, -1, 2, -2, 3, -3]',
+                         '[10, 20, 30, 40, 50]', '[1, 3, 5, 2, 4]',
+                         '[0, 1, 2, 0, 1, 2, 0]', '[-100, 0, 100]'],
     }
 
     # Build test input combinations (limited to avoid explosion)
@@ -1746,18 +1769,23 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
     param_samples = []
     for i, pname in enumerate(param_names):
         fibers = param_fibers[i] if i < len(param_fibers) else ['int']
-        samples = []
-        # Collect samples from each fiber, interleaving to ensure
-        # edge cases from each fiber type appear early.
-        per_fiber_lists = []
-        for f in fibers:
-            per_fiber_lists.append(type_samples.get(f, ['0', '1']))
-        # Interleave: take first from each, then second from each, etc.
-        max_len = max(len(lst) for lst in per_fiber_lists) if per_fiber_lists else 0
-        for j in range(max_len):
-            for lst in per_fiber_lists:
-                if j < len(lst):
-                    samples.append(lst[j])
+        # If duck type has a specialized sample set, use it directly
+        # (e.g., numeric_list uses clean int-only lists instead of mixed-type
+        # collection samples from pair+ref fibers)
+        dt = duck_types[i] if duck_types and i < len(duck_types) else None
+        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes'}
+        if dt and dt in _DUCK_TYPE_SAMPLE_OVERRIDE and dt in type_samples:
+            samples = list(type_samples[dt])
+        else:
+            samples = []
+            per_fiber_lists = []
+            for f in fibers:
+                per_fiber_lists.append(type_samples.get(f, ['0', '1']))
+            max_len = max(len(lst) for lst in per_fiber_lists) if per_fiber_lists else 0
+            for j in range(max_len):
+                for lst in per_fiber_lists:
+                    if j < len(lst):
+                        samples.append(lst[j])
         # Deduplicate and limit
         seen = set()
         unique = []
