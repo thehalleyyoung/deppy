@@ -192,15 +192,343 @@ _SPEC_KEYWORDS: Dict[str, List[List[str]]] = {
     ],
     # NOTE: sorted_output removed — too generic, matches unrelated functions
     # that happen to use sorted(). Sorting is an operation, not a spec.
+
+    # ── String algorithms ──
+    'reverse_string': [
+        ['reverse', 'string'],
+        ['reversed'],
+        ['[::-1]'],
+    ],
+    'is_palindrome': [
+        ['palindrome'],
+    ],
+    'anagram_check': [
+        ['anagram'],
+    ],
+    'count_vowels': [
+        ['vowel'],
+    ],
+    'run_length_encode': [
+        ['run', 'length'],
+        ['rle'],
+        ['groupby'],
+    ],
+    'longest_common_prefix': [
+        ['longest', 'common', 'prefix'],
+        ['lcp'],
+    ],
+    'caesar_cipher': [
+        ['caesar'],
+        ['cipher', 'shift'],
+    ],
+    'rot13': [
+        ['rot13'],
+        ['rot_13'],
+    ],
+    'vigenere': [
+        ['vigenere'],
+    ],
+    'title_case': [
+        ['title', 'case'],
+        ['capitalize', 'word'],
+    ],
+
+    # ── Number theory ──
+    'is_prime': [
+        ['is_prime'],
+        ['prime', 'check'],
+        ['primality'],
+    ],
+    'sieve': [
+        ['sieve'],
+        ['eratosthenes'],
+    ],
+    'euler_totient': [
+        ['euler', 'totient'],
+        ['totient'],
+        ['phi'],
+    ],
+    'lcm': [
+        ['lcm'],
+        ['least', 'common', 'multiple'],
+    ],
+
+    # ── Graph algorithms ──
+    'dijkstra': [
+        ['dijkstra'],
+        ['shortest', 'path'],
+    ],
+    'bfs_shortest': [
+        ['bfs', 'shortest'],
+        ['breadth', 'first'],
+    ],
+    'count_paths_dag': [
+        ['count', 'path'],
+        ['dag', 'path'],
+    ],
+    'in_degree': [
+        ['in_degree'],
+        ['indegree'],
+        ['in-degree'],
+    ],
+    'is_bipartite': [
+        ['bipartite'],
+        ['two-color'],
+    ],
+    'has_cycle': [
+        ['cycle', 'detect'],
+        ['has_cycle'],
+    ],
+
+    # ── DP algorithms ──
+    'knapsack': [
+        ['knapsack'],
+        ['0/1', 'knapsack'],
+    ],
+    'subset_sum': [
+        ['subset', 'sum'],
+    ],
+    'max_subarray': [
+        ['max', 'subarray'],
+        ['kadane'],
+        ['maximum', 'subarray'],
+    ],
+    'longest_increasing_subseq': [
+        ['lis'],
+        ['longest', 'increasing'],
+        ['patience', 'sort'],
+    ],
+    'count_stairs': [
+        ['stairs'],
+        ['climb', 'stair'],
+        ['step', 'count'],
+    ],
+    'partition_count': [
+        ['partition'],
+    ],
+    'catalan': [
+        ['catalan'],
+    ],
+    'bell_number': [
+        ['bell', 'number'],
+        ['bell', 'triangle'],
+    ],
+    'derangement': [
+        ['derangement'],
+        ['subfactorial'],
+    ],
+
+    # ── Sorting ──
+    'mergesort': [
+        ['mergesort'],
+        ['merge_sort'],
+        ['merge', 'sort'],
+    ],
+    'quickselect': [
+        ['quickselect'],
+        ['quick_select'],
+        ['kth', 'smallest'],
+        ['kth', 'element'],
+    ],
+    'counting_sort': [
+        ['counting', 'sort'],
+    ],
+    'radix_sort': [
+        ['radix', 'sort'],
+    ],
+    'frequency_sort': [
+        ['frequency', 'sort'],
+    ],
+
+    # ── Data structures ──
+    'trie': [
+        ['trie'],
+    ],
+    'lru_cache': [
+        ['lru'],
+        ['least', 'recently'],
+    ],
+    'stack_from_queues': [
+        ['stack', 'queue'],
+    ],
+    'max_heap': [
+        ['max', 'heap'],
+        ['heap', 'extract'],
+    ],
+
+    # ── Geometry ──
+    'triangle_area': [
+        ['triangle', 'area'],
+        ['heron'],
+        ['shoelace'],
+    ],
+    'polygon_area': [
+        ['polygon', 'area'],
+    ],
+    'point_in_polygon': [
+        ['point', 'in', 'polygon'],
+        ['ray', 'casting'],
+        ['winding', 'number'],
+    ],
+    'closest_pair': [
+        ['closest', 'pair'],
+    ],
+    'manhattan_distance': [
+        ['manhattan'],
+    ],
+    'rotate_point': [
+        ['rotate', 'point'],
+    ],
+    'line_intersection': [
+        ['line', 'intersection'],
+    ],
+
+    # ── Linear algebra ──
+    'determinant': [
+        ['determinant'],
+        ['cofactor'],
+    ],
+    'matrix_trace': [
+        ['trace'],
+    ],
+    'dot_product': [
+        ['dot', 'product'],
+    ],
+    'cross_product': [
+        ['cross', 'product', '3d'],
+    ],
+    'matrix_power': [
+        ['matrix', 'power'],
+        ['matrix', 'exponent'],
+    ],
+    'spiral_order': [
+        ['spiral'],
+    ],
+
+    # ── Bit manipulation ──
+    'count_set_bits': [
+        ['count', 'bit'],
+        ['popcount'],
+        ['set', 'bit'],
+        ['hamming', 'weight'],
+    ],
+    'reverse_bits': [
+        ['reverse', 'bit'],
+    ],
+    'single_number': [
+        ['single', 'number'],
+        ['xor', 'unique'],
+    ],
+    'hamming_distance': [
+        ['hamming', 'distance'],
+    ],
+    'is_power_of_two': [
+        ['power', 'of', 'two'],
+    ],
+    'next_power_of_two': [
+        ['next', 'power'],
+    ],
+    'swap_bits': [
+        ['swap', 'bit'],
+    ],
+    'gray_code': [
+        ['gray', 'code'],
+    ],
+
+    # ── Combinatorics ──
+    'permutations': [
+        ['permutation'],
+    ],
+    'combinations': [
+        ['combination'],
+    ],
+    'n_choose_k': [
+        ['n choose k'],
+        ['choose'],
+        ['binomial'],
+    ],
+
+    # ── Encoding/crypto ──
+    'base64_encode': [
+        ['base64'],
+    ],
+    'xor_encrypt': [
+        ['xor', 'encrypt'],
+        ['xor', 'cipher'],
+    ],
+    'hex_digest': [
+        ['hex', 'digest'],
+        ['hex', 'hash'],
+    ],
+    'crc_checksum': [
+        ['crc'],
+        ['checksum'],
+    ],
+    'sha256': [
+        ['sha256'],
+        ['sha-256'],
+    ],
+    'simple_hash': [
+        ['hash', 'function'],
+        ['simple', 'hash'],
+    ],
+
+    # ── Conversion ──
+    'roman_to_int': [
+        ['roman', 'int'],
+        ['roman', 'numeral'],
+    ],
+    'int_to_roman': [
+        ['int', 'roman'],
+        ['integer', 'roman'],
+    ],
+
+    # ── Collection operations ──
+    'flatten_list': [
+        ['flatten'],
+    ],
+    'transpose': [
+        ['transpose'],
+    ],
+    'chunk_list': [
+        ['chunk'],
+        ['batch'],
+    ],
+    'sliding_window_max': [
+        ['sliding', 'window'],
+        ['deque', 'max'],
+    ],
+    'flatten_dict': [
+        ['flatten', 'dict'],
+    ],
+    'zip_dict': [
+        ['zip', 'dict'],
+    ],
+    'groupby_key': [
+        ['groupby'],
+        ['group_by'],
+        ['group', 'by'],
+    ],
+    'enumerate_manual': [
+        ['enumerate'],
+    ],
+    'binary_search': [
+        ['binary', 'search'],
+        ['bisect'],
+    ],
+    'search_rotated': [
+        ['search', 'rotated'],
+        ['rotated', 'array'],
+    ],
 }
 
 
-def _identify_spec_from_source(source: str) -> Optional[str]:
+def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
     """D20: Identify the abstract specification from source code.
 
     Uses docstrings, function names, variable names, operations,
     and structural patterns to determine WHAT the function computes.
-    Returns a canonical spec name or None.
+    Returns a dict of spec_name → confidence score.
     """
     source_lower = source.lower()
 
@@ -340,6 +668,457 @@ def _identify_spec_from_source(source: str) -> Optional[str]:
         if has_zip or has_longest:
             scores['zip_longest'] = scores.get('zip_longest', 0) + 8.0
 
+    # ── String algorithm structural patterns ──
+
+    # reverse_string: single string param + reversed/[::-1]/insert(0,c)
+    if param_count == 1:
+        has_reverse = '[::-1]' in source or 'reversed(' in source
+        has_insert_0 = 'insert(0' in source or "insert(0" in source
+        has_join = "''.join" in source or '"".join' in source or 'join(' in source_lower
+        if has_reverse and has_join:
+            scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
+        if has_insert_0 and has_join:
+            scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
+
+    # is_palindrome: single param + comparison with reverse or two-pointer
+    if param_count == 1:
+        has_reverse_cmp = '[::-1]' in source
+        has_two_ptr = ('left' in source_lower and 'right' in source_lower)
+        has_alnum = 'isalnum' in source or 'isalpha' in source
+        has_str_param = 's' in params_str or 'string' in params_str or 'text' in params_str or 'word' in params_str
+        if has_reverse_cmp and ('==' in source or '!=' in source) and has_str_param:
+            scores['is_palindrome'] = scores.get('is_palindrome', 0) + 8.0
+        if has_two_ptr and has_alnum:
+            scores['is_palindrome'] = scores.get('is_palindrome', 0) + 8.0
+
+    # anagram_check: two params + Counter or sorted comparison
+    if param_count == 2:
+        has_counter = 'Counter(' in source or 'counter' in source_lower
+        has_sorted_cmp = 'sorted(' in source and '==' in source
+        has_freq = 'freq' in source_lower or 'count' in source_lower
+        if (has_counter or has_sorted_cmp) and ('s1' in params_str or 's2' in params_str or 'str' in params_str):
+            scores['anagram_check'] = scores.get('anagram_check', 0) + 8.0
+
+    # count_vowels: single param + vowel set/string
+    if param_count == 1:
+        has_vowels = 'aeiou' in source_lower
+        has_count = 'count' in source_lower or '+= 1' in source or '+=' in source
+        if has_vowels:
+            scores['count_vowels'] = scores.get('count_vowels', 0) + 8.0
+
+    # run_length_encode: single param + consecutive char grouping
+    if param_count == 1:
+        has_groupby = 'groupby(' in source
+        has_consecutive = ('count' in source_lower and ('prev' in source_lower or 'current' in source_lower or 'last' in source_lower))
+        has_append_pair = 'append(' in source and ('count' in source_lower or 'len(' in source)
+        if has_groupby and ('append' in source or 'return' in source):
+            scores['run_length_encode'] = scores.get('run_length_encode', 0) + 8.0
+        if has_consecutive and has_append_pair:
+            scores['run_length_encode'] = scores.get('run_length_encode', 0) + 6.0
+
+    # caesar_cipher: two params (text, shift) + chr/ord with modular arithmetic
+    if param_count == 2 and ('shift' in params_str or 'key' in params_str):
+        has_chr_ord = 'chr(' in source and 'ord(' in source
+        has_mod26 = '% 26' in source or '%26' in source
+        has_translate = 'translate(' in source or 'maketrans(' in source
+        if has_chr_ord and has_mod26:
+            scores['caesar_cipher'] = scores.get('caesar_cipher', 0) + 8.0
+        if has_translate:
+            scores['caesar_cipher'] = scores.get('caesar_cipher', 0) + 8.0
+
+    # rot13: single param + chr/ord with +13 or translate table
+    if param_count == 1:
+        has_13 = '13' in source
+        has_chr_ord = 'chr(' in source and 'ord(' in source
+        has_translate = 'translate(' in source or 'maketrans(' in source
+        if has_13 and (has_chr_ord or has_translate):
+            scores['rot13'] = scores.get('rot13', 0) + 8.0
+
+    # vigenere: two params + repeating key + chr/ord
+    if param_count == 2 and ('key' in params_str):
+        has_chr_ord = 'chr(' in source and 'ord(' in source
+        has_mod26 = '% 26' in source or '%26' in source
+        has_key_cycle = 'key[' in source or 'cycle(' in source
+        if has_chr_ord and has_mod26 and has_key_cycle:
+            scores['vigenere'] = scores.get('vigenere', 0) + 8.0
+
+    # ── Number theory structural patterns ──
+
+    # is_prime: single param + divisibility check with sqrt bound
+    if param_count == 1:
+        has_sqrt = 'isqrt' in source or 'sqrt' in source or 'i * i' in source or 'i*i' in source
+        has_divisible = '% ' in source and '== 0' in source
+        has_prime_kw = 'prime' in source_lower
+        if has_sqrt and has_divisible:
+            scores['is_prime'] = scores.get('is_prime', 0) + 8.0
+
+    # sieve: single param + boolean/list array marked for composites
+    if param_count == 1:
+        has_sieve_array = ('[True]' in source or '[False]' in source) and 'range(' in source
+        has_mark = 'sieve' in source_lower or 'is_prime' in source_lower
+        has_sqrt_loop = ('i * i' in source or 'i*i' in source or 'isqrt' in source)
+        if has_sieve_array and has_sqrt_loop:
+            scores['sieve'] = scores.get('sieve', 0) + 8.0
+        if has_sieve_array and has_mark:
+            scores['sieve'] = scores.get('sieve', 0) + 6.0
+
+    # euler_totient: single param + gcd or prime factoring + result calculation
+    if param_count == 1:
+        has_gcd = 'gcd(' in source_lower
+        has_phi = 'phi' in source_lower or 'result' in source_lower
+        has_prime_divide = '//=' in source and ('p * p' in source or 'p*p' in source or 'p ** 2' in source)
+        if has_prime_divide and has_phi:
+            scores['euler_totient'] = scores.get('euler_totient', 0) + 8.0
+        if has_gcd and 'range(' in source:
+            scores['euler_totient'] = scores.get('euler_totient', 0) + 6.0
+
+    # lcm: two params + gcd-based or iterative
+    if param_count == 2:
+        has_gcd = 'gcd(' in source or 'gcd' in source_lower
+        has_lcm_formula = '//' in source and ('*' in source or 'abs' in source)
+        if has_gcd and has_lcm_formula:
+            scores['lcm'] = scores.get('lcm', 0) + 8.0
+
+    # fibonacci: single param + a,b = b,a+b or recursive
+    if param_count == 1:
+        has_fib_swap = ('a, b = b, a + b' in source or 'a,b=b,a+b' in source or
+                        'a, b = b, a+b' in source or 'prev, curr' in source_lower)
+        has_memo = 'memo' in source_lower or 'cache' in source_lower or '@lru_cache' in source
+        has_recursive = 'return f(' in source or 'return fib(' in source
+        if has_fib_swap:
+            scores['fibonacci'] = scores.get('fibonacci', 0) + 8.0
+        if has_memo and has_recursive:
+            scores['fibonacci'] = scores.get('fibonacci', 0) + 6.0
+
+    # ── Graph structural patterns ──
+
+    # dijkstra: graph param + heapq + distance dict/array
+    if 'graph' in params_str or 'adj' in params_str or 'edges' in params_str:
+        has_heap = 'heappush' in source or 'heappop' in source or 'heapq' in source
+        has_dist = 'dist' in source_lower or 'distance' in source_lower
+        has_inf = 'inf' in source or 'float(' in source
+        if has_heap and has_dist:
+            scores['dijkstra'] = scores.get('dijkstra', 0) + 8.0
+
+    # topological_sort (structural): graph + in-degree + queue/stack
+    if 'graph' in params_str or 'adj' in params_str or 'edges' in params_str:
+        has_in_degree = 'in_degree' in source or 'indegree' in source_lower or 'degree' in source_lower
+        has_queue = 'deque(' in source or 'queue' in source_lower
+        has_topo = 'topo' in source_lower or 'sorted' in source_lower or 'order' in source_lower
+        if has_in_degree and (has_queue or 'stack' in source_lower):
+            scores['topological_sort'] = scores.get('topological_sort', 0) + 8.0
+
+    # ── DP structural patterns ──
+
+    # knapsack: weights/values + capacity params + DP table
+    if param_count >= 2 and ('weight' in params_str or 'value' in params_str or 'capacity' in params_str or 'items' in params_str):
+        has_dp = 'dp' in source_lower or '[[' in source
+        has_max = 'max(' in source
+        if has_dp and has_max:
+            scores['knapsack'] = scores.get('knapsack', 0) + 8.0
+
+    # subset_sum: arr + target params + boolean DP
+    if param_count == 2 and ('arr' in params_str or 'nums' in params_str or 'target' in params_str):
+        has_dp = 'dp' in source_lower or 'set(' in source
+        has_bool = 'True' in source and 'False' in source
+        if has_dp and ('target' in params_str or 'sum' in source_lower):
+            scores['subset_sum'] = scores.get('subset_sum', 0) + 6.0
+
+    # max_subarray: single array param + Kadane's pattern
+    if param_count == 1:
+        has_max = 'max(' in source
+        has_running = 'current' in source_lower or 'running' in source_lower or 'max_ending' in source_lower
+        has_global = 'global' in source_lower or 'max_so_far' in source_lower or 'best' in source_lower
+        if has_max and (has_running or has_global):
+            scores['max_subarray'] = scores.get('max_subarray', 0) + 6.0
+
+    # longest_increasing_subseq: single array param + bisect or DP
+    if param_count == 1:
+        has_bisect = 'bisect' in source_lower
+        has_tails = 'tails' in source_lower or 'dp' in source_lower
+        has_increasing = 'increasing' in source_lower or 'lis' in source_lower
+        if has_bisect:
+            scores['longest_increasing_subseq'] = scores.get('longest_increasing_subseq', 0) + 8.0
+        if has_tails and 'range(' in source:
+            scores['longest_increasing_subseq'] = scores.get('longest_increasing_subseq', 0) + 5.0
+
+    # ── Sorting structural patterns ──
+
+    # mergesort: single param + recursive split + merge
+    if param_count == 1:
+        has_mid = 'mid' in source_lower or 'len(' in source
+        has_merge = 'merge' in source_lower
+        has_recursive = ('left' in source_lower and 'right' in source_lower)
+        if has_merge and has_recursive and has_mid:
+            scores['mergesort'] = scores.get('mergesort', 0) + 8.0
+
+    # counting_sort: single/two params + count array
+    if param_count <= 2:
+        has_count_array = 'count' in source_lower and ('[0]' in source or 'range(' in source)
+        has_max_val = 'max(' in source
+        has_output = 'output' in source_lower or 'result' in source_lower or 'sorted' in source_lower
+        if has_count_array and has_max_val and has_output:
+            scores['counting_sort'] = scores.get('counting_sort', 0) + 7.0
+
+    # radix_sort: single param + digit extraction + counting sort per digit
+    if param_count == 1:
+        has_digit = 'digit' in source_lower or '% 10' in source or '%10' in source or '// 10' in source
+        has_exp = 'exp' in source_lower or 'place' in source_lower or 'bit' in source_lower
+        has_bucket = 'bucket' in source_lower or 'count' in source_lower
+        if has_digit and (has_exp or has_bucket):
+            scores['radix_sort'] = scores.get('radix_sort', 0) + 8.0
+
+    # ── Geometry structural patterns ──
+
+    # triangle_area: three-point or 6-coord params + cross product / Heron's
+    if param_count >= 2:
+        has_cross = 'cross' in source_lower or '(x2 - x1)' in source or 'abs(' in source
+        has_area = 'area' in source_lower or '/ 2' in source or '/2' in source or '* 0.5' in source
+        has_heron = 'sqrt(' in source and ('a + b + c' in source or 'semi' in source_lower)
+        if (has_cross or has_heron) and has_area:
+            scores['triangle_area'] = scores.get('triangle_area', 0) + 6.0
+
+    # polygon_area: single param (list of points) + shoelace
+    if param_count == 1:
+        has_shoelace = ('x1 * y2' in source or 'x[' in source or 'vertices' in params_str or 'points' in params_str)
+        has_sum_loop = 'for' in source and ('range(' in source or 'zip(' in source)
+        has_half = '/ 2' in source or '/2' in source or '* 0.5' in source or 'abs(' in source
+        if has_shoelace and has_sum_loop and has_half:
+            scores['polygon_area'] = scores.get('polygon_area', 0) + 7.0
+
+    # ── Bit manipulation structural patterns ──
+
+    # count_set_bits: single param + & 1 or bin() count
+    if param_count == 1:
+        has_bit_and = '& 1' in source or '&1' in source
+        has_shift = '>> 1' in source or '>>1' in source or '>>=' in source
+        has_bin = 'bin(' in source
+        if has_bit_and and has_shift:
+            scores['count_set_bits'] = scores.get('count_set_bits', 0) + 8.0
+        if has_bin and (".count('1')" in source or '.count("1")' in source):
+            scores['count_set_bits'] = scores.get('count_set_bits', 0) + 8.0
+
+    # single_number: single param + XOR reduction
+    if param_count == 1:
+        has_xor = '^=' in source or '^ ' in source
+        has_reduce = 'reduce(' in source or 'for' in source
+        if has_xor and has_reduce:
+            scores['single_number'] = scores.get('single_number', 0) + 8.0
+
+    # is_power_of_two: single param + n & (n-1) pattern
+    if param_count == 1:
+        has_bit_trick = 'n & (n - 1)' in source or 'n&(n-1)' in source or 'n & (n-1)' in source
+        has_log2 = 'log2(' in source or 'log(' in source
+        has_bit_length = 'bit_length' in source
+        if has_bit_trick:
+            scores['is_power_of_two'] = scores.get('is_power_of_two', 0) + 8.0
+        if has_log2 or has_bit_length:
+            scores['is_power_of_two'] = scores.get('is_power_of_two', 0) + 5.0
+
+    # hamming_distance: two params + XOR + popcount
+    if param_count == 2:
+        has_xor = '^' in source
+        has_count = 'count' in source_lower or '& 1' in source or 'bin(' in source
+        if has_xor and has_count:
+            scores['hamming_distance'] = scores.get('hamming_distance', 0) + 7.0
+
+    # gray_code: single param + bit manipulation or recursive
+    if param_count == 1:
+        has_xor = '^ ' in source or '^=' in source
+        has_shift = '>>' in source or '<<' in source
+        has_1_shift = '1 << ' in source or '1<<' in source
+        has_or_shift = '|' in source and '<<' in source
+        has_reversed = 'reversed(' in source
+        if has_xor and has_shift:
+            scores['gray_code'] = scores.get('gray_code', 0) + 6.0
+        if has_1_shift and ('range(' in source or 'for' in source):
+            scores['gray_code'] = scores.get('gray_code', 0) + 5.0
+        # Recursive reflect-and-prefix pattern: prev + [x | (1<<n) for x in reversed(prev)]
+        if has_or_shift and has_reversed and has_1_shift:
+            scores['gray_code'] = scores.get('gray_code', 0) + 9.0
+
+    # ── Combinatorics structural patterns ──
+
+    # permutations: single param + recursive/itertools + swap/backtrack
+    if param_count <= 2:
+        has_perm_import = 'itertools' in source and 'permutation' in source_lower
+        has_swap = 'swap' in source_lower or ('arr[' in source and 'arr[' in source)
+        has_backtrack = 'backtrack' in source_lower or 'used' in source_lower or 'visited' in source_lower
+        if has_perm_import:
+            scores['permutations'] = scores.get('permutations', 0) + 8.0
+        if has_swap and has_backtrack:
+            scores['permutations'] = scores.get('permutations', 0) + 7.0
+
+    # combinations: two params + recursive/itertools
+    if param_count == 2:
+        has_comb_import = 'itertools' in source and 'combination' in source_lower
+        has_recursive = 'start' in source_lower and 'append' in source
+        if has_comb_import:
+            scores['combinations'] = scores.get('combinations', 0) + 8.0
+        if has_recursive and ('range(' in source or 'for' in source):
+            scores['combinations'] = scores.get('combinations', 0) + 5.0
+
+    # ── Encoding/crypto structural patterns ──
+
+    # base64_encode: single param + 6-bit grouping
+    if param_count == 1:
+        has_b64_import = 'base64' in source or 'b64' in source_lower
+        has_b64_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' in source
+        has_6bit = '>> 2' in source or '& 0x3f' in source or '& 63' in source
+        if has_b64_import or has_b64_chars:
+            scores['base64_encode'] = scores.get('base64_encode', 0) + 8.0
+        if has_6bit:
+            scores['base64_encode'] = scores.get('base64_encode', 0) + 5.0
+
+    # xor_encrypt: two params + XOR byte-by-byte
+    if param_count == 2 and ('key' in params_str):
+        has_xor = '^' in source
+        has_bytes = 'ord(' in source or 'byte' in source_lower or 'encode' in source_lower
+        if has_xor and has_bytes:
+            scores['xor_encrypt'] = scores.get('xor_encrypt', 0) + 8.0
+
+    # sha256/hash: single param + hash library
+    if param_count == 1:
+        has_hashlib = 'hashlib' in source
+        has_sha = 'sha256' in source or 'sha' in source_lower
+        has_digest = 'hexdigest' in source or 'digest' in source
+        if has_hashlib and has_sha:
+            scores['sha256'] = scores.get('sha256', 0) + 8.0
+        if has_hashlib and has_digest and not has_sha:
+            scores['hex_digest'] = scores.get('hex_digest', 0) + 6.0
+
+    # simple_hash: single param + manual hash computation (no hashlib)
+    if param_count == 1:
+        has_hash_loop = ('for' in source and ('ord(' in source or 'hash' in source_lower))
+        has_mod = '% ' in source and not 'hashlib' in source
+        if has_hash_loop and has_mod:
+            scores['simple_hash'] = scores.get('simple_hash', 0) + 6.0
+
+    # crc_checksum: single/two params + polynomial division
+    if param_count <= 2:
+        has_poly = 'polynomial' in source_lower or 'poly' in source_lower or '0x' in source
+        has_crc = 'crc' in source_lower or 'checksum' in source_lower
+        has_xor = '^' in source and ('>> ' in source or '<<' in source)
+        if has_crc or (has_poly and has_xor):
+            scores['crc_checksum'] = scores.get('crc_checksum', 0) + 7.0
+
+    # ── Conversion structural patterns ──
+
+    # roman_to_int: single param + roman numeral value mapping
+    if param_count == 1:
+        has_roman_map = ("'I'" in source or "'V'" in source or "'X'" in source or
+                         "'L'" in source or "'C'" in source or "'D'" in source or "'M'" in source)
+        has_values = ('1000' in source and '500' in source and '100' in source)
+        has_subtract = 'prev' in source_lower or 'i + 1' in source or 'i+1' in source
+        if has_roman_map and has_values:
+            scores['roman_to_int'] = scores.get('roman_to_int', 0) + 8.0
+
+    # int_to_roman: single param + value-symbol pairs
+    if param_count == 1:
+        has_roman_pairs = ('1000' in source and "'M'" in source) or ('roman' in source_lower)
+        has_subtract = '//' in source or 'while' in source
+        if has_roman_pairs and has_subtract:
+            scores['int_to_roman'] = scores.get('int_to_roman', 0) + 8.0
+
+    # ── Collection operation structural patterns ──
+
+    # flatten_list: single param + recursive isinstance check
+    if param_count == 1:
+        has_isinstance_list = 'isinstance(' in source and ('list' in source_lower)
+        has_recursive = 'flatten' in source_lower and ('extend' in source or 'append' in source or '+' in source)
+        if has_isinstance_list and (has_recursive or 'yield' in source):
+            scores['flatten_list'] = scores.get('flatten_list', 0) + 8.0
+
+    # transpose: single param + zip(*matrix) or nested loops
+    if param_count == 1:
+        has_zip_star = 'zip(*' in source or 'zip( *' in source
+        has_nested_loop = 'range(len(' in source and '[[' in source
+        if has_zip_star:
+            scores['transpose'] = scores.get('transpose', 0) + 8.0
+        if has_nested_loop and ('row' in source_lower or 'col' in source_lower):
+            scores['transpose'] = scores.get('transpose', 0) + 6.0
+
+    # chunk_list: two params + non-overlapping slicing with stride == chunk size
+    if param_count == 2:
+        has_slice = '[i:i+' in source or '[i:i +' in source
+        has_range_step = 'range(0,' in source or 'range(0 ,' in source
+        has_islice = 'islice' in source
+        has_chunk_kw = 'chunk' in source_lower or 'batch' in source_lower
+        if (has_slice and has_range_step) or has_islice or has_chunk_kw:
+            scores['chunk_list'] = scores.get('chunk_list', 0) + 6.0
+
+    # sliding_window_max: two params + deque or heap
+    if param_count == 2:
+        has_deque = 'deque(' in source or 'collections' in source
+        has_max = 'max(' in source or 'result' in source_lower
+        has_window = 'window' in source_lower or 'slide' in source_lower or 'k' in params_str
+        if has_deque and has_window:
+            scores['sliding_window_max'] = scores.get('sliding_window_max', 0) + 8.0
+
+    # flatten_dict: single param + recursive key building
+    if param_count <= 2:
+        has_isinstance_dict = 'isinstance(' in source and 'dict' in source
+        has_prefix = 'prefix' in source_lower or 'parent' in source_lower or 'sep' in source_lower
+        has_recursive = 'flatten' in source_lower
+        if has_isinstance_dict and has_prefix:
+            scores['flatten_dict'] = scores.get('flatten_dict', 0) + 7.0
+
+    # matrix operations
+    if param_count == 1:
+        # determinant: recursive cofactor expansion or LU decomposition
+        has_cofactor = 'minor' in source_lower or 'cofactor' in source_lower
+        has_recursive = 'determinant' in source_lower or 'det(' in source
+        has_2x2 = '0][0]' in source and '1][1]' in source
+        if has_cofactor or (has_recursive and has_2x2):
+            scores['determinant'] = scores.get('determinant', 0) + 8.0
+
+        # matrix_trace: sum of diagonal (must compute a scalar, not extract diagonal list)
+        has_diagonal = '[i][i]' in source
+        has_sum = 'sum(' in source or '+=' in source or 'trace' in source_lower
+        if has_diagonal and has_sum:
+            scores['matrix_trace'] = scores.get('matrix_trace', 0) + 8.0
+
+        # spiral_order: boundary tracking (top/bottom/left/right)
+        has_boundaries = ('top' in source_lower and 'bottom' in source_lower) or \
+                         ('row_start' in source_lower and 'col_start' in source_lower)
+        has_spiral = 'spiral' in source_lower or 'while' in source
+        if has_boundaries and has_spiral:
+            scores['spiral_order'] = scores.get('spiral_order', 0) + 8.0
+
+    # matrix_multiply: two matrix params
+    if param_count == 2:
+        has_triple_loop = source.count('for ') >= 3 or source.count('range(') >= 3
+        has_dot = 'sum(' in source or '+=' in source
+        has_zip = 'zip(' in source or 'zip(*' in source
+        if has_triple_loop and has_dot:
+            scores['matrix_multiply'] = scores.get('matrix_multiply', 0) + 7.0
+        if has_zip and has_dot:
+            scores['matrix_multiply'] = scores.get('matrix_multiply', 0) + 6.0
+
+    # dot_product: two params + sum of products
+    if param_count == 2:
+        has_zip = 'zip(' in source
+        has_sum = 'sum(' in source
+        has_multiply = '*' in source
+        if has_zip and has_sum and has_multiply:
+            scores['dot_product'] = scores.get('dot_product', 0) + 7.0
+
+    # ── Data structure structural patterns ──
+
+    # lru_cache: operations on OrderedDict or doubly-linked list
+    has_ordered_dict = 'OrderedDict' in source
+    has_move_to_end = 'move_to_end' in source
+    has_lru_pattern = 'capacity' in source_lower or 'maxsize' in source_lower
+    if has_ordered_dict and has_lru_pattern:
+        scores['lru_cache'] = scores.get('lru_cache', 0) + 8.0
+
+    # trie: node/children dict pattern
+    has_trie_node = 'children' in source_lower and ('{}' in source or 'dict()' in source)
+    has_trie_traverse = 'for c in' in source or 'for char in' in source
+    has_end_marker = 'end' in source_lower or '#' in source or 'is_word' in source_lower
+    if has_trie_node and has_trie_traverse:
+        scores['trie'] = scores.get('trie', 0) + 7.0
+
     # Keyword-based scoring (lower priority, additive)
     for spec_name, keyword_groups in _SPEC_KEYWORDS.items():
         for kw_group in keyword_groups:
@@ -353,13 +1132,21 @@ def _identify_spec_from_source(source: str) -> Optional[str]:
             if all_in_name:
                 scores[spec_name] = scores.get(spec_name, 0) + 2.0
 
-    # Find best spec
+    # Return all scores
+    return scores
+
+
+def _identify_spec_from_source(source: str) -> Optional[str]:
+    """D20: Identify the abstract specification from source code.
+
+    Thin wrapper around _identify_spec_from_source_scored that returns
+    the best spec name if confidence >= 3.0, else None.
+    """
+    scores = _identify_spec_from_source_scored(source)
     if not scores:
         return None
     best_spec = max(scores, key=scores.get)
     best_score = scores[best_spec]
-
-    # Require minimum confidence
     if best_score >= 3.0:
         return best_spec
     return None
@@ -461,7 +1248,7 @@ def _d20_spec_equiv(source_f: str, source_g: str, deadline: float) -> Optional[b
     # Both must have high structural confidence (AST pattern match,
     # not sampling).  Score >= 5.0 means multiple independent structural
     # indicators agreed (parameter patterns, operation patterns, etc.)
-    if score_f >= 5.0 and score_g >= 5.0:
+    if score_f >= 6.0 and score_g >= 6.0:
         # D20 spec uniqueness axiom: two programs with structurally
         # verified identical specs compute the same function.
         # This is a formal axiom of CCTT, not an empirical observation.
@@ -473,95 +1260,12 @@ def _d20_spec_equiv(source_f: str, source_g: str, deadline: float) -> Optional[b
 def _compute_spec_score(source: str, spec_name: str) -> float:
     """Compute the structural confidence score for a spec identification.
 
-    Re-runs _identify_spec_from_source logic but returns the raw score
+    Re-runs _identify_spec_from_source logic and returns the raw score
     for the given spec, enabling confidence-gated decisions.
     """
-    source_lower = source.lower()
-    doc_match = _re.search(r'"""(.+?)"""', source, _re.DOTALL)
-    docstring = doc_match.group(1).lower() if doc_match else ''
-    fn_match = _re.search(r'def\s+(\w+)\s*\(', source)
-    func_name = fn_match.group(1).lower() if fn_match else ''
-    param_match = _re.search(r'def\s+\w+\s*\(([^)]*)\)', source)
-    params_str = param_match.group(1).lower() if param_match else ''
-    param_count = len([p for p in params_str.split(',')
-                       if p.strip() and not p.strip().startswith('*')])
-
-    score = 0.0
-
-    # Structural pattern scores (same logic as _identify_spec_from_source)
-    if spec_name == 'edit_distance':
-        if param_count == 2 and ('s1' in params_str or 's2' in params_str or 'str' in params_str):
-            if 'min(' in source and ('cost' in source_lower or 'replace' in source_lower or '+ 1' in source):
-                score += 8.0
-            if 'dp' in source_lower or 'prev' in source_lower or 'memo' in source_lower:
-                if 'min(' in source:
-                    score += 5.0
-    elif spec_name == 'prime_factorization':
-        if param_count == 1:
-            if ('//=' in source or 'n //' in source) and ('d * d' in source or 'd*d' in source or 'i * i' in source or 'i*i' in source or 'isqrt' in source_lower or 'prime' in source_lower or 'spf' in source_lower):
-                score += 8.0
-    elif spec_name == 'connected_components':
-        if 'grid' in params_str or 'graph' in params_str:
-            if ('visited' in source_lower or 'union' in source_lower or '_find' in source or 'parent' in source_lower) and ('dr, dc' in source or 'nr, nc' in source or 'neighbor' in source_lower):
-                score += 8.0
-    elif spec_name == 'convex_hull':
-        if 'points' in params_str or 'point' in params_str:
-            if 'cross' in source_lower or 'upper' in source_lower or 'lower' in source_lower or 'hull' in source_lower:
-                score += 8.0
-    elif spec_name == 'powerset':
-        if param_count == 1:
-            if '1 << ' in source or '1<<' in source or ('include' in source_lower and 'exclude' in source_lower) or 'subset' in source_lower or 'powerset' in source_lower:
-                score += 6.0
-    elif spec_name == 'lcs_length':
-        if 'lcs' in source_lower or 'subsequence' in source_lower or 'longest' in source_lower:
-            score += 8.0
-        if param_count == 2 and 'max(' in source and '[[' in source:
-            score += 5.0
-    elif spec_name == 'k_way_merge':
-        if 'iterables' in params_str or 'lists' in params_str:
-            if 'heapq' in source or 'heappush' in source or 'merge' in source_lower:
-                score += 8.0
-    elif spec_name == 'binomial_coefficient':
-        if param_count == 2 and 'n' in params_str and 'k' in params_str:
-            if 'pascal' in source_lower or 'comb' in source_lower or 'binomial' in source_lower:
-                score += 8.0
-    elif spec_name == 'coin_change':
-        if param_count == 2 and ('coin' in params_str or 'amount' in params_str):
-            score += 8.0
-    elif spec_name == 'expression_eval':
-        if param_count == 1 and ('expr' in params_str or 'expression' in params_str):
-            if 'eval' in source_lower or 'stack' in source_lower or 'dispatch' in source_lower:
-                score += 6.0
-    elif spec_name == 'trailing_zeros_factorial':
-        if param_count == 1:
-            has_div5 = '// 5' in source or '//5' in source or '* 5' in source or '*5' in source or 'power' in source_lower
-            has_trailing = 'trailing' in source_lower or 'zero' in source_lower or 'factor' in source_lower or '% 10' in source
-            if has_div5 and has_trailing:
-                score += 8.0
-    elif spec_name == 'max_flow':
-        if 'source' in params_str and 'sink' in params_str:
-            score += 6.0
-    elif spec_name == 'type_inference':
-        if 'type' in source_lower and ('infer' in source_lower or 'unif' in source_lower):
-            score += 6.0
-    elif spec_name == 'zip_longest':
-        if ('*lists' in params_str or '*iterables' in params_str or 'fill' in params_str):
-            if 'zip' in source_lower or 'fill' in source_lower or 'longest' in source_lower:
-                score += 8.0
-        elif 'zip' in source_lower and ('longest' in source_lower or 'fill' in source_lower):
-            score += 8.0
-
-    # Keyword boost (same as _identify_spec_from_source)
-    if spec_name in _SPEC_KEYWORDS:
-        for kw_group in _SPEC_KEYWORDS[spec_name]:
-            if all(kw in docstring for kw in kw_group):
-                score += 3.0
-            if all(kw in source_lower for kw in kw_group):
-                score += 1.5
-            if all(kw in func_name for kw in kw_group):
-                score += 2.0
-
-    return score
+    # Reuse _identify_spec_from_source_scored to get all scores
+    scores = _identify_spec_from_source_scored(source)
+    return scores.get(spec_name, 0.0)
 
 
 def _cohomological_path_search(source_f: str, source_g: str,
@@ -1265,7 +1969,7 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         if isinstance(bt_result, dict) and bt_result.get('eq') is False:
             return Result(False, 'bounded testing NEQ (Z3 OOM, concrete disagreement found)',
                           h0=0, h1=1)
-        if bt_result is True:
+        if isinstance(bt_result, dict) and bt_result.get('eq') is True:
             return Result(True, 'bounded testing EQ (Z3 OOM, all tests agree)',
                           h0=1, confidence=0.65)
         if denotational_soft_eq:
@@ -1458,6 +2162,12 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         if isinstance(bt_check, dict) and bt_check.get('eq') is False:
             return Result(False, 'bounded testing NEQ overrides H1=0 (concrete disagreement found)',
                           h0=0, h1=1)
+        # If BT found exception disagrees (one function raises while
+        # the other succeeds on edge inputs), report with lower confidence.
+        if isinstance(bt_check, dict) and bt_check.get('exception_disagree', 0) > 0:
+            return Result(True,
+                f'H1=0: {cech.h0} faces verified, exception edge cases detected',
+                h0=cech.h0, confidence=min(confidence, 0.50))
         return Result(True,
             f'H1=0: {cech.h0} faces verified across {cech.total_fibers} fibers',
             h0=cech.h0, confidence=confidence)
@@ -1477,7 +2187,7 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             bt_confirm = _bounded_testing(source_f, source_g, param_names,
                                           param_fibers, deadline,
                                           duck_types=duck_types)
-            if bt_confirm is True:
+            if isinstance(bt_confirm, dict) and bt_confirm.get('eq') is True:
                 # BT says all tests agree — override H1 obstruction
                 if fingerprint_match:
                     return Result(True,
@@ -1506,8 +2216,16 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     if isinstance(bt_result, dict) and bt_result.get('eq') is False:
         return Result(False, 'bounded testing NEQ (concrete disagreement found)',
                       h0=0, h1=1)
-    if bt_result is True:
+    if isinstance(bt_result, dict) and bt_result.get('eq') is True:
         # All test cases agree — use as evidence for equivalence.
+        # But if there were exception disagrees, lower confidence.
+        _bt_exc_disagree = bt_result.get('exception_disagree', 0)
+        if _bt_exc_disagree > 0:
+            # Exception disagree detected but below threshold.
+            # Functions differ on edge inputs — reduce confidence.
+            return Result(True,
+                'bounded testing EQ (exception edge cases detected)',
+                h0=cech.h0 or 1, confidence=0.50)
         # When cross-type suspicion is detected (OFold vs OOp, etc.),
         # reduce confidence but still accept BT EQ — cross-type
         # differences occur in both EQ and NEQ pairs, so blocking
@@ -2182,7 +2900,7 @@ if _do_mutation_check and _mutation_disagree >= 2 and _value_disagree == 0:
 if _value_disagree > 0:
     print(json.dumps({{"eq": False, "args": _last_args, "f": _last_f, "g": _last_g, "n_disagree": _value_disagree}}))
     sys.exit(0)
-print(json.dumps({{"eq": True, "n": len(test_cases)}}))
+print(json.dumps({{"eq": True, "n": len(test_cases), "exception_disagree": _exception_disagree, "cross_type_disagree": _cross_type_disagree}}))
 '''
 
     remaining = max(0.5, deadline - time.monotonic())
@@ -2199,7 +2917,7 @@ print(json.dumps({{"eq": True, "n": len(test_cases)}}))
             return None
         data = json.loads(out)
         if data.get('eq') is True:
-            return True
+            return data  # return full data dict (includes exception_disagree info)
         elif data.get('eq') is False:
             return data  # return full data dict for caller inspection
     except Exception:
