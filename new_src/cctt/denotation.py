@@ -789,13 +789,39 @@ def _exec_for_ot(stmt, env: DenotEnv):
             continue
         old = env.get(vn)
 
-        # D5: Detect simple augmented assignment folds and use a
-        # semantic fold key (operation name) instead of a body hash.
-        # This unifies `for x in xs: s += x` with `sum(xs)` since
-        # both normalize to OFold('iadd', 0, xs).
-        semantic_key = _detect_augassign_fold(stmt.body, vn, loop_vars)
-        if semantic_key is not None:
-            env.put(vn, OFold(semantic_key, old, it))
+        # D5: Detect augmented assignment folds and use a semantic fold key
+        # (operation name) instead of a body hash.
+        # Trivial:     `for x in xs: s += x`    → fold[iadd](0, xs)
+        # Non-trivial: `for x in xs: s += f(x)` → fold[iadd](0, map(λx.f(x), xs))
+        # Conditional: `for x in xs: if p(x): s += f(x)` → fold[iadd](0, filter_map(p, f, xs))
+        fold_info = _detect_augassign_fold(stmt.body, vn, loop_vars)
+        if fold_info is not None:
+            semantic_key, rhs_is_trivial = fold_info
+            if rhs_is_trivial:
+                env.put(vn, OFold(semantic_key, old, it))
+            else:
+                # Compile the RHS as a map transform over the collection
+                rhs_node = stmt.body[0].value  # type: ast.expr
+                step_env = env.copy()
+                for v in loop_vars:
+                    step_env.put(v, OVar(v))
+                transform = _compile_expr_ot(rhs_node, step_env)
+                lam = OLam(tuple(loop_vars), transform)
+                mapped = OMap(lam, it, None)
+                env.put(vn, OFold(semantic_key, old, mapped))
+        elif _detect_conditional_fold(stmt.body, vn, loop_vars) is not None:
+            # Conditional fold: `if cond: acc += expr`
+            cond_info = _detect_conditional_fold(stmt.body, vn, loop_vars)
+            semantic_key, cond_node, rhs_node = cond_info
+            step_env = env.copy()
+            for v in loop_vars:
+                step_env.put(v, OVar(v))
+            pred = _compile_expr_ot(cond_node, step_env)
+            transform = _compile_expr_ot(rhs_node, step_env)
+            pred_lam = OLam(tuple(loop_vars), pred)
+            xform_lam = OLam(tuple(loop_vars), transform)
+            filtered = OMap(xform_lam, it, pred_lam)
+            env.put(vn, OFold(semantic_key, old, filtered))
         else:
             step_env = env.copy()
             for v in loop_vars:
@@ -806,14 +832,12 @@ def _exec_for_ot(stmt, env: DenotEnv):
 
 
 def _detect_augassign_fold(body: list, acc_name: str,
-                           loop_vars: list) -> Optional[str]:
-    """Detect a simple augmented assignment fold step → semantic key.
+                           loop_vars: list) -> Optional[tuple]:
+    """Detect augmented assignment fold step → (semantic_key, rhs_is_trivial).
 
-    Pattern: acc += expr  →  'iadd'
-             acc *= expr  →  'imult'
-             acc |= expr  →  'ior'
-             acc &= expr  →  'iand'
-    Only fires when the loop body is a single augmented assignment.
+    Pattern: acc += x      →  ('iadd', True)   # simple fold over collection
+             acc += f(x)   →  ('iadd', False)  # fold over map(f, collection)
+    Returns None if body is not a single augmented assignment to acc_name.
     """
     if len(body) != 1:
         return None
@@ -825,19 +849,67 @@ def _detect_augassign_fold(body: list, acc_name: str,
     if s.target.id != acc_name:
         return None
 
-    # Check the RHS is just the loop variable (simple fold)
-    # or a simple expression of the loop variable
     op_name = type(s.op).__name__.lower()
     op_map = {
         'add': 'iadd', 'sub': 'isub', 'mult': 'imult',
         'div': 'idiv', 'floordiv': 'ifloordiv', 'mod': 'imod',
         'bitor': 'ior', 'bitand': 'iand', 'bitxor': 'ixor',
     }
-    return op_map.get(op_name)
+    key = op_map.get(op_name)
+    if key is None:
+        return None
+
+    # Check if RHS is exactly the loop variable (trivial fold)
+    rhs = s.value
+    if isinstance(rhs, ast.Name) and rhs.id in loop_vars:
+        return (key, True)
+    # Tuple unpacking: loop vars (a, b) with RHS being one of them
+    if isinstance(rhs, ast.Name) and len(loop_vars) > 1 and rhs.id in loop_vars:
+        return (key, True)
+
+    # Non-trivial RHS: the fold body transforms the loop variable
+    return (key, False)
+
+
+def _detect_conditional_fold(body: list, acc_name: str,
+                              loop_vars: list) -> Optional[tuple]:
+    """Detect conditional augmented assignment fold step.
+
+    Pattern: if <cond>: acc += <expr>   → (semantic_key, cond_node, rhs_node)
+    The fold becomes: fold[key](init, filter_map(cond, expr, collection))
+    Returns None if body doesn't match this pattern.
+    """
+    if len(body) != 1:
+        return None
+    s = body[0]
+    if not isinstance(s, ast.If):
+        return None
+    # Must have a single augmented assignment in the true branch, no else
+    if len(s.body) != 1 or s.orelse:
+        return None
+    inner = s.body[0]
+    if not isinstance(inner, ast.AugAssign):
+        return None
+    if not isinstance(inner.target, ast.Name):
+        return None
+    if inner.target.id != acc_name:
+        return None
+
+    op_name = type(inner.op).__name__.lower()
+    op_map = {
+        'add': 'iadd', 'sub': 'isub', 'mult': 'imult',
+        'div': 'idiv', 'floordiv': 'ifloordiv', 'mod': 'imod',
+        'bitor': 'ior', 'bitand': 'iand', 'bitxor': 'ixor',
+    }
+    key = op_map.get(op_name)
+    if key is None:
+        return None
+
+    return (key, s.test, inner.value)
 
 
 def _detect_map_pattern(stmt, loop_vars: list, it: OTerm,
-                        env: 'DenotEnv') -> Optional[tuple]:
+                         env: 'DenotEnv') -> Optional[tuple]:
     """Detect for-loop that builds a list via append → OMap.
 
     Pattern: for x in xs: result.append(f(x))

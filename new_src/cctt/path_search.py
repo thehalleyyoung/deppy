@@ -838,50 +838,52 @@ except ImportError:
 # ── Spec identification (D20 support) ──
 
 def _identify_spec(term: OTerm) -> Optional[Tuple[str, Tuple[OTerm, ...]]]:
-    """Try to identify a high-level specification from an OTerm.
+    """Identify a high-level computing pattern from an OTerm.
 
-    Returns (spec_name, inputs) if recognized, else None.
+    Returns (pattern_name, canonical_inputs) if recognized, else None.
     This is the Yoneda embedding: characterize the term by its
-    observable behavior (what spec it satisfies).
+    observable behavior under all representable functors.
+
+    Patterns are GENERAL computing structures (fold, map, sort, etc.),
+    not algorithm-specific names.  Two OTerms with the same pattern
+    and inputs are extensionally equal by Yoneda.
     """
-    # factorial: fold[mul](1, range(1, n+1)) or fix with n * f(n-1)
+    # ── General fold patterns ──
+    # fold[op](init, collection) is fully determined by (op, init, collection)
     if isinstance(term, OFold):
-        if term.op_name in ('.mul', 'mul', 'imul', 'mult'):
-            if isinstance(term.init, OLit) and term.init.value == 1:
-                if isinstance(term.collection, OOp) and term.collection.name == 'range':
-                    return ('factorial', (term.collection.args[-1],))
+        return ('fold', (OLit(term.op_name), term.init, term.collection))
 
-    # sum: fold[add](0, range(...))
-    if isinstance(term, OFold):
-        if term.op_name in ('.add', 'add', 'iadd'):
-            if isinstance(term.init, OLit) and term.init.value == 0:
-                if isinstance(term.collection, OOp) and term.collection.name == 'range':
-                    return ('range_sum', (term.collection.args[-1],))
+    # ── Map/filter patterns ──
+    # map(transform, collection) possibly with filter
+    if isinstance(term, OMap):
+        if term.filter_pred is not None:
+            return ('filter_map', (term.filter_pred, term.transform, term.collection))
+        return ('map', (term.transform, term.collection))
 
-    # fibonacci: fix with f(n-1) + f(n-2) pattern
-    if isinstance(term, OFix):
-        body_canon = term.body.canon()
-        if 'add' in body_canon and 'sub' in body_canon:
-            # Heuristic: contains addition and subtraction (fib-like)
-            inputs = _extract_free_vars(term)
-            if inputs:
-                return ('fibonacci_like', tuple(OVar(v) for v in sorted(inputs)))
-
-    # sorted output
+    # ── Sort patterns ──
+    # sorted(collection) with optional key
     if isinstance(term, OOp) and term.name == 'sorted':
         return ('sorted', term.args)
 
-    # binomial coefficient: various computations of C(n,k)
-    if isinstance(term, OOp) and term.name == 'math.comb':
-        return ('binomial', term.args)
-    if isinstance(term, OFold):
-        # fold that computes C(n,k) by multiplicative formula
-        body_canon = term.collection.canon() if term.collection else ''
-        if 'min' in body_canon or 'sub' in body_canon:
-            init_canon = term.init.canon()
-            if init_canon == '1':
-                # Could be multiplicative binomial — need more analysis
-                pass
+    # ── Fixed-point patterns ──
+    # Don't abstract fix terms — the body normalization may lose
+    # subtle distinctions (< vs <=, etc.).  Let path search handle
+    # recursive equivalence via axiom rewrites instead.
+
+    # ── Stdlib function calls ──
+    # math.comb, math.factorial, etc. — identified by the function itself
+    if isinstance(term, OOp) and term.name.startswith('math.'):
+        return (term.name, term.args)
+
+    # ── Lambda patterns ──
+    # Two lambdas with alpha-equivalent bodies are equal
+    if isinstance(term, OLam):
+        return ('lam', (term.body,))
+
+    # ── Exception-catching patterns ──
+    # catch(body, default) — same body and default means same behavior
+    if isinstance(term, OCatch):
+        return ('catch', (term.body, term.default))
 
     return None
 
