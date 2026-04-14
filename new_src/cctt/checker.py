@@ -621,12 +621,16 @@ def _cohomological_path_search(source_f: str, source_g: str,
             param_fibers.append(['int'])
         elif kind == 'positive_int':
             param_fibers.append(['int'])
+        elif kind == 'numeric':
+            param_fibers.append(['int', 'float'])
         elif kind == 'str':
             param_fibers.append(['str'])
         elif kind == 'bool':
             param_fibers.append(['bool'])
         elif kind == 'bytes':
             param_fibers.append(['bytes'])
+        elif kind == 'dict':
+            param_fibers.append(['pair'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
         elif kind in ('list', 'collection', 'numeric_list', 'matrix'):
@@ -1245,11 +1249,13 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             _duck_types.append(kind)
             fiber_map = {
                 'int': ['int'], 'positive_int': ['int'],
+                'numeric': ['int', 'float'],
                 'str': ['str'], 'bool': ['bool'],
                 'bytes': ['bytes'],
-                'ref': ['ref'], 'list': ['pair', 'ref'],
-                'collection': ['pair', 'ref', 'str'],
-                'numeric_list': ['pair', 'ref'],
+                'dict': ['pair'],
+                'ref': ['ref'], 'list': ['ref'],
+                'collection': ['ref', 'str'],
+                'numeric_list': ['ref'],
                 'matrix': ['ref'],
             }
             param_fibers.append(fiber_map.get(kind, ['int', 'bool', 'str', 'pair', 'ref', 'none']))
@@ -1348,14 +1354,16 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             param_fibers.append(['bool'])
         elif kind == 'bytes':
             param_fibers.append(['bytes'])
+        elif kind == 'dict':
+            param_fibers.append(['pair'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
         elif kind == 'list':
-            param_fibers.append(['pair', 'ref'])
+            param_fibers.append(['ref'])
         elif kind == 'collection':
-            param_fibers.append(['pair', 'ref', 'str'])
+            param_fibers.append(['ref', 'str'])
         elif kind == 'numeric_list':
-            param_fibers.append(['pair', 'ref'])
+            param_fibers.append(['ref'])
         elif kind == 'matrix':
             param_fibers.append(['ref'])
         elif kind == 'any':
@@ -1696,7 +1704,9 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                 # Financial rounding edge cases (x.xx5 not exactly representable
                 # in float, causing round(x, 2) to differ from Decimal rounding)
                 '2.675', '1.005',
-                '3', '5', '-7', '42', '100', '257', '10'],
+                '3', '5', '-7', '42', '100', '257', '10',
+                # Large ints to detect float precision loss (int→float→int)
+                '10**15', '2**53', '2**53+1'],
         'float': ['0.0', '1.0', '-1.0', '0.5', '-0.5',
                   'float("nan")', 'float("inf")', 'float("-inf")', '-0.0',
                   '0.1', '0.2', '0.3', '1e16', '1e-16', '2**53+1'],
@@ -1944,7 +1954,7 @@ _duck_types = {duck_type_info}
 # Only do mutation checking if any param is list-typed (catches
 # sorted() vs .sort() style NEQ) but skip for matrix/collection
 # (where mutation is implementation detail, not semantic difference).
-_do_mutation_check = any(dt == 'list' for dt in _duck_types)
+_do_mutation_check = any(dt in ('list', 'dict', 'ref') for dt in _duck_types)
 _PARAM_SIMPLE = []
 for _fi in _param_fiber_info:
     _s = set()
@@ -1957,9 +1967,7 @@ for _fi in _param_fiber_info:
     if 'bytes' in _fi:
         _s.add(b'')
     if 'collection' in _fi or 'ref' in _fi or 'list' in _fi:
-        # Only add [] if parameter is typed as a collection, not as a dict
-        if 'pair' not in _fi or len(_fi) > 1:
-            _s.add(tuple())  # () as stand-in for [] (checked below)
+        _s.add(())  # empty tuple (hashable stand-in)
     _PARAM_SIMPLE.append(_s)
 _STRICT_DEFAULTS = (0, None, False)
 for args in test_cases:
@@ -2055,6 +2063,8 @@ for args in test_cases:
             if isinstance(_val_f, _NUMERIC) and isinstance(_val_g, _NUMERIC):
                 if _val_f == _val_g:
                     continue  # e.g., True == 1 → same value, skip
+            elif _val_f is None or _val_g is None:
+                pass  # None vs value is a genuine semantic difference
             else:
                 _cross_type_disagree += 1
                 continue  # cross-type disagree: domain mismatch, not a bug

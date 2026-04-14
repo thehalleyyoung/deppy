@@ -351,6 +351,7 @@ def _detect_positive_int_domain(func_node, param: str) -> bool:
       if param < 2: return ...
       if param <= 0: return ...
       while param > 0: ...
+      range(1, param + 1) or range(param)
     """
     for child in ast.walk(func_node):
         # if param < N: return ... (where N is small positive)
@@ -377,6 +378,25 @@ def _detect_positive_int_domain(func_node, param: str) -> bool:
                     0 <= left.value <= 3):
                     if any(isinstance(s, ast.Return) for s in child.body):
                         return True
+        # range(1, param + 1) or range(param) — implies positive int domain
+        if isinstance(child, ast.Call):
+            fn = child.func
+            if isinstance(fn, ast.Name) and fn.id == 'range' and len(child.args) >= 2:
+                # range(1, param + 1) or range(1, param)
+                first_arg = child.args[0]
+                second_arg = child.args[1]
+                if (isinstance(first_arg, ast.Constant) and first_arg.value == 1 and
+                    _refers_to_expr(second_arg, param)):
+                    return True
+    return False
+
+
+def _refers_to_expr(node, param: str) -> bool:
+    """Check if an expression references param (possibly with arithmetic)."""
+    if isinstance(node, ast.Name) and node.id == param:
+        return True
+    if isinstance(node, ast.BinOp):
+        return _refers_to_expr(node.left, param) or _refers_to_expr(node.right, param)
     return False
 
 
@@ -417,7 +437,8 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
 
     numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
                     'neg', 'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
-                    'invert', 'call_range', 'used_as_index', 'truediv'}
+                    'invert', 'call_range', 'used_as_index', 'truediv',
+                    'call_gcd', 'call_lcm'}
 
     # Check specific types BEFORE generic collection to avoid
     # mis-classifying list parameters as collection.
@@ -479,17 +500,15 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
 
     # Dict-specific methods (not shared with list/set)
     dict_specific = {'method_get', 'method_keys', 'method_values', 'method_items',
-                     'method_setdefault', 'method_popitem',
-                     'call_defaultdict', 'call_Counter', 'call_OrderedDict'}
+                     'method_setdefault', 'method_popitem'}
     # method_pop, method_clear, method_update are shared (dict+list or dict+set).
     # Only classify as dict if dict-specific methods are present,
     # to avoid misclassifying list.pop() as dict.pop().
     dict_shared = {'method_pop', 'method_clear', 'method_update'}
     if ops & dict_specific:
-        return 'ref', True
+        return 'dict', True
     if ops & dict_shared and not (ops & collection_ops):
-        # Shared method without collection ops -> likely dict
-        return 'ref', True
+        return 'dict', True
 
     # Check for matrix (2D list) BEFORE list methods, because matrix params
     # often use list.pop() on rows but should still be classified as matrix.
@@ -518,18 +537,29 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
 
     # Numeric-only ops -> integer parameter
     # BUT only if there are no collection ops (getitem, iter, len, etc.)
+    # Distinguish int-specific ops (mod, floordiv, bitops) from float-compatible
+    # ops (sub, mul, truediv) to catch float precision differences.
+    int_specific = {'floordiv', 'mod', 'lshift', 'rshift', 'bitor', 'bitand',
+                    'bitxor', 'invert', 'call_range', 'used_as_index',
+                    'call_gcd', 'call_lcm'}
     if ops & numeric_only and not (ops & collection_ops):
         # Check for positive-int domain guards or used-as-index pattern
         if (_detect_positive_int_domain(func_f, pname) or
             _detect_positive_int_domain(func_g, pname) or
             'used_as_index' in ops):
             return 'positive_int', True
+        # If no int-specific ops, classify as 'numeric' (int+float)
+        if not (ops & int_specific):
+            return 'numeric', True
         return 'int', True
     if ops & {'lt', 'le', 'gt', 'ge'} and not (ops & collection_ops):
         if (_detect_positive_int_domain(func_f, pname) or
             _detect_positive_int_domain(func_g, pname) or
             'used_as_index' in ops):
             return 'positive_int', True
+        # If only comparisons + float-compatible ops, use numeric
+        if not (ops & int_specific):
+            return 'numeric', True
         return 'int', True
 
     # Generic collection (iter, getitem, len, etc.)
