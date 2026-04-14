@@ -1546,6 +1546,39 @@ if _time.monotonic() < _deadline and _both_ok_agree > 0:
         print(json.dumps({{"eq": False, "reason": "mutable_default_statefulness"}}))
         sys.exit(0)
 
+# ── Focused empty/minimal collection edge-case test ──
+# Some functions differ ONLY on empty or single-element lists (e.g.,
+# f handles [] gracefully while g crashes). These edge cases may not
+# trigger the exception_disagree threshold since most tests agree.
+# Guard: only test if both functions successfully handle non-empty lists
+# (proves list is a valid input type, not a type mismatch).
+if _time.monotonic() < _deadline and _both_ok_agree > 0 and _exception_disagree > 0:
+    _list_validation_inputs = [([1, 2, 3],), ([3, 1, 2],)]
+    _list_valid_count = 0
+    for _lvi in _list_validation_inputs:
+        try:
+            _saved_f(*_cp.deepcopy(_lvi))
+            _fn_g(*_cp.deepcopy(_lvi))
+            _list_valid_count += 1
+        except Exception:
+            pass
+    if _list_valid_count >= 1:
+        _edge_inputs = [([],), ([1],)]
+        for _ei in _edge_inputs:
+            try:
+                _ef = repr(_saved_f(*_cp.deepcopy(_ei)))
+                _ef_ok = True
+            except Exception:
+                _ef_ok = False
+            try:
+                _eg = repr(_fn_g(*_cp.deepcopy(_ei)))
+                _eg_ok = True
+            except Exception:
+                _eg_ok = False
+            if _ef_ok != _eg_ok:
+                print(json.dumps({{"eq": False, "reason": "empty_collection_edge_disagree", "input": repr(_ei)}}))
+                sys.exit(0)
+
 print(json.dumps({{"eq": True, "n": len(test_cases), "exception_disagree": _exception_disagree, "cross_type_disagree": _cross_type_disagree}}))
 '''
 

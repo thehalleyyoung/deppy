@@ -2772,11 +2772,18 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
     # mean NEQ — the lambda bodies may compute the same thing.
     if isinstance(a, OFold) and isinstance(b, OFold):
         if a.op_name == b.op_name:
-            # Same named operation — differences in init/collection are meaningful
-            if _detect_provable_neq(a.init, b.init, params, in_case_branch, param_duck_types):
-                return True
-            if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
-                return True
+            # Same named operation — but only recurse into init/collection
+            # when the collections have similar structure.  When the collections
+            # are fundamentally different (e.g. map(capitalize, split(s))
+            # vs fold[hash]([], s)), different init values don't prove NEQ
+            # because the computation may embed structure differently
+            # (e.g. join separator ' ' vs '' with spaces in elements).
+            _colls_similar = type(a.collection).__name__ == type(b.collection).__name__
+            if _colls_similar:
+                if _detect_provable_neq(a.init, b.init, params, in_case_branch, param_duck_types):
+                    return True
+                if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
+                    return True
         # Different op names: could be hash-named lambdas computing the same thing
         # — don't declare NEQ
 
