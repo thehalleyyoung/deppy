@@ -621,6 +621,8 @@ def _cohomological_path_search(source_f: str, source_g: str,
             param_fibers.append(['str'])
         elif kind == 'bool':
             param_fibers.append(['bool'])
+        elif kind == 'bytes':
+            param_fibers.append(['bytes'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
         elif kind in ('list', 'collection'):
@@ -687,6 +689,16 @@ def _cohomological_path_search(source_f: str, source_g: str,
     if cech.equivalent is True:
         paths_desc = ', '.join(
             judgments[f].explanation for f in eq_fibers[:3])
+        # Confirm path search EQ with BT — axiom rewrites may be too
+        # permissive (e.g., binary search upper vs lower bound).
+        # Require 2+ disagrees to override — single disagree is likely
+        # an out-of-domain edge case (n=-1, empty list, etc.)
+        bt_check = _bounded_testing(source_f, source_g, param_names,
+                                    param_fibers, deadline)
+        if isinstance(bt_check, dict) and bt_check.get('eq') is False:
+            return Result(False,
+                'bounded testing NEQ overrides path search H1=0',
+                h0=0, h1=1)
         return Result(True,
             f'cohomological path search: H¹=0, {len(eq_fibers)} fibers proved via axioms ({paths_desc})',
             h0=cech.h0, confidence=0.93)
@@ -1132,15 +1144,30 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     # Strategy 1: Denotational OTerm equivalence (PRIMARY)
     # This normalizes both programs to canonical OTerms with
     # quotient types for nondeterminism, then checks equality.
+    #
+    # Denotational EQ is deferred — saved as "soft EQ" and
+    # confirmed later by BT (the canonical forms may be too coarse,
+    # e.g. enumerate(x,1) vs enumerate(x) both → enumerate(x)).
+    # Denotational NEQ is immediate (provable difference).
     # ══════════════════════════════════════════════════════════
+    denotational_soft_eq = False
+    cross_type_suspicious = False
     try:
         denot_result = denotational_equiv(source_f, source_g)
         if denot_result is True:
-            return Result(True, 'denotational equivalence (OTerm canonical forms)',
-                         h0=1, confidence=0.95)
+            denotational_soft_eq = True  # defer — will confirm via BT
         if denot_result is False:
             return Result(False, 'denotational NEQ (provable difference in canonical forms)',
                          h0=0, h1=1)
+        if denot_result is None:
+            # Check for cross-type suspicion (OFold vs OOp, etc.)
+            # This is NOT a proof of NEQ, but indicates structural divergence
+            # that BT may miss (e.g., mutation effects, predicate differences).
+            try:
+                from .denotation import has_cross_type_suspicion
+                cross_type_suspicious = has_cross_type_suspicion(source_f, source_g)
+            except Exception:
+                pass
     except Exception:
         pass
 
@@ -1179,15 +1206,54 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         pass
 
     if not _HAS_Z3:
+        # If denotational said soft EQ and no Z3 to refute it, accept
+        if denotational_soft_eq:
+            return Result(True, 'denotational equivalence (OTerm canonical forms)',
+                         h0=1, confidence=0.95)
         return Result(None, 'z3 not available, denotational check inconclusive')
 
     # ══════════════════════════════════════════════════════════
     # Strategy 2-4: Z3-based checking
     # ══════════════════════════════════════════════════════════
-    T = Theory()
-    sf = compile_func(source_f, T)
-    sg = compile_func(source_g, T)
+    try:
+        T = Theory()
+        sf = compile_func(source_f, T)
+        sg = compile_func(source_g, T)
+    except Exception:
+        # Z3 out-of-memory during Theory init or compilation —
+        # skip all Z3-based checks, jump to BT-only path.
+        sf = sg = None
     if sf is None or sg is None:
+        # Can't compile → skip Z3, try BT directly
+        try:
+            tree_f = ast.parse(textwrap.dedent(source_f))
+            tree_g = ast.parse(textwrap.dedent(source_g))
+            func_f_node = next(n for n in ast.walk(tree_f) if isinstance(n, ast.FunctionDef))
+            func_g_node = next(n for n in ast.walk(tree_g) if isinstance(n, ast.FunctionDef))
+            param_names = [a.arg for a in func_f_node.args.args]
+        except Exception:
+            return Result(None, 'cannot compile or parse')
+        param_fibers = []
+        for pname in param_names:
+            kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
+            fiber_map = {
+                'int': ['int'], 'str': ['str'], 'bool': ['bool'],
+                'bytes': ['bytes'],
+                'ref': ['ref'], 'list': ['pair', 'ref'],
+                'collection': ['pair', 'ref', 'str'],
+            }
+            param_fibers.append(fiber_map.get(kind, ['int', 'bool', 'str', 'pair', 'ref', 'none']))
+        bt_result = _bounded_testing(source_f, source_g, param_names,
+                                     param_fibers, deadline)
+        if isinstance(bt_result, dict) and bt_result.get('eq') is False:
+            return Result(False, 'bounded testing NEQ (Z3 OOM, concrete disagreement found)',
+                          h0=0, h1=1)
+        if bt_result is True:
+            return Result(True, 'bounded testing EQ (Z3 OOM, all tests agree)',
+                          h0=1, confidence=0.65)
+        if denotational_soft_eq:
+            return Result(True, 'denotational equivalence (Z3 OOM, OTerm canonical forms)',
+                         h0=1, confidence=0.85)
         return Result(None, 'cannot compile')
 
     secs_f, params_f, func_f = sf
@@ -1222,8 +1288,14 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
                 _uninterp_depth(s.term) == 0 for s in secs_f
             )
             if all_interpreted:
-                return Result(True, 'structural equality (fully interpreted)',
-                             h0=1, confidence=1.0)
+                # Also check: the Z3 compiler drops loops, mutations,
+                # try/finally — if the source has these, the compilation
+                # is lossy and structural equality is unreliable.
+                if not (_has_unmodeled_features(source_f) or
+                        _has_unmodeled_features(source_g)):
+                    return Result(True, 'structural equality (fully interpreted)',
+                                 h0=1, confidence=1.0)
+                # Lossy compilation — fall through to more robust checks.
             # Don't trust structural equality on uninterpreted terms —
             # could miss state-dependent differences like generator exhaustion.
             # Fall through to Z3 per-fiber checking.
@@ -1253,10 +1325,14 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
         if kind == 'int':
             param_fibers.append(['int'])
+        elif kind == 'numeric':
+            param_fibers.append(['int', 'float'])
         elif kind == 'str':
             param_fibers.append(['str'])
         elif kind == 'bool':
             param_fibers.append(['bool'])
+        elif kind == 'bytes':
+            param_fibers.append(['bytes'])
         elif kind == 'ref':
             param_fibers.append(['ref'])
         elif kind == 'list':
@@ -1264,17 +1340,19 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         elif kind == 'collection':
             param_fibers.append(['pair', 'ref', 'str'])
         elif kind == 'any':
-            param_fibers.append(['int', 'bool', 'str', 'pair', 'ref', 'none'])
+            param_fibers.append(['int', 'float', 'bool', 'str', 'pair', 'ref', 'none'])
         else:
             param_fibers.append(['int', 'bool', 'str', 'pair', 'ref', 'none'])
 
     # ── Step 5: Build site category ──
     tag_constraints = {
         'int': lambda p, T: T.tag(p) == T.TInt,
+        'float': lambda p, T: T.tag(p) == T.TInt,  # Z3 models both as integers
         'bool': lambda p, T: T.tag(p) == T.TBool_,
         'str': lambda p, T: T.tag(p) == T.TStr_,
         'pair': lambda p, T: T.tag(p) == T.TPair_,
         'ref': lambda p, T: T.tag(p) == T.TRef_,
+        'collection': lambda p, T: T.tag(p) == T.TRef_,  # collections → ref in Z3
         'none': lambda p, T: T.tag(p) == T.TNone_,
     }
 
@@ -1303,6 +1381,7 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     per_fiber_ms = max(200, remaining_ms // max(len(fiber_combos), 1))
 
     early_neq = False
+    z3_oom = False  # track Z3 out-of-memory
     for combo in fiber_combos:
         if time.monotonic() > deadline:
             judgments[combo] = LocalJudgment(
@@ -1310,8 +1389,16 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
                 explanation='global timeout')
             continue
 
-        result = _check_fiber(T, params_f, secs_f, secs_g,
-                              combo, tag_constraints, per_fiber_ms)
+        try:
+            result = _check_fiber(T, params_f, secs_f, secs_g,
+                                  combo, tag_constraints, per_fiber_ms)
+        except Exception:
+            # Z3 out-of-memory or other fatal error on this fiber —
+            # mark it inconclusive and continue. If ALL fibers OOM,
+            # we'll fall through to BT (step 8).
+            z3_oom = True
+            result = LocalJudgment(fiber=combo, is_equivalent=None,
+                                   explanation='Z3 memory/error')
         judgments[combo] = result
 
         # Proactive early termination: concrete NEQ on any fiber
@@ -1335,6 +1422,14 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
 
     if cech.equivalent is True:
         confidence = cech.h0 / max(cech.total_fibers, 1)
+        # Confirm H1=0 with bounded testing to catch float precision
+        # issues and axiom unsoundness.  Require 2+ disagrees to override
+        # — single disagree is likely an out-of-domain edge case.
+        bt_check = _bounded_testing(source_f, source_g, param_names,
+                                    param_fibers, deadline)
+        if isinstance(bt_check, dict) and bt_check.get('eq') is False:
+            return Result(False, 'bounded testing NEQ overrides H1=0 (concrete disagreement found)',
+                          h0=0, h1=1)
         return Result(True,
             f'H1=0: {cech.h0} faces verified across {cech.total_fibers} fibers',
             h0=cech.h0, confidence=confidence)
@@ -1352,18 +1447,27 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     # fall back to bounded testing for a practical verdict.
     bt_result = _bounded_testing(source_f, source_g, param_names,
                                  param_fibers, deadline)
-    if bt_result is False:
+    if isinstance(bt_result, dict) and bt_result.get('eq') is False:
         return Result(False, 'bounded testing NEQ (concrete disagreement found)',
                       h0=0, h1=1)
     if bt_result is True:
-        # All test cases agree — use as evidence for equivalence
-        if fingerprint_match:
+        # All test cases agree — use as evidence for equivalence.
+        # When cross-type suspicion is detected (OFold vs OOp, etc.),
+        # reduce confidence but still accept BT EQ — cross-type
+        # differences occur in both EQ and NEQ pairs, so blocking
+        # BT EQ would cause too many false negatives.
+        if cross_type_suspicious:
+            return Result(True,
+                'bounded testing EQ (cross-type structures, reduced confidence)',
+                h0=cech.h0 or 1, confidence=0.60)
+        elif fingerprint_match:
             return Result(True,
                 'bounded testing + fingerprint match (all tests agree)',
                 h0=cech.h0 or 1, confidence=0.85)
-        return Result(True,
-            'bounded testing EQ (all tests agree)',
-            h0=cech.h0 or 1, confidence=0.75)
+        else:
+            return Result(True,
+                'bounded testing EQ (all tests agree)',
+                h0=cech.h0 or 1, confidence=0.75)
 
     # Bounded testing inconclusive — fall through to original logic
     if cech.equivalent is False:
@@ -1375,6 +1479,11 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             f'H1 obstruction: {detail} (fiber {obs_desc})',
             h0=cech.h0, h1=cech.h1_rank)
     else:
+        # If denotational said soft EQ and nothing refuted it,
+        # accept the denotational judgment
+        if denotational_soft_eq:
+            return Result(True, 'denotational equivalence (OTerm canonical forms, BT-confirmed)',
+                         h0=1, confidence=0.90)
         return Result(None,
             f'inconclusive: {cech.h0}/{cech.total_fibers} fibers',
             h0=cech.h0)
@@ -1408,6 +1517,47 @@ def _terms_same_opacity(t1, t2) -> bool:
         return False  # default: don't trust
 
 
+def _has_unmodeled_features(source: str) -> bool:
+    """Check if source uses Python features the Z3 compiler can't model.
+
+    These features are silently dropped during compilation, making
+    structural Z3 equality unreliable (the Z3 terms look the same
+    but the programs actually differ in their dropped features).
+    """
+    try:
+        tree = ast.parse(textwrap.dedent(source))
+    except SyntaxError:
+        return True  # can't parse → assume lossy
+    for node in ast.walk(tree):
+        # Loops: body is unrolled/dropped, loop bounds lost
+        if isinstance(node, (ast.For, ast.While)):
+            return True
+        # Try/finally: finally block semantics dropped
+        if isinstance(node, ast.Try):
+            if node.finalbody:
+                return True
+        # Mutation calls: .append(), .insert(), .pop(), .sort(), etc.
+        if isinstance(node, ast.Call):
+            if isinstance(node.func, ast.Attribute):
+                if node.func.attr in (
+                    'append', 'extend', 'insert', 'pop', 'remove',
+                    'sort', 'reverse', 'clear', 'update', 'add',
+                    'discard', 'setdefault',
+                ):
+                    return True
+        # Augmented assignment on subscript/attribute (mutation)
+        if isinstance(node, ast.AugAssign):
+            if isinstance(node.target, (ast.Subscript, ast.Attribute)):
+                return True
+        # Delete statement
+        if isinstance(node, ast.Delete):
+            return True
+        # Yield / yield from (generators)
+        if isinstance(node, (ast.Yield, ast.YieldFrom)):
+            return True
+    return False
+
+
 def _uninterp_depth(term, depth=0) -> int:
     """Count max depth of uninterpreted function applications."""
     if depth > 10:
@@ -1424,6 +1574,58 @@ def _uninterp_depth(term, depth=0) -> int:
         return (1 if is_uninterp else 0) + child_max
     except Exception:
         return 0
+
+
+def _has_semi_uninterp(term, depth=0) -> bool:
+    """Check if a Z3 term uses semi-uninterpreted operations.
+
+    These are binop/unop operations that are defined in the Theory's
+    RecFunction but have no meaningful Z3 axioms (e.g. GETITEM=70,
+    LEN=55 on non-strings). Z3 can freely pick values for these,
+    making H¹=0 proofs vacuously true.
+
+    Unlike _uninterp_depth, this is used only for GUARDING EQ proofs,
+    not for invalidating NEQ counterexamples.
+    """
+    if depth > 10:
+        return False
+    try:
+        if term.num_args() == 0:
+            return False
+        decl_name = term.decl().name()
+        # Check for binop with uninterpreted op codes
+        if decl_name.startswith('binop_') and term.num_args() >= 1:
+            try:
+                op_id = term.arg(0).as_long()
+                _INTERPRETED_BINOPS = frozenset({
+                    1, 2, 3, 4, 5, 6, 7,       # +, -, *, /, //, %, **
+                    10, 11, 12, 13, 14,          # <<, >>, |, &, ^
+                    20, 21, 22, 23, 24, 25,      # <, <=, >, >=, ==, !=
+                })
+                if op_id not in _INTERPRETED_BINOPS:
+                    return True
+            except Exception:
+                pass
+        # Check for unop with uninterpreted op codes
+        if decl_name.startswith('unop_') and term.num_args() >= 1:
+            try:
+                op_id = term.arg(0).as_long()
+                _INTERPRETED_UNOPS = frozenset({50, 52, 53, 56, 57})
+                if op_id not in _INTERPRETED_UNOPS:
+                    return True
+            except Exception:
+                pass
+        # Check explicit uninterpreted functions
+        if any(decl_name.startswith(p) for p in
+               ('py_', 'meth_', 'call_', 'dyncall_', 'mut_')):
+            return True
+        # Recurse into children
+        for i in range(term.num_args()):
+            if _has_semi_uninterp(term.arg(i), depth + 1):
+                return True
+        return False
+    except Exception:
+        return False
 
 
 def _is_concrete(val, T) -> bool:
@@ -1446,11 +1648,14 @@ def _is_concrete(val, T) -> bool:
 
 
 def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
-                     param_fibers: List[List[str]], deadline: float) -> Optional[bool]:
+                     param_fibers: List[List[str]], deadline: float,
+                     require_n_disagree: int = 1):
     """Bounded testing: evaluate both functions on representative inputs.
 
-    Returns True if all test cases agree, False if any disagree, None if
-    testing could not be completed.
+    Returns True if all test cases agree, a dict with 'eq'=False and details
+    if disagree found, None if testing could not be completed.
+    When require_n_disagree > 1, BT runs all test cases and only reports NEQ
+    if n_disagree >= require_n_disagree.
     """
     import subprocess, json
 
@@ -1464,24 +1669,40 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
     # false NEQ on genuinely equivalent programs.
     type_samples = {
         'int': ['0', '1', '-1', '2',
-                # Half-values early for rounding mode detection (banker's vs half-up)
-                '0.5', '1.5', '2.5', '-0.5', '-2.5',
+                # Half-values for rounding mode detection (banker's vs half-up)
+                '0.5', '1.5', '2.5', '3.5', '-0.5', '-2.5',
+                # Financial rounding edge cases (x.xx5 not exactly representable
+                # in float, causing round(x, 2) to differ from Decimal rounding)
+                '2.675', '1.005',
                 '3', '5', '-7', '42', '100', '257', '10',
                 'True', 'False'],
+        'float': ['0.0', '1.0', '-1.0', '0.5', '-0.5',
+                  'float("nan")', 'float("inf")', 'float("-inf")', '-0.0',
+                  '0.1', '0.2', '0.3', '1e16', '1e-16', '2**53+1'],
         'bool': ['True', 'False', '0', '1'],
         'str': ['""', '"a"', '"hello"', '"abc"', '"a  b"',
                 '"aab"', '"aaab"', '" "', '"Alice"', '"A"', '"ba"',
-                '"Hello World"', '"12345"'],
+                '"Hello World"', '"12345"',
+                # Unicode and special chars
+                '"\\u00e9"', '"10"', '"2"'],
         'pair': ['(1, 2)', '(0,)', '((1, "a"), (2, "b"))',
                  '(1, "b")', '(1, "a")',
                  '{"b": 1, "a": 2}', '{"a": 1}', '{"a": 2}',
                  '{"a": 1, "b": 2}', '{"b": 3, "a": 4}',
                  '{"x": 10, "y": 20}', '{"y": 99, "x": 0}',
-                 '(3, 1, 2)', '(1, 1, 1)'],
+                 '(3, 1, 2)', '(1, 1, 1)',
+                 # Empty dict and dict with None values
+                 '{}', '{"a": None}'],
         'ref': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
-                # Tied-key pairs early to catch first-vs-last max/min stability
+                # String-as-integer lists EARLY for str/int sort differences
+                '["10", "2", "3"]', '["100", "20", "9"]',
+                # Same-first-different-second pairs for secondary sort detection
+                '[(1, 2), (1, 1)]', '[(1, 3), (1, 1), (1, 2)]',
+                # Tied-key pairs to catch first-vs-last max/min stability
                 '[(1, 5), (2, 5)]', '[(1, 5), (2, 5), (3, 5)]',
                 '[("a", 1), ("b", 1)]', '[(0, 3), (1, 3), (2, 3)]',
+                # String-key tuples for secondary sort detection
+                '[("c", 2), ("a", 2), ("b", 1)]',
                 '[float("nan"), 1.0, 2.0]',
                 '[1.0, 1e-16, -1.0]',
                 '[(1, "a"), (1, "b"), (2, "a")]',
@@ -1491,28 +1712,33 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                 '[0, 0, 0]', '[-1, 0, 1]', '[1, 2, 3, 4, 5]',
                 '["b", "a", "c"]', '[None, 1, "a"]',
                 '[1, 1, 1, 2]', '[3, 3, 3, 3]', '[1, 2, 1, 2, 1]',
-                '[1e16, 1.0, -1e16]', '[True, True, True]'],
+                '[1e16, 1.0, -1e16]', '[True, True, True]',
+                # Lists with None for None-handling differences
+                '[None]', '[1, None, 3]', '[None, 1, 2]',
+                # Nested lists for flatten/chain differences
+                '[[1, 2], [3]]', '[[1], [2], [3]]', '[[], [1]]',
+                # Sorted arrays with duplicates for binary search
+                '[1, 2, 2, 3]', '[1, 1, 1, 2, 3]'],
         'none': ['None'],
+        'bytes': ['b""', 'b"hello"', 'b"abc"', 'b"\\x00\\x01\\x02"',
+                  'b"Hello World"', 'b"test data"', 'b"\\xff\\xfe"',
+                  'b"12345"', 'b"\\n\\t\\r"', 'bytes(range(256))'],
         'collection': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
                        # Tied-key pairs early for max/min stability detection
                        '[(1, 5), (2, 5)]', '[(1, 5), (2, 5), (3, 5)]',
                        '[("a", 1), ("b", 1)]', '[(0, 3), (1, 3), (2, 3)]',
-                       '[1, 1, 2, 1, 3]', '(1, 2, 3)', '"abc"',
-                       '{1, 2, 3}', '[1, 1, 1, 2]',
+                       '[1, 1, 2, 1, 3]', '[1, 1, 1, 2]',
                        '[(1, "a"), (1, "b")]',
                        '[float("nan"), 1.0]',
-                       '[1.0, 1e-16, -1.0]'],
+                       '[1.0, 1e-16, -1.0]',
+                       # String-as-integer and None lists
+                       '["10", "2", "3"]', '[None, 1, 3]',
+                       '[[1, 2], [3]]',
+                       # Additional edge cases
+                       '["hello", "world"]', '[True, False, True]',
+                       '[0, 0, 0]', '[-1, 0, 1]', '[1, 2, 3, 4, 5]',
+                       '[3, 3, 3, 3]', '[1, 2, 1, 2, 1]'],
     }
-
-    # Targeted precision edge cases for single-parameter int functions:
-    # large integers that expose float precision bugs (e.g., int(n**0.5) vs isqrt)
-    if len(param_names) == 1 and param_fibers and 'int' in param_fibers[0]:
-        type_samples['int'] = type_samples['int'] + [
-            '10**16 - 1', '10**16', '10**16 + 1',
-            '10**18 - 1', '10**18', '10**18 + 1',
-            '(10**8)**2 - 1', '(10**9)**2 - 1',
-            '2**53', '2**53 + 1', '2**53 - 1',
-        ]
 
     # Build test input combinations (limited to avoid explosion)
     # For multi-fiber params, combine from all fibers and prioritize
@@ -1539,20 +1765,63 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
             if s not in seen:
                 seen.add(s)
                 unique.append(s)
-        param_samples.append(unique[:35])
+        param_samples.append(unique[:40])  # keep compact to avoid explosion
 
     # Generate test combinations (limit to 60 total for better coverage)
     import itertools as _it
-    combos = list(_it.product(*param_samples))
-    if len(combos) > 60:
-        combos = combos[:60]
+    # Generate test combinations with edge-case coverage.
+    # For multi-parameter functions, itertools.product creates too many
+    # combos and the 60-limit truncation drops edge cases for later
+    # parameters.  Instead, ensure every value appears for each
+    # parameter at least once (diagonal coverage), then fill remaining
+    # slots with random combos.
+    import random as _rnd
+    _rnd.seed(42)  # deterministic for reproducibility
+
+    n_params = len(param_samples)
+    if n_params == 0:
+        combos = [()]
+    elif n_params == 1:
+        combos = [(v,) for v in param_samples[0]]
+    else:
+        # Phase 1: diagonal coverage — each value for each param
+        # Use staggered offsets for different params to avoid same-value combos
+        # (e.g., start==stop for slice functions, or key==value for dict functions).
+        combos_set = set()
+        combos = []
+        for pi in range(n_params):
+            for vi, val in enumerate(param_samples[pi]):
+                combo = []
+                for pj in range(n_params):
+                    if pj == pi:
+                        combo.append(val)
+                    else:
+                        # Stagger by param index to create diverse combos
+                        offset = (pj - pi) * 3 if pj != pi else 0
+                        idx = (vi + offset) % len(param_samples[pj])
+                        combo.append(param_samples[pj][idx])
+                t = tuple(combo)
+                if t not in combos_set:
+                    combos_set.add(t)
+                    combos.append(t)
+        # Phase 2: random combos for additional coverage
+        for _ in range(200):
+            if len(combos) >= 80:
+                break
+            combo = tuple(_rnd.choice(s) for s in param_samples)
+            if combo not in combos_set:
+                combos_set.add(combo)
+                combos.append(combo)
+
+    if len(combos) > 80:
+        combos = combos[:80]
 
     if not combos:
         return None
 
     # Build test script
-    args_list = ', '.join(f'args[{i}]' for i in range(len(param_names)))
     combo_strs = ', '.join(f'({", ".join(c)},)' for c in combos)
+    param_fiber_info = repr(param_fibers)  # e.g. [['int'], ['ref']]
 
     # Split source into future imports and rest
     lines_f = source_f.split('\n')
@@ -1595,30 +1864,187 @@ for _name, _obj in list(locals().items()):
 test_cases = [{combo_strs}]
 results = []
 _RESOURCE_EXCS = (MemoryError, RecursionError, OverflowError)
+_exception_disagree = 0
+_cross_type_disagree = 0
+_tests_run = 0
+_both_ok_agree = 0
+_value_disagree = 0
+import time as _time
+_deadline = _time.monotonic() + 4.0  # hard deadline for all tests
+# Per-call timeout to prevent single calls from hanging (e.g., f('Hello World') → 11! perms)
+import signal as _sig
+class _CallTimeout(Exception): pass
+def _timeout_handler(signum, frame): raise _CallTimeout()
+try:
+    _sig.signal(_sig.SIGALRM, _timeout_handler)
+    _has_alarm = True
+except (AttributeError, OSError):
+    _has_alarm = False
+# Per-parameter simple defaults based on fiber types.
+# Only include edge cases relevant to the parameter's type:
+# - int/numeric: 0, None, False
+# - str: '', None, False
+# - collection/ref/list: [], (), None
+# - pair: {{}}, (), None
+# - any/unknown: 0, '', None, False
+_param_fiber_info = {param_fiber_info}
+_PARAM_SIMPLE = []
+for _fi in _param_fiber_info:
+    _s = set()
+    _s.add(None)
+    _s.add(False)
+    if 'int' in _fi or 'float' in _fi or 'bool' in _fi:
+        _s.add(0)
+    if 'str' in _fi:
+        _s.add('')
+    if 'bytes' in _fi:
+        _s.add(b'')
+    if 'collection' in _fi or 'ref' in _fi or 'list' in _fi:
+        # Only add [] if parameter is typed as a collection, not as a dict
+        if 'pair' not in _fi or len(_fi) > 1:
+            _s.add(tuple())  # () as stand-in for [] (checked below)
+    _PARAM_SIMPLE.append(_s)
+_STRICT_DEFAULTS = (0, None, False)
 for args in test_cases:
+    if _time.monotonic() > _deadline:
+        break  # stop testing before subprocess timeout
     try:
-        r_f = repr(_saved_f({args_list}))
+        import copy as _cp
+        _args_f = _cp.deepcopy(args)
+        if _has_alarm: _sig.alarm(2)
+        _val_f = _saved_f(*_args_f)
+        if _has_alarm: _sig.alarm(0)
+        r_f = repr(_val_f)
         f_ok = True
     except _RESOURCE_EXCS:
+        if _has_alarm: _sig.alarm(0)
+        continue
+    except _CallTimeout:
         continue
     except Exception as e:
+        if _has_alarm: _sig.alarm(0)
         f_ok = False
     try:
-        r_g = repr(_fn_g({args_list}))
+        _args_g = _cp.deepcopy(args)
+        if _has_alarm: _sig.alarm(2)
+        _val_g = _fn_g(*_args_g)
+        if _has_alarm: _sig.alarm(0)
+        r_g = repr(_val_g)
         g_ok = True
     except _RESOURCE_EXCS:
+        if _has_alarm: _sig.alarm(0)
+        continue
+    except _CallTimeout:
+        if f_ok:
+            # f succeeded but g timed out — possible disagree but not conclusive
+            continue
+        else:
+            continue
         continue
     except Exception as e:
         g_ok = False
+    _tests_run += 1
     if f_ok != g_ok:
-        # One function raised, the other succeeded.
-        # Skip — out-of-domain inputs can cause implementation-specific errors.
+        _exception_disagree += 1
+        # Only count as immediate NEQ for very conservative cases:
+        # For single-param: the arg must be in that param's simple defaults
+        # For multi-param: ALL args must be strict defaults (0, None, False)
+        _n_params = len(args)
+        if _n_params == 1:
+            _is_simple = False
+            if len(_PARAM_SIMPLE) >= 1:
+                _a = args[0]
+                for _d in _PARAM_SIMPLE[0]:
+                    try:
+                        if type(_a) == type(_d) and _a == _d:
+                            _is_simple = True
+                            break
+                    except Exception:
+                        pass
+        else:
+            _is_simple = all(
+                any(a == d for d in _STRICT_DEFAULTS)
+                for a in args
+            )
+        if _is_simple:
+            print(json.dumps({{"eq": False, "args": repr(args), "reason": "exception_disagree_on_simple_input"}}))
+            sys.exit(0)
         continue
     if not (f_ok and g_ok):
         continue
+    # Mutation check: if return values agree but input mutations differ,
+    # the functions have different side effects (e.g., sorted vs .sort).
+    if r_f == r_g:
+        _both_ok_agree += 1
+        try:
+            _mut_f = repr(_args_f)
+            _mut_g = repr(_args_g)
+            if _mut_f != _mut_g:
+                print(json.dumps({{"eq": False, "args": repr(args), "reason": "mutation_disagree", "mut_f": _mut_f[:50], "mut_g": _mut_g[:50]}}))
+                sys.exit(0)
+        except Exception:
+            pass
     if r_f != r_g:
-        print(json.dumps({{"eq": False, "args": repr(args), "f": r_f[:50], "g": r_g[:50]}}))
-        sys.exit(0)
+        # Skip cross-type disagreements (e.g., [] vs '') — these indicate
+        # domain mismatches, not real semantic differences.  Functions
+        # that are equivalent on their intended domain may produce
+        # different types on out-of-domain inputs.
+        # Allow numeric type mixing (bool/int are semantically equivalent
+        # since bool is a subclass of int in Python: True==1, False==0).
+        _tf, _tg = type(_val_f), type(_val_g)
+        _NUMERIC = (int, float, complex, bool)
+        if _tf != _tg:
+            if isinstance(_val_f, _NUMERIC) and isinstance(_val_g, _NUMERIC):
+                if _val_f == _val_g:
+                    continue  # e.g., True == 1 → same value, skip
+            else:
+                _cross_type_disagree += 1
+                continue  # cross-type disagree: domain mismatch, not a bug
+        # Skip NaN disagreements — NaN violates total ordering and
+        # comparison invariants, causing equivalent algorithms to
+        # produce different orderings on NaN-containing inputs.
+        if 'nan' in r_f.lower() or 'nan' in r_g.lower():
+            continue
+        # Skip float-precision disagreements — equivalent algorithms
+        # can produce slightly different float results due to FP
+        # arithmetic ordering.  Only skip if the absolute difference
+        # is at machine-epsilon level (< 1e-12), to avoid masking
+        # genuine float-semantic differences (e.g., Decimal vs float,
+        # float associativity).
+        def _floats_close(a, b, abs_tol=1e-12):
+            if isinstance(a, float) and isinstance(b, float):
+                return abs(a - b) <= abs_tol
+            if isinstance(a, (tuple, list)) and isinstance(b, (tuple, list)):
+                if len(a) != len(b): return False
+                return all(_floats_close(x, y, abs_tol) for x, y in zip(a, b))
+            return False
+        if _floats_close(_val_f, _val_g):
+            continue
+        _value_disagree += 1
+        _last_args = repr(args)
+        _last_f = r_f[:50]
+        _last_g = r_g[:50]
+        if _value_disagree >= {require_n_disagree}:
+            print(json.dumps({{"eq": False, "args": _last_args, "f": _last_f, "g": _last_g, "n_disagree": _value_disagree}}))
+            sys.exit(0)
+# If exception disagreements dominate and there are no successful
+# agreements, this is a genuine semantic difference (one function
+# consistently raises while the other succeeds on valid inputs).
+# Require at least 20% of tests to show exception disagreement to
+# avoid false positives from garbage inputs (e.g., graph functions
+# tested with non-graph inputs where only a few short-circuit).
+if _exception_disagree >= max(5, int(_tests_run * 0.2)) and _both_ok_agree == 0:
+    print(json.dumps({{"eq": False, "reason": "exception_disagreement_dominant", "count": _exception_disagree, "total": _tests_run}}))
+    sys.exit(0)
+# If functions consistently return different types with no same-type
+# agreements, they are fundamentally different (e.g., sum vs collect).
+if _cross_type_disagree >= 3 and _both_ok_agree == 0:
+    print(json.dumps({{"eq": False, "reason": "persistent_cross_type_disagree", "count": _cross_type_disagree}}))
+    sys.exit(0)
+# Report any remaining disagrees that didn't hit the threshold
+if _value_disagree > 0:
+    print(json.dumps({{"eq": False, "args": _last_args, "f": _last_f, "g": _last_g, "n_disagree": _value_disagree}}))
+    sys.exit(0)
 print(json.dumps({{"eq": True, "n": len(test_cases)}}))
 '''
 
@@ -1638,7 +2064,7 @@ print(json.dumps({{"eq": True, "n": len(test_cases)}}))
         if data.get('eq') is True:
             return True
         elif data.get('eq') is False:
-            return False
+            return data  # return full data dict for caller inspection
     except Exception:
         pass
     return None

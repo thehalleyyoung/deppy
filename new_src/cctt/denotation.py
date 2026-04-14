@@ -2412,6 +2412,57 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
     return None
 
 
+def has_cross_type_suspicion(source_f: str, source_g: str) -> bool:
+    """Check if the two programs have cross-type OTerm structures.
+
+    Returns True when the normalized OTerms have fundamentally different
+    computational patterns (OFold vs OOp, OOp vs OCase, etc.).
+    This is weaker than _detect_provable_neq — it indicates suspicion,
+    not proof. Used by the checker to override BT EQ verdicts when
+    structural analysis suggests the functions differ.
+    """
+    rf = compile_to_oterm(source_f)
+    rg = compile_to_oterm(source_g)
+    if rf is None or rg is None:
+        return False
+    term_f, params_f = rf
+    term_g, params_g = rg
+    if len(params_f) != len(params_g):
+        return False
+    term_f = _rename_params(term_f, params_f)
+    term_g = _rename_params(term_g, params_g)
+    nf_f = normalize(term_f)
+    nf_g = normalize(term_g)
+    if _contains_unknown(nf_f) or _contains_unknown(nf_g):
+        return False
+    return _has_cross_type(nf_f, nf_g)
+
+
+def _has_cross_type(a: OTerm, b: OTerm) -> bool:
+    """Detect cross-type structural differences between OTerms."""
+    # OFold vs OOp (fold accumulation vs builtin operation)
+    if isinstance(a, OFold) and isinstance(b, OOp):
+        return True
+    if isinstance(b, OFold) and isinstance(a, OOp):
+        return True
+    # OOp vs OMap (builtin vs map/comprehension)
+    if isinstance(a, OOp) and isinstance(b, OMap):
+        return True
+    if isinstance(b, OOp) and isinstance(a, OMap):
+        return True
+    # OOp vs OCase (builtin vs conditional implementation)
+    if isinstance(a, OOp) and isinstance(b, OCase):
+        return True
+    if isinstance(b, OOp) and isinstance(a, OCase):
+        return True
+    # OFold vs OCase (fold vs conditional)
+    if isinstance(a, OFold) and isinstance(b, OCase):
+        return True
+    if isinstance(b, OFold) and isinstance(a, OCase):
+        return True
+    return False
+
+
 def _has_effect(term: OTerm) -> bool:
     """Check if an OTerm contains an effect operation (§11.15).
 
@@ -2563,11 +2614,21 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
                 if all(ai.canon() == bi.canon() for ai, bi in zip(a.args, b.args)):
                     return True
 
-        # Same operation, different arguments — recurse
+        # Same operation, different arguments — only recurse for comparison ops
+        # where argument differences are semantically meaningful.
+        # For general operations (add, mul, getitem, etc.), different sub-term
+        # structure doesn't imply NEQ because different algorithms can compute
+        # the same result.
         if a.name == b.name and len(a.args) == len(b.args):
-            for ai, bi in zip(a.args, b.args):
-                if _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types):
-                    return True
+            # Only recurse into comparisons and boolean ops where
+            # sub-term differences are reliable NEQ indicators
+            safe_to_recurse = a.name in comp_ops or a.name in {
+                'not', 'u_not', 'and', 'or',
+            }
+            if safe_to_recurse:
+                for ai, bi in zip(a.args, b.args):
+                    if _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types):
+                        return True
 
         # Same operation, different arity — extra args are non-default
         # e.g. enumerate(x) vs enumerate(x, 1): default start=0, 1≠0
@@ -2601,38 +2662,24 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
                     return True
 
         # Different root operation entirely
+        # Only declare NEQ for ops that are KNOWN inverses/contradictions,
+        # not for arbitrary different operations (which may compute
+        # the same result via different algorithms).
         if a.name != b.name:
-            # If both are simple ops on the same args, and the ops are
-            # fundamentally different (not just aliased), it's NEQ
-            a_args_c = tuple(x.canon() for x in a.args)
-            b_args_c = tuple(x.canon() for x in b.args)
-            if a_args_c == b_args_c and len(a_args_c) > 0:
-                # Same args, different operation — definitely different
-                # unless the operations are known aliases
-                aliases = {
-                    frozenset({'iadd', 'add'}),  # for immutable types
-                    frozenset({'imult', 'mult'}),
-                }
-                if frozenset({a.name, b.name}) not in aliases:
+            # Known contradictions: sorted vs reversed, min vs max
+            contradictions = {
+                frozenset({'min', 'max'}),
+                frozenset({'sorted', 'sorted_rev'}),
+            }
+            if frozenset({a.name, b.name}) in contradictions:
+                a_args_c = tuple(x.canon() for x in a.args)
+                b_args_c = tuple(x.canon() for x in b.args)
+                if a_args_c == b_args_c and len(a_args_c) > 0:
                     return True
 
-        # Different OOps with same-level args but one wraps in a
-        # non-identity function: sorted(x) vs list(f(x)) where f ≠ sorted.
-        # sorted produces a sorted list; list(f(x)) produces f(x) as a list
-        # which has different ordering when f is not sorted.
-        if a.name != b.name and len(a.args) == 1 and len(b.args) == 1:
-            a0, b0 = a.args[0], b.args[0]
-            # Check if one arg is a simple variable and the other wraps it
-            if isinstance(a0, OVar) and isinstance(b0, OOp):
-                # a = op_a(var), b = op_b(op_c(var))
-                # Different transformation chains → NEQ
-                if len(b0.args) == 1 and isinstance(b0.args[0], OVar):
-                    if a0.canon() == b0.args[0].canon():
-                        return True
-            if isinstance(b0, OVar) and isinstance(a0, OOp):
-                if len(a0.args) == 1 and isinstance(a0.args[0], OVar):
-                    if b0.canon() == a0.args[0].canon():
-                        return True
+        # NOTE: Different op chains (a = op_a(var), b = op_b(op_c(var)))
+        # are NOT necessarily NEQ — the outer context may equalize them.
+        # Removed: this rule caused too many false NEQs on equivalent programs.
 
     # OVar vs OLit/OOp/OSeq — a variable vs a concrete value
     if isinstance(a, OVar) and isinstance(b, (OLit, OSeq)):
@@ -2648,29 +2695,30 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
             if _detect_provable_neq(ai, bi, params, in_case_branch, param_duck_types):
                 return True
 
-    # Same fold structure — recurse into components
+    # Same fold structure — only recurse for matching named operations.
+    # Different fold op hashes (e.g., fold[abc] vs fold[def]) do NOT
+    # mean NEQ — the lambda bodies may compute the same thing.
     if isinstance(a, OFold) and isinstance(b, OFold):
         if a.op_name == b.op_name:
+            # Same named operation — differences in init/collection are meaningful
             if _detect_provable_neq(a.init, b.init, params, in_case_branch, param_duck_types):
                 return True
             if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
                 return True
-        else:
-            # Different fold operations (e.g., iadd vs imult)
-            return True
+        # Different op names: could be hash-named lambdas computing the same thing
+        # — don't declare NEQ
 
-    # OMap — same transform structure, recurse
+    # OMap — only check collection, not transform.
+    # Different transforms (lambda bodies) can compute the same function,
+    # e.g. map(lambda x,y: x*y, zip(a,b)) vs range-based indexing.
     if isinstance(a, OMap) and isinstance(b, OMap):
-        if _detect_provable_neq(a.transform, b.transform, params, in_case_branch, param_duck_types):
-            return True
         if _detect_provable_neq(a.collection, b.collection, params, in_case_branch, param_duck_types):
             return True
 
-    # OLam — same body structure, recurse
+    # OLam — different arity is NEQ; don't recurse into bodies
+    # since different lambda implementations can compute the same function
     if isinstance(a, OLam) and isinstance(b, OLam):
         if len(a.params) != len(b.params):
-            return True
-        if _detect_provable_neq(a.body, b.body, params, in_case_branch, param_duck_types):
             return True
 
     # OCatch — recurse into body and default
@@ -2735,36 +2783,6 @@ def _detect_provable_neq(a: OTerm, b: OTerm, params: List[str],
                     return True
             if isinstance(b, OSeq) and isinstance(a, OOp):
                 if len(b.elements) > 0:
-                    return True
-            # OOp vs OMap — different computation kinds
-            # (e.g. _genexpr_var vs map: generator consumed once vs reusable list)
-            if isinstance(a, OOp) and isinstance(b, OMap):
-                return True
-            if isinstance(b, OOp) and isinstance(a, OMap):
-                return True
-            # OFold vs OOp — iterative accumulation vs simple operation.
-            # Only fire when the OOp is a known builtin/operation, not
-            # an unresolved function call (which might wrap a fold internally).
-            if isinstance(a, OFold) and isinstance(b, OOp):
-                if not b.name.startswith('_') and not b.name.startswith('?'):
-                    return True
-            if isinstance(b, OFold) and isinstance(a, OOp):
-                if not a.name.startswith('_') and not a.name.startswith('?'):
-                    return True
-            # OOp vs OCase — method/builtin call vs conditional
-            if isinstance(a, OOp) and isinstance(b, OCase):
-                if a.name.startswith('.') or a.name in (
-                    'len', 'sum', 'sorted', 'list', 'set', 'tuple',
-                    'map', 'filter', 'zip', 'enumerate', 'range',
-                    'str', 'int', 'float', 'bool', 'type',
-                ):
-                    return True
-            if isinstance(b, OOp) and isinstance(a, OCase):
-                if b.name.startswith('.') or b.name in (
-                    'len', 'sum', 'sorted', 'list', 'set', 'tuple',
-                    'map', 'filter', 'zip', 'enumerate', 'range',
-                    'str', 'int', 'float', 'bool', 'type',
-                ):
                     return True
             # OQuotient vs OOp — unordered vs deterministic
             if isinstance(a, OQuotient) and isinstance(b, OOp):

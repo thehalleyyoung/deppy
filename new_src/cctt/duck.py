@@ -63,23 +63,53 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
                     ops.add(o)
 
         if isinstance(child, ast.Subscript):
-            if _refers_to(child.value, param):
+            # Only count getitem when the subscript target is a DIRECT
+            # reference to the parameter, not a derived value.
+            # e.g., nums[i] → getitem (nums is subscripted directly)
+            #        bin(n)[2:] → skip (bin(n) is derived from n)
+            if _is_direct_ref(child.value, param):
                 ops.add('getitem')
             if _refers_to(child.slice, param):
                 ops.add('used_as_index')
 
         if isinstance(child, ast.Call):
             if isinstance(child.func, ast.Attribute):
-                if _refers_to(child.func.value, param):
+                # Only add method_xxx when the receiver is a DIRECT reference
+                # to the parameter, not a derived value.
+                # e.g., s.count('x') → method_count (s is the receiver directly)
+                #        bin(n).count('1') → skip (bin(n) is derived from n)
+                if _is_direct_ref(child.func.value, param):
                     ops.add(f'method_{child.func.attr}')
+                # Detect math.func(param) calls — signals numeric/float usage
+                if (isinstance(child.func.value, ast.Name)
+                        and child.func.value.id == 'math'
+                        and any(_refers_to(a, param) for a in child.args)):
+                    ops.add(f'math_{child.func.attr}')
             if isinstance(child.func, ast.Name):
                 for arg in child.args:
-                    if _refers_to(arg, param):
+                    # Only add call_xxx when param is a DIRECT argument,
+                    # not wrapped in another function call.
+                    # e.g., len(n) → call_len (n is collection)
+                    #        len(str(n)) → call_str only (n is int, str(n) is string)
+                    if _is_direct_ref(arg, param):
                         ops.add(f'call_{child.func.id}')
+                    elif _refers_to(arg, param):
+                        # Param is used indirectly — add the call tag but also
+                        # record the wrapping function to help disambiguation.
+                        # Don't add collection-inferring tags for indirect use.
+                        pass
 
         if isinstance(child, ast.For):
-            if _refers_to(child.iter, param):
+            # Only mark as 'iter' if param IS the iterable directly,
+            # not if param is an argument inside a function call that
+            # produces the iterable (e.g., range(n) — n is int, not collection)
+            iter_node = child.iter
+            if isinstance(iter_node, ast.Name) and iter_node.id == param:
                 ops.add('iter')
+            elif isinstance(iter_node, ast.Attribute) and _refers_to(iter_node.value, param):
+                ops.add('iter')  # e.g., for x in param.items()
+            # If iter is a call like range(param), sorted(param), etc.,
+            # the call_xxx tag from the Call handler is more accurate
 
         if isinstance(child, ast.AugAssign):
             if isinstance(child.value, ast.Name) and child.value.id == param:
@@ -110,11 +140,34 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
         if isinstance(child, ast.Starred) and _refers_to(child.value, param):
             ops.add('iter')
 
-        # Comprehension iteration
+        # Comprehension iteration — same logic as for-loops
         if isinstance(child, (ast.ListComp, ast.SetComp, ast.GeneratorExp)):
             for gen in child.generators:
-                if _refers_to(gen.iter, param):
+                iter_node = gen.iter
+                if isinstance(iter_node, ast.Name) and iter_node.id == param:
                     ops.add('iter')
+                elif isinstance(iter_node, ast.Attribute) and _refers_to(iter_node.value, param):
+                    ops.add('iter')
+
+
+def _is_direct_ref(node, param: str) -> bool:
+    """Check if a node is a DIRECT reference to the parameter.
+
+    Unlike _refers_to, this does NOT follow transitive chains through
+    function calls. Only returns True for:
+    - ast.Name with id == param
+    - ast.Attribute on the parameter (e.g., param.items)
+    - Subscript/slice of the parameter (e.g., param[0], param[1:])
+    """
+    if isinstance(node, ast.Name) and node.id == param:
+        return True
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id == param:
+        return True
+    if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) and node.value.id == param:
+        return True
+    if isinstance(node, ast.Starred) and isinstance(node.value, ast.Name) and node.value.id == param:
+        return True
+    return False
 
 
 def _refers_to(node, param: str) -> bool:
@@ -170,23 +223,74 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
         # Mixed types → treat as 'any' with isinstance dispatch
         return 'any', True
 
+    collection_ops = {'iter', 'getitem', 'call_len', 'call_sorted', 'call_list',
+                      'call_set', 'call_reversed', 'call_enumerate', 'call_sum',
+                      'call_zip', 'call_map', 'call_filter', 'call_min', 'call_max',
+                      'call_any', 'call_all', 'call_tuple', 'call_frozenset',
+                      'call_dict', 'call_Counter', 'call_chain',
+                      'call_groupby', 'call_accumulate'}
+
     numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
                     'neg', 'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
                     'invert', 'call_range', 'used_as_index', 'truediv'}
-    if ops & numeric_only:
-        return 'int', True
-    if ops & {'lt', 'le', 'gt', 'ge'}:
-        return 'int', True
 
+    # Check specific types BEFORE generic collection to avoid
+    # mis-classifying list parameters as collection.
     str_methods = {'method_upper', 'method_lower', 'method_strip', 'method_split',
                    'method_replace', 'method_find', 'method_startswith',
                    'method_endswith', 'method_join', 'method_encode', 'method_format',
                    'method_lstrip', 'method_rstrip', 'method_center', 'method_ljust',
-                   'method_rjust', 'method_zfill', 'method_count', 'method_index',
+                   'method_rjust', 'method_zfill',
                    'method_isdigit', 'method_isalpha', 'method_isspace',
                    'method_capitalize', 'method_title', 'method_swapcase'}
+    # Note: method_count and method_index are shared between str and list,
+    # so they are NOT included here (handled in list_methods below)
     if ops & str_methods:
         return 'str', True
+
+    # Detect parameters passed to stdlib functions that expect bytes
+    # (e.g., base64.b64encode(data), hashlib.sha256(data))
+    bytes_calls = {'call_b64encode', 'call_b64decode', 'call_urlsafe_b64encode',
+                   'call_sha256', 'call_sha1', 'call_md5', 'call_sha512',
+                   'call_sha384', 'call_sha224',
+                   'method_decode'}
+    # Also detect module-qualified calls like base64.b64encode(data)
+    bytes_module_calls = set()
+    for child in ast.walk(func_f):
+        if isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute):
+            if isinstance(child.func.value, ast.Name):
+                mod = child.func.value.id
+                method = child.func.attr
+                if mod in ('base64', 'hashlib') and any(
+                    isinstance(a, ast.Name) and a.id == pname for a in child.args):
+                    bytes_module_calls.add(f'{mod}_{method}')
+            # Detect chained calls like hashlib.sha256(data).hexdigest()
+            if isinstance(child.func.value, ast.Call):
+                inner = child.func.value
+                if isinstance(inner.func, ast.Attribute) and isinstance(inner.func.value, ast.Name):
+                    mod = inner.func.value.id
+                    method = inner.func.attr
+                    if mod == 'hashlib' and any(
+                        isinstance(a, ast.Name) and a.id == pname for a in inner.args):
+                        bytes_module_calls.add(f'{mod}_{method}')
+    for child in ast.walk(func_g):
+        if isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute):
+            if isinstance(child.func.value, ast.Name):
+                mod = child.func.value.id
+                method = child.func.attr
+                if mod in ('base64', 'hashlib') and any(
+                    isinstance(a, ast.Name) and a.id == pname for a in child.args):
+                    bytes_module_calls.add(f'{mod}_{method}')
+            if isinstance(child.func.value, ast.Call):
+                inner = child.func.value
+                if isinstance(inner.func, ast.Attribute) and isinstance(inner.func.value, ast.Name):
+                    mod = inner.func.value.id
+                    method = inner.func.attr
+                    if mod == 'hashlib' and any(
+                        isinstance(a, ast.Name) and a.id == pname for a in inner.args):
+                        bytes_module_calls.add(f'{mod}_{method}')
+    if (ops & bytes_calls) or bytes_module_calls:
+        return 'bytes', True
 
     dict_methods = {'method_get', 'method_keys', 'method_values', 'method_items',
                     'method_update', 'method_setdefault', 'method_pop',
@@ -208,12 +312,24 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
     if ops & set_methods:
         return 'ref', True
 
-    collection_ops = {'iter', 'getitem', 'call_len', 'call_sorted', 'call_list',
-                      'call_set', 'call_reversed', 'call_enumerate', 'call_sum',
-                      'call_zip', 'call_map', 'call_filter', 'call_min', 'call_max',
-                      'call_any', 'call_all', 'call_tuple', 'call_frozenset',
-                      'call_dict', 'call_Counter', 'call_chain',
-                      'call_groupby', 'call_accumulate'}
+    # math module functions (math.copysign, math.sqrt, etc.) → numeric
+    math_ops = {o for o in ops if o.startswith('math_')}
+    if math_ops and not (ops & collection_ops):
+        return 'numeric', True
+
+    # Numeric-only ops → integer parameter
+    # BUT only if there are no collection ops (getitem, iter, len, etc.)
+    # — a function might do `lst[len(lst) - 1]` which has both `sub`
+    # and `getitem`, and the parameter is a collection, not an int.
+    numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
+                    'neg', 'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
+                    'invert', 'call_range', 'used_as_index', 'truediv'}
+    if ops & numeric_only and not (ops & collection_ops):
+        return 'int', True
+    if ops & {'lt', 'le', 'gt', 'ge'} and not (ops & collection_ops):
+        return 'int', True
+
+    # Generic collection (iter, getitem, len, etc.)
     if ops & collection_ops:
         return 'collection', True
 
@@ -221,13 +337,14 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
         return 'any', True
 
     if ops & {'add', 'iadd'} and not (ops & numeric_only - {'add', 'iadd'}):
-        # add could be int or str or list — ambiguous without further evidence
+        # add could be int or str or list — but for pure arithmetic
+        # (no string/list methods or collection ops), use int + float fibers
+        # to catch float precision differences.
         if ops & str_methods:
             return 'str', True
         if ops & collection_ops:
             return 'collection', True
-        # No disambiguating evidence → 'any' (conservative for soundness)
-        return 'any', False
+        return 'numeric', True
 
     return 'unknown', False
 
@@ -243,6 +360,8 @@ DUCK_TYPE_FIBERS: dict[str, frozenset[str]] = {
     'ref': frozenset(['ref']),
     'list': frozenset(['pair', 'ref']),
     'collection': frozenset(['pair', 'ref', 'str']),
+    'bytes': frozenset(['str']),  # bytes shares string fiber but uses bytes samples
+    'numeric': frozenset(['int']),
     'any': ALL_FIBERS,
     'unknown': ALL_FIBERS,
 }

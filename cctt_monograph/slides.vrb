@@ -1,0 +1,23 @@
+\frametitle{Putting It Together: A Verified Function}
+\begin{lstlisting}[language=deppy]
+from deppy.hybrid import guarantee, assume, check
+
+@guarantee("returns the n-th Fibonacci number")
+def fib(n):
+    assume("n is a non-negative integer")
+    if n <= 1:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        check("a == fib(i-2) and b == fib(i-1)")
+        a, b = b, a + b
+    return b
+\end{lstlisting}
+
+\vspace{0.5em}
+deppy verifies this by:
+\begin{enumerate}
+\item Compiling to OTerm: $\mathsf{OFix}(\mathit{fib}, \ldots)$
+\item Checking the loop invariant with Z3 (structural)
+\item Matching the spec ``Fibonacci'' via D20 (semantic)
+\end{enumerate}
