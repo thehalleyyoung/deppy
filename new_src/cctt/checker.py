@@ -675,20 +675,34 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
         has_reverse = '[::-1]' in source or 'reversed(' in source
         has_insert_0 = 'insert(0' in source or "insert(0" in source
         has_join = "''.join" in source or '"".join' in source or 'join(' in source_lower
-        if has_reverse and has_join:
-            scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
-        if has_insert_0 and has_join:
-            scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
+        has_str_ops = has_join or 'str' in params_str or 's' == params_str.strip() or \
+                      'text' in params_str or 'string' in params_str
+        # Distinguish from is_palindrome: reverse_string returns the reversed string,
+        # not a boolean comparison. Check for: no '==' comparing with reversed form.
+        has_eq_comparison = has_reverse and ('==' in source or '!=' in source) and \
+                           ('return' in source)
+        # Also exclude if it's clearly a boolean-returning function
+        has_bool_indicators = 'True' in source or 'False' in source or 'bool' in source_lower or \
+                              'isalnum' in source or 'isalpha' in source
+        is_palindrome_like = has_eq_comparison and has_bool_indicators
+        if not is_palindrome_like and has_str_ops:
+            if has_reverse:
+                scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
+            if has_insert_0 and has_join:
+                scores['reverse_string'] = scores.get('reverse_string', 0) + 8.0
 
     # is_palindrome: single param + comparison with reverse or two-pointer
     if param_count == 1:
-        has_reverse_cmp = '[::-1]' in source
+        has_reverse_cmp = '[::-1]' in source and ('==' in source or '!=' in source)
         has_two_ptr = ('left' in source_lower and 'right' in source_lower)
         has_alnum = 'isalnum' in source or 'isalpha' in source
         has_str_param = 's' in params_str or 'string' in params_str or 'text' in params_str or 'word' in params_str
-        if has_reverse_cmp and ('==' in source or '!=' in source) and has_str_param:
+        has_bool_return = 'True' in source or 'False' in source
+        # Return <expr> == <expr>[::-1] pattern (bool return even without explicit True/False)
+        has_implicit_bool = has_reverse_cmp and 'return' in source
+        if has_reverse_cmp and (has_bool_return or has_alnum or has_implicit_bool):
             scores['is_palindrome'] = scores.get('is_palindrome', 0) + 8.0
-        if has_two_ptr and has_alnum:
+        if has_two_ptr and (has_alnum or has_bool_return):
             scores['is_palindrome'] = scores.get('is_palindrome', 0) + 8.0
 
     # anagram_check: two params + Counter or sorted comparison
@@ -696,7 +710,7 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
         has_counter = 'Counter(' in source or 'counter' in source_lower
         has_sorted_cmp = 'sorted(' in source and '==' in source
         has_freq = 'freq' in source_lower or 'count' in source_lower
-        if (has_counter or has_sorted_cmp) and ('s1' in params_str or 's2' in params_str or 'str' in params_str):
+        if has_counter or has_sorted_cmp:
             scores['anagram_check'] = scores.get('anagram_check', 0) + 8.0
 
     # count_vowels: single param + vowel set/string
@@ -709,12 +723,13 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
     # run_length_encode: single param + consecutive char grouping
     if param_count == 1:
         has_groupby = 'groupby(' in source
-        has_consecutive = ('count' in source_lower and ('prev' in source_lower or 'current' in source_lower or 'last' in source_lower))
+        has_consecutive = ('count' in source_lower and 'i - 1' in source) or \
+                          ('count' in source_lower and ('prev' in source_lower or 'current' in source_lower or 'last' in source_lower))
         has_append_pair = 'append(' in source and ('count' in source_lower or 'len(' in source)
         if has_groupby and ('append' in source or 'return' in source):
             scores['run_length_encode'] = scores.get('run_length_encode', 0) + 8.0
         if has_consecutive and has_append_pair:
-            scores['run_length_encode'] = scores.get('run_length_encode', 0) + 6.0
+            scores['run_length_encode'] = scores.get('run_length_encode', 0) + 8.0
 
     # caesar_cipher: two params (text, shift) + chr/ord with modular arithmetic
     if param_count == 2 and ('shift' in params_str or 'key' in params_str):
@@ -757,10 +772,14 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
         has_sieve_array = ('[True]' in source or '[False]' in source) and 'range(' in source
         has_mark = 'sieve' in source_lower or 'is_prime' in source_lower
         has_sqrt_loop = ('i * i' in source or 'i*i' in source or 'isqrt' in source)
+        has_trial_div = ('candidate' in source_lower or 'num' in source_lower) and \
+                        '% ' in source and 'primes' in source_lower
         if has_sieve_array and has_sqrt_loop:
             scores['sieve'] = scores.get('sieve', 0) + 8.0
         if has_sieve_array and has_mark:
             scores['sieve'] = scores.get('sieve', 0) + 6.0
+        if has_trial_div and 'append' in source:
+            scores['sieve'] = scores.get('sieve', 0) + 7.0
 
     # euler_totient: single param + gcd or prime factoring + result calculation
     if param_count == 1:
@@ -779,33 +798,45 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
         if has_gcd and has_lcm_formula:
             scores['lcm'] = scores.get('lcm', 0) + 8.0
 
-    # fibonacci: single param + a,b = b,a+b or recursive
+    # fibonacci: single param + a,b = b,a+b or recursive or matrix exponentiation
     if param_count == 1:
         has_fib_swap = ('a, b = b, a + b' in source or 'a,b=b,a+b' in source or
                         'a, b = b, a+b' in source or 'prev, curr' in source_lower)
         has_memo = 'memo' in source_lower or 'cache' in source_lower or '@lru_cache' in source
         has_recursive = 'return f(' in source or 'return fib(' in source
+        has_matrix = ('mat_mult' in source or 'mat_pow' in source_lower) and \
+                     ('[[1, 1]' in source or '[[1,1]' in source)
         if has_fib_swap:
             scores['fibonacci'] = scores.get('fibonacci', 0) + 8.0
         if has_memo and has_recursive:
             scores['fibonacci'] = scores.get('fibonacci', 0) + 6.0
+        if has_matrix and ('A[0][0]' in source or '[0][0]' in source):
+            scores['fibonacci'] = scores.get('fibonacci', 0) + 8.0
 
     # ── Graph structural patterns ──
 
-    # dijkstra: graph param + heapq + distance dict/array
+    # dijkstra: graph param + heapq + distance dict/array, or visited-set based
     if 'graph' in params_str or 'adj' in params_str or 'edges' in params_str:
         has_heap = 'heappush' in source or 'heappop' in source or 'heapq' in source
         has_dist = 'dist' in source_lower or 'distance' in source_lower
         has_inf = 'inf' in source or 'float(' in source
+        has_visited = 'visited' in source_lower
+        has_relax = '>' in source and '+' in source and has_dist
         if has_heap and has_dist:
             scores['dijkstra'] = scores.get('dijkstra', 0) + 8.0
+        if has_visited and has_dist and has_inf and has_relax:
+            scores['dijkstra'] = scores.get('dijkstra', 0) + 7.0
 
-    # topological_sort (structural): graph + in-degree + queue/stack
+    # topological_sort (structural): graph + in-degree + queue/stack or DFS + post-order
     if 'graph' in params_str or 'adj' in params_str or 'edges' in params_str:
         has_in_degree = 'in_degree' in source or 'indegree' in source_lower or 'degree' in source_lower
         has_queue = 'deque(' in source or 'queue' in source_lower
         has_topo = 'topo' in source_lower or 'sorted' in source_lower or 'order' in source_lower
+        has_dfs = 'dfs' in source_lower or ('visited' in source_lower and 'stack' in source_lower)
+        has_post_order = 'stack' in source_lower and ('reverse' in source_lower or '[::-1]' in source)
         if has_in_degree and (has_queue or 'stack' in source_lower):
+            scores['topological_sort'] = scores.get('topological_sort', 0) + 8.0
+        if has_dfs and has_post_order:
             scores['topological_sort'] = scores.get('topological_sort', 0) + 8.0
 
     # ── DP structural patterns ──
@@ -1004,20 +1035,26 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
 
     # ── Conversion structural patterns ──
 
-    # roman_to_int: single param + roman numeral value mapping
+    # roman_to_int: single STRING param + roman numeral value mapping + read char by char
     if param_count == 1:
         has_roman_map = ("'I'" in source or "'V'" in source or "'X'" in source or
                          "'L'" in source or "'C'" in source or "'D'" in source or "'M'" in source)
         has_values = ('1000' in source and '500' in source and '100' in source)
+        has_char_access = 's[' in source or 'char' in source_lower or 'for c in' in source
         has_subtract = 'prev' in source_lower or 'i + 1' in source or 'i+1' in source
-        if has_roman_map and has_values:
+        # Must be reading chars from input (not building a string from int)
+        if has_roman_map and has_values and has_char_access:
             scores['roman_to_int'] = scores.get('roman_to_int', 0) + 8.0
 
-    # int_to_roman: single param + value-symbol pairs
+    # int_to_roman: single param + value-symbol pairs or digit lookup tables
     if param_count == 1:
         has_roman_pairs = ('1000' in source and "'M'" in source) or ('roman' in source_lower)
         has_subtract = '//' in source or 'while' in source
+        has_lookup_tables = ('thousands' in source_lower or 'hundreds' in source_lower or
+                            'ones' in source_lower or 'tens' in source_lower)
         if has_roman_pairs and has_subtract:
+            scores['int_to_roman'] = scores.get('int_to_roman', 0) + 8.0
+        if has_lookup_tables and "'M'" in source:
             scores['int_to_roman'] = scores.get('int_to_roman', 0) + 8.0
 
     # ── Collection operation structural patterns ──
@@ -1029,11 +1066,12 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
         if has_isinstance_list and (has_recursive or 'yield' in source):
             scores['flatten_list'] = scores.get('flatten_list', 0) + 8.0
 
-    # transpose: single param + zip(*matrix) or nested loops
+    # transpose: single param + zip(*matrix) or nested loops (require matrix-like param)
     if param_count == 1:
         has_zip_star = 'zip(*' in source or 'zip( *' in source
         has_nested_loop = 'range(len(' in source and '[[' in source
-        if has_zip_star:
+        has_matrix_p = 'matrix' in params_str or 'mat' in params_str or 'grid' in params_str
+        if has_zip_star and has_matrix_p:
             scores['transpose'] = scores.get('transpose', 0) + 8.0
         if has_nested_loop and ('row' in source_lower or 'col' in source_lower):
             scores['transpose'] = scores.get('transpose', 0) + 6.0
@@ -1118,6 +1156,87 @@ def _identify_spec_from_source_scored(source: str) -> Dict[str, float]:
     has_end_marker = 'end' in source_lower or '#' in source or 'is_word' in source_lower
     if has_trie_node and has_trie_traverse:
         scores['trie'] = scores.get('trie', 0) + 7.0
+
+    # ── Additional variant patterns ──
+
+    # longest_common_prefix: list param + startswith or zip(*strs)
+    if param_count == 1:
+        has_startswith = 'startswith(' in source
+        has_zip_star = 'zip(*' in source or 'zip( *' in source
+        has_prefix = 'prefix' in source_lower
+        has_strs_param = 'strs' in params_str or 'strings' in params_str or 'words' in params_str
+        if has_startswith and (has_prefix or has_strs_param):
+            scores['longest_common_prefix'] = scores.get('longest_common_prefix', 0) + 8.0
+        if has_zip_star and 'set(' in source and has_strs_param:
+            scores['longest_common_prefix'] = scores.get('longest_common_prefix', 0) + 8.0
+
+    # transpose: indexed nested comprehension variant
+    if param_count == 1:
+        has_zip_star_t = 'zip(*' in source or 'zip( *' in source
+        has_indexed = 'range(rows)' in source or 'range(cols)' in source or \
+                      ('range(len(' in source and '[r][c]' in source or '[c][r]' in source)
+        has_matrix_param = 'matrix' in params_str or 'mat' in params_str or 'grid' in params_str
+        if has_zip_star_t and has_matrix_param:
+            scores['transpose'] = scores.get('transpose', 0) + 8.0
+        if has_indexed and has_matrix_param:
+            scores['transpose'] = scores.get('transpose', 0) + 7.0
+
+    # single_number: reduce(operator.xor) variant
+    if param_count == 1:
+        has_operator_xor = 'operator.xor' in source or 'operator .xor' in source
+        has_reduce = 'reduce(' in source
+        if has_operator_xor and has_reduce:
+            scores['single_number'] = scores.get('single_number', 0) + 8.0
+
+    # dot_product: indexed loop variant
+    if param_count == 2:
+        has_indexed_loop = 'range(len(' in source and ('[i]' in source)
+        has_total = 'total' in source_lower or 'result' in source_lower
+        has_multiply = '*' in source and '+=' in source
+        if has_indexed_loop and has_multiply:
+            scores['dot_product'] = scores.get('dot_product', 0) + 7.0
+
+    # permutations: recursive without itertools
+    if param_count <= 2:
+        has_recursive_perm = ('for i' in source or 'for x' in source or 'enumerate' in source)
+        has_rest = 'rest' in source_lower or 'remaining' in source_lower or \
+                   'lst[:i]' in source or 'lst[i+1:]' in source
+        has_base = 'len(lst) <= 1' in source or 'len(lst) == 1' in source or 'len(lst) == 0' in source
+        if has_recursive_perm and has_rest and has_base:
+            scores['permutations'] = scores.get('permutations', 0) + 8.0
+
+    # combinations: recursive include/exclude without itertools
+    if param_count == 2:
+        has_recursive_comb = ('head' in source_lower or 'lst[0]' in source) and 'tail' in source_lower or 'lst[1:]' in source
+        has_base_comb = 'k == 0' in source or 'k == 1' in source or 'not lst' in source
+        if has_recursive_comb and has_base_comb:
+            scores['combinations'] = scores.get('combinations', 0) + 7.0
+
+    # power_set: iterative doubling variant
+    if param_count == 1:
+        has_iterative_double = 'result + [' in source or 'result +[' in source
+        has_sorted = 'sorted(' in source and 'result' in source_lower
+        if has_iterative_double:
+            scores['powerset'] = scores.get('powerset', 0) + 7.0
+
+    # determinant: Gaussian elimination variant
+    if param_count == 1:
+        has_pivot = 'pivot' in source_lower
+        has_row_swap = 'mat[' in source and ('swap' in source_lower or 'mat[col]' in source or 'mat[row]' in source)
+        has_det_mult = 'det' in source_lower and ('*' in source or '*=' in source)
+        if has_pivot and has_det_mult:
+            scores['determinant'] = scores.get('determinant', 0) + 7.0
+
+    # simple_hash: manual hash with multiplier + ord + modulus
+    if param_count <= 2:
+        has_hash_loop = 'for c in' in source or 'for char in' in source
+        has_ord = 'ord(' in source
+        has_mult = '* 31' in source or '*31' in source or '* 37' in source
+        has_mod = '% mod' in source or '%mod' in source
+        if has_hash_loop and has_ord and has_mult:
+            scores['simple_hash'] = scores.get('simple_hash', 0) + 8.0
+        if has_ord and 'reduce(' in source and has_mult:
+            scores['simple_hash'] = scores.get('simple_hash', 0) + 8.0
 
     # Keyword-based scoring (lower priority, additive)
     for spec_name, keyword_groups in _SPEC_KEYWORDS.items():
