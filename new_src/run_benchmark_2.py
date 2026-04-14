@@ -3,7 +3,7 @@ from __future__ import annotations
 import subprocess, sys, os, time, json
 
 PYTHON = sys.executable
-TIMEOUT_MS = 5000
+TIMEOUT_MS = 7000
 SUBPROCESS_TIMEOUT = 12
 
 SCRIPT = r'''

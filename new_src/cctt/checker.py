@@ -623,14 +623,20 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     # ── Step 6: Local equivalence check per fiber ──
     judgments: Dict[Tuple[str, ...], LocalJudgment] = {}
 
+    # Reserve at least 2s for BT fallback (Step 8) — Z3 per-fiber analysis
+    # can consume the entire time budget on complex programs, leaving BT
+    # with insufficient time to start a subprocess.
+    _bt_reserve_s = 2.0
+    _z3_deadline = deadline - _bt_reserve_s
+
     # Compute per-fiber timeout based on remaining time and fiber count
-    remaining_ms = max(100, int((deadline - time.monotonic()) * 1000))
+    remaining_ms = max(100, int((_z3_deadline - time.monotonic()) * 1000))
     per_fiber_ms = max(200, remaining_ms // max(len(fiber_combos), 1))
 
     early_neq = False
     z3_oom = False  # track Z3 out-of-memory
     for combo in fiber_combos:
-        if time.monotonic() > deadline:
+        if time.monotonic() > _z3_deadline:
             judgments[combo] = LocalJudgment(
                 fiber=combo, is_equivalent=None,
                 explanation='global timeout')
