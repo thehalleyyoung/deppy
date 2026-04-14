@@ -1984,19 +1984,17 @@ _duck_types = {duck_type_info}
 _do_mutation_check = any(dt in ('list', 'dict', 'ref') for dt in _duck_types)
 _PARAM_SIMPLE = []
 for _fi in _param_fiber_info:
-    _s = set()
-    _s.add(None)
-    _s.add(False)
+    _s = []
+    _s.append(None)
     if 'int' in _fi or 'float' in _fi or 'bool' in _fi:
-        _s.add(0)
-        _s.discard(False)  # Ensure 0 (int) is stored, not False (bool)
-        _s.add(0)
+        _s.append(0)
+    _s.append(False)
     if 'str' in _fi:
-        _s.add('')
+        _s.append('')
     if 'bytes' in _fi:
-        _s.add(b'')
+        _s.append(b'')
     if 'collection' in _fi or 'ref' in _fi or 'list' in _fi:
-        _s.add(())  # empty tuple (hashable stand-in)
+        _s.append(())  # empty tuple (hashable stand-in)
     _PARAM_SIMPLE.append(_s)
 _STRICT_DEFAULTS = (0, None, False)
 for args in test_cases:

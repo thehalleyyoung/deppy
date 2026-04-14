@@ -86,13 +86,20 @@ def _walk_ops(node, param: str, ops: Set[str], depth: int):
                         and any(_refers_to(a, param) for a in child.args)):
                     ops.add(f'math_{child.func.attr}')
             if isinstance(child.func, ast.Name):
-                for arg in child.args:
+                fn_name = child.func.id
+                # Positional type hints: first arg is iterable, rest are int
+                _ITERABLE_FIRST = {'islice', 'chain', 'accumulate', 'takewhile',
+                                   'dropwhile', 'starmap', 'groupby'}
+                for i, arg in enumerate(child.args):
                     # Only add call_xxx when param is a DIRECT argument,
                     # not wrapped in another function call.
                     # e.g., len(n) → call_len (n is collection)
                     #        len(str(n)) → call_str only (n is int, str(n) is string)
                     if _is_direct_ref(arg, param):
-                        ops.add(f'call_{child.func.id}')
+                        if fn_name in _ITERABLE_FIRST and i > 0:
+                            ops.add('used_as_index')
+                        else:
+                            ops.add(f'call_{fn_name}')
                     elif _refers_to(arg, param):
                         # Param is used indirectly — add the call tag but also
                         # record the wrapping function to help disambiguation.
@@ -433,7 +440,8 @@ def infer_duck_type(func_f, func_g, pname: str) -> Tuple[str, bool]:
                       'call_zip', 'call_map', 'call_filter', 'call_min', 'call_max',
                       'call_any', 'call_all', 'call_tuple', 'call_frozenset',
                       'call_dict', 'call_Counter', 'call_chain',
-                      'call_groupby', 'call_accumulate'}
+                      'call_groupby', 'call_accumulate', 'call_islice',
+                      'call_iter'}
 
     numeric_only = {'sub', 'mul', 'imul', 'floordiv', 'mod', 'pow',
                     'neg', 'lshift', 'rshift', 'bitor', 'bitand', 'bitxor',
