@@ -1466,24 +1466,29 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
         # structural proof, run BT to check if the functions actually
         # agree on concrete inputs. Z3 may produce false obstructions
         # from recursive/while-loop compilation artifacts.
-        bt_confirm = _bounded_testing(source_f, source_g, param_names,
-                                      param_fibers, deadline,
-                                      duck_types=duck_types)
-        if bt_confirm is True:
-            # BT says all tests agree — override H1 obstruction
-            if fingerprint_match:
+        #
+        # Exception: don't override when one function has try/except and
+        # the other doesn't — exception handling differences are hard for
+        # BT to detect (need exact triggering inputs).
+        _has_try_f = 'try:' in source_f
+        _has_try_g = 'try:' in source_g
+        _try_asymmetry = _has_try_f != _has_try_g
+        if not _try_asymmetry:
+            bt_confirm = _bounded_testing(source_f, source_g, param_names,
+                                          param_fibers, deadline,
+                                          duck_types=duck_types)
+            if bt_confirm is True:
+                # BT says all tests agree — override H1 obstruction
+                if fingerprint_match:
+                    return Result(True,
+                        'bounded testing EQ overrides H1 obstruction (fingerprint match)',
+                        h0=cech.h0 or 1, confidence=0.80)
                 return Result(True,
-                    'bounded testing EQ overrides H1 obstruction (fingerprint match)',
-                    h0=cech.h0 or 1, confidence=0.80)
-            return Result(True,
-                'bounded testing EQ overrides H1 obstruction (all tests agree)',
-                h0=cech.h0 or 1, confidence=0.70)
-        if isinstance(bt_confirm, dict) and bt_confirm.get('eq') is False:
-            # BT confirms the disagreement — trust H1
-            pass
-        else:
-            # BT inconclusive — fall through to step 8
-            pass
+                    'bounded testing EQ overrides H1 obstruction (all tests agree)',
+                    h0=cech.h0 or 1, confidence=0.70)
+            if isinstance(bt_confirm, dict) and bt_confirm.get('eq') is False:
+                # BT confirms the disagreement — trust H1
+                pass
         obs = cech.obstructions
         obs_desc = str(obs[0]) if obs else 'unknown fiber'
         j = judgments.get(obs[0]) if obs else None
