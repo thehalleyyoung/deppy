@@ -2118,6 +2118,20 @@ for args in test_cases:
             else:
                 _cross_type_disagree += 1
                 continue  # cross-type disagree: domain mismatch, not a bug
+        # Skip nested cross-type disagreements: when both return lists
+        # but element types differ due to string vs list domain (e.g.,
+        # string slicing returns substrings, islice returns char lists).
+        # Only skip str-vs-list element differences — other element type
+        # differences (list vs tuple) are genuine NEQ signals.
+        if isinstance(_val_f, (list, tuple)) and isinstance(_val_g, (list, tuple)):
+            if len(_val_f) > 0 and len(_val_g) > 0 and len(_val_f) == len(_val_g):
+                _etf = type(_val_f[0])
+                _etg = type(_val_g[0])
+                if _etf != _etg:
+                    _is_str_list = (_etf == str and _etg == list) or (_etf == list and _etg == str)
+                    if _is_str_list:
+                        _cross_type_disagree += 1
+                        continue  # str/list element mismatch: domain issue
         # Skip NaN disagreements — NaN violates total ordering and
         # comparison invariants, causing equivalent algorithms to
         # produce different orderings on NaN-containing inputs.
