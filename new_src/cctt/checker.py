@@ -1552,7 +1552,7 @@ if _time.monotonic() < _deadline and _both_ok_agree > 0:
 # trigger the exception_disagree threshold since most tests agree.
 # Guard: only test if both functions successfully handle non-empty lists
 # (proves list is a valid input type, not a type mismatch).
-if _time.monotonic() < _deadline and _both_ok_agree > 0 and _exception_disagree > 0:
+if _time.monotonic() < _deadline and _both_ok_agree > 0:
     _list_validation_inputs = [([1, 2, 3],), ([3, 1, 2],)]
     _list_valid_count = 0
     for _lvi in _list_validation_inputs:
@@ -1563,7 +1563,7 @@ if _time.monotonic() < _deadline and _both_ok_agree > 0 and _exception_disagree 
         except Exception:
             pass
     if _list_valid_count >= 1:
-        _edge_inputs = [([],), ([1],)]
+        _edge_inputs = [([],), ([1],), ([None, 1],)]
         for _ei in _edge_inputs:
             try:
                 _ef = repr(_saved_f(*_cp.deepcopy(_ei)))
