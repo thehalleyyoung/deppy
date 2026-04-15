@@ -1158,6 +1158,26 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                    '[[2,1,3],[4,5,6],[7,8,0]]',
                    '[[1,2],[3,4],[5,6]]',
                    '[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]'],
+        # Fixed-length coordinate/point types (2-element numeric tuples).
+        # For params accessed via p[0], p[1] without iteration — prevents
+        # spurious NEQ when math.dist uses all dims but indexing uses only 2.
+        'coord': ['(0, 0)', '(1, 0)', '(0, 1)', '(1, 1)', '(-1, 0)',
+                  '(1, 2)', '(3, 4)', '(-1, -1)', '(0, -1)',
+                  '(5, 3)', '(10, 20)', '(100, 200)',
+                  '(0.5, 0.5)', '(1.5, 2.5)', '(-0.5, 1.0)',
+                  '(2, 7)', '(-3, 4)', '(0, 0)', '(1, -2)'],
+        # Small positive ints for exponent/shift operands (2**n, 1<<n).
+        # Capped at ≤20 to prevent exponential memory blowup.
+        'small_positive_int': ['0', '1', '2', '3', '4', '5', '6', '7', '8',
+                               '9', '10', '11', '12', '13', '14', '15',
+                               '16', '17', '18', '19', '20'],
+        # Pair-list: for x, y in param (tuple unpacking iteration)
+        'pair_list': ['[]', '[(1, 2)]', '[(1, 2), (3, 4)]',
+                      '[(1, 2), (2, 3)]', '[(1, 3), (2, 4)]',
+                      '[(0, 1), (1, 2), (2, 3)]',
+                      '[(0, 0), (0, 1), (1, 0)]',
+                      '[(10, 20), (15, 25), (30, 40)]',
+                      '[(3, 1), (1, 2)]', '[(-1, 1), (0, 2)]'],
     }
 
     # Build test input combinations (limited to avoid explosion)
@@ -1170,7 +1190,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
         # (e.g., numeric_list uses clean int-only lists instead of mixed-type
         # collection samples from pair+ref fibers)
         dt = duck_types[i] if duck_types and i < len(duck_types) else None
-        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes', 'positive_int', 'matrix', 'callable'}
+        _DUCK_TYPE_SAMPLE_OVERRIDE = {'numeric_list', 'bytes', 'positive_int', 'matrix', 'callable', 'coord', 'small_positive_int'}
         if dt and dt in _DUCK_TYPE_SAMPLE_OVERRIDE and dt in type_samples:
             samples = list(type_samples[dt])
         else:
@@ -1238,8 +1258,27 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
                 combos_set.add(combo)
                 combos.append(combo)
 
-    if len(combos) > 80:
-        combos = combos[:80]
+    # Phase 3: Float diagnostic combos — expose IEEE 754 non-associativity
+    # and cancellation issues. These are general numeric properties, not
+    # algorithm-specific. Only added for multi-param numeric functions.
+    if n_params >= 2 and duck_types:
+        _numeric_dts = {'numeric', 'int', 'float'}
+        _all_numeric = all(dt in _numeric_dts for dt in duck_types)
+        if _all_numeric:
+            _float_diags = [
+                ['1e16', '1.0', '-1e16'],     # catastrophic cancellation
+                ['1e16', '-1e16', '1.0'],
+                ['0.1', '0.2', '0.3'],        # decimal representation
+            ]
+            for diag in _float_diags:
+                if len(diag) >= n_params:
+                    t = tuple(diag[:n_params])
+                    if t not in combos_set:
+                        combos_set.add(t)
+                        combos.append(t)
+
+    if len(combos) > 85:
+        combos = combos[:85]
 
     if not combos:
         return None
@@ -1510,12 +1549,22 @@ for args in test_cases:
         # is at machine-epsilon level (< 1e-12), to avoid masking
         # genuine float-semantic differences (e.g., Decimal vs float,
         # float associativity).
-        def _floats_close(a, b, abs_tol=1e-12):
-            if isinstance(a, float) and isinstance(b, float):
-                return abs(a - b) <= abs_tol
+        def _floats_close(a, b, rel_tol=1e-9, abs_tol=1e-12):
+            """IEEE 754 approximate equality: mathematically equivalent
+            formulas may produce different float results due to rounding
+            order.  Use relative tolerance for scale-invariance.
+            Special cases: inf/NaN require exact match (per IEEE 754)."""
+            if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+                if isinstance(a, bool) or isinstance(b, bool):
+                    return False
+                fa, fb = float(a), float(b)
+                import math as _m
+                if _m.isinf(fa) or _m.isinf(fb) or _m.isnan(fa) or _m.isnan(fb):
+                    return fa == fb  # inf/NaN: exact match only
+                return abs(fa - fb) <= max(rel_tol * max(abs(fa), abs(fb)), abs_tol)
             if isinstance(a, (tuple, list)) and isinstance(b, (tuple, list)):
                 if len(a) != len(b): return False
-                return all(_floats_close(x, y, abs_tol) for x, y in zip(a, b))
+                return all(_floats_close(x, y, rel_tol, abs_tol) for x, y in zip(a, b))
             return False
         if _floats_close(_val_f, _val_g):
             continue
@@ -1596,10 +1645,11 @@ if _time.monotonic() < _deadline and _both_ok_agree > 0:
 # Some functions differ ONLY on empty or single-element lists (e.g.,
 # f handles [] gracefully while g crashes). These edge cases may not
 # trigger the exception_disagree threshold since most tests agree.
-# Guard: only test if both functions successfully handle non-empty lists
-# (proves list is a valid input type, not a type mismatch).
-if _time.monotonic() < _deadline and _both_ok_agree > 0:
-    _list_validation_inputs = [([1, 2, 3],), ([3, 1, 2],)]
+# Guard: run if both functions successfully agreed on some input
+# OR if exception disagrees were already detected (functions have
+# different edge behavior worth probing further).
+if _time.monotonic() < _deadline and (_both_ok_agree > 0 or _exception_disagree >= 2):
+    _list_validation_inputs = [([1, 2, 3],), ([3, 1, 2],), ([(1, 2), (3, 4)],)]
     _list_valid_count = 0
     for _lvi in _list_validation_inputs:
         try:
@@ -1608,8 +1658,18 @@ if _time.monotonic() < _deadline and _both_ok_agree > 0:
             _list_valid_count += 1
         except Exception:
             pass
-    if _list_valid_count >= 1:
+    _is_matrix = len(_duck_types) >= 1 and _duck_types[0] == 'matrix'
+    if _list_valid_count >= 1 and not _is_matrix:
         _edge_inputs = [([],), ([1],), ([None, 1],)]
+        # [None] tests catch functions that differ on single-element
+        # inputs (e.g., sorted with key vs bubble sort). Only valid for
+        # general collection types — numeric lists can't contain None.
+        _is_general_collection = (
+            len(_duck_types) == 1
+            and _duck_types[0] in ('collection', 'ref', 'list', 'any', 'unknown')
+        )
+        if _is_general_collection:
+            _edge_inputs.append(([None],))
         for _ei in _edge_inputs:
             try:
                 _ef = repr(_saved_f(*_cp.deepcopy(_ei)))
