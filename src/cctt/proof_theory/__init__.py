@@ -1,0 +1,230 @@
+"""CCTT Proof Theory — Mechanically verified proofs of algorithmic equivalence.
+
+This module provides a complete proof theory for CCTT that can prove ANY
+algorithmic equivalence via explicit proof terms. The proof checker is
+purely structural — no sampling, no oracles, no heuristics. If the proof
+checks, the equivalence is PROVEN.
+
+Architecture
+============
+
+    ProofTerm  (terms.py)       — the language of proofs
+    check_proof (checker.py)    — deterministic, terminating proof checker
+    tactics    (tactics.py)     — automated proof-term construction
+    examples   (examples.py)    — complete worked examples
+    serialization (serialization.py) — JSON / human-readable proof I/O
+    integration (integration.py)— wiring into the CCTT checker pipeline
+    extraction (extraction.py) — code extraction from proofs (better than F*)
+    dsl        (dsl.py)        — Pythonic proof DSL (calc, induction, etc.)
+    python_patterns (python_patterns.py) — Python-specific proof templates
+    spec_compiler (spec_compiler.py) — @guarantee → C⁴ Σ-type compiler
+
+    ** New modules **
+    predicates (predicates.py)        — predicate AST, parser, Z3, covers
+    pythonic_types (pythonic_types.py) — Pythonic dep. types + refinements
+    library_axioms (library_axioms.py)— library axiom framework & trust
+    bidi_extraction (bidi_extraction.py)— bidirectional proof ↔ code
+    sugar (sugar.py)                  — Pythonic proof DSL + refinement_split
+
+Proof Strategies
+================
+
+    Refl, Sym, Trans, Cong     — structural equality reasoning
+    Beta, Delta, Eta           — computation rules
+    NatInduction, ListInduction, WellFoundedInduction — induction
+    AxiomApp                   — apply CCTT axioms as rewrite steps
+    LoopInvariant              — prove loop correctness
+    Simulation                 — prove equivalence via bisimulation
+    AbstractionRefinement      — both refine the same spec
+    CommDiagram, FunctorMap    — categorical reasoning
+    Z3Discharge                — decidable subgoals to Z3
+    FiberDecomposition, CechGluing — cohomological reasoning
+    RefinementDescent          — refinement-type fiber descent
+"""
+from __future__ import annotations
+
+from cctt.proof_theory.terms import (
+    ProofTerm,
+    Refl, Sym, Trans, Cong,
+    Beta, Delta, Eta,
+    NatInduction, ListInduction, WellFoundedInduction,
+    AxiomApp, MathlibTheorem,
+    LoopInvariant, Simulation, AbstractionRefinement,
+    CommDiagram, FunctorMap,
+    Z3Discharge,
+    FiberDecomposition, CechGluing,
+    Assume, Cut, LetProof,
+    CasesSplit, Ext,
+    Rewrite, RewriteChain,
+    FiberRestrict, Descent, PathCompose, MathLibAxiom, FiberwiseUnivalence,
+    RefinementDescent,
+    Transport, HComp, GluePath, LibraryTransport,
+)
+
+from cctt.proof_theory.checker import (
+    check_proof,
+    VerificationResult,
+    ProofContext,
+)
+
+from cctt.proof_theory.extraction import (
+    extract_from_proof,
+    extract_from_document,
+    extract_all,
+    oterm_to_python,
+    oterm_to_function,
+    code_to_proof_obligation,
+    verified,
+    ExtractedCode,
+    ExtractionCertificate,
+)
+
+from cctt.proof_theory.dsl import (
+    ProofBuilder,
+    ProofScript,
+    CalcStep,
+    c4_proof,
+)
+
+from cctt.proof_theory.python_patterns import (
+    PatternInstance,
+    by_pattern,
+    list_patterns,
+    PATTERNS,
+)
+
+from cctt.proof_theory.spec_compiler import (
+    CompiledSpec,
+    StructuralPredicate,
+    SemanticPredicate,
+    parse_guarantee,
+    compile_guarantee_to_type,
+    verify_against_spec,
+    spec_to_markdown,
+)
+
+from cctt.proof_theory.predicates import (
+    Pred, RefinementFiber, RefinementCover, Decidability,
+    parse_predicate, pred_to_z3,
+)
+
+from cctt.proof_theory.pythonic_types import (
+    CType, PyAtom, DuckType, Refinement, Nullable, PyUnion,
+    DependentDict, PyLibType,
+    PyCallable, PyAny, PyTypeVar, ANY,
+    refine, cover_from_predicates,
+    INT, FLOAT, STR, BOOL, NONE_TYPE,
+)
+
+from cctt.proof_theory.library_axioms import (
+    LibraryAxiom, LibraryContract, TrustProvenance, TrustSource,
+)
+
+from cctt.proof_theory.bidi_extraction import (
+    ProofObligation, ObligationBundle,
+    obligate, extract_verified, verify_against_obligations,
+)
+
+from cctt.proof_theory.sugar import (
+    PythonicProofBuilder as SugarProofBuilder,
+)
+
+from cctt.proof_theory.cohomological_decomposition import (
+    # Runtime markers
+    invariant as invariant_marker,
+    precondition as precondition_marker,
+    postcondition as postcondition_marker,
+    loop_invariant as loop_invariant_marker,
+    library_fact, assume_correct,
+    decompose,
+    # Data model
+    InvariantPoint, InvariantCover, ProofRegion,
+    TrustLevel, TrustSummary,
+    MarkerKind, CFGNodeKind, FunctionCFG,
+    # Pipeline
+    decompose_and_prove, decompose_library_function,
+    analyze_function, verify_annotations,
+    # LLM interface
+    DecompositionSuggestion, DecompositionFeedback,
+    build_llm_prompt, apply_decomposition, generate_feedback,
+    # Refinement
+    refine_decomposition,
+)
+
+from cctt.proof_theory.library_prover import (
+    prove_library, ProofReport,
+    DocstringOracle, CopilotOracle,
+    CechNerve, Simplex, SpecPresheaf, CechCohomology, SectionKind,
+    introspect_library, build_nerve, generate_presheaf,
+    compile_presheaf, compute_cohomology,
+    emit_annotated_library,
+)
+
+__all__ = [
+    # Terms
+    'ProofTerm',
+    'Refl', 'Sym', 'Trans', 'Cong',
+    'Beta', 'Delta', 'Eta',
+    'NatInduction', 'ListInduction', 'WellFoundedInduction',
+    'AxiomApp', 'MathlibTheorem',
+    'LoopInvariant', 'Simulation', 'AbstractionRefinement',
+    'CommDiagram', 'FunctorMap',
+    'Z3Discharge',
+    'FiberDecomposition', 'CechGluing',
+    'Assume', 'Cut', 'LetProof',
+    'CasesSplit', 'Ext',
+    'Rewrite', 'RewriteChain',
+    # C⁴ calculus terms
+    'FiberRestrict', 'Descent', 'PathCompose', 'MathLibAxiom', 'FiberwiseUnivalence',
+    'RefinementDescent',
+    'Transport', 'HComp', 'GluePath', 'LibraryTransport',
+    # Checker
+    'check_proof', 'VerificationResult', 'ProofContext',
+    # Extraction
+    'extract_from_proof', 'extract_from_document', 'extract_all',
+    'oterm_to_python', 'oterm_to_function',
+    'code_to_proof_obligation', 'verified',
+    'ExtractedCode', 'ExtractionCertificate',
+    # DSL
+    'ProofBuilder', 'ProofScript', 'CalcStep', 'c4_proof',
+    # Python patterns
+    'PatternInstance', 'by_pattern', 'list_patterns', 'PATTERNS',
+    # Spec compiler
+    'CompiledSpec', 'StructuralPredicate', 'SemanticPredicate',
+    'parse_guarantee', 'compile_guarantee_to_type',
+    'verify_against_spec', 'spec_to_markdown',
+    # Predicates & refinement types
+    'Pred', 'RefinementFiber', 'RefinementCover', 'Decidability',
+    'parse_predicate', 'pred_to_z3',
+    # Pythonic types
+    'CType', 'PyAtom', 'DuckType', 'Refinement', 'Nullable', 'PyUnion',
+    'DependentDict', 'PyLibType',
+    'PyCallable', 'PyAny', 'PyTypeVar', 'ANY',
+    'refine', 'cover_from_predicates',
+    'INT', 'FLOAT', 'STR', 'BOOL', 'NONE_TYPE',
+    # Library axioms
+    'LibraryAxiom', 'LibraryContract', 'TrustProvenance', 'TrustSource',
+    # Bidirectional extraction
+    'ProofObligation', 'ObligationBundle',
+    'obligate', 'extract_verified', 'verify_against_obligations',
+    # Sugar
+    'SugarProofBuilder',
+    # Cohomological decomposition
+    'invariant_marker', 'precondition_marker', 'postcondition_marker',
+    'loop_invariant_marker', 'library_fact', 'assume_correct',
+    'decompose', 'decompose_and_prove', 'decompose_library_function',
+    'InvariantPoint', 'InvariantCover', 'ProofRegion',
+    'TrustLevel', 'TrustSummary', 'MarkerKind',
+    'CFGNodeKind', 'FunctionCFG',
+    'analyze_function', 'verify_annotations',
+    'DecompositionSuggestion', 'DecompositionFeedback',
+    'build_llm_prompt', 'apply_decomposition', 'generate_feedback',
+    'refine_decomposition',
+    # Library prover
+    'prove_library', 'ProofReport',
+    'DocstringOracle', 'CopilotOracle',
+    'CechNerve', 'Simplex', 'SpecPresheaf', 'CechCohomology', 'SectionKind',
+    'introspect_library', 'build_nerve', 'generate_presheaf',
+    'compile_presheaf', 'compute_cohomology',
+    'emit_annotated_library',
+]
