@@ -169,14 +169,19 @@ def _extract_trust_refs(proof: "ProofTerm", library_name: str) -> List[str]:
             refs.extend(_extract_trust_refs(fp, library_name))
 
     elif pname == "Trans":
-        for attr in ("first", "second"):
+        for attr in ("left", "right", "first", "second"):  # left/right canonical; first/second legacy
             fp = getattr(proof, attr, None)
             if fp is not None:
                 refs.extend(_extract_trust_refs(fp, library_name))
 
     elif pname == "PathCompose":
-        for fp in (getattr(proof, "paths", None) or []):
-            refs.extend(_extract_trust_refs(fp, library_name))
+        for attr in ("left", "right", "paths"):
+            val = getattr(proof, attr, None)
+            if isinstance(val, list):
+                for fp in val:
+                    refs.extend(_extract_trust_refs(fp, library_name))
+            elif val is not None and hasattr(val, "children"):
+                refs.extend(_extract_trust_refs(val, library_name))
 
     elif pname == "Transport":
         refs = ["lean.C4.Typing.Typed.transport"]
