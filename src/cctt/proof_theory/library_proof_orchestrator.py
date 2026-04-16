@@ -64,6 +64,10 @@ from cctt.proof_theory.library_axioms import (
     LibraryTheory, register_library, get_library,
     LibraryAxiom, LibraryContract,
 )
+from cctt.proof_theory.spec_inference import (
+    C4Spec, SpecSource, SpecStrength, FiberClause as C4FiberClause,
+    infer_c4_spec, StaticSpecAnalyzer, build_llm_spec_prompt,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -697,13 +701,15 @@ class VerifiedAnnotation:
     trust: List[str]            # exact qualified names of trusted objects
     compiled: bool
     vhash: str                  # verification hash
+    formal_spec: Optional[Dict[str, Any]] = None   # C4Spec as JSON (formal pre/postconditions)
+    spec_source: str = "trivial"                    # static|llm|manual|trivial
 
     def trust_level(self) -> str:
         """Coarsest TrustLevel string derived from the trust ref list."""
         return _trust_level_from_refs(self.trust)
 
     def to_json(self) -> Dict[str, Any]:
-        return {
+        d: Dict[str, Any] = {
             "v": 2, "sym": self.symbol, "kind": self.kind,
             "src_hash": self.source_hash,
             "in": self.input_type.to_json(),
@@ -719,7 +725,11 @@ class VerifiedAnnotation:
             "trust": self.trust,
             "compiled": self.compiled,
             "vhash": self.vhash,
+            "spec_source": self.spec_source,
         }
+        if self.formal_spec:
+            d["formal_spec"] = self.formal_spec
+        return d
 
     @staticmethod
     def from_json(d: Dict[str, Any]) -> VerifiedAnnotation:
@@ -743,6 +753,8 @@ class VerifiedAnnotation:
             trust=raw_trust,
             compiled=d.get("compiled", False),
             vhash=d.get("vhash", ""),
+            formal_spec=d.get("formal_spec"),
+            spec_source=d.get("spec_source", "trivial"),
         )
 
 
@@ -1236,6 +1248,47 @@ def _build_path_spec(defn: Definition, guarantee: str,
         lhs=lhs, rhs=rhs, over=input_type,
         name=f"{defn.name}_correct",
     )
+
+
+def _build_path_spec_from_c4(defn: Definition, c4_spec: C4Spec,
+                               input_type: RefinedType) -> PathSpec:
+    """Build a PathSpec from a formal C4Spec.
+
+    The RHS is a formal Python expression (not English):
+    - If returns_expr is set: Path(f(x), returns_expr)
+    - If ensures are set: Path(f(x), ensures[0] ∧ ensures[1] ∧ ...)
+    - If fibers with returns: Path(f(x), fiber_decomposition)
+    - Otherwise: Path(f(x), <unspecified:name>)
+    """
+    params = [p for p in defn.params if p != 'self'][:3]
+    lhs = f"{defn.name}({', '.join(params)})"
+    rhs = c4_spec.path_rhs(defn.name, params)
+    return PathSpec(
+        lhs=lhs, rhs=rhs, over=input_type,
+        name=f"{defn.name}_correct",
+    )
+
+
+def _guarantee_from_c4_spec(c4_spec: C4Spec, defn: Definition) -> str:
+    """Generate a human-readable guarantee from a formal C4Spec.
+
+    This is the NL summary shown in the annotation header.
+    The formal spec is in c4_spec; this is just for human readability.
+    """
+    parts: List[str] = []
+    if c4_spec.returns_expr:
+        parts.append(f"returns {c4_spec.returns_expr}")
+    for e in c4_spec.ensures[:3]:
+        parts.append(e)
+    if c4_spec.fibers:
+        n = len(c4_spec.fibers)
+        parts.append(f"{n}-fiber decomposition")
+    if c4_spec.invariants:
+        parts.append(f"preserves {len(c4_spec.invariants)} invariant(s)")
+    if parts:
+        return "; ".join(parts)
+    # Fallback to docstring-based guarantee for trivial specs
+    return _spec_from_docstring(defn)
 
 
 def _build_fiber_cover(defn: Definition, library_name: str,
@@ -2022,10 +2075,32 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
     Strategy selection follows the C4 priority:
         refl > z3 > refinement_descent > invariant > path_compose > library_axiom
     """
-    guarantee = _spec_from_docstring(defn)
+    # ── Formal spec inference (C4 language, not English) ──
+    c4_spec = infer_c4_spec(
+        source=defn.source, name=defn.name,
+        qualname=defn.qualname,
+        params=[p for p in defn.params if p != 'self'][:5],
+        docstring=defn.docstring,
+    )
+    # Build the NL guarantee as a human-readable summary of the formal spec
+    guarantee = _guarantee_from_c4_spec(c4_spec, defn)
     input_type = _infer_input_type(defn)
+    # Enrich input type with formal requires
+    if c4_spec.requires:
+        pred = c4_spec.input_predicate()
+        if input_type.predicate and input_type.predicate != "True":
+            pred = f"{input_type.predicate} and {pred}"
+        input_type = RefinedType(base=input_type.base, predicate=pred)
     output_type = _infer_output_type(defn)
-    spec = _build_path_spec(defn, guarantee, input_type)
+    # Enrich output type with formal ensures
+    if c4_spec.ensures:
+        out_pred = c4_spec.output_predicate()
+        out_base = output_type.base
+        if c4_spec.returns_expr:
+            out_pred = f"result == ({c4_spec.returns_expr})"
+        output_type = RefinedType(base=out_base, predicate=f"result satisfies: {out_pred}")
+    # Build the PathSpec with formal RHS (Python expression, not English)
+    spec = _build_path_spec_from_c4(defn, c4_spec, input_type)
     assumes: List[str] = []
 
     lhs = app(var(defn.qualname), var("x"))
@@ -2042,7 +2117,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                                 [], strategy, {}, assumes,
                                 ["lean.C4.Reduction.ReducesStar.refl"],
-                                result.valid, [], library_name)
+                                result.valid, [], library_name,
+                                c4_spec=c4_spec)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2071,7 +2147,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         ann = _make_annotation(defn, inv_spec, input_type, output_type, guarantee,
                                 [], strategy, inv_details, assumes,
                                 ["z3.Solver.check"],
-                                result.valid, [], library_name)
+                                result.valid, [], library_name,
+                                c4_spec=c4_spec)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2084,7 +2161,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                                 [], strategy, {}, assumes,
                                 ["lean.C4.Reduction.ReducesStar.refl"],
-                                result.valid, [], library_name)
+                                result.valid, [], library_name,
+                                c4_spec=c4_spec)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2122,7 +2200,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
                                 fibers, strategy,
                                 {"exhaustiveness": exhaustiveness,
                                  "n_fibers": len(fibers), "h1": h1},
-                                assumes, descent_refs, result.valid, [], library_name, h1=h1)
+                                assumes, descent_refs, result.valid, [], library_name, h1=h1,
+                                c4_spec=c4_spec)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
@@ -2154,7 +2233,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         ann = _make_annotation(defn, comp_spec, input_type, output_type, guarantee,
                                 [], strategy,
                                 {"steps": [{"fn": s, "by": "library_axiom"} for s in steps]},
-                                assumes, compose_refs, result.valid, [], library_name)
+                                assumes, compose_refs, result.valid, [], library_name,
+                                c4_spec=c4_spec)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
@@ -2182,7 +2262,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
     )
     ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                             [], strategy, details, assumes, default_refs,
-                            result.valid, [], library_name)
+                            result.valid, [], library_name,
+                            c4_spec=c4_spec)
     return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                        result.valid, error="" if result.valid else result.reason,
                        annotation=ann)
@@ -2269,6 +2350,7 @@ def _make_annotation(
     assumes: List[str], trust_refs: List[str], compiled: bool,
     paths: List[CubicalPathSpec], library_name: str,
     h1: int = 0,
+    c4_spec: Optional[C4Spec] = None,
 ) -> VerifiedAnnotation:
     # Enforce no circular trust — refs from the library being proved are forbidden
     ok, bad = _validate_no_circular(trust_refs, library_name)
@@ -2278,6 +2360,12 @@ def _make_annotation(
     src_hash = _sha(defn.source)
     strat_str = strategy.value if isinstance(strategy, ProofStrategy) else str(strategy)
     vhash = _make_vhash(defn.qualname, src_hash, strat_str, details)
+    # Determine spec source and formal_spec from the C4Spec
+    spec_source = "trivial"
+    formal_spec_json = None
+    if c4_spec is not None:
+        spec_source = c4_spec.source.value
+        formal_spec_json = c4_spec.to_json()
     return VerifiedAnnotation(
         symbol=defn.qualname, kind=defn.kind.value,
         source_hash=src_hash,
@@ -2288,6 +2376,8 @@ def _make_annotation(
         assumes=assumes,
         trust=trust_refs,
         compiled=compiled, vhash=vhash,
+        formal_spec=formal_spec_json,
+        spec_source=spec_source,
     )
 
 
@@ -3047,6 +3137,44 @@ def _format_proof_block(r: ProofResult) -> str:
     # Path theorem spec
     spec_str = ann.spec.pretty()
     lines.append(f"# ║ {spec_str:<{w-2}} ║")
+
+    # Formal C4 spec (requires/ensures/fibers — Python expressions, not English)
+    if ann.formal_spec:
+        fs = ann.formal_spec
+        spec_strength = fs.get("strength", "trivial")
+        lines.append(f"# ╠{'═' * w}╣")
+        src_label = f"C4 Spec [{fs.get('source', '?')}] strength={spec_strength}"
+        lines.append(f"# ║ {src_label:<{w-2}} ║")
+        for req in (fs.get("requires") or [])[:3]:
+            r_str = f"  requires: {req}"
+            if len(r_str) > w - 4:
+                r_str = r_str[:w - 7] + "..."
+            lines.append(f"# ║ {r_str:<{w-2}} ║")
+        for ens in (fs.get("ensures") or [])[:3]:
+            e_str = f"  ensures:  {ens}"
+            if len(e_str) > w - 4:
+                e_str = e_str[:w - 7] + "..."
+            lines.append(f"# ║ {e_str:<{w-2}} ║")
+        ret_expr = fs.get("returns_expr")
+        if ret_expr:
+            r_str = f"  returns:  {ret_expr}"
+            if len(r_str) > w - 4:
+                r_str = r_str[:w - 7] + "..."
+            lines.append(f"# ║ {r_str:<{w-2}} ║")
+        for fib in (fs.get("fibers") or [])[:3]:
+            fb_str = f"  fiber[{fib.get('name','')}]: {fib.get('guard','')}"
+            if fib.get("returns_expr"):
+                fb_str += f" => {fib['returns_expr']}"
+            if len(fb_str) > w - 4:
+                fb_str = fb_str[:w - 7] + "..."
+            lines.append(f"# ║ {fb_str:<{w-2}} ║")
+        if spec_strength == "trivial":
+            warn = "  ⚠ UNSPECIFIED — no formal spec; proof is vacuous"
+            lines.append(f"# ║ {warn:<{w-2}} ║")
+    elif ann.spec_source == "trivial":
+        lines.append(f"# ╠{'═' * w}╣")
+        warn = "  ⚠ UNSPECIFIED — no formal C4 spec; proof is vacuous"
+        lines.append(f"# ║ {warn:<{w-2}} ║")
 
     # Type judgment
     type_str = f"{ann.symbol.rsplit('.', 1)[-1]} : {ann.input_type.pretty()} → {ann.output_type.pretty()}"
