@@ -1,0 +1,26 @@
+{
+  "test1": {
+    "pass": true,
+    "detail": "Circular trust detected: ['sympy.core.add.Add.__add__']"
+  },
+  "test2": {
+    "pass": true,
+    "detail": "False Refl rejected: refl failed: lhs=2, rhs=3, term=2"
+  },
+  "test3": {
+    "pass": true,
+    "detail": "Re-compiled from scratch: valid=False, trust=['FAILED']"
+  },
+  "test4": {
+    "pass": true,
+    "detail": "Z3 false formula: valid=False, reason=z3: could not parse formula: x > x"
+  },
+  "test5": {
+    "pass": true,
+    "detail": "Empty trust \u2192 ASSUMED"
+  },
+  "test6": {
+    "pass": true,
+    "detail": "CIRCULAR ref \u2192 FAILED"
+  }
+}
