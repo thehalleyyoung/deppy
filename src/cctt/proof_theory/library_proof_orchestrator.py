@@ -3005,7 +3005,7 @@ class LibraryProofReport:
             f"║  Files:        {self.n_files:<34}║",
             f"║  Definitions:  {self.n_definitions:<34}║",
             f"║  Proved:       {self.n_proved:<34}║",
-            f"║  Pass rate:    {self.pass_rate:.1%:<34}║",
+            f"║  Pass rate:    {self.pass_rate:<34.1%}║",
             f"║  Elapsed:      {elapsed:.1f}s{'':<30}║",
             "╠══════════════════════════════════════════════════╣",
         ]
