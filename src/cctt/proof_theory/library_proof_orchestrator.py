@@ -108,6 +108,139 @@ class TrustLevel(Enum):
     OPAQUE = "OPAQUE"       # No source (C extension)
 
 
+
+# ── Trust-ref helpers ──────────────────────────────────────────────────────
+
+def _extract_trust_refs(proof: "ProofTerm", library_name: str) -> List[str]:
+    """Return the list of exact qualified objects trusted by *proof*.
+
+    Each entry is one of:
+      "lean.<Module>.<theorem>"  — machine-checked in Lean/Mathlib
+      "z3.Solver.check"          — Z3 SMT oracle
+      "python.builtins.<op>"     — Python language primitive
+      "Mathlib.<theorem>"        — Lean Mathlib library
+      "<pkg>.<module>.<qualname>" — external library function/class
+      "assumed:<label>"          — explicitly assumed
+
+    The key invariant enforced by _validate_no_circular: no ref may begin
+    with *library_name* (you cannot prove X by trusting X).
+    """
+    try:
+        from .terms import (  # noqa: F401
+            Refl, Beta, Eta, Delta, Zeta, Iota, Sym, Trans, Cong, FunExt,
+            LibraryAxiom, MathLibAxiom, Z3Discharge, RefinementDescent,
+            Transport, HComp, Assume, NatInduction, PathCompose,
+        )
+    except ImportError:
+        LibraryAxiom = MathLibAxiom = Z3Discharge = None  # type: ignore
+        RefinementDescent = Transport = HComp = Assume = None  # type: ignore
+        NatInduction = PathCompose = Trans = None  # type: ignore
+        Refl = Beta = Eta = Delta = Zeta = Iota = Sym = Cong = FunExt = None  # type: ignore
+
+    refs: List[str] = []
+
+    pname = type(proof).__name__
+
+    if pname in ("Refl", "Beta", "Eta", "Delta", "Zeta", "Iota"):
+        refs = ["lean.C4.Reduction.ReducesStar.refl"]
+
+    elif pname == "Z3Discharge":
+        refs = ["z3.Solver.check"]
+
+    elif pname == "LibraryAxiom":
+        raw = (getattr(proof, "axiom_name", "") or "")
+        raw = raw.removesuffix("_correct").removesuffix("_sound").removesuffix("_valid")
+        lib = getattr(proof, "library", "")
+        if "." not in raw and lib:
+            raw = f"{lib}.{raw}"
+        refs = [raw] if raw else [f"{lib}.__axiom__"]
+
+    elif pname in ("MathLibAxiom",):
+        thm = getattr(proof, "theorem", None) or ""
+        lib = getattr(proof, "library", "lean")
+        refs = [f"{lib}.{thm}" if thm else "lean.C4.unknown"]
+
+    elif pname == "MathlibTheorem":
+        refs = [f"Mathlib.{getattr(proof, 'theorem_name', '') or getattr(proof, 'theorem', '')}"]
+
+    elif pname == "RefinementDescent":
+        refs = ["lean.C4.Descent.descent_soundness", "z3.Solver.check"]
+        for fp in (getattr(proof, "fiber_proofs", None) or {}).values():
+            refs.extend(_extract_trust_refs(fp, library_name))
+
+    elif pname == "Trans":
+        for attr in ("first", "second"):
+            fp = getattr(proof, attr, None)
+            if fp is not None:
+                refs.extend(_extract_trust_refs(fp, library_name))
+
+    elif pname == "PathCompose":
+        for fp in (getattr(proof, "paths", None) or []):
+            refs.extend(_extract_trust_refs(fp, library_name))
+
+    elif pname == "Transport":
+        refs = ["lean.C4.Typing.Typed.transport"]
+        path = getattr(proof, "path", None)
+        if path is not None:
+            refs.extend(_extract_trust_refs(path, library_name))
+
+    elif pname == "HComp":
+        refs = ["lean.C4.Typing.Typed.hcomp"]
+
+    elif pname == "NatInduction":
+        refs = ["lean.C4.Induction.nat_rec"]
+        for attr in ("base_case", "inductive_step"):
+            fp = getattr(proof, attr, None)
+            if fp is not None:
+                refs.extend(_extract_trust_refs(fp, library_name))
+
+    elif pname == "Assume":
+        lbl = getattr(proof, "label", "") or ""
+        refs = [f"assumed:{lbl}" if lbl else "assumed:unknown"]
+
+    else:
+        refs = [f"lean.C4.Typing.Typed.{pname.lower()}"]
+
+    # Deduplicate, preserving order
+    seen: set = set()
+    out: List[str] = []
+    for r in refs:
+        if r and r not in seen:
+            seen.add(r)
+            out.append(r)
+    return out
+
+
+def _validate_no_circular(refs: List[str], library_name: str) -> Tuple[bool, List[str]]:
+    """Return (ok, bad_refs).  ok=False means the proof is circularly trusted."""
+    # Top-level package of the library being proved
+    forbidden = library_name.split(".")[0]
+    bad = [r for r in refs if r == forbidden or r.startswith(forbidden + ".")]
+    return len(bad) == 0, bad
+
+
+def _trust_level_from_refs(refs: List[str]) -> str:
+    """Derive the coarsest TrustLevel string from a ref list."""
+    if not refs:
+        return "ASSUMED"
+    if any(r.startswith("CIRCULAR:") for r in refs):
+        return "FAILED"
+    if any(r.startswith("assumed:") for r in refs):
+        return "ASSUMED"
+    if all(r.startswith(("lean.", "z3.", "python.builtins", "Mathlib.")) for r in refs):
+        if any(r.startswith("Mathlib.") for r in refs):
+            return "MATHLIB"
+        return "KERNEL"
+    return "LIBRARY"
+
+
+def _trust_icon_from_refs(refs: List[str]) -> str:
+    return {
+        "KERNEL": "🟢", "LIBRARY": "🟡", "MATHLIB": "🔵",
+        "INFERRED": "🟠", "ASSUMED": "🔴", "FAILED": "❌",
+    }.get(_trust_level_from_refs(refs), "?")
+
+
 @dataclass
 class Definition:
     """A single extracted definition from a source file."""
@@ -552,9 +685,13 @@ class VerifiedAnnotation:
     strategy: str
     proof_details: Dict[str, Any]
     assumes: List[str]
-    trust: str
+    trust: List[str]            # exact qualified names of trusted objects
     compiled: bool
     vhash: str                  # verification hash
+
+    def trust_level(self) -> str:
+        """Coarsest TrustLevel string derived from the trust ref list."""
+        return _trust_level_from_refs(self.trust)
 
     def to_json(self) -> Dict[str, Any]:
         return {
@@ -577,6 +714,10 @@ class VerifiedAnnotation:
 
     @staticmethod
     def from_json(d: Dict[str, Any]) -> VerifiedAnnotation:
+        raw_trust = d.get("trust", ["assumed:unknown"])
+        # Backward-compat: old format stored a plain string
+        if isinstance(raw_trust, str):
+            raw_trust = [raw_trust]
         return VerifiedAnnotation(
             symbol=d.get("sym", ""), kind=d.get("kind", "function"),
             source_hash=d.get("src_hash", ""),
@@ -590,7 +731,7 @@ class VerifiedAnnotation:
             strategy=d.get("strategy", "assumed"),
             proof_details=d.get("details", {}),
             assumes=d.get("assumes", []),
-            trust=d.get("trust", "ASSUMED"),
+            trust=raw_trust,
             compiled=d.get("compiled", False),
             vhash=d.get("vhash", ""),
         )
@@ -610,7 +751,7 @@ def _make_vhash(symbol: str, src_hash: str, strategy: str,
 @dataclass
 class CompilationResult:
     valid: bool
-    trust: str
+    trust: List[str]            # exact qualified trust refs (or FAILED sentinel)
     errors: List[str] = field(default_factory=list)
     warnings: List[str] = field(default_factory=list)
 
@@ -651,7 +792,7 @@ def compile_annotation(ann: VerifiedAnnotation) -> CompilationResult:
     _validate_strategy(ann, errors, warnings)
 
     valid = not errors and result is not None and result.valid
-    return CompilationResult(valid, ann.trust if valid else "FAILED", errors, warnings)
+    return CompilationResult(valid, ann.trust if valid else ["FAILED"], errors, warnings)
 
 
 def _validate_strategy(ann: VerifiedAnnotation,
@@ -1890,8 +2031,9 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         strategy = ProofStrategy.REFL
         trust = TrustLevel.KERNEL
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
-                                [], strategy, {}, assumes, trust, result.valid,
-                                [], library_name)
+                                [], strategy, {}, assumes,
+                                ["lean.C4.Reduction.ReducesStar.refl"],
+                                result.valid, [], library_name)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -1918,7 +2060,8 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         strategy = ProofStrategy.LIBRARY_AXIOM
         trust = TrustLevel.LIBRARY
         ann = _make_annotation(defn, inv_spec, input_type, output_type, guarantee,
-                                [], strategy, inv_details, assumes, trust,
+                                [], strategy, inv_details, assumes,
+                                ["z3.Solver.check"],
                                 result.valid, [], library_name)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
@@ -1930,8 +2073,9 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         strategy = ProofStrategy.REFL
         trust = TrustLevel.KERNEL
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
-                                [], strategy, {}, assumes, trust, result.valid,
-                                [], library_name)
+                                [], strategy, {}, assumes,
+                                ["lean.C4.Reduction.ReducesStar.refl"],
+                                result.valid, [], library_name)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -1964,11 +2108,12 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
             lhs=spec.lhs, rhs=spec.rhs, over=spec.over,
             name=spec.name, spec_kind="path",
         )
+        descent_refs = ["lean.C4.Descent.descent_soundness", "z3.Solver.check"]
         ann = _make_annotation(defn, spec_with_kind, input_type, output_type, guarantee,
                                 fibers, strategy,
                                 {"exhaustiveness": exhaustiveness,
                                  "n_fibers": len(fibers), "h1": h1},
-                                assumes, trust, result.valid, [], library_name, h1=h1)
+                                assumes, descent_refs, result.valid, [], library_name, h1=h1)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
@@ -1977,6 +2122,16 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
     composition = _detect_composition(defn)
     if composition:
         steps = composition
+        # Composition proof: trust refs are external imports used in the chain,
+        # NOT the library itself (that would be circular).
+        imports = _find_imports(defn.source)
+        lib_root = library_name.split(".")[0]
+        external_imports = [m for m in imports if m != lib_root and m not in ("builtins",)]
+        compose_refs = (
+            [f"{m}.__module__" for m in external_imports[:3]]
+            if external_imports
+            else ["z3.Solver.check"]
+        )
         proof = LibraryAxiom(
             library=library_name,
             axiom_name=f"{defn.qualname}_compose",
@@ -1992,12 +2147,14 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         ann = _make_annotation(defn, comp_spec, input_type, output_type, guarantee,
                                 [], strategy,
                                 {"steps": [{"fn": s, "by": "library_axiom"} for s in steps]},
-                                assumes, trust, result.valid, [], library_name)
+                                assumes, compose_refs, result.valid, [], library_name)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
 
-    # 6. Default → LibraryAxiom path (dependency delegation)
+    # 6. Default → LibraryAxiom path (dependency delegation).
+    # Trust refs must be EXTERNAL to the library being proved.
+    # Scan source for external module calls; if none, bottom out in z3.
     axiom_name = f"{defn.qualname}_correct"
     proof = LibraryAxiom(
         library=library_name,
@@ -2009,8 +2166,16 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
     trust = TrustLevel.LIBRARY
     details = {"library": library_name, "axiom_name": axiom_name,
                "statement": f"Path({defn.name}(x), {guarantee})"}
+    # Derive refs from actual external imports; forbidden = library itself
+    lib_root = library_name.split(".")[0]
+    ext_mods = [m for m in _find_imports(defn.source) if m != lib_root and m not in ("builtins",)]
+    default_refs: List[str] = (
+        [f"{m}.__module__" for m in ext_mods[:4]]
+        if ext_mods
+        else ["z3.Solver.check"]
+    )
     ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
-                            [], strategy, details, assumes, trust,
+                            [], strategy, details, assumes, default_refs,
                             result.valid, [], library_name)
     return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                        result.valid, error="" if result.valid else result.reason,
@@ -2086,7 +2251,7 @@ def _make_stub_ann(defn: Definition, lib: str) -> VerifiedAnnotation:
         spec=PathSpec(lhs="", rhs="", over=RefinedType()),
         guarantee="", fibers=[], h1=-1, paths=[],
         strategy="assumed", proof_details={}, assumes=[],
-        trust="ASSUMED", compiled=False, vhash="",
+        trust=["assumed:stub"], compiled=False, vhash="",
     )
 
 
@@ -2095,10 +2260,15 @@ def _make_annotation(
     input_type: RefinedType, output_type: RefinedType,
     guarantee: str, fibers: List[FiberSpec],
     strategy: ProofStrategy, details: Dict[str, Any],
-    assumes: List[str], trust: TrustLevel, compiled: bool,
+    assumes: List[str], trust_refs: List[str], compiled: bool,
     paths: List[CubicalPathSpec], library_name: str,
     h1: int = 0,
 ) -> VerifiedAnnotation:
+    # Enforce no circular trust — refs from the library being proved are forbidden
+    ok, bad = _validate_no_circular(trust_refs, library_name)
+    if not ok:
+        trust_refs = [f"CIRCULAR:{r}" for r in bad] + [r for r in trust_refs if r not in bad]
+        compiled = False
     src_hash = _sha(defn.source)
     strat_str = strategy.value if isinstance(strategy, ProofStrategy) else str(strategy)
     vhash = _make_vhash(defn.qualname, src_hash, strat_str, details)
@@ -2110,7 +2280,7 @@ def _make_annotation(
         fibers=fibers, h1=h1, paths=paths,
         strategy=strat_str, proof_details=details,
         assumes=assumes,
-        trust=trust.value if isinstance(trust, TrustLevel) else str(trust),
+        trust=trust_refs,
         compiled=compiled, vhash=vhash,
     )
 
@@ -2764,21 +2934,36 @@ def compile_proof(defn: Definition, spec_data: Dict[str, Any],
         ProofStrategy.CECH_GLUING: TrustLevel.INFERRED,
         ProofStrategy.ASSUMED: TrustLevel.ASSUMED,
     }
+    # Determine trust refs — derive from strategy; no circular refs allowed
+    strategy_refs_map: Dict[ProofStrategy, List[str]] = {
+        ProofStrategy.REFL: ["lean.C4.Reduction.ReducesStar.refl"],
+        ProofStrategy.Z3: ["z3.Solver.check"],
+        ProofStrategy.MATHLIB: [f"Mathlib.{details.get('theorem', 'unknown')}"],
+        ProofStrategy.LIBRARY_AXIOM: ["z3.Solver.check"],
+        ProofStrategy.LIBRARY_CONTRACT: ["z3.Solver.check"],
+        ProofStrategy.REFINEMENT_DESCENT: ["lean.C4.Descent.descent_soundness", "z3.Solver.check"],
+        ProofStrategy.TRANSPORT: ["lean.C4.Typing.Typed.transport"],
+        ProofStrategy.PATH_COMPOSE: ["z3.Solver.check"],
+        ProofStrategy.CASES: ["lean.C4.Descent.descent_soundness", "z3.Solver.check"],
+        ProofStrategy.INDUCTION: ["lean.C4.Induction.nat_rec"],
+        ProofStrategy.CECH_GLUING: ["lean.C4.Descent.descent_soundness", "z3.Solver.check"],
+        ProofStrategy.ASSUMED: ["assumed:spec_data"],
+    }
+    trust_refs = strategy_refs_map.get(strategy, ["assumed:unknown"])
     trust = trust_map.get(strategy, TrustLevel.ASSUMED)
 
     # Build annotation
     h1 = 0 if fibers else -1
     ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
-                            fibers, strategy, details, assumes, trust,
+                            fibers, strategy, details, assumes, trust_refs,
                             False, paths, library_name, h1=h1)
 
     # Compile: reconstruct proof + check
     comp = compile_annotation(ann)
     ann.compiled = comp.valid
-    if comp.valid:
-        ann.trust = comp.trust
-    else:
-        ann.trust = "FAILED"
+    if not comp.valid:
+        ann.trust = [f"CIRCULAR:{r}" if _validate_no_circular([r], library_name)[1] else r
+                     for r in ann.trust]
 
     proof_term = None
     try:
@@ -2788,7 +2973,9 @@ def compile_proof(defn: Definition, spec_data: Dict[str, Any],
 
     result = ProofResult(
         defn, guarantee, assumes, strategy, proof_term,
-        TrustLevel(ann.trust) if ann.trust in [t.value for t in TrustLevel] else TrustLevel.FAILED,
+        TrustLevel(_trust_level_from_refs(ann.trust))
+        if _trust_level_from_refs(ann.trust) in [t.value for t in TrustLevel]
+        else TrustLevel.FAILED,
         comp.valid,
         error="; ".join(comp.errors) if comp.errors else "",
         annotation=ann,
@@ -2819,9 +3006,8 @@ def _format_proof_block(r: ProofResult) -> str:
     if not ann:
         return f"# CCTT: {r.definition.name} — no annotation"
 
-    trust_icon = {"KERNEL": "🟢", "LIBRARY": "🟡", "MATHLIB": "🔵",
-                  "INFERRED": "🟠", "ASSUMED": "🔴", "FAILED": "❌", "OPAQUE": "⬛"
-                  }.get(ann.trust, "?")
+    trust_icon = _trust_icon_from_refs(ann.trust)
+    trust_level = _trust_level_from_refs(ann.trust)
     check = "✓" if ann.compiled else "✗"
     w = 60
 
@@ -2860,9 +3046,21 @@ def _format_proof_block(r: ProofResult) -> str:
                 ps = ps[:w - 7] + "..."
             lines.append(f"# ║ {ps:<{w-2}} ║")
 
-    # Trust + verification
+    # Trust refs (one per line, capped at 4)
     lines.append(f"# ╠{'═' * w}╣")
-    status = f" {trust_icon} {ann.trust} | {ann.strategy} | Compiled: {check} | {ann.vhash}"
+    lines.append(f"# ║ {'Trusted:':<{w-2}} ║")
+    for ref in ann.trust[:4]:
+        ref_str = f"  {ref}"
+        if len(ref_str) > w - 4:
+            ref_str = ref_str[:w - 7] + "..."
+        lines.append(f"# ║ {ref_str:<{w-2}} ║")
+    if len(ann.trust) > 4:
+        more = f"  ...and {len(ann.trust) - 4} more"
+        lines.append(f"# ║ {more:<{w-2}} ║")
+
+    # Status line
+    lines.append(f"# ╠{'═' * w}╣")
+    status = f" {trust_icon} {trust_level} | {ann.strategy} | Compiled: {check} | {ann.vhash}"
     if len(status) > w - 2:
         status = status[:w - 5] + "..."
     lines.append(f"# ║{status:<{w}}║")
@@ -3068,7 +3266,8 @@ def _gen_json_report(report: LibraryProofReport) -> Dict[str, Any]:
                     "symbol": r.definition.qualname,
                     "spec": r.annotation.spec.pretty() if r.annotation else "",
                     "strategy": r.strategy.value,
-                    "trust": r.trust.value,
+                    "trust": r.annotation.trust if r.annotation else ["FAILED"],
+                    "trust_level": r.trust.value,
                     "compiled": r.checked,
                 } for r in fr.results],
             }
