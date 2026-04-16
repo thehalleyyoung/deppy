@@ -212,10 +212,14 @@ def _extract_trust_refs(proof: "ProofTerm", library_name: str) -> List[str]:
 
 
 def _validate_no_circular(refs: List[str], library_name: str) -> Tuple[bool, List[str]]:
-    """Return (ok, bad_refs).  ok=False means the proof is circularly trusted."""
-    # Top-level package of the library being proved
-    forbidden = library_name.split(".")[0]
-    bad = [r for r in refs if r == forbidden or r.startswith(forbidden + ".")]
+    """Return (ok, bad_refs).  ok=False means the proof is circularly trusted.
+
+    Forbidden: any ref that IS or starts-with the library being proved.
+    e.g. library_name="cctt.proof_theory" forbids cctt.proof_theory.*
+         but allows cctt.denotation.* (a different sub-package).
+    e.g. library_name="sympy" forbids all sympy.* (entire library).
+    """
+    bad = [r for r in refs if r == library_name or r.startswith(library_name + ".")]
     return len(bad) == 0, bad
 
 
@@ -2124,12 +2128,10 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         steps = composition
         # Composition proof: trust refs are external imports used in the chain,
         # NOT the library itself (that would be circular).
-        imports = _find_imports(defn.source)
-        lib_root = library_name.split(".")[0]
-        external_imports = [m for m in imports if m != lib_root and m not in ("builtins",)]
+        imports = _find_external_imports(defn.source, library_name)
         compose_refs = (
-            [f"{m}.__module__" for m in external_imports[:3]]
-            if external_imports
+            [f"{m}.__module__" for m in imports[:3]]
+            if imports
             else ["z3.Solver.check"]
         )
         proof = LibraryAxiom(
@@ -2167,8 +2169,7 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
     details = {"library": library_name, "axiom_name": axiom_name,
                "statement": f"Path({defn.name}(x), {guarantee})"}
     # Derive refs from actual external imports; forbidden = library itself
-    lib_root = library_name.split(".")[0]
-    ext_mods = [m for m in _find_imports(defn.source) if m != lib_root and m not in ("builtins",)]
+    ext_mods = _find_external_imports(defn.source, library_name)
     default_refs: List[str] = (
         [f"{m}.__module__" for m in ext_mods[:4]]
         if ext_mods
@@ -2299,9 +2300,34 @@ def _find_imports(source: str) -> List[str]:
         if isinstance(node, ast.Import):
             for alias in node.names:
                 imports.add(alias.name.split(".")[0])
-        elif isinstance(node, ast.ImportFrom) and node.module:
+        elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
+            # Only absolute imports; skip relative (level > 0) to avoid
+            # treating intra-package names as external trust sources.
             imports.add(node.module.split(".")[0])
     return sorted(imports)
+
+
+def _find_external_imports(source: str, library_name: str) -> List[str]:
+    """Return absolute-import base names that are genuinely external.
+
+    Excludes:
+    - relative imports (from .foo import …)
+    - the library being proved (library_name top-level package)
+    - stdlib / builtins / internal-only names
+    """
+    stdlib_skip = {
+        "builtins", "__future__", "typing", "abc", "os", "sys", "re",
+        "ast", "json", "math", "io", "pathlib", "dataclasses", "enum",
+        "functools", "itertools", "collections", "hashlib", "time",
+        "logging", "copy", "warnings", "inspect", "importlib",
+    }
+    lib_root = library_name.split(".")[0]
+    result = []
+    for m in _find_imports(source):
+        if m == lib_root or m in stdlib_skip:
+            continue
+        result.append(m)
+    return result
 
 
 def axiomatize_dependencies(library_name: str, root: Path,
