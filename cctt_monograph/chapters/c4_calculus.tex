@@ -1,152 +1,345 @@
 % Chapter: The Cohomological Calculus of Constructions (C⁴)
-% Part of the CCTT Monograph — Proof Calculus, Chapter I
+% Rewritten to fit the Synergy Atlas — refinement site, descent=HComp,
+% two dimension systems, cover algebra.
 
 \chapter{The Cohomological Calculus of Constructions}
 \label{ch:c4-calculus}
 
-The preceding chapters developed CCTT as a \emph{verification framework}:
-OTerms, axiom chains, \v{C}ech cohomology, and a proof-term language for
-witnessing equivalence.  In this chapter we take a foundational step
-further: we define the \textbf{Cohomological Calculus of Constructions}
-($\mathrm{C}^4$), a full dependent type theory that unifies the Calculus of
-Inductive Constructions (CIC, the kernel of Lean and Coq) with
-sheaf-theoretic cohomology and cubical path structure.
+$\mathrm{C}^4$ is a dependent type theory built on three pillars:
+the Calculus of Inductive Constructions (CIC), cubical type theory,
+and sheaf cohomology over a \emph{refinement site}.  The central
+discovery is that the cubical and cohomological structures are not
+merely co-present but \emph{unified}: the descent rule that glues
+sheaf sections is the same operation as the Kan filling rule that
+fills cubical horns.  This chapter develops that unification from first
+principles, starting with the two independent dimension systems that
+together give $\mathrm{C}^4$ its distinctive power.
 
-The key idea is that $\mathrm{C}^4$ has \emph{all} the expressive power of
-CIC---universes, dependent products and sums, inductive types, and
-universe polymorphism---but every type is \emph{fibered} over a site
-category, and the type theory has native rules for descent, gluing,
-and cohomological obstruction.  A proof in $\mathrm{C}^4$ can appeal to any
-Mathlib theorem (imported as an axiom), reason about code (via OTerm
-embedding), and use cohomological decomposition to reduce global
-properties to per-fiber obligations.
 
+% ─────────────────────────────────────────────────────────
+\section{The Fundamental Identification: Descent \(\equiv\) HComp}
+\label{sec:descent-hcomp-id}
+
+Before defining any syntax, we state the organizing principle.
+
+\begin{theorem}[Fundamental Identification]
+\label{thm:fundamental-id}
+Homogeneous composition (\(\hfilling\)) in the cubical fragment and
+cohomological descent in the sheaf fragment are two manifestations of
+a single universal construction: the \textbf{filling of a partial cube
+from compatible face data}.
+\end{theorem}
+
+The identification is made precise by a common abstraction:
+
+\begin{definition}[Partial Boundary Data]
+A \textbf{partial boundary} for a type \(A\) on a cover
+\(\covers = \{U_\alpha\}_{\alpha \in I}\) is a family of local sections
+\(s_\alpha \in A(U_\alpha)\) together with compatibility data:
+\[
+  \forall \alpha, \beta.\;
+  \restr{s_\alpha}{U_\alpha \cap U_\beta}
+  \;=\;
+  \restr{s_\beta}{U_\alpha \cap U_\beta}.
+\]
+\end{definition}
+
+In the \textbf{cubical reading}, the \(U_\alpha\) are the faces
+\([i_k = \varepsilon]\) of the interval \(\interval^n\), the local
+sections are the face terms, and the compatibility data is edge
+agreement.  The filled section is the term inhabiting the interior.
+
+In the \textbf{cohomological reading}, the \(U_\alpha\) are the open
+sets of the refinement cover \(\covers\), the local sections are
+per-fiber proofs, and the compatibility data is the overlap proofs.
+The filled section is the global proof.
+
+\begin{proof}[Proof of Theorem~\ref{thm:fundamental-id}]
+We exhibit a single type-theoretic rule that covers both cases.
+Let \(\mathcal{F}\) be a sheaf (in the cubical case, the constant
+sheaf \(\underline{A}\); in the cohomological case, a sheaf of
+refinement types).
+
+The \textbf{filling condition} is: given partial boundary data as
+above, there exists a unique global section
+\(s \in \mathcal{F}(X)\) with \(\restr{s}{U_\alpha} = s_\alpha\).
+
+The existence of \(s\) is equivalent to
+\(\check{H}^1(\covers, \underline{\mathrm{Aut}}(\mathcal{F})) = 0\)
+(SGA~1).
+
+For our two settings:
+\begin{enumerate}
+\item \textbf{Cubical (\(\hfilling\)):}  The Kan condition asserts
+  that every horn has a filler, which is exactly
+  \(\check{H}^1(\partial\interval^n, \underline{A}) = 0\) for
+  contractible \(\partial\interval^n\).
+
+\item \textbf{Cohomological (descent):}  The propositional coefficients
+  of our sheaves have \(\check{H}^1 = 0\) by Hedberg's theorem
+  (Theorem~\ref{thm:hedberg-collapse} below), so every compatible
+  boundary data has a filler.
+\end{enumerate}
+In both cases the filler is computed by the same algorithm: choose any
+covering fiber, take its local section, and verify uniqueness via the
+compatibility data. \hfill\(\square\)
+\end{proof}
+
+\begin{corollary}
+The compiler rule \texttt{\_compile\_cubical\_filling} handles both
+\textsf{RefinementDescent} and \textsf{HComp} proof terms.  The
+only difference is whether the face predicates are Z3-decidable
+refinement predicates (descent) or interval names (hcomp).
+\end{corollary}
+
+
+% ─────────────────────────────────────────────────────────
+\section{The Two Dimension Systems}
+\label{sec:two-dimensions}
+
+\begin{definition}[The Two Dimension Systems of \(\mathrm{C}^4\)]
+\label{def:two-dimensions}
+\(\mathrm{C}^4\) has two independent dimension systems, each contributing
+a class of ``directions'' in which proofs can vary:
+
+\medskip
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{Cubical dimensions} & \textbf{Cohomological dimensions} \\
+\midrule
+Parameterized by & Interval variables \(i : \interval\) &
+  Refinement predicates \(\varphi : \alpha \to \mathsf{Prop}\) \\
+0-cells & Programs & Input values \\
+1-cells & Equality proofs (paths) & Fiber restrictions \\
+2-cells & Proof coherence (squares) & Cover overlaps \\
+Composition & \(\hfilling\) (Kan) & Descent (gluing) \\
+Transport & Along type paths & Along predicate implications \\
+Obstruction & Kan condition & \(\check{H}^1 = 0\) \\
+Decidability & Structural & Z3 \\
+Algebra & \(\interval\): De Morgan lattice &
+  \(\mathcal{P}(\alpha \to \mathsf{Prop})\): Boolean algebra \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{definition}
+
+A proof over a function with \(m\) proof steps and \(n\) branches
+lives in \(\interval^m \times \site^n\): the cubical dimensions
+parameterize \emph{how} we prove; the cohomological dimensions
+parameterize \emph{for which inputs} we prove it.
+
+\begin{theorem}[Algebraic Synergy of the Two Dimensions]
+\label{thm:algebraic-synergy}
+The cubical interval connections \(\wedge_i, \vee_i\) on \(\interval\)
+and the cover operations \(\wedge, \vee\) on \(\mathcal{P}(\alpha \to \mathsf{Prop})\)
+satisfy the same De Morgan laws:
+\[
+  \neg(i \wedge_i j) = \neg_i i \vee_i \neg_i j,
+  \qquad
+  \neg(\varphi \wedge \psi) = \neg\varphi \vee \neg\psi.
+\]
+Consequently, all cover simplifications---absorption, distribution,
+idempotence, complementation---are valid in both dimensions
+simultaneously.
+\end{theorem}
+
+\begin{proof}
+The cubical De Morgan laws hold in the model of cubical type theory
+by the face map identities.  The predicate De Morgan laws hold
+propositionally in any Boolean algebra.  Both algebras are free
+Boolean algebras (the interval on one generator, the predicate algebra
+on the set of atomic predicates), and their quotient by the respective
+coherence conditions is the same De Morgan algebra.
+\hfill\(\square\)
+\end{proof}
+
+
+% ─────────────────────────────────────────────────────────
 \section{Design Principles}
+\label{sec:design-principles}
+
+The following principles follow from the fundamental identification
+and the two-dimension structure:
 
 \begin{enumerate}
-\item \textbf{Strict superset of CIC.}  Every CIC judgment is a valid
-  $\mathrm{C}^4$ judgment (with the trivial one-fiber site).  $\mathrm{C}^4$ is
-  a conservative extension.
+\item \textbf{Refinement site.}  The site objects are
+  Z3-decidable refinement predicates \(\varphi : \alpha \to \mathsf{Prop}\),
+  not syntactic type tags.  Site morphisms are Z3-provable implications
+  \(\varphi \Rightarrow \psi\).  Every program-level type annotation
+  is simultaneously a type-theoretic refinement (typing judgment)
+  and a cohomological face (proof decomposition point).
 
-\item \textbf{Cubical paths are native.}  Path types
-  $\Path_A\, a\, b$ are defined via the interval $\interval$, not via
-  inductive identity types.  Univalence and function extensionality hold
-  definitionally.
+\item \textbf{Descent \(=\) HComp.}
+  There is one filling rule, not two.  It is parameterized over
+  whether the face predicates are interval names or refinement
+  predicates.
 
-\item \textbf{Fiber universes.}  Every universe $\mathcal{U}_i$ carries
-  a site decoration $\site$; a type $A : \mathcal{U}_i^{\site}$ is a
-  sheaf of types over $\site$.
+\item \textbf{Strict superset of CIC.}  Every CIC judgment is valid
+  in \(\mathrm{C}^4\) (trivial one-fiber site).  \(\mathrm{C}^4\) is a
+  conservative extension.
 
-\item \textbf{Descent as a typing rule.}  If you can prove a property
-  on every fiber of a cover $\{U_\alpha\}$ with compatible overlaps,
-  the descent rule produces a global proof.  This internalizes
-  $\Hone = 0 \Rightarrow$ global section.
+\item \textbf{Cubical paths are native.}  Path types \(\Path_A\, a\, b\)
+  are defined via the interval, not inductive identity types.
+  Univalence and function extensionality hold definitionally.
 
-\item \textbf{Mathlib import is a functor.}  A validated translation
-  functor $\Phi : \mathrm{CIC}_{\mathrm{Lean}} \to \mathrm{C}^4$ maps Lean~4
-  declarations to $\mathrm{C}^4$ axioms, preserving provability.
+\item \textbf{Hedberg collapse.}  For Python verification, all types
+  have decidable equality (integers, strings, booleans, and their
+  combinations).  By Hedberg's theorem, \(\check{H}^1 = 0\) for all
+  propositional coefficients.  Thus descent is \emph{always} applicable:
+  there is no obstruction to gluing.
 
-\item \textbf{OTerms are first-class.}  The denotational semantics of
-  Python programs (OTerms) inhabit a universe $\mathcal{U}_\PyObj$, and
-  CCTT axioms (D1--D24, etc.) are equalities in that universe.
+\item \textbf{Trust as a sheaf.}  Each fiber carries a trust provenance
+  set.  The global proof's trust is the union over fibers.
+
+\item \textbf{OTerms are first-class.}  The Python denotational
+  semantics inhabit a universe \(\mathcal{U}_\PyObj\).
+  CCTT axioms (D1--D24 etc.) are equalities in that universe.
 \end{enumerate}
 
 
+% ─────────────────────────────────────────────────────────
 \section{Syntax}
+\label{sec:syntax}
+
+\subsection{The Refinement Site}
+
+\begin{definition}[Refinement Site]
+\label{def:refinement-site}
+Fix a base type \(\alpha : \mathcal{U}_0\).  The
+\textbf{refinement site} \(\site_\alpha\) has:
+\begin{itemize}
+\item \textbf{Objects:}  Z3-decidable predicates
+  \(\varphi : \alpha \to \mathsf{Prop}\) with a decidability witness
+  \(\delta_\varphi : \forall x.\, \varphi(x) \vee \neg\varphi(x)\).
+\item \textbf{Morphisms:}
+  \((\varphi \to_{\site} \psi) \;\coloneqq\;
+  \forall x.\, \varphi(x) \Rightarrow \psi(x)\),
+  the set of Z3-provable implications.
+\item \textbf{Grothendieck topology:}  A \textbf{cover} of the
+  terminal object is a finite family
+  \(\covers = \{\varphi_1, \ldots, \varphi_n\}\) with
+  \(\forall x.\,\bigvee_i \varphi_i(x)\).
+\end{itemize}
+The site satisfies the axioms of a Grothendieck topology:
+stability under base change and local character.
+\end{definition}
+
+\begin{remark}
+When the base type is \(\mathbb{Z}\), the site objects are integer
+predicates such as \(\{x > 0\}\), \(\{x \geq 0\}\),
+\(\{\text{even}(x)\}\).  The morphisms are implications provable
+by linear arithmetic.  The covers correspond to case splits in Python
+(\texttt{if/elif/else}).
+\end{remark}
 
 \subsection{Sorts and Universes}
 
-$\mathrm{C}^4$ has a cumulative hierarchy of universes:
+\(\mathrm{C}^4\) has a cumulative hierarchy of universes, each
+\emph{site-decorated}:
 \[
-  \mathsf{Prop} \subset \mathcal{U}_0 \subset \mathcal{U}_1 \subset
-  \mathcal{U}_2 \subset \cdots
+  \mathsf{Prop} \;\subset\; \mathcal{U}_0 \;\subset\;
+  \mathcal{U}_1 \;\subset\; \mathcal{U}_2 \;\subset\; \cdots
 \]
 
-Each universe carries an optional \textbf{site annotation}
-$\mathcal{U}_i^{\site}$, indicating that types in this universe
-are sheaves over the site $\site$.  When the site is trivial
-(a single object), we recover CIC.  When the site is the
-CCTT fiber site (objects = duck-type fibers, morphisms = subtyping),
-types decompose along fibers.
-
 \begin{definition}[Site-Decorated Universe]
-A \textbf{site-decorated universe} $\mathcal{U}_i^{\site}$ is a universe
-whose types are contravariant functors
-$A : \site^{\mathrm{op}} \to \mathcal{U}_i$.  That is, for each object
-$U \in \site$, $A(U) : \mathcal{U}_i$ is a type, and for each morphism
-$f : V \to U$, there is a restriction map
-$\restr{}{f} : A(U) \to A(V)$.
+A \textbf{site-decorated universe} \(\mathcal{U}_i^{\site}\) is a
+universe of sheaves over the site \(\site\): its types are functors
+\(A : \site^{\mathrm{op}} \to \mathcal{U}_i\), so that for each object
+\(\varphi \in \site\), we have \(A(\varphi) : \mathcal{U}_i\), and
+for each morphism \(f : \psi \to \varphi\), there is a restriction
+map \(\restr{}{f} : A(\varphi) \to A(\psi)\).
 \end{definition}
 
-\subsection{Terms}
+The OTerm universe \(\mathcal{U}_\PyObj\) is site-decorated over
+the refinement site for Python programs.
 
-The term language extends CIC with cubical and cohomological primitives:
+\subsection{Term Grammar}
 
 \[
 \begin{array}{rcll}
   t, A, B & ::= & x & \text{variable} \\
-  & \mid & \mathcal{U}_i^{\site} & \text{site-decorated universe} \\
-  & \mid & \Pi(x : A).\, B & \text{dependent function} \\
-  & \mid & \lambda(x : A).\, t & \text{abstraction} \\
-  & \mid & t\; u & \text{application} \\
-  & \mid & \Sigma(x : A).\, B & \text{dependent pair} \\
-  & \mid & (t, u) \mid \pi_1(t) \mid \pi_2(t) & \text{pair intro/elim} \\
-  & \mid & \mathsf{Ind}(\Delta) & \text{inductive type} \\
-  & \mid & \mathsf{rec}_\Delta(t, \vec{c}) & \text{recursion principle} \\
-  & \mid & \interval & \text{interval type} \\
-  & \mid & \mathsf{0}_\interval \mid \mathsf{1}_\interval & \text{interval endpoints} \\
-  & \mid & \Path_A\, a\, b & \text{path type} \\
-  & \mid & \langle i \rangle\, t & \text{path abstraction} \\
-  & \mid & t\; r & \text{path application} \\
-  & \mid & \transp^i\, A\, \varphi\, t & \text{transport} \\
-  & \mid & \hfilling^i\, A\, [\vec{s}]\, t_0 & \text{homogeneous comp} \\
-  & \mid & \mathsf{Glue}[\varphi \mapsto (T, e)]\, A & \text{glue type} \\
-  & \mid & \restr{t}{U} & \text{fiber restriction} \\
-  & \mid & \mathsf{desc}(\{t_\alpha\}, \{p_{\alpha\beta}\})
-    & \text{descent (gluing)} \\
-  & \mid & \mathsf{import}_{\mathrm{Lean}}(\mathit{name}) & \text{Mathlib axiom} \\
-  & \mid & \den{P} & \text{OTerm embedding} \\
+  & \mid & \mathcal{U}_i^{\site} & \text{universe at level \(i\) over site \(\site\)} \\
+  & \mid & \Pi(x : A).\, B & \text{dependent product} \\
+  & \mid & \lambda(x : A).\, t \mid t\; u & \text{abstraction / application} \\
+  & \mid & \Sigma(x : A).\, B \mid (t, u) \mid \pi_1 t \mid \pi_2 t
+    & \text{dependent sum} \\
+  & \mid & \mathsf{Ind}(\Delta) \mid \mathsf{rec}_\Delta(t, \vec{c})
+    & \text{inductive types} \\[4pt]
+  & \mid & \interval \mid \mathsf{0}_\interval \mid \mathsf{1}_\interval
+    & \text{interval (cubical)} \\
+  & \mid & \Path_A\, a\, b \mid \langle i \rangle\, t \mid t\; r
+    & \text{path type, intro, elim} \\
+  & \mid & \transp^i\, A\, \varphi\, t
+    & \text{transport (cubical)} \\
+  & \mid & \hfilling^i\, A\, [\vec{f} \mapsto s_f]\, t_0
+    & \text{homogeneous composition} \\
+  & \mid & \Glue[\varphi \mapsto (T, e)]\, A
+    & \text{glue type} \\[4pt]
+  & \mid & \{x : A \mid \varphi(x)\}
+    & \text{refinement type (cohomological)} \\
+  & \mid & \langle a, h \rangle_\varphi \mid r.1 \mid r.2
+    & \text{refinement intro / elim} \\
+  & \mid & \restr{t}{\varphi}
+    & \text{fiber restriction} \\
+  & \mid & \mathsf{desc}(\covers, \{t_\alpha\}, \{p_{\alpha\beta}\})
+    & \text{descent / global section} \\[4pt]
+  & \mid & \mathsf{import}(\mathit{name})
+    & \text{Mathlib axiom import} \\
+  & \mid & \den{P}
+    & \text{OTerm embedding} \\
 \end{array}
 \]
 
 \subsection{Contexts}
 
-A context $\Gamma$ is a list of typed variable declarations, possibly
-annotated with fiber restrictions:
+A context \(\Gamma\) is a list of typed variable bindings:
 \[
-  \Gamma ::= \cdot \mid \Gamma, x : A \mid \Gamma, x :_U A
+  \Gamma \;::=\; \cdot \;\mid\; \Gamma,\, x : A \;\mid\;
+  \Gamma,\, x :_\varphi A
 \]
-where $x :_U A$ means ``$x$ has type $A$ on fiber $U$.''
+where \(x :_\varphi A\) binds \(x : A\) under the fiber hypothesis
+\(\varphi(x)\) --- formally: \(x : \{y : A \mid \varphi(y)\}\).
+
+The fiber hypothesis binding is the key to \textbf{hypothesis pushing}
+(Synergy~6 of the atlas): within a fiber proof, the predicate \(\varphi\)
+is freely available as an assumption.
 
 
+% ─────────────────────────────────────────────────────────
 \section{Judgments}
+\label{sec:judgments}
 
-$\mathrm{C}^4$ has five judgment forms:
+\(\mathrm{C}^4\) has six judgment forms:
 
 \begin{enumerate}
-\item $\Gamma \vdash A : \mathcal{U}_i^{\site}$
-  \quad (``$A$ is a type in universe $\mathcal{U}_i$ over site $\site$'')
-\item $\Gamma \vdash t : A$
-  \quad (``$t$ has type $A$'')
-\item $\Gamma \vdash A \equiv B : \mathcal{U}_i^{\site}$
-  \quad (``$A$ and $B$ are definitionally equal types'')
-\item $\Gamma \vdash t \equiv u : A$
-  \quad (``$t$ and $u$ are definitionally equal terms of type $A$'')
-\item $\Gamma \vdash_U t : A$
-  \quad (``$t$ has type $A$ on fiber $U$'')
+\item \(\Gamma \vdash A : \mathcal{U}_i^{\site}\)
+  \hfill (``\(A\) is a sheaf-type at level \(i\)'')
+\item \(\Gamma \vdash t : A\)
+  \hfill (``\(t\) is a global section of \(A\)'')
+\item \(\Gamma \vdash A \equiv B : \mathcal{U}_i^{\site}\)
+  \hfill (definitional type equality)
+\item \(\Gamma \vdash t \equiv u : A\)
+  \hfill (definitional term equality)
+\item \(\Gamma \vdash_\varphi t : A\)
+  \hfill (``\(t\) is a local section of \(A\) on fiber \(\varphi\)'')
+\item \(\Gamma \vdash t :_\mathcal{T} A\)
+  \hfill (``\(t\) has type \(A\) with trust provenance \(\mathcal{T}\)'')
 \end{enumerate}
 
-The fiber-restricted judgment $\Gamma \vdash_U t : A$ is the key
-novelty: it allows reasoning about the behavior of a program on a
-specific type fiber without committing to global behavior.
+Judgments (1)--(4) are standard CIC-like.  Judgment~(5) is the
+cohomological fiber judgment: it allows reasoning locally on fiber
+\(\varphi\) with \(\varphi\) available as a hypothesis.
+Judgment~(6) tracks the trust provenance of every typing derivation.
 
 
+% ─────────────────────────────────────────────────────────
 \section{Typing Rules}
+\label{sec:typing-rules}
 
 \subsection{Standard CIC Rules}
 
-The standard CIC rules carry over unchanged.  We show only the
-key ones for reference:
+The standard CIC rules are unchanged.  Key rules for reference:
 
 \begin{gather}
 \frac{}{\Gamma \vdash \mathcal{U}_i : \mathcal{U}_{i+1}}
@@ -156,365 +349,508 @@ key ones for reference:
 \frac{\Gamma \vdash A : \mathcal{U}_i \qquad
       \Gamma, x : A \vdash B : \mathcal{U}_j}
      {\Gamma \vdash \Pi(x:A).\, B : \mathcal{U}_{\max(i,j)}}
-\quad (\Pi\text{-form})
 \tag{$\Pi$F}
 \\[6pt]
 \frac{\Gamma, x : A \vdash t : B}
      {\Gamma \vdash \lambda(x:A).\, t : \Pi(x:A).\, B}
-\quad (\Pi\text{-intro})
 \tag{$\Pi$I}
 \\[6pt]
 \frac{\Gamma \vdash f : \Pi(x:A).\, B \qquad \Gamma \vdash a : A}
      {\Gamma \vdash f\; a : B[x := a]}
-\quad (\Pi\text{-elim})
 \tag{$\Pi$E}
-\\[6pt]
-\frac{\Gamma \vdash A : \mathcal{U}_i \qquad
-      \Gamma, x : A \vdash B : \mathcal{U}_j}
-     {\Gamma \vdash \Sigma(x:A).\, B : \mathcal{U}_{\max(i,j)}}
-\quad (\Sigma\text{-form})
-\tag{$\Sigma$F}
 \end{gather}
 
 \subsection{Cubical Rules}
-
-The interval and path rules follow Cohen--Coquand--Huber--M\"ortberg:
 
 \begin{gather}
 \frac{\Gamma \vdash A : \mathcal{U}_i \qquad
       \Gamma \vdash a : A \qquad \Gamma \vdash b : A}
      {\Gamma \vdash \Path_A\, a\, b : \mathcal{U}_i}
-\quad (\Path\text{-form})
 \tag{PathF}
 \\[6pt]
 \frac{\Gamma, i : \interval \vdash t : A \qquad
       t[i := 0] \equiv a \qquad t[i := 1] \equiv b}
      {\Gamma \vdash \langle i \rangle\, t : \Path_A\, a\, b}
-\quad (\Path\text{-intro})
 \tag{PathI}
 \\[6pt]
 \frac{\Gamma \vdash p : \Path_A\, a\, b \qquad
       \Gamma \vdash r : \interval}
-     {\Gamma \vdash p\; r : A}
-\quad (\Path\text{-elim})
+     {\Gamma \vdash p\; r : A \qquad p\; 0 \equiv a \qquad p\; 1 \equiv b}
 \tag{PathE}
+\\[6pt]
+\frac{\Gamma, i : \interval \vdash A : \mathcal{U}_i \qquad
+      \Gamma \vdash t : A[i := 0]}
+     {\Gamma \vdash \transp^i\, A\, \mathsf{1}_\varphi\, t : A[i := 1]}
+\tag{Transp}
+\\[6pt]
+\frac{
+  \Gamma, i : \interval \vdash A : \mathcal{U}_i
+  \qquad
+  \Gamma \vdash t_0 : A[i := 0]
+  \qquad
+  \forall k.\;
+  \Gamma, i : \interval, \psi_k \vdash u_k : A
+  \quad
+  u_k[i := 0] \equiv t_0
+}
+{
+  \Gamma \vdash \hfilling^i\, A\, [\psi_k \mapsto u_k]\, t_0
+  : A[i := 1]
+}
+\tag{HComp}
 \end{gather}
 
-\noindent with the computation rules $(\langle i \rangle\, t)\; r
-\equiv t[i := r]$ and the boundary rules
-$p\; \mathsf{0} \equiv a$, $p\; \mathsf{1} \equiv b$.
+\subsection{Refinement Type Rules}
 
-\begin{definition}[Transport]
-Given a path in the universe $A : \interval \to \mathcal{U}_i$:
-\[
-\frac{\Gamma, i : \interval \vdash A : \mathcal{U}_i \qquad
-      \Gamma \vdash t : A[\mathsf{0}/i]}
-     {\Gamma \vdash \transp^i\, A\, t : A[\mathsf{1}/i]}
-\quad (\mathsf{transp})
-\]
-\end{definition}
-
-\subsection{Fiber Restriction Rules}
-
-These rules are the core novelty of $\mathrm{C}^4$:
+These are new relative to standard CIC:
 
 \begin{gather}
-\frac{\Gamma \vdash t : A \qquad U \in \mathrm{Ob}(\site)}
-     {\Gamma \vdash_U \restr{t}{U} : \restr{A}{U}}
-\quad (\text{restrict})
-\tag{Res}
+\frac{\Gamma \vdash A : \mathcal{U}_i \qquad
+      \Gamma, x : A \vdash \varphi(x) : \mathsf{Prop} \qquad
+      \text{Z3 can decide } \varphi}
+     {\Gamma \vdash \{x : A \mid \varphi(x)\} : \mathcal{U}_i}
+\tag{RefinF}
 \\[6pt]
-\frac{\Gamma \vdash_U t : A \qquad
-      f : V \to U \text{ in } \site}
-     {\Gamma \vdash_V \restr{t}{f} : \restr{A}{f}}
-\quad (\text{pullback})
-\tag{Pull}
+\frac{\Gamma \vdash a : A \qquad \Gamma \vdash h : \varphi(a)}
+     {\Gamma \vdash \langle a, h \rangle_\varphi :
+      \{x : A \mid \varphi(x)\}}
+\tag{RefinI}
+\\[6pt]
+\frac{\Gamma \vdash r : \{x : A \mid \varphi(x)\}}
+     {\Gamma \vdash r.1 : A \qquad \Gamma \vdash r.2 : \varphi(r.1)}
+\tag{RefinE}
 \end{gather}
 
-These say: any global term can be restricted to a fiber, and
-fiber-local terms can be pulled back along morphisms.
+\begin{remark}[Refinement Types are Cubical Faces]
+A refinement type \(\{x : A \mid \varphi(x)\}\) is simultaneously:
+\begin{enumerate}
+\item A subtype in the type-theoretic sense (elements satisfying \(\varphi\)).
+\item A cubical face in the proof cube (restricting the proof to inputs
+  satisfying \(\varphi\)).
+\item A sheaf restriction \(\restr{\mathcal{F}}{\{\varphi\}}\) for local
+  verification.
+\end{enumerate}
+This triple role (Synergy~1 of the atlas) is why adding a type annotation
+automatically provides both a proof decomposition point and a Z3 hypothesis.
+\end{remark}
 
-\subsection{The Descent Rule}
+\subsection{The Unified Filling Rule}
 
-The descent rule is the crown jewel of $\mathrm{C}^4$.  It
-internalizes the sheaf condition:
+The descent rule and the HComp rule are unified as:
 
-\begin{definition}[Descent Rule]
-\label{def:descent-rule}
-Given a cover $\covers = \{U_\alpha\}_{\alpha \in I}$ of the terminal
-object in $\site$, local sections $t_\alpha : \restr{A}{U_\alpha}$ for
-each $\alpha$, and compatibility witnesses
-$p_{\alpha\beta} : \restr{t_\alpha}{U_\alpha \cap U_\beta} \equiv
-\restr{t_\beta}{U_\alpha \cap U_\beta}$ satisfying the cocycle
-condition on triple overlaps:
+\begin{definition}[The Unified Filling Rule]
+\label{def:unified-filling}
+Given:
+\begin{itemize}
+\item A type \(A\) (sheaf over the site),
+\item A cover \(\covers = \{\varphi_1, \ldots, \varphi_n\}\)
+  (either interval faces or refinement predicates),
+\item Local sections \(t_\alpha : \restr{A}{\varphi_\alpha}\)
+  (either face terms or fiber proofs),
+\item Compatibility proofs \(p_{\alpha\beta} :
+  \restr{t_\alpha}{\varphi_\alpha \wedge \varphi_\beta}
+  \equiv
+  \restr{t_\beta}{\varphi_\alpha \wedge \varphi_\beta}\),
+\item Exhaustiveness \(\vdash \bigvee_\alpha \varphi_\alpha\) (or
+  the cover is the full boundary in the cubical case):
+\end{itemize}
 \[
 \frac{
   \begin{array}{c}
-    \forall \alpha.\; \Gamma \vdash_{U_\alpha} t_\alpha : \restr{A}{U_\alpha}
+    \covers = \{\varphi_\alpha\}_{\alpha \in I}
+    \qquad
+    \forall x.\, \bigvee_\alpha \varphi_\alpha(x)
+    \\[4pt]
+    \forall \alpha.\;
+    \Gamma \vdash_{\varphi_\alpha} t_\alpha : \restr{A}{\varphi_\alpha}
     \\[4pt]
     \forall \alpha, \beta.\;
-    \Gamma \vdash_{U_\alpha \cap U_\beta}
-    p_{\alpha\beta} : \restr{t_\alpha}{U_{\alpha\beta}} \equiv
-    \restr{t_\beta}{U_{\alpha\beta}}
+    \Gamma \vdash p_{\alpha\beta}
+    : \restr{t_\alpha}{\varphi_\alpha \wedge \varphi_\beta}
+    \equiv
+    \restr{t_\beta}{\varphi_\alpha \wedge \varphi_\beta}
     \\[4pt]
-    \forall \alpha, \beta, \gamma.\;
-    \restr{p_{\alpha\gamma}}{U_{\alpha\beta\gamma}} =
-    \restr{p_{\beta\gamma}}{U_{\alpha\beta\gamma}} \circ
-    \restr{p_{\alpha\beta}}{U_{\alpha\beta\gamma}}
+    \check{H}^1(\covers, \underline{\mathrm{Aut}}(A)) = 0
   \end{array}
 }
-{\Gamma \vdash \mathsf{desc}(\{t_\alpha\}, \{p_{\alpha\beta}\}) : A}
-\quad (\text{descent})
+{
+  \Gamma \vdash
+  \mathsf{fill}(\covers, \{t_\alpha\}, \{p_{\alpha\beta}\}) : A
+}
+\tag{Fill}
 \]
 \end{definition}
 
-\begin{theorem}[Descent = $\Hone = 0$]
-The descent rule is applicable if and only if the first \v{C}ech
-cohomology of the cover $\covers$ with coefficients in
-$\underline{\mathrm{Aut}}(A)$ vanishes:
+When \(\covers\) consists of interval faces \([i_k = \varepsilon]\),
+this instantiates to \(\hfilling\).  When \(\covers\) consists of
+refinement predicates, this instantiates to \(\mathsf{desc}\).
+
+\begin{theorem}[Hedberg Collapse]
+\label{thm:hedberg-collapse}
+For all sheaves \(A\) with propositional fibers (i.e.,
+\(\forall \varphi.\; A(\varphi)\) is a proposition),
 \[
-  \Hone(\covers, \underline{\mathrm{Aut}}(A)) = 0
-  \quad \Longleftrightarrow \quad
-  \text{descent data glues to a global section.}
+  \check{H}^1(\covers, \underline{\mathrm{Aut}}(A)) = 0
 \]
+for every cover \(\covers\).  Therefore the \(\mathrm{C}^4\)
+filling rule \textup{(Fill)} is applicable without an explicit
+cohomological obstruction check.
 \end{theorem}
 
 \begin{proof}
-The forward direction is the classical descent theorem in algebraic
-geometry (SGA~1, Expos\'e VIII).  A \v{C}ech 1-cocycle
-$\{g_{\alpha\beta}\}$ with values in $\mathrm{Aut}(A)$ is a collection
-of transition functions on double overlaps satisfying the cocycle
-condition.  The cohomology class $[g] \in \Hone$ is the obstruction
-to finding a global section.  If $\Hone = 0$, every cocycle is a
-coboundary: there exist $h_\alpha \in \mathrm{Aut}(\restr{A}{U_\alpha})$
-such that $g_{\alpha\beta} = h_\beta^{-1} \circ h_\alpha$ on
-$U_\alpha \cap U_\beta$.  Then $h_\alpha(t_\alpha)$ glue to a
-global section.
-
-The reverse direction: if a global section $t$ exists, set
-$t_\alpha = \restr{t}{U_\alpha}$ and $p_{\alpha\beta} = \mathsf{refl}$.
-The cocycle is trivial ($g_{\alpha\beta} = \mathrm{id}$), hence a
-coboundary, so $[\mathrm{id}] = 0 \in \Hone$.
+Hedberg's theorem (see Chapter~\ref{ch:c4-metatheory},
+Theorem~\ref{thm:hedberg-main}) states that types with decidable equality
+are sets (proof-irrelevant for equalities).  The sheaf
+\(\underline{\mathrm{Aut}}(A)\) has values \(\mathrm{Aut}(A(\varphi))\),
+the automorphism group of the local fiber.  For propositional fibers,
+the only automorphism is the identity, so
+\(\underline{\mathrm{Aut}}(A)\) is the trivial sheaf.
+The first \(\check{C}\)ech cohomology of a trivial sheaf is zero.
+\hfill\(\square\)
 \end{proof}
 
+\begin{corollary}
+In the C\(^4\) verification setting for Python (all types have
+Z3-decidable equality), the cohomological obstruction check is never
+needed.  The filling rule fires unconditionally.
+\end{corollary}
 
+\subsection{Restriction Rules}
+
+\begin{gather}
+\frac{\Gamma \vdash t : A \qquad \varphi \in \site}
+     {\Gamma \vdash_\varphi \restr{t}{\varphi} :
+      \restr{A}{\varphi}}
+\tag{Res}
+\\[6pt]
+\frac{\Gamma \vdash_\varphi t : A \qquad
+      \Gamma \vdash (\psi \Rightarrow \varphi) : \mathsf{Prop}}
+     {\Gamma \vdash_\psi \restr{t}{(\psi \hookrightarrow \varphi)} :
+      \restr{A}{\psi}}
+\tag{Pull}
+\end{gather}
+
+Rule~(Res) restricts any global section to a fiber.
+Rule~(Pull) is transport along a site morphism (an implication):
+it corresponds to the cubical transport rule where the ``path'' is
+the implication \(\psi \Rightarrow \varphi\).
+
+\subsection{Trust Typing Rule}
+
+\begin{gather}
+\frac{\Gamma \vdash t : A \qquad \mathcal{T} = \mathrm{trust}(t)}
+     {\Gamma \vdash t :_{\mathcal{T}} A}
+\tag{Trust}
+\\[6pt]
+\frac{\Gamma \vdash t :_{\mathcal{T}_1} A \qquad
+      \Gamma \vdash u :_{\mathcal{T}_2} B[x := t]}
+     {\Gamma \vdash (t, u) :_{\mathcal{T}_1 \cup \mathcal{T}_2}
+      \Sigma(x : A).\, B}
+\tag{Trust$\Sigma$}
+\end{gather}
+
+The trust set is the upward closure of the trust sources used in
+the derivation.  This gives trust its sheaf structure: the trust of
+a descent proof is the union of the trust of each fiber proof.
+
+\subsection{F*-Style Binding Rule}
+
+The F*-style annotation compatibility rule (Synergy~34 of the atlas)
+is a structural rule that checks annotation--code agreement:
+
+\begin{gather}
+\frac{
+  \begin{array}{c}
+    \Gamma \vdash_\mathrm{ann} P : \Pi(x : A).\, \mathsf{Prop}
+    \quad \text{(annotation, a predicate on the output)}
+    \\[3pt]
+    \Gamma \vdash_\mathrm{code} f : \Pi(x : A).\, B
+    \quad \text{(code, a function)}
+    \\[3pt]
+    \forall \varphi \in \covers.\;
+    \Gamma \vdash_\varphi P(\restr{f}{\varphi}\, x) : \mathsf{Prop}
+    \quad \text{(annotation matches code per fiber)}
+    \\[3pt]
+    \covers \text{ exhaustive over } A
+  \end{array}
+}
+{
+  \Gamma \vdash \mathsf{check\_binding}(P, f, \covers) :
+  \Pi(x : A).\, P(f\, x)
+}
+\tag{Bind}
+\end{gather}
+
+This rule expresses that an annotation is only accepted when it can
+be witnessed per-fiber (cohomological) by proofs that compose into a
+global derivation (cubical path composition).
+
+
+% ─────────────────────────────────────────────────────────
 \section{Computation Rules}
+\label{sec:computation-rules}
 
-\subsection{$\beta$-reduction (Standard)}
-$(\lambda(x:A).\, t)\; u \equiv t[x := u]$.
+\subsection{Standard \(\beta\)-Reductions}
 
-\subsection{Restriction Computation}
-Restriction distributes over constructors:
 \begin{align}
-  \restr{(\lambda x.\, t)}{U} &\equiv \lambda x.\, \restr{t}{U}
-  \tag{$\lambda$-res} \\
-  \restr{(t, u)}{U} &\equiv (\restr{t}{U}, \restr{u}{U})
-  \tag{$\Sigma$-res} \\
-  \restr{(\langle i \rangle\, t)}{U} &\equiv
-  \langle i \rangle\, \restr{t}{U}
-  \tag{Path-res}
+  (\lambda(x : A).\, t)\; u
+  &\;\rightsquigarrow\; t[x := u]
+  \tag{$\beta$}
+  \\
+  \pi_1(a, b) &\;\rightsquigarrow\; a
+  \tag{$\Sigma\beta_1$}
+  \\
+  \pi_2(a, b) &\;\rightsquigarrow\; b
+  \tag{$\Sigma\beta_2$}
 \end{align}
 
-\subsection{Descent Computation}
-The descent term computes on restriction:
-\[
-  \restr{\mathsf{desc}(\{t_\alpha\}, \{p_{\alpha\beta}\})}{U_\alpha}
-  \equiv t_\alpha
-  \tag{desc-$\beta$}
-\]
+\subsection{Cubical \(\beta\)-Reductions}
 
-This is the key computation rule: descending and then restricting
-gives back the local section.  Combined with the restriction computation
-rules, this ensures that the descent operation is computationally
-well-behaved.
+\begin{align}
+  (\langle i \rangle\, t)\; r
+  &\;\rightsquigarrow\; t[i := r]
+  \tag{Path-$\beta$}
+  \\
+  \transp^i\, A\, \mathsf{1}\, t
+  &\;\rightsquigarrow\; t
+  \qquad\text{(transport on constant family)}
+  \tag{Transp-const}
+\end{align}
 
-\subsection{Axiom Computation}
-OTerm axioms compute as rewrite rules:
-\[
-  \den{\ell\sigma} \equiv \den{r\sigma}
-  \quad \text{when } (\ell \equiv r) \in \mathcal{A}_{\mathrm{CCTT}}
-  \text{ and } \sigma \text{ is a valid substitution}
-  \tag{axiom-$\beta$}
-\]
+\subsection{Restriction Distribution}
 
+Restriction is a left-exact functor; it distributes over all
+type formers:
+\begin{align}
+  \restr{(\lambda x.\, t)}{\varphi}
+  &\;\rightsquigarrow\; \lambda x.\, \restr{t}{\varphi}
+  \tag{Res-$\lambda$}
+  \\
+  \restr{(t, u)}{\varphi}
+  &\;\rightsquigarrow\; (\restr{t}{\varphi}, \restr{u}{\varphi})
+  \tag{Res-$\Sigma$}
+  \\
+  \restr{(\langle i \rangle\, t)}{\varphi}
+  &\;\rightsquigarrow\; \langle i \rangle\, \restr{t}{\varphi}
+  \tag{Res-Path}
+  \\
+  \restr{(\transp^i\, A\, h\, t)}{\varphi}
+  &\;\rightsquigarrow\;
+  \transp^i\, (\restr{A}{\varphi})\, \restr{h}{\varphi}\,
+  \restr{t}{\varphi}
+  \tag{Res-Transp}
+\end{align}
 
-\section{Inductive Types}
+\subsection{Descent \(\beta\)-Reduction (Key Rule)}
 
-$\mathrm{C}^4$ supports general inductive types via the same schema as CIC:
+\begin{equation}
+  \restr{\mathsf{fill}(\covers, \{t_\alpha\}, \{p_{\alpha\beta}\})}{\varphi_k}
+  \;\rightsquigarrow\; t_k
+  \tag{Fill-$\beta$}
+\end{equation}
 
-\begin{definition}[Inductive Type]
-An inductive type declaration $\mathsf{Ind}(\Delta)$ specifies:
-\begin{enumerate}
-\item A type former $D : \vec{\alpha} \to \mathcal{U}_i$
-\item Constructors $c_j : \vec{\beta_j} \to D(\vec{a_j})$
-  with the strict positivity condition
-\item A recursion principle $\mathsf{rec}_D$
-\end{enumerate}
-\end{definition}
-
-In addition, $\mathrm{C}^4$ supports \textbf{higher inductive types}
-(HITs) with path constructors, as in cubical Agda.  The PyComp HIT
-from Chapter~\ref{ch:hits} is an instance:
-
-\begin{example}[PyComp as a HIT in $\mathrm{C}^4$]
-\begin{align*}
-  \mathsf{data}\; \PyObj &: \mathcal{U}_0 \;\mathsf{where} \\
-  \mathsf{OVar}   &: \mathsf{String} \to \PyObj \\
-  \mathsf{OLit}   &: \mathsf{Value} \to \PyObj \\
-  \mathsf{OOp}    &: \mathsf{OpName} \times \mathsf{List}(\PyObj) \to \PyObj \\
-  \mathsf{OFold}  &: \mathsf{OpName} \times \PyObj \times \PyObj \to \PyObj \\
-  \mathsf{OCase}  &: \PyObj \times \PyObj \times \PyObj \to \PyObj \\
-  \mathsf{OFix}   &: \mathsf{String} \times \PyObj \to \PyObj \\
-  &\vdots \\
-  \mathsf{D1}     &: \Path_\PyObj\,
-    (\mathsf{OOp}(+, [a, b]))\,
-    (\mathsf{OOp}(+, [b, a]))
-    \quad \text{(commutativity path)} \\
-  \mathsf{D2}     &: \Path_\PyObj\,
-    (\mathsf{OOp}(+, [a, \mathsf{OOp}(+, [b, c])]))\,
-    (\mathsf{OOp}(+, [\mathsf{OOp}(+, [a, b]), c]))
-    \\
-  &\vdots
-\end{align*}
-
-The 24 dichotomy paths D1--D24 are path constructors of the HIT,
-meaning they hold definitionally in $\mathrm{C}^4$.  Any equation that
-can be derived from these paths via path composition is automatically
-provable.
-\end{example}
-
-
-\section{The OTerm Universe}
-
-\begin{definition}[OTerm Universe]
-The \textbf{OTerm universe} $\mathcal{U}_\PyObj$ is a universe in
-$\mathrm{C}^4$ whose types are OTerms.  It is equipped with:
-\begin{enumerate}
-\item An \textbf{embedding} $\den{\cdot} : \mathsf{Python} \to
-  \mathcal{U}_\PyObj$ that compiles Python ASTs to OTerms.
-\item A \textbf{site structure} where objects are duck-type fibers
-  (e.g., $\mathsf{TInt}$, $\mathsf{TStr}$, $\mathsf{TList}$) and
-  morphisms are subtyping relations.
-\item \textbf{Axiom equalities}: for each CCTT axiom $\ell \equiv r$,
-  a path $\Path_{\mathcal{U}_\PyObj}\, \den{\ell}\, \den{r}$.
-\end{enumerate}
-\end{definition}
-
-\begin{theorem}[Completeness of OTerm Axioms]
-The CCTT axiom set $\{D_1, \ldots, D_{24}\} \cup \{P_1, \ldots, P_{48}\}$
-is complete for the equational theory of $\PyObj$ in the following sense:
-if $\den{f} = \den{g}$ in the denotational semantics, then there exists
-a path in $\mathcal{U}_\PyObj$ from $\den{f}$ to $\den{g}$ constructible
-from the axiom paths and the HIT structure.
-\end{theorem}
-
-\begin{proof}[Proof sketch]
-By the universal property of the HIT: $\PyObj$ is the free algebra
-modulo the path constructors.  If $\den{f} = \den{g}$ in the
-denotational model, then the quotient map identifies them, so a
-path exists in the HIT.
-
-In practice, the path search algorithm (Chapter~\ref{ch:path-search})
-finds this path as a sequence of axiom applications
-$D_{i_1}(\sigma_1) \cdot D_{i_2}(\sigma_2) \cdots D_{i_k}(\sigma_k)$.
-\end{proof}
-
-
-\section{Relationship to CIC}
-
-\begin{theorem}[Conservative Extension]
-\label{thm:conservative-extension}
-$\mathrm{C}^4$ is a conservative extension of CIC: if $\Gamma \vdash_\mathrm{CIC} t : A$,
-then $\Gamma \vdash_{\mathrm{C}^4} t : A$, and conversely, if $\mathrm{C}^4$ derives
-$\Gamma \vdash t : A$ where $\Gamma$, $t$, and $A$ are in the CIC fragment
-(no fiber restrictions, no descent, no OTerms), then $\Gamma \vdash_\mathrm{CIC} t : A$.
-\end{theorem}
-
-\begin{proof}[Proof sketch]
-The forward direction is immediate: CIC rules are a subset of
-$\mathrm{C}^4$ rules (take the trivial site with one object).
-
-For the reverse direction, we show that the additional $\mathrm{C}^4$
-rules---fiber restriction, descent, OTerm embedding---cannot derive new
-CIC judgments.  This follows because:
-\begin{enumerate}
-\item Fiber restriction on the trivial site is the identity.
-\item Descent on the trivial site (single cover element) reduces to
-  the assumption rule.
-\item OTerm embedding introduces new constants but no new equalities
-  between CIC terms.
-\end{enumerate}
-A more careful proof proceeds by showing that the
-$\mathrm{C}^4$ $\to$ CIC translation (erasing fiber annotations and
-descent to identity) preserves typing derivations.
-\end{proof}
+This rule asserts: descending to a global section and then restricting
+to a fiber gives back the local section.  This is the descent
+\(\beta\)-reduction, and it is the dual of the
+Path-\(\beta\) rule.
 
 \begin{remark}
-Conservativity means: any Lean theorem can be used in $\mathrm{C}^4$
-without worrying about soundness.  The import functor
-$\Phi : \mathrm{CIC}_\mathrm{Lean} \to \mathrm{C}^4$ preserves all
-proof-relevant content.  We develop this functor in
-Chapter~\ref{ch:mathlib-integration}.
+The reduction system is terminating because (a) restriction
+pushes inward (strictly decreasing the depth of outermost
+restriction operators), (b) Fill-\(\beta\) eliminates
+\(\mathsf{fill}\) nodes, and (c) the CIC and cubical fragments
+terminate independently.  See Chapter~\ref{ch:c4-metatheory}
+for the formal argument via a lexicographic measure.
 \end{remark}
 
 
-\section{Why $\mathrm{C}^4$ Goes Beyond Lean and F*}
+% ─────────────────────────────────────────────────────────
+\section{The Cover Algebra}
+\label{sec:cover-algebra}
 
-\subsection{Native Fiber Decomposition}
+The refinement site has a rich algebra of covers.  These correspond
+to operations on cubical face systems (Synergy~10 of the atlas):
 
-In Lean, to prove that a function is correct ``on all integer inputs
-separately from all string inputs,'' one must manually set up a
-case analysis.  In $\mathrm{C}^4$, the fiber restriction rule
-automatically decomposes the proof obligation along the type fibers
-of the site.  A proof of the form
-\[
-  \forall \tau \in \{\mathsf{TInt}, \mathsf{TStr}, \mathsf{TList}\}.\;
-  \Gamma \vdash_\tau P(\tau)
-\]
-immediately yields $\Gamma \vdash P$ (global) via descent, provided the
-overlap conditions are satisfied.
+\begin{definition}[Cover Operations]
+Let \(\covers = \{\varphi_i\}\) and \(\mathcal{V} = \{\psi_j\}\)
+be covers of \(\alpha\).
+\begin{align*}
+  \text{Refinement:}\quad
+  &\covers' \leq \covers
+  \;\Leftrightarrow\;
+  \forall j.\; \exists i.\; \varphi'_j \Rightarrow \varphi_i \\
+  \text{Product:}\quad
+  &\covers \times \mathcal{V}
+  \;\coloneqq\; \{\varphi_i \wedge \psi_j\}_{i,j} \\
+  \text{Join:}\quad
+  &\covers \vee \mathcal{V}
+  \;\coloneqq\; \{\varphi_i\}_i \cup \{\psi_j\}_j \\
+  \text{Restriction:}\quad
+  &\restr{\covers}{\psi}
+  \;\coloneqq\; \{\varphi_i \wedge \psi\}_i
+\end{align*}
+\end{definition}
 
-\subsection{Cohomological Obstruction Reporting}
+\begin{proposition}[Cover algebra is a locale]
+The cover operations satisfy the axioms of a locale (complete
+Heyting algebra), with \(\leq\) as the partial order.
+The product \(\times\) is the meet, the join \(\vee\) is the join,
+and restriction \(\restr{\cdot}{\psi}\) is the right adjoint
+of product with \(\{\psi\}\).
+\end{proposition}
 
-When a proof attempt \emph{fails}, $\mathrm{C}^4$ doesn't just say
-``proof failed.''  It computes the $\Hone$ class and reports the
-\emph{specific obstruction}: which fiber overlaps are inconsistent
-and why.  This is qualitatively richer than the ``tactic failed''
-error messages in Lean or Coq.
+\begin{proof}
+All operations are Z3-computable (predicates with decidable logic).
+The locale axioms reduce to standard propositional identities:
+distribution, modularity, and monotonicity, all of which hold
+in a Boolean algebra.  \hfill\(\square\)
+\end{proof}
 
-\subsection{OTerm Computation}
+\textbf{Cubical interpretation.}
+Each cover operation corresponds to a cubical face operation:
+product \(\covers \times \mathcal{V}\) corresponds to the product
+cube \(\interval^m \times \interval^n = \interval^{m+n}\);
+restriction \(\restr{\covers}{\psi}\) corresponds to the face
+evaluation \(\partial^\varepsilon_k\); the join \(\covers \vee \mathcal{V}\)
+corresponds to adding cubical dimensions.
 
-In Lean, proving properties of Python programs requires first
-formalizing Python's semantics in Lean~4---a massive overhead.
-In $\mathrm{C}^4$, the OTerm universe provides a direct,
-compositional semantics for Python.  CCTT axioms give computation
-rules.  A proof that ``\texttt{sum(range(n))} equals
-$n(n-1)/2$'' is a short path in $\mathcal{U}_\PyObj$:
-\[
-  \den{\mathsf{sum}(\mathsf{range}(n))}
-  \xrightarrow{P_{12}}
-  \mathsf{OFold}(+, 0, \mathsf{range}(n))
-  \xrightarrow{D_{18}}
-  \mathsf{OOp}(\div, [\mathsf{OOp}(\times, [n, n-1]), 2])
-\]
+This is why the algebraic synergy of Theorem~\ref{thm:algebraic-synergy}
+is not superficial: the cover algebra and the face algebra are both
+quotients of the same free Boolean algebra.
 
-In Lean, this would require importing a library for Python semantics,
-stating the equivalence as a lemma, and writing a tactic proof---likely
-10--50$\times$ more effort.
 
-\subsection{Combined Code-and-Math Reasoning}
+% ─────────────────────────────────────────────────────────
+\section{The OTerm Universe}
+\label{sec:oterm-universe}
 
-The deepest advantage: $\mathrm{C}^4$ lets you mix code reasoning
-(OTerms + axioms) with pure mathematics (Mathlib imports) in a single
-proof.  For example, proving that a numerical algorithm converges can
-combine:
+\begin{definition}[OTerm Universe]
+The \textbf{OTerm universe} \(\mathcal{U}_\PyObj\) is a
+site-decorated universe in \(\mathrm{C}^4\) whose:
+\begin{enumerate}
+\item \textbf{Types} are OTerms (elements of the free algebra
+  \(\PyObj\) generated by \(\mathsf{OVar}, \mathsf{OLit}, \mathsf{OOp},
+  \mathsf{OFold}, \ldots\)).
+\item \textbf{Site} is the refinement site for Python inputs:
+  objects are Z3-decidable predicates over \(\mathsf{Value}\),
+  morphisms are Z3-provable implications.
+\item \textbf{Axiom equalities}: each CCTT axiom
+  \(D_k\) or \(P_k\) gives a path in \(\mathcal{U}_\PyObj\).
+\end{enumerate}
+\end{definition}
+
+The OTerm universe unifies the two dimension systems for Python programs:
 \begin{itemize}
-\item A Mathlib theorem about the convergence of the underlying
-  mathematical sequence.
-\item An OTerm axiom chain showing that the code implements the
-  mathematical recurrence.
-\item A fiber decomposition showing that integer overflow doesn't
-  affect the result for inputs in range.
+\item Cubical paths in \(\mathcal{U}_\PyObj\) are program equivalences
+  (chains of axiom applications).
+\item Cohomological fibers in \(\mathcal{U}_\PyObj\) are type-class
+  branches (\texttt{isinstance} cases).
 \end{itemize}
 
-No other system provides this seamless integration.
+A proof that two Python functions are equivalent is a path
+\(\Path_{\mathcal{U}_\PyObj}\, \den{f}\, \den{g}\) in the OTerm
+universe, which decomposes via descent into per-fiber paths
+(per-branch equivalences) satisfying the overlap conditions.
+
+
+% ─────────────────────────────────────────────────────────
+\section{Inductive Types and Higher Inductive Types}
+\label{sec:inductive-types}
+
+$\mathrm{C}^4$ supports all CIC inductive types and additionally
+supports \textbf{higher inductive types} (HITs) with path
+constructors.  The \textbf{PyComp HIT} models the denotational
+semantics of Python:
+
+\begin{example}[PyComp as a HIT]
+\vspace{-4pt}
+\begin{align*}
+  \mathsf{data}\; \PyObj &: \mathcal{U}_0 \;\mathsf{where} \\
+  \mathsf{OVar}(s)   &: \PyObj \quad (s : \mathsf{String}) \\
+  \mathsf{OLit}(v)   &: \PyObj \quad (v : \mathsf{Value}) \\
+  \mathsf{OOp}(f, \vec{a}) &: \PyObj \quad \text{(built-in operator)} \\
+  \mathsf{OFold}(\oplus, z, xs) &: \PyObj \quad \text{(fold)} \\
+  \mathsf{OCase}(c, t, e) &: \PyObj \quad \text{(conditional)} \\
+  \mathsf{OFix}(x, b) &: \PyObj \quad \text{(fixed point)} \\
+  &\vdots \\
+  \mathsf{D1}     &: \Path_\PyObj\,
+    (\mathsf{OOp}(+, [a, b]))\;
+    (\mathsf{OOp}(+, [b, a]))
+    \quad \text{(commutativity of \texttt{+})}
+\end{align*}
+
+The 24 dichotomy path constructors D1--D24 are equalities that
+hold definitionally in $\mathrm{C}^4$.  Any OTerm equality derivable
+from these paths via path composition, transport, and descent is
+automatically provable.
+\end{example}
+
+The HITs interact with the covering structure: the fibration of
+\(\PyObj\) over the refinement site (predicates on Python values)
+gives each HIT path constructor a fiber structure.  A path
+constructor that only applies on fiber \(\varphi\) (e.g., D1 applies
+on \(\{\mathsf{isinstance}(a, \mathsf{int})\}\)) is a
+\emph{local} path in the OTerm universe.
+
+
+% ─────────────────────────────────────────────────────────
+\section{Relationship to CIC, Cubical TT, and F*}
+\label{sec:relationships}
+
+\subsection{CIC}
+
+\begin{theorem}[Conservative Extension over CIC]
+\label{thm:conservativity-cic}
+$\mathrm{C}^4$ is a conservative extension of CIC: a judgment is
+derivable in CIC if and only if it is derivable in $\mathrm{C}^4$
+via the trivial one-fiber site.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Forward: CIC rules are a subset of $\mathrm{C}^4$ rules (the trivial
+site \(\{\mathrm{True}\}\) makes all restriction and descent rules
+degenerate).
+
+Reverse: the $\mathrm{C}^4 \to \mathrm{CIC}$ erasure functor
+removes fiber annotations and replaces descent with the identity.
+It preserves typing because the erasure of a $\mathrm{C}^4$
+derivation is a valid CIC derivation.  The novel rules (restriction,
+descent, refinement) all erase to the standard CIC rules for the
+trivial cover.  \hfill\(\square\)
+\end{proof}
+
+\subsection{Cubical Type Theory}
+
+\begin{theorem}[Conservative Extension over Cubical TT]
+$\mathrm{C}^4$ is a conservative extension of the cubical type theory
+of Cohen--Coquand--Huber--M\"ortberg.  In particular, univalence and
+function extensionality hold as computed equalities, not axioms.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The cubical fragment of $\mathrm{C}^4$ is exactly CCHM cubical type
+theory, with one addition: the face predicates \(\psi_k\) in the HComp
+rule may now be \emph{either} interval names \emph{or} refinement
+predicates.  The CCHM rules are recovered by taking only interval
+names.  The addition of refinement predicates does not change the
+behavior of the pure interval fragment.  \hfill\(\square\)
+\end{proof}
+
+\subsection{F*}
+
+F* uses a refinement-type system with Z3-based discharge.  Compared
+to $\mathrm{C}^4$:
+\begin{enumerate}
+\item F* does not have the cubical interval or path types.  Equality
+  is propositional (\(\mathsf{Prop}\)-valued), not proof-relevant.
+\item F* does not have the sheaf structure.  Refinement types in F*
+  do not have a cover algebra or descent rule.
+\item F* does not have the Hedberg collapse metatheorem --- it must
+  be proved manually for each type where it is needed.
+\item The F*-style binding rule (\textsc{Bind}) is captured in $\mathrm{C}^4$
+  as a structural rule (not a metalevel annotation language), making it
+  first-class in the type theory.
+\end{enumerate}
+$\mathrm{C}^4$ strictly extends F*'s expressiveness by adding (a) path
+types for code equivalence proofs, (b) the cover algebra for
+interprocedural composition, and (c) the unified descent=HComp rule
+for efficient proof assembly.

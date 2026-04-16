@@ -366,7 +366,7 @@ EQUIV_PAIRS: list[tuple[str, str, str, bool]] = [
             def g(base, exp, mod):
                 return pow(base, exp, mod)
         """),
-        True,
+        False,  # pow(0,0,1)=0 but manual impl returns 1
     ),
 
     (
@@ -1559,7 +1559,7 @@ EQUIV_PAIRS: list[tuple[str, str, str, bool]] = [
                 s = (a + b + c) / 2
                 return math.sqrt(max(s * (s - a) * (s - b) * (s - c), 0))
         """),
-        True,
+        False,  # Float rounding: cross-product vs Heron's formula differ
     ),
 
     (
@@ -1901,7 +1901,7 @@ EQUIV_PAIRS: list[tuple[str, str, str, bool]] = [
                 s = bin(n)[2:].zfill(bits)
                 return int(s[::-1], 2)
         """),
-        True,
+        False,  # When n >= 2^bits, loop truncates but string doesn't
     ),
 
     (
@@ -2200,7 +2200,7 @@ EQUIV_PAIRS: list[tuple[str, str, str, bool]] = [
             def g(nums):
                 return nums.index(max(nums))
         """),
-        True,
+        False,  # Binary search finds local peak, index(max) finds global max
     ),
 
     # ── 11. Matrix / linear algebra ──────────────────────────────────────

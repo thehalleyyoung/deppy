@@ -28,7 +28,7 @@ Usage:
     python -m cctt.proof_theory.library_proof_orchestrator \\
         --library sympy --output output/sympy_proved
 """
-from __future__ import annotations
+from __future__ import annotations 
 
 import argparse
 import ast

@@ -1,0 +1,48 @@
+\contentsline {section}{\numberline {1}Level 0: The Foundational Identification}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Synergy 0: Descent = HComp}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Synergy 0b: The Two Dimension Systems}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Level 1: Type-Level Synergies}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Synergy 1: Refinement Types as Cubical Faces}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Synergy 2: Univalence in the Refinement Lattice}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Synergy 3: Fibered Universe Structure}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Synergy 4: Sheafification as Type Completion}{4}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Level 2: Proof-Level Synergies}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Synergy 5: Transport Along Refinement Paths}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Synergy 6: Restricted Hypothesis Pushing}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Synergy 7: Overlap Compatibility = Cubical Edge Agreement}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Synergy 8: Automatic Overlap Synthesis}{6}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Synergy 9: GluePath --- Local Cubical Paths via Descent}{6}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Level 3: Cover-Level Synergies}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Synergy 10: Cover Algebra as Cubical Face Algebra}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Synergy 11: Product Covers for Interprocedural Composition (K\"unneth)}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Synergy 12: Cover Morphisms and Kan Extension}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Synergy 13: Connection-Based Cover Simplification}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Synergy 14: Nerve Topology as Proof Connectivity}{8}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Level 4: Proof Search Synergies}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Synergy 15: Spectral Sequence as Proof Search Strategy}{8}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Synergy 16: CEGAR via Cover Refinement}{9}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Synergy 17: Obstruction-Guided Proof Repair}{9}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Level 5: Compositional Synergies}{10}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Synergy 18: Transport-Descent Functoriality}{10}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Synergy 19: Descent Naturality (Proof Independence of Cover)}{10}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Synergy 20: Fiber-Preserving Homotopies (Relative Paths)}{10}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Synergy 21: K\"unneth Decomposition of Nested Proofs}{11}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Level 6: Incremental and Caching Synergies}{11}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Synergy 22: Fiber-Granular Incremental Reverification}{11}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Synergy 23: Transport-Stable Caching}{11}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Level 7: Metatheoretic Synergies}{12}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Synergy 24: Decidability Stratification}{12}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Synergy 25: Complexity Reduction via Decomposition}{12}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Synergy 26: Hedberg Collapse}{12}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Synergy 27: Propositional Truncation and Cover Independence}{13}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Level 8: Python-Specific Synergies}{13}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Synergy 28: isinstance Dispatch as Fibration}{13}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Synergy 29: Dynamic Typing as Coarse-to-Fine Fibration}{14}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Synergy 30: Dict-as-Record Sheafification}{14}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Synergy 31: Exception Handling as Partial Covers}{14}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Synergy 32: Generator/Iterator Laziness as Sheaf Sections}{15}{subsection.9.5}%
+\contentsline {section}{\numberline {10}Level 9: Trust and Provenance Synergies}{15}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Synergy 33: Trust as Sheaf of Provenance}{15}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Synergy 34: F*-Style Binding as Fibered Matching}{15}{subsection.10.2}%
+\contentsline {section}{\numberline {11}Summary Table}{16}{section.11}%
+\contentsline {section}{\numberline {12}The Synergy Theorem}{17}{section.12}%
