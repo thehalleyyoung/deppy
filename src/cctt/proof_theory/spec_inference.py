@@ -364,6 +364,10 @@ class StaticSpecAnalyzer:
         raise_requires = self._extract_raise_requires(fn_node)
         requires.extend(raise_requires)
 
+        # 8. Collection type postconditions from return expressions
+        collection_ensures = self._infer_collection_postconditions(fn_node)
+        ensures.extend(collection_ensures)
+
         # 9. Attribute access → requires hasattr
         attr_requires = self._extract_attr_requires(fn_node, actual_params)
         requires.extend(attr_requires)
@@ -392,7 +396,8 @@ class StaticSpecAnalyzer:
                 ensures.append(post)
 
         # 11. Synthesize global postconditions from fiber analysis
-        fiber_ensures = self._synthesize_global_postconditions(fibers, ensures)
+        fiber_ensures = self._synthesize_global_postconditions(
+            fibers, ensures, actual_params)
         ensures.extend(fiber_ensures)
 
         # Deduplicate
@@ -535,31 +540,212 @@ class StaticSpecAnalyzer:
 
     def _extract_fibers(self, fn: ast.FunctionDef,
                         params: List[str]) -> List[FiberClause]:
-        """Extract fiber decomposition from if/elif/else chains.
+        """Extract fiber decomposition from function control flow.
 
-        Patterns detected:
-        - isinstance dispatch: if isinstance(x, T): return ...
-        - Value dispatch: if x > 0: return ... elif x < 0: return ...
-        - Type dispatch: if type(x) == T: return ...
+        Uses recursive path collection to handle:
+        - Nested if chains: if A: if B: return X → fiber (A and B, X)
+        - Implicit else: code after if-then-return blocks
+        - if/elif/else chains
+        - Returns after loops (best-effort)
+
+        Each fiber is a (guard, return_expr) pair representing one
+        execution path through the function.
         """
-        fibers: List[FiberClause] = []
-        body = fn.body
-        # Skip docstring
-        start = 0
-        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant,)):
-            start = 1
+        paths = self._collect_fiber_paths(fn.body)
+        if len(paths) < 2:
+            return []
 
-        for stmt in body[start:]:
-            if isinstance(stmt, ast.If):
-                self._extract_if_chain_fibers(stmt, fibers, params)
-                break  # Only extract the first top-level if-chain
+        fibers: List[FiberClause] = []
+        for i, (guard, ret_expr) in enumerate(paths):
+            branch_ensures = []
+            # Add structural ensures from return expression type
+            ret_type = self._detect_return_type(ret_expr) if ret_expr else None
+            if ret_type:
+                branch_ensures.append(f"isinstance(result, {ret_type})")
+            # Add len ensures for literal collections
+            ret_len = self._detect_return_length(ret_expr) if ret_expr else None
+            if ret_len is not None:
+                branch_ensures.append(f"len(result) == {ret_len}")
+            # Only add result == expr if it references params/constants, not locals,
+            # AND the return type is not a collection (C4 can't parse list/dict literals)
+            if ret_expr and self._expr_uses_only(ret_expr, params) and ret_type is None:
+                branch_ensures.append(f"result == {ret_expr}")
+
+            name = self._fiber_name_from_guard(guard, i)
+            decidability = self._classify_guard(guard)
+            fibers.append(FiberClause(
+                name=name, guard=guard, ensures=branch_ensures,
+                returns_expr=ret_expr, decidability=decidability,
+            ))
 
         return fibers
+
+    def _collect_fiber_paths(
+        self,
+        stmts: List[ast.stmt],
+        guards: Optional[List[str]] = None,
+    ) -> List[Tuple[str, Optional[str]]]:
+        """Recursively collect (guard, return_expr) paths from a block.
+
+        Handles nested ifs with guard accumulation and implicit else
+        (code after if-then-return blocks).
+
+        Returns list of (guard_string, return_expr_or_None).
+        """
+        if guards is None:
+            guards = []
+        paths: List[Tuple[str, Optional[str]]] = []
+
+        for stmt in stmts:
+            if isinstance(stmt, ast.Return) and stmt.value is not None:
+                try:
+                    ret_expr = ast.unparse(stmt.value)
+                except Exception:
+                    ret_expr = None
+                guard = " and ".join(guards) if guards else "True"
+                paths.append((guard, ret_expr))
+                return paths  # This block always returns here
+
+            if isinstance(stmt, ast.If):
+                try:
+                    test_str = ast.unparse(stmt.test)
+                except Exception:
+                    continue
+
+                # Recurse into true branch
+                true_paths = self._collect_fiber_paths(
+                    stmt.body, guards + [test_str])
+
+                # Recurse into false branch (elif/else)
+                if stmt.orelse:
+                    false_paths = self._collect_fiber_paths(
+                        stmt.orelse, guards + [f"not ({test_str})"])
+                else:
+                    false_paths = []
+
+                paths.extend(true_paths)
+                paths.extend(false_paths)
+
+                # Determine if branches always return
+                true_returns = self._block_must_return(stmt.body)
+                false_returns = bool(stmt.orelse) and self._block_must_return(stmt.orelse)
+
+                if true_returns and false_returns:
+                    return paths  # Both branches return — no fallthrough
+                # Accumulate negated guard for remaining statements
+                if true_returns and not false_returns:
+                    guards = guards + [f"not ({test_str})"]
+                elif false_returns and not true_returns:
+                    guards = guards + [test_str]
+                continue
+
+            # Skip loops/try but continue to later statements
+            if isinstance(stmt, (ast.For, ast.While, ast.Try)):
+                continue
+
+        return paths
+
+    def _block_must_return(self, stmts: List[ast.stmt]) -> bool:
+        """Check if a block of statements always returns (no fallthrough).
+
+        Conservative: returns True only when we can prove all paths return.
+        """
+        for stmt in stmts:
+            if isinstance(stmt, ast.Return):
+                return True
+            if isinstance(stmt, ast.Raise):
+                return True
+            if isinstance(stmt, ast.If):
+                true_returns = self._block_must_return(stmt.body)
+                false_returns = bool(stmt.orelse) and self._block_must_return(stmt.orelse)
+                if true_returns and false_returns:
+                    return True
+                # If true branch always returns, remaining code is the false path
+                if true_returns and not stmt.orelse:
+                    # No else, but true returns — remaining stmts are fallthrough
+                    continue
+                if true_returns and stmt.orelse and not false_returns:
+                    continue
+                if false_returns and not true_returns:
+                    continue
+        return False
+
+    def _detect_return_type(self, return_expr: str) -> Optional[str]:
+        """Detect the Python type produced by a return expression.
+
+        Only returns type names for syntactically clear cases:
+        list literals, sorted(), dict literals, etc.
+        """
+        try:
+            tree = ast.parse(return_expr, mode='eval')
+        except SyntaxError:
+            return None
+        node = tree.body
+        if isinstance(node, (ast.List, ast.ListComp)):
+            return "list"
+        if isinstance(node, (ast.Dict, ast.DictComp)):
+            return "dict"
+        if isinstance(node, (ast.Set, ast.SetComp)):
+            return "set"
+        if isinstance(node, ast.Tuple):
+            return "tuple"
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, str):
+                return "str"
+            if isinstance(node.value, int) and not isinstance(node.value, bool):
+                return "int"
+            if isinstance(node.value, float):
+                return "float"
+        # Constructor calls: sorted, list, dict, set, etc.
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            callee = node.func.id
+            _CONSTRUCTORS = {
+                "sorted": "list", "list": "list",
+                "dict": "dict", "set": "set", "frozenset": "frozenset",
+                "tuple": "tuple", "str": "str", "int": "int",
+                "float": "float", "bool": "bool", "bytes": "bytes",
+            }
+            if callee in _CONSTRUCTORS:
+                return _CONSTRUCTORS[callee]
+        return None
+
+    def _detect_return_length(self, return_expr: str) -> Optional[int]:
+        """Detect exact length for literal list/tuple returns."""
+        try:
+            tree = ast.parse(return_expr, mode='eval')
+        except SyntaxError:
+            return None
+        node = tree.body
+        if isinstance(node, (ast.List, ast.Tuple)):
+            if any(isinstance(elt, ast.Starred) for elt in node.elts):
+                return None
+            return len(node.elts)
+        return None
+
+    def _expr_uses_only(self, expr: str, allowed_names: List[str]) -> bool:
+        """Check if an expression only references allowed names (params/builtins)."""
+        try:
+            tree = ast.parse(expr, mode='eval')
+        except SyntaxError:
+            return False
+        allowed = set(allowed_names) | {
+            'True', 'False', 'None', 'abs', 'len', 'max', 'min',
+            'sorted', 'list', 'dict', 'set', 'tuple', 'int', 'float',
+            'str', 'bool', 'range', 'enumerate', 'zip', 'map', 'filter',
+            'isinstance', 'type', 'sum', 'all', 'any', 'round',
+        }
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name) and node.id not in allowed:
+                return False
+        return True
 
     def _extract_if_chain_fibers(self, node: ast.If,
                                   fibers: List[FiberClause],
                                   params: List[str]) -> None:
-        """Walk an if/elif/else chain extracting fibers."""
+        """Walk an if/elif/else chain extracting fibers.
+
+        LEGACY — kept for compatibility. New code uses _collect_fiber_paths.
+        """
         chain = []
         current: Optional[ast.If] = node
         while current is not None:
@@ -608,24 +794,36 @@ class StaticSpecAnalyzer:
         return None
 
     def _fiber_name_from_guard(self, guard: str, index: int) -> str:
-        """Generate a readable fiber name from the guard expression."""
+        """Generate a readable fiber name from the guard expression.
+
+        For compound guards like 'not (isinstance(x, int)) and isinstance(x, str)',
+        use the LAST positive (non-negated) clause for naming.
+        """
+        # Split compound guards into parts and find the last positive clause
+        parts = re.split(r'\s+and\s+', guard)
+        # Find the last non-negated part for naming
+        positive_parts = [p.strip() for p in parts if not p.strip().startswith('not ')]
+        # If all parts are negated, this is a default/else case
+        if not positive_parts:
+            return 'default'
+        # Use the last positive part for naming
+        last_pos = positive_parts[-1]
+
         # isinstance(x, Foo) → "Foo"
-        m = re.search(r'isinstance\(\w+,\s*(\w+)\)', guard)
+        m = re.search(r'isinstance\(\w+,\s*(\w+)\)', last_pos)
         if m:
             return m.group(1)
         # type(x) == Foo → "Foo"
-        m = re.search(r'type\(\w+\)\s*==\s*(\w+)', guard)
+        m = re.search(r'type\(\w+\)\s*==\s*(\w+)', last_pos)
         if m:
             return m.group(1)
         # x > 0 → "positive", x < 0 → "negative", x == 0 → "zero"
-        if '> 0' in guard or '>= 1' in guard:
+        if '> 0' in last_pos or '>= 1' in last_pos:
             return 'positive'
-        if '< 0' in guard or '<= -1' in guard:
+        if '< 0' in last_pos or '<= -1' in last_pos:
             return 'negative'
-        if '== 0' in guard or 'is None' in guard:
+        if '== 0' in last_pos or 'is None' in last_pos:
             return 'zero_or_none'
-        if 'not ' in guard and index == len(guard) - 1:
-            return 'default'
         return f'case_{index}'
 
     def _classify_guard(self, guard: str) -> str:
@@ -645,6 +843,7 @@ class StaticSpecAnalyzer:
         self,
         fibers: List[FiberClause],
         existing_ensures: List[str],
+        params: Optional[List[str]] = None,
     ) -> List[str]:
         """Derive global postconditions that hold across all fibers.
 
@@ -653,6 +852,8 @@ class StaticSpecAnalyzer:
         necessary but never sufficient.  This method bridges the gap
         by lifting per-fiber returns_expr / ensures into global
         relational postconditions.
+
+        Only emits specs referencing params/builtins, NOT local variables.
 
         Derivation rules:
         1. VALUE DISJUNCTION: If every fiber has returns_expr,
@@ -708,6 +909,13 @@ class StaticSpecAnalyzer:
             for e in common:
                 if e not in existing_set:
                     synthesized.append(e)
+
+        # Filter out specs referencing local variables (not params/builtins)
+        if params is not None:
+            synthesized = [
+                s for s in synthesized
+                if self._expr_uses_only(s, params + ['result'])
+            ]
 
         return synthesized
 
@@ -817,6 +1025,49 @@ class StaticSpecAnalyzer:
             return None
 
         return expr_str
+
+    # ── Rule 8: Collection type postconditions ────────────────────
+
+    def _infer_collection_postconditions(self, fn: ast.FunctionDef) -> List[str]:
+        """Infer type postconditions from ALL return expressions.
+
+        If every non-None return in the function produces the same
+        collection type (e.g., all returns are list literals or sorted()),
+        emit isinstance(result, T) as a global postcondition.
+
+        This catches patterns like:
+            if ...: return [a, b]
+            return sorted(l)
+        → isinstance(result, list)
+        """
+        returns: List[ast.Return] = []
+        for node in ast.walk(fn):
+            if isinstance(node, ast.Return) and node.value is not None:
+                returns.append(node)
+
+        if not returns:
+            return []
+
+        types: List[Optional[str]] = []
+        for ret in returns:
+            try:
+                expr = ast.unparse(ret.value)
+            except Exception:
+                types.append(None)
+                continue
+            types.append(self._detect_return_type(expr))
+
+        # All returns produce the same type → global isinstance
+        non_none_types = [t for t in types if t is not None]
+        if not non_none_types:
+            return []
+
+        ensures: List[str] = []
+        if len(non_none_types) == len(returns) and len(set(non_none_types)) == 1:
+            common_type = non_none_types[0]
+            ensures.append(f"isinstance(result, {common_type})")
+
+        return ensures
 
     # ── Rule 7: Raise at entry → requires ────────────────────────
 

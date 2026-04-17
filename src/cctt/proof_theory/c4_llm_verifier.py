@@ -548,6 +548,18 @@ def _collect_return_paths(
     """Recursively collect return paths with their path conditions.
 
     Returns True if all control flow paths return (no fallthrough).
+
+    Guard accumulation: when one branch of an if always returns but
+    the other doesn't (or is absent), remaining statements can only
+    be reached via the non-returning branch.  We accumulate the
+    negated guard so downstream paths have correct conditions.
+
+    Example:
+        if A: return 1       # true_returns=True
+        if B: return 2       # true_returns=True
+        return 3
+    Produces:
+        (A, 1), (not A and B, 2), (not A and not B, 3)
     """
     for i, stmt in enumerate(stmts):
         if isinstance(stmt, ast.Return):
@@ -582,7 +594,14 @@ def _collect_return_paths(
 
             if true_returns and false_returns:
                 return True
-            # If only one branch returns, continue with remaining stmts
+
+            # Accumulate negated guard for remaining statements:
+            # if one branch always returns, remaining code is only
+            # reachable via the other branch.
+            if true_returns and not false_returns:
+                guards = guards + [f"not ({test_str})"]
+            elif false_returns and not true_returns:
+                guards = guards + [test_str]
             continue
 
         if isinstance(stmt, ast.Raise):
@@ -782,6 +801,160 @@ def _is_boolean_tautology(clause: str, result_sort: str) -> Optional[str]:
 
 
 # ═══════════════════════════════════════════════════════════════════
+# Structural Tautology — isinstance / len provable from return expr
+# ═══════════════════════════════════════════════════════════════════
+
+# Builtin names that are guaranteed to produce specific types.
+# Only includes builtins that cannot be shadowed in normal Python usage.
+_COLLECTION_CONSTRUCTORS: Dict[str, Set[str]] = {
+    "list": {"list", "sorted", "list"},
+    "dict": {"dict"},
+    "set": {"set", "frozenset"},
+    "tuple": {"tuple"},
+    "str": {"str"},
+    "int": {"int", "round"},
+    "float": {"float"},
+    "bool": {"bool"},
+    "bytes": {"bytes"},
+}
+
+
+def _return_expr_produces_type(return_expr: str) -> Optional[str]:
+    """Determine the Python type that a return expression produces.
+
+    Recognizes:
+    - List literals: [a, b, c]   → list
+    - List comprehensions: [x for x in xs]  → list
+    - Dict literals: {k: v}     → dict
+    - Dict comprehensions: {k: v for k, v in items}  → dict
+    - Set literals/comprehensions: {a, b}  → set
+    - Tuple literals: (a, b)    → tuple
+    - String literals: "hello"  → str
+    - Int/float literals: 42, 3.14  → int/float
+    - Constructor calls: sorted(...), list(...)  → list
+    - Bool literals: True/False  → bool
+
+    Returns the type name or None if unknown.
+    """
+    try:
+        tree = ast.parse(return_expr, mode='eval')
+    except SyntaxError:
+        return None
+
+    node = tree.body
+
+    # List literal or list comprehension
+    if isinstance(node, (ast.List, ast.ListComp)):
+        return "list"
+
+    # Dict literal or dict comprehension
+    if isinstance(node, (ast.Dict, ast.DictComp)):
+        return "dict"
+
+    # Set literal or set comprehension
+    if isinstance(node, (ast.Set, ast.SetComp)):
+        return "set"
+
+    # Tuple literal
+    if isinstance(node, ast.Tuple):
+        return "tuple"
+
+    # Constants
+    if isinstance(node, ast.Constant):
+        if isinstance(node.value, str):
+            return "str"
+        if isinstance(node.value, bool):
+            return "bool"
+        if isinstance(node.value, int):
+            return "int"
+        if isinstance(node.value, float):
+            return "float"
+        if isinstance(node.value, bytes):
+            return "bytes"
+
+    # Constructor calls: sorted(...), list(...), dict(...), etc.
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+        callee = node.func.id
+        for type_name, constructors in _COLLECTION_CONSTRUCTORS.items():
+            if callee in constructors:
+                return type_name
+
+    return None
+
+
+def _return_expr_list_length(return_expr: str) -> Optional[int]:
+    """Determine the exact list/tuple length if statically known.
+
+    Only for literal lists/tuples with no starred elements.
+    Returns None if length cannot be determined.
+    """
+    try:
+        tree = ast.parse(return_expr, mode='eval')
+    except SyntaxError:
+        return None
+
+    node = tree.body
+
+    if isinstance(node, (ast.List, ast.Tuple)):
+        # Check for starred elements — length is unknown
+        if any(isinstance(elt, ast.Starred) for elt in node.elts):
+            return None
+        return len(node.elts)
+
+    return None
+
+
+def _is_structural_tautology(
+    clause: str,
+    return_expr: str,
+) -> Optional[str]:
+    """Detect clauses provable from the structure of the return expression.
+
+    Examples:
+    - isinstance(result, list) where return_expr is [a, b] → tautology
+    - len(result) == 2 where return_expr is [a, b] → tautology
+    - len(result) >= 1 where return_expr is [a, b, c] → tautology
+
+    Returns a reason string if tautology, None otherwise.
+    """
+    clause_stripped = clause.strip()
+
+    # isinstance(result, T) checks
+    m = re.match(r'isinstance\s*\(\s*result\s*,\s*(\w+)\s*\)', clause_stripped)
+    if m:
+        expected_type = m.group(1)
+        produced_type = _return_expr_produces_type(return_expr)
+        if produced_type == expected_type:
+            return f"structural tautology: {return_expr!r} produces {expected_type}"
+
+    # len(result) == N checks
+    m = re.match(r'len\s*\(\s*result\s*\)\s*==\s*(\d+)', clause_stripped)
+    if m:
+        expected_len = int(m.group(1))
+        actual_len = _return_expr_list_length(return_expr)
+        if actual_len is not None and actual_len == expected_len:
+            return f"structural tautology: {return_expr!r} has length {actual_len}"
+
+    # len(result) >= N checks
+    m = re.match(r'len\s*\(\s*result\s*\)\s*>=\s*(\d+)', clause_stripped)
+    if m:
+        min_len = int(m.group(1))
+        actual_len = _return_expr_list_length(return_expr)
+        if actual_len is not None and actual_len >= min_len:
+            return f"structural tautology: {return_expr!r} has length {actual_len} >= {min_len}"
+
+    # len(result) > N checks
+    m = re.match(r'len\s*\(\s*result\s*\)\s*>\s*(\d+)', clause_stripped)
+    if m:
+        min_len = int(m.group(1)) + 1
+        actual_len = _return_expr_list_length(return_expr)
+        if actual_len is not None and actual_len >= min_len:
+            return f"structural tautology: {return_expr!r} has length {actual_len} > {m.group(1)}"
+
+    return None
+
+
+# ═══════════════════════════════════════════════════════════════════
 # Core Verifier — C4 proof strategies for clause checking
 #
 # Each tactic corresponds to a C4 proof term:
@@ -842,6 +1015,19 @@ def verify_clause_on_path(
             variables={p: 'Int' for p in params},
         )
         return "verified", f"Tautology: {tautology}", C4Strategy.TAUTOLOGY, proof
+
+    # ── Tactic 1b: Structural Tautology (C4Strategy.TAUTOLOGY) ──
+    # isinstance(result, list) where return_expr is [a, b] etc.
+    if not path.is_exception and path.return_expr:
+        structural = _is_structural_tautology(clause, path.return_expr)
+        if structural:
+            proof = Z3DischargeTerm(
+                formula=clause,
+                fragment='TAUTOLOGY',
+                timeout_ms=0,
+                variables={p: 'Int' for p in params},
+            )
+            return "verified", f"StructuralTautology: {structural}", C4Strategy.TAUTOLOGY, proof
 
     # ── Build Z3 environment with sort-inferred variables ──
     env = Z3Env()

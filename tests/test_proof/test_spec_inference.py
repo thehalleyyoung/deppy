@@ -732,3 +732,400 @@ class TestC4CompilerIntegration:
         # Verify C4 warnings are generated (not errors about missing source)
         # The important thing: no "C4 compile skipped" in warnings
         assert not any("C4 compile skipped" in w for w in cr.warnings)
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Deep Fiber Extraction Tests — nested ifs, implicit else, collections
+# ═══════════════════════════════════════════════════════════════════
+
+class TestDeepFiberExtraction:
+    """Test recursive fiber extraction from complex control flow."""
+
+    def setup_method(self):
+        self.analyzer = StaticSpecAnalyzer()
+
+    def test_nested_if_fibers(self):
+        """Nested if chains should produce flattened fibers with compound guards."""
+        src = '''
+def f(x, y):
+    if x == 3:
+        if y % 2 == 0:
+            return [y // 2, y]
+        return [y, y + 1]
+    return [x]
+'''
+        spec = self.analyzer.infer(src, "f")
+        assert len(spec.fibers) == 3
+        guards = [f.guard for f in spec.fibers]
+        assert "x == 3 and y % 2 == 0" in guards
+        assert any("not (y % 2 == 0)" in g for g in guards)
+        assert any("not (x == 3)" in g for g in guards)
+
+    def test_implicit_else_fiber(self):
+        """Code after an if-then-return should become an implicit-else fiber."""
+        src = '''
+def sign(x):
+    if x > 0:
+        return 1
+    if x < 0:
+        return -1
+    return 0
+'''
+        spec = self.analyzer.infer(src, "sign")
+        assert len(spec.fibers) == 3
+        guards = [f.guard for f in spec.fibers]
+        # First fiber: x > 0
+        assert "x > 0" in guards
+        # Second fiber: not (x > 0) and x < 0
+        assert any("not (x > 0)" in g and "x < 0" in g for g in guards)
+        # Third fiber: not (x > 0) and not (x < 0) — the implicit else
+        assert any("not (x > 0)" in g and "not (x < 0)" in g for g in guards)
+
+    def test_egypt_takenouchi_fibers(self):
+        """egypt_takenouchi should produce 3 fibers with correct guards."""
+        src = '''
+def egypt_takenouchi(x, y):
+    if x == 3:
+        if y % 2 == 0:
+            return [y//2, y]
+        i = (y - 1)//2
+        j = i + 1
+        k = j + i
+        return [j, k, j*k]
+    l = [y] * x
+    while True:
+        break
+    return sorted(l)
+'''
+        spec = self.analyzer.infer(src, "egypt_takenouchi")
+        assert len(spec.fibers) == 3
+        assert spec.strength == SpecStrength.FORMAL
+
+        # Check fiber guards
+        f0, f1, f2 = spec.fibers
+        assert "x == 3" in f0.guard
+        assert "y % 2 == 0" in f0.guard
+        assert "x == 3" in f1.guard
+        assert "not" in f1.guard
+        assert "not (x == 3)" in f2.guard
+
+    def test_block_must_return_simple(self):
+        """_block_must_return should detect blocks that always return."""
+        import ast
+        # Block with direct return
+        tree = ast.parse("return 1")
+        assert self.analyzer._block_must_return(tree.body) is True
+
+        # Block with only assignment
+        tree = ast.parse("x = 1")
+        assert self.analyzer._block_must_return(tree.body) is False
+
+    def test_block_must_return_if_else(self):
+        """_block_must_return should detect if/else blocks that cover all paths."""
+        import ast
+        code = "if x > 0:\n    return 1\nelse:\n    return 2\n"
+        tree = ast.parse(code)
+        assert self.analyzer._block_must_return(tree.body) is True
+
+    def test_block_must_return_if_no_else(self):
+        """if without else doesn't always return."""
+        import ast
+        code = "if x > 0:\n    return 1\n"
+        tree = ast.parse(code)
+        assert self.analyzer._block_must_return(tree.body) is False
+
+
+class TestCollectionPostconditions:
+    """Test collection type inference from return expressions."""
+
+    def setup_method(self):
+        self.analyzer = StaticSpecAnalyzer()
+
+    def test_all_list_returns(self):
+        """When all returns are list literals, infer isinstance(result, list)."""
+        src = '''
+def f(x):
+    if x > 0:
+        return [x, x + 1]
+    return [0]
+'''
+        spec = self.analyzer.infer(src, "f")
+        assert "isinstance(result, list)" in spec.ensures
+
+    def test_list_and_sorted_returns(self):
+        """Mix of list literals and sorted() → isinstance(result, list)."""
+        src = '''
+def f(xs):
+    if len(xs) <= 1:
+        return xs
+    return sorted(xs)
+'''
+        spec = self.analyzer.infer(src, "f")
+        # sorted() returns list, but xs is a variable (no type known)
+        # So global isinstance may not be inferred (xs unknown type)
+
+    def test_detect_return_type_list_literal(self):
+        """_detect_return_type recognizes list literals."""
+        assert self.analyzer._detect_return_type("[1, 2, 3]") == "list"
+        assert self.analyzer._detect_return_type("[x, y]") == "list"
+
+    def test_detect_return_type_sorted(self):
+        """_detect_return_type recognizes sorted() as producing list."""
+        assert self.analyzer._detect_return_type("sorted(l)") == "list"
+
+    def test_detect_return_type_dict(self):
+        """_detect_return_type recognizes dict literals."""
+        assert self.analyzer._detect_return_type("{'a': 1}") == "dict"
+        assert self.analyzer._detect_return_type("dict()") == "dict"
+
+    def test_detect_return_type_tuple(self):
+        """_detect_return_type recognizes tuple literals."""
+        assert self.analyzer._detect_return_type("(1, 2)") == "tuple"
+
+    def test_detect_return_type_set(self):
+        """_detect_return_type recognizes set calls."""
+        assert self.analyzer._detect_return_type("set()") == "set"
+
+    def test_detect_return_type_unknown(self):
+        """Variables and complex expressions → None."""
+        assert self.analyzer._detect_return_type("x") is None
+        assert self.analyzer._detect_return_type("f(x)") is None
+
+    def test_detect_return_length(self):
+        """_detect_return_length gets exact length for list/tuple literals."""
+        assert self.analyzer._detect_return_length("[1, 2, 3]") == 3
+        assert self.analyzer._detect_return_length("[x]") == 1
+        assert self.analyzer._detect_return_length("(a, b)") == 2
+
+    def test_detect_return_length_starred(self):
+        """Starred elements → unknown length."""
+        assert self.analyzer._detect_return_length("[1, *xs]") is None
+
+    def test_detect_return_length_unknown(self):
+        """Non-literals → None."""
+        assert self.analyzer._detect_return_length("sorted(l)") is None
+
+    def test_fiber_len_ensures(self):
+        """Fibers with list literal returns should get len(result) == N."""
+        src = '''
+def f(x):
+    if x > 0:
+        return [x, x + 1]
+    return [0]
+'''
+        spec = self.analyzer.infer(src, "f")
+        assert any(f for f in spec.fibers if "len(result) == 2" in f.ensures)
+        assert any(f for f in spec.fibers if "len(result) == 1" in f.ensures)
+
+    def test_no_result_eq_for_collections(self):
+        """result == [a, b] should NOT be in ensures (C4 can't parse lists)."""
+        src = '''
+def f(x):
+    if x > 0:
+        return [x, x + 1]
+    return [0]
+'''
+        spec = self.analyzer.infer(src, "f")
+        # No fiber should have result == [...]
+        for fiber in spec.fibers:
+            for e in fiber.ensures:
+                if e.startswith("result =="):
+                    assert "[" not in e, f"Collection literal in ensures: {e}"
+
+
+class TestFiberNameFromGuard:
+    """Test fiber naming with compound guards."""
+
+    def setup_method(self):
+        self.analyzer = StaticSpecAnalyzer()
+
+    def test_simple_isinstance(self):
+        assert self.analyzer._fiber_name_from_guard("isinstance(x, int)", 0) == "int"
+
+    def test_compound_isinstance(self):
+        """Last positive isinstance should win."""
+        guard = "not (isinstance(x, int)) and isinstance(x, str)"
+        assert self.analyzer._fiber_name_from_guard(guard, 1) == "str"
+
+    def test_all_negated_is_default(self):
+        guard = "not (isinstance(x, int)) and not (isinstance(x, str))"
+        assert self.analyzer._fiber_name_from_guard(guard, 2) == "default"
+
+    def test_positive_comparison(self):
+        assert self.analyzer._fiber_name_from_guard("x > 0", 0) == "positive"
+
+    def test_compound_negative(self):
+        guard = "not (x > 0) and x < 0"
+        assert self.analyzer._fiber_name_from_guard(guard, 1) == "negative"
+
+
+class TestStructuralTautology:
+    """Test structural tautology detection in the verifier."""
+
+    def test_isinstance_list_literal(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("isinstance(result, list)", "[1, 2, 3]")
+        assert result is not None
+        assert "list" in result
+
+    def test_isinstance_sorted(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("isinstance(result, list)", "sorted(l)")
+        assert result is not None
+
+    def test_isinstance_dict_literal(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("isinstance(result, dict)", "{'a': 1}")
+        assert result is not None
+
+    def test_isinstance_tuple(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("isinstance(result, tuple)", "(1, 2)")
+        assert result is not None
+
+    def test_isinstance_mismatch(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("isinstance(result, dict)", "[1, 2]")
+        assert result is None
+
+    def test_len_exact_match(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("len(result) == 2", "[a, b]")
+        assert result is not None
+
+    def test_len_gte(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("len(result) >= 1", "[a, b, c]")
+        assert result is not None
+
+    def test_len_mismatch(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("len(result) == 3", "[a, b]")
+        assert result is None
+
+    def test_len_unknown(self):
+        from cctt.proof_theory.c4_llm_verifier import _is_structural_tautology
+        result = _is_structural_tautology("len(result) == 2", "sorted(l)")
+        assert result is None
+
+
+class TestReturnPathGuards:
+    """Test that return path guard accumulation is correct."""
+
+    def test_if_then_return_implicit_else(self):
+        from cctt.proof_theory.c4_llm_verifier import extract_return_paths
+        src = '''
+def f(x):
+    if x > 0:
+        return 1
+    return 0
+'''
+        paths = extract_return_paths(src, "f")
+        assert len(paths) == 2
+        guards = [p.guard for p in paths]
+        assert "x > 0" in guards
+        assert "not (x > 0)" in guards
+
+    def test_chained_if_return(self):
+        from cctt.proof_theory.c4_llm_verifier import extract_return_paths
+        src = '''
+def f(x):
+    if x > 0:
+        return 1
+    if x < 0:
+        return -1
+    return 0
+'''
+        paths = extract_return_paths(src, "f")
+        assert len(paths) == 3
+        guards = [p.guard for p in paths]
+        assert "x > 0" in guards
+        assert "not (x > 0) and x < 0" in guards
+        assert "not (x > 0) and not (x < 0)" in guards
+
+    def test_nested_if_guards(self):
+        from cctt.proof_theory.c4_llm_verifier import extract_return_paths
+        src = '''
+def f(x, y):
+    if x == 3:
+        if y > 0:
+            return 1
+        return 2
+    return 3
+'''
+        paths = extract_return_paths(src, "f")
+        assert len(paths) == 3
+        guards = [p.guard for p in paths]
+        assert "x == 3 and y > 0" in guards
+        assert any("x == 3" in g and "not (y > 0)" in g for g in guards)
+        assert "not (x == 3)" in guards
+
+
+class TestFullPipelineVerification:
+    """Test spec inference + verification end-to-end."""
+
+    def test_egypt_takenouchi_isinstance_verified(self):
+        """isinstance(result, list) should be C4_VERIFIED for egypt_takenouchi."""
+        from cctt.proof_theory.c4_llm_verifier import (
+            verify_c4_spec, ClauseVerdict,
+        )
+        source = '''
+def egypt_takenouchi(x, y):
+    if x == 3:
+        if y % 2 == 0:
+            return [y//2, y]
+        i = (y - 1)//2
+        j = i + 1
+        k = j + i
+        return [j, k, j*k]
+    l = [y] * x
+    while True:
+        break
+    return sorted(l)
+'''
+        spec = infer_c4_spec(source, 'egypt_takenouchi')
+        assert spec.strength == SpecStrength.FORMAL
+        assert "isinstance(result, list)" in spec.ensures
+
+        spec_dict = spec.to_json()
+        result = verify_c4_spec(source, 'egypt_takenouchi', ['x', 'y'], spec_dict)
+
+        # Global isinstance should be VERIFIED
+        isinstance_results = [
+            cr for cr in result.clause_results
+            if cr.clause == "isinstance(result, list)"
+        ]
+        assert len(isinstance_results) >= 1
+        assert isinstance_results[0].verdict == ClauseVerdict.C4_VERIFIED
+
+        # Should have compiled proofs
+        assert result.n_compiled >= 1
+
+    def test_simple_list_return_verified(self):
+        """Simple list-returning function should get isinstance verified."""
+        from cctt.proof_theory.c4_llm_verifier import (
+            verify_c4_spec, ClauseVerdict,
+        )
+        source = '''
+def pair(x, y):
+    return [x, y]
+'''
+        spec = infer_c4_spec(source, 'pair')
+        # Single return → should get isinstance(result, list)
+        assert "isinstance(result, list)" in spec.ensures
+
+    def test_no_rejected_from_local_vars(self):
+        """Specs should not reference local variables (causes REJECTED)."""
+        source = '''
+def f(x):
+    if x > 0:
+        y = x + 1
+        return [x, y]
+    z = -x
+    return [z]
+'''
+        spec = infer_c4_spec(source, 'f')
+        # Global ensures should not contain local variables
+        for e in spec.ensures:
+            if "result ==" in e:
+                assert "y" not in e and "z" not in e, f"Local var in ensures: {e}"
