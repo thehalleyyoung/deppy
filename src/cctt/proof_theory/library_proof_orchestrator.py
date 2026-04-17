@@ -65,7 +65,7 @@ from cctt.proof_theory.library_axioms import (
     LibraryAxiom, LibraryContract,
 )
 from cctt.proof_theory.spec_inference import (
-    C4Spec, SpecSource, SpecStrength, FiberClause as C4FiberClause,
+    C4Spec, SpecSource, SpecStrength, SpecKind as C4SpecKind, FiberClause as C4FiberClause,
     infer_c4_spec, StaticSpecAnalyzer, build_llm_spec_prompt,
 )
 from cctt.proof_theory.c4_compiler import (
@@ -82,7 +82,7 @@ from cctt.proof_theory.spec_registry import (
     compute_proof_order,
 )
 from cctt.proof_theory.spec_oracle import (
-    SpecOracle, TemplateOracle, MockLLMOracle, upgrade_spec,
+    SpecOracle, TemplateOracle, MockLLMOracle, CopilotSpecOracle, upgrade_spec,
 )
 
 logger = logging.getLogger(__name__)
@@ -2186,7 +2186,139 @@ class ProofStats:
 _proof_stats = ProofStats()
 
 
-def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
+# ═════════════════════════════════════════════════════════════════
+# §9b. Implementation ⟹ Intent Verification
+# ═════════════════════════════════════════════════════════════════
+
+def check_impl_implies_intent(
+    impl_spec: C4Spec,
+    intent_spec: C4Spec,
+    params: List[str],
+) -> Dict[str, Any]:
+    """Check whether implementation spec implies intent spec via Z3.
+
+    For each intent postcondition, checks:
+        (∧ impl.ensures) ∧ (∧ impl.requires) ⟹ intent_clause
+
+    Returns a dict with:
+        - verified: list of intent clauses proven by Z3
+        - assumed: list of intent clauses not provable (need oracle trust)
+        - failed: list of intent clauses refuted by Z3 (counterexample found)
+        - summary: human-readable summary
+    """
+    verified: List[str] = []
+    assumed: List[str] = []
+    failed: List[str] = []
+
+    try:
+        from cctt.proof_theory.c4_compiler import Z3Env
+    except ImportError:
+        # All assumed if no Z3
+        return {
+            "verified": [],
+            "assumed": intent_spec.ensures[:],
+            "failed": [],
+            "summary": "Z3 not available — all intent clauses assumed",
+        }
+
+    env = Z3Env()
+
+    # Declare params as Z3 variables
+    for p in params:
+        env.declare_var(p, 'Int')
+    env.declare_var('result', 'Int')
+
+    # Parse implementation ensures as Z3 formulas (the hypothesis)
+    impl_formulas = []
+    for clause in impl_spec.ensures:
+        z3_f = env.parse_formula(clause)
+        if z3_f is not None:
+            impl_formulas.append(z3_f)
+
+    # Also add impl requires as hypotheses
+    for clause in impl_spec.requires:
+        z3_f = env.parse_formula(clause)
+        if z3_f is not None:
+            impl_formulas.append(z3_f)
+
+    # If impl has returns_expr, add: result == returns_expr
+    if impl_spec.returns_expr:
+        ret_formula = env.parse_formula(f"result == ({impl_spec.returns_expr})")
+        if ret_formula is not None:
+            impl_formulas.append(ret_formula)
+
+    # Also add fiber-level ensures under their guards
+    for fiber in impl_spec.fibers:
+        guard_z3 = env.parse_formula(fiber.guard)
+        for clause in fiber.ensures:
+            clause_z3 = env.parse_formula(clause)
+            if guard_z3 is not None and clause_z3 is not None:
+                try:
+                    from z3 import Implies as Z3Implies
+                    impl_formulas.append(Z3Implies(guard_z3, clause_z3))
+                except ImportError:
+                    pass
+
+    # Check each intent clause
+    for intent_clause in intent_spec.ensures:
+        # Skip clauses that use constructs Z3 can't handle
+        if any(kw in intent_clause for kw in ['isinstance(', 'all(', 'any(', 'for ', 'lambda']):
+            assumed.append(intent_clause)
+            continue
+
+        intent_z3 = env.parse_formula(intent_clause)
+        if intent_z3 is None:
+            assumed.append(intent_clause)
+            continue
+
+        # Check: (∧ impl_formulas) ⟹ intent_clause
+        # Equivalent to: ¬((∧ impl_formulas) ∧ ¬intent_clause) is UNSAT
+        try:
+            from z3 import Solver, And as Z3And, Not as Z3Not, unsat, sat
+            s = Solver()
+            s.set('timeout', 3000)
+            if impl_formulas:
+                s.add(Z3And(*impl_formulas) if len(impl_formulas) > 1 else impl_formulas[0])
+            s.add(Z3Not(intent_z3))
+            result = s.check()
+            if result == unsat:
+                # ¬intent is unsat given impl → impl ⟹ intent: VERIFIED
+                verified.append(intent_clause)
+            else:
+                # Could be sat (not implied) or unknown (timeout).
+                # But sat with uninterpreted functions doesn't mean
+                # the intent is FALSE — it means Z3 can't prove it.
+                # Only mark as failed if we can prove intent is always
+                # false given impl (i.e., impl ⟹ ¬intent).
+                s2 = Solver()
+                s2.set('timeout', 2000)
+                if impl_formulas:
+                    s2.add(Z3And(*impl_formulas) if len(impl_formulas) > 1 else impl_formulas[0])
+                s2.add(intent_z3)
+                result2 = s2.check()
+                if result2 == unsat:
+                    # impl ⟹ ¬intent: intent is genuinely contradicted
+                    failed.append(intent_clause)
+                else:
+                    # Can't prove or disprove — assume (oracle trust)
+                    assumed.append(intent_clause)
+        except Exception:
+            assumed.append(intent_clause)
+
+    n_total = len(verified) + len(assumed) + len(failed)
+    summary = (f"{len(verified)}/{n_total} intent clauses Z3-verified, "
+               f"{len(assumed)} assumed, {len(failed)} failed")
+
+    return {
+        "verified": verified,
+        "assumed": assumed,
+        "failed": failed,
+        "summary": summary,
+    }
+
+
+def baseline_prove(defn: Definition, library_name: str,
+                   spec_oracle: Optional[SpecOracle] = None) -> ProofResult:
     """Prove a definition using structural/library strategies.
 
     Every proof is stated as a path theorem:
@@ -2194,27 +2326,71 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
 
     Strategy selection follows the C4 priority:
         refl > z3 > refinement_descent > invariant > path_compose > library_axiom
+
+    When a spec_oracle is provided (e.g. CopilotSpecOracle):
+      1. Static analysis produces the IMPLEMENTATION spec (what code does)
+      2. Oracle produces the INTENT spec (what code should do)
+      3. Z3 checks: implementation ⟹ intent for each clause
+      4. The result reports which intent clauses are verified vs assumed
+
+    Args:
+        defn: The definition to prove
+        library_name: Name of the library being proved
+        spec_oracle: Optional oracle for generating intent specs.
     """
-    # ── Formal spec inference (C4 language, not English) ──
-    c4_spec = infer_c4_spec(
+    params = [p for p in defn.params if p != 'self'][:5]
+
+    # ── Step 1: IMPLEMENTATION spec from static analysis ──
+    impl_spec = infer_c4_spec(
         source=defn.source, name=defn.name,
         qualname=defn.qualname,
-        params=[p for p in defn.params if p != 'self'][:5],
+        params=params,
         docstring=defn.docstring,
     )
+    impl_spec.spec_kind = C4SpecKind.IMPLEMENTATION
 
-    # ── Oracle upgrade: if static spec is insufficient, try template/LLM oracle ──
-    if not c4_spec.is_formal:
-        oracle = TemplateOracle()
-        c4_spec = upgrade_spec(
+    # ── Step 2: INTENT spec from oracle (always, when oracle available) ──
+    intent_spec = None
+    implication_results = None
+    if spec_oracle is not None:
+        from cctt.proof_theory.spec_oracle import CopilotSpecOracle
+        intent_spec = spec_oracle.generate_spec(
             source=defn.source,
             name=defn.name,
-            params=[p for p in defn.params if p != 'self'][:5],
-            static_spec=c4_spec,
-            oracle=oracle,
+            params=params,
+            static_spec=C4Spec(),  # don't pass impl — we want independent intent
             qualname=defn.qualname,
-            docstring=defn.docstring,
+            docstring=defn.docstring or "",
         )
+        if intent_spec and not intent_spec.is_trivial:
+            intent_spec.spec_kind = C4SpecKind.INTENT
+            # ── Step 3: Check implementation ⟹ intent ──
+            implication_results = check_impl_implies_intent(impl_spec, intent_spec, params)
+        else:
+            intent_spec = None
+
+    # ── Step 4: Build the unified spec for the proof ──
+    # Use intent spec (richer, semantic) when available; fall back to impl spec
+    if intent_spec is not None:
+        c4_spec = intent_spec
+        # Store the implementation spec in intent_spec field for cross-reference
+        c4_spec.intent_spec = {
+            "impl_ensures": impl_spec.ensures,
+            "impl_returns_expr": impl_spec.returns_expr,
+            "impl_fibers": [f.to_json() for f in impl_spec.fibers],
+            "implication_results": implication_results,
+        }
+    else:
+        c4_spec = impl_spec
+        # If no oracle, try template upgrade for non-formal specs
+        if not c4_spec.is_formal:
+            oracle = TemplateOracle()
+            c4_spec = upgrade_spec(
+                source=defn.source, name=defn.name,
+                params=params, static_spec=c4_spec,
+                oracle=oracle, qualname=defn.qualname,
+                docstring=defn.docstring,
+            )
     # Build the NL guarantee as a human-readable summary of the formal spec
     guarantee = _guarantee_from_c4_spec(c4_spec, defn)
     input_type = _infer_input_type(defn)
@@ -3614,7 +3790,8 @@ class Orchestrator:
                  max_files: int = 0, subpackage: str = "",
                  workers: int = 4, max_retries: int = 2,
                  use_copilot: bool = True, batch_size: int = 1,
-                 copilot_binary: str = "copilot"):
+                 copilot_binary: str = "copilot",
+                 spec_batch_size: int = 10):
         self.library_name = library_name
         self.output_dir = Path(output_dir)
         self.model = model
@@ -3626,6 +3803,18 @@ class Orchestrator:
         self.use_copilot = use_copilot
         self.batch_size = batch_size
         self.copilot = CopilotProver(model, effort, binary=copilot_binary) if use_copilot else None
+        # Spec oracle: when copilot is enabled, use CopilotSpecOracle for LLM-generated specs
+        if use_copilot:
+            cache_dir = str(self.output_dir / ".spec_cache")
+            self.spec_oracle: Optional[SpecOracle] = CopilotSpecOracle(
+                binary=copilot_binary,
+                model=model,
+                effort="low",  # specs don't need heavy reasoning
+                batch_size=spec_batch_size,
+                cache_dir=cache_dir,
+            )
+        else:
+            self.spec_oracle = None
 
     def run(self) -> LibraryProofReport:
         start_time = time.time()
@@ -3664,9 +3853,17 @@ class Orchestrator:
                 logger.error("    Error: %s", e)
             if self.copilot and (i + 1) % 10 == 0:
                 self.copilot.save_cache(cache_path)
+            if self.spec_oracle and isinstance(self.spec_oracle, CopilotSpecOracle) and (i + 1) % 20 == 0:
+                self.spec_oracle.save_cache()
 
         if self.copilot:
             self.copilot.save_cache(cache_path)
+        # Save spec oracle cache
+        if self.spec_oracle and isinstance(self.spec_oracle, CopilotSpecOracle):
+            self.spec_oracle.save_cache()
+            stats = self.spec_oracle.stats
+            logger.info("Spec oracle: %d calls, %d cache hits, %d cached specs",
+                        stats["calls"], stats["cache_hits"], stats["cached_specs"])
 
         # Phase 5: Report + emit
         report = LibraryProofReport(self.library_name, file_reports, trust_boundary,
@@ -3700,11 +3897,27 @@ class Orchestrator:
         if not definitions:
             return FileProofReport(rel, source, [], [])
 
-        # Phase A: Baseline prove
+        # Phase A: Batch LLM spec generation (if oracle available)
+        if self.spec_oracle and isinstance(self.spec_oracle, CopilotSpecOracle):
+            # Gather all definitions that need LLM specs into a batch
+            fn_batch = []
+            for defn in definitions:
+                fn_batch.append({
+                    "name": defn.name,
+                    "qualname": defn.qualname,
+                    "source": defn.source,
+                    "params": [p for p in defn.params if p != 'self'][:5],
+                    "docstring": defn.docstring or "",
+                })
+            # Pre-generate specs in batch (cached, so fast on repeat)
+            if fn_batch:
+                self.spec_oracle.generate_specs_batch(fn_batch)
+
+        # Phase B: Baseline prove (uses cached LLM specs from Phase A)
         results: List[ProofResult] = []
         needs_llm: List[Tuple[int, Definition]] = []
         for defn in definitions:
-            r = baseline_prove(defn, self.library_name)
+            r = baseline_prove(defn, self.library_name, spec_oracle=self.spec_oracle)
             results.append(r)
             if not r.checked or r.trust == TrustLevel.ASSUMED:
                 needs_llm.append((len(results) - 1, defn))

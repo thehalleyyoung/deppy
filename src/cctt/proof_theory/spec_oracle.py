@@ -31,16 +31,25 @@ Usage::
 from __future__ import annotations
 
 import ast
+import hashlib
+import json
+import logging
+import os
 import re
+import subprocess
 import textwrap
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from cctt.proof_theory.spec_inference import (
     C4Spec, SpecSource, SpecStrength, FiberClause,
     build_llm_spec_prompt, parse_llm_spec_response,
 )
+
+logger = logging.getLogger(__name__)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -500,6 +509,370 @@ class LLMSpecOracle(SpecOracle):
             return llm_spec
 
         return static_spec
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Copilot Spec Oracle — uses copilot CLI to generate intent specs
+# ═══════════════════════════════════════════════════════════════════
+
+_SPEC_SYSTEM = """\
+You are a formal specification generator for Python functions.
+Your job is to describe the INTENT of each function — what it SHOULD do,
+not merely restating what the code does.
+
+For each function, output a JSON object with these keys:
+- "requires": list of preconditions as Python boolean expressions over the parameters
+- "ensures": list of postconditions as Python boolean expressions over "result"
+- "returns_expr": the exact return expression if determinable, else null
+- "fibers": list of case-analysis objects, each with:
+    - "name": a short label for the case
+    - "guard": Python boolean expression for when this case applies
+    - "ensures": list of postconditions specific to this case
+
+Rules:
+1. Specs must be PYTHON BOOLEAN EXPRESSIONS, not English. E.g. "result >= 0", not "returns a non-negative number".
+2. Postconditions use the variable name "result" for the return value.
+3. Preconditions use the actual parameter names from the function signature.
+4. For mathematical functions, state mathematical properties (idempotence, commutativity, monotonicity, etc.)
+5. For data structure operations, state structural invariants (length preservation, containment, ordering, etc.)
+6. For predicates (is_*, has_*), ensure "isinstance(result, bool)".
+7. For constructors (__init__), state what attributes are set.
+8. Distinguish INTENT from IMPLEMENTATION: e.g. for sort(), the intent spec is
+   "all(result[i] <= result[i+1] for i in range(len(result)-1))" and
+   "set(result) == set(lst)", NOT the sorting algorithm's steps.
+9. Do NOT just restate the code. If a function says "return x + 1", saying
+   "result == x + 1" is an IMPLEMENTATION spec. The INTENT spec is the
+   mathematical property that justifies WHY x+1 is correct.
+10. For library functions (sympy, numpy, etc.), use domain knowledge about
+    what the function mathematically should do.
+
+Output ONLY valid JSON. No markdown fences, no explanation.\
+"""
+
+
+def _sha(s: str) -> str:
+    return hashlib.sha256(s.encode()).hexdigest()[:12]
+
+
+class CopilotSpecOracle(SpecOracle):
+    """Oracle that calls copilot CLI to generate intent specs.
+
+    Uses `copilot -p {prompt} --autopilot --allow-all-tools` as the LLM backend.
+    Supports batching: multiple functions per copilot call to reduce overhead.
+    Caches results to disk to avoid re-calling for the same function.
+    """
+
+    def __init__(
+        self,
+        binary: str = "copilot",
+        model: str = "",
+        effort: str = "low",
+        timeout: int = 90,
+        batch_size: int = 10,
+        cache_dir: Optional[str] = None,
+    ):
+        self.binary = binary
+        self.model = model
+        self.effort = effort
+        self.timeout = timeout
+        self.batch_size = batch_size
+        self._cache: Dict[str, C4Spec] = {}
+        self._cache_dir = Path(cache_dir) if cache_dir else None
+        self._call_count = 0
+        self._hit_count = 0
+        if self._cache_dir:
+            self._cache_dir.mkdir(parents=True, exist_ok=True)
+            self._load_disk_cache()
+
+    def _load_disk_cache(self) -> None:
+        if not self._cache_dir:
+            return
+        cache_file = self._cache_dir / "spec_cache.json"
+        if cache_file.exists():
+            try:
+                data = json.loads(cache_file.read_text())
+                for key, spec_dict in data.items():
+                    self._cache[key] = C4Spec.from_json(spec_dict)
+                logger.info("Loaded %d cached specs from %s", len(self._cache), cache_file)
+            except Exception as e:
+                logger.warning("Failed to load spec cache: %s", e)
+
+    def save_cache(self) -> None:
+        if not self._cache_dir:
+            return
+        cache_file = self._cache_dir / "spec_cache.json"
+        data = {k: v.to_json() for k, v in self._cache.items()}
+        cache_file.write_text(json.dumps(data, indent=2))
+
+    def _cache_key(self, source: str, name: str) -> str:
+        return f"{name}:{_sha(source)}"
+
+    @property
+    def source_label(self) -> SpecSource:
+        return SpecSource.LLM
+
+    def _call_copilot(self, prompt: str) -> Optional[str]:
+        """Call copilot CLI and return stdout."""
+        cmd = [self.binary, "-p", prompt, "--autopilot", "--allow-all-tools",
+               "--no-custom-instructions", "--disable-builtin-mcps", "--no-ask-user"]
+        if self.model:
+            cmd.extend(["--model", self.model])
+        if self.effort:
+            cmd.extend(["--effort", self.effort])
+        try:
+            r = subprocess.run(
+                cmd, capture_output=True, text=True,
+                timeout=self.timeout,
+                env={**os.environ, "NO_COLOR": "1"},
+            )
+            if r.returncode == 0 and r.stdout.strip():
+                return r.stdout.strip()
+            elif r.stderr:
+                logger.warning("copilot stderr: %s", r.stderr[:200])
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError) as e:
+            logger.warning("copilot call failed: %s", e)
+        return None
+
+    def _parse_json_from_response(self, raw: str) -> Optional[Any]:
+        """Extract JSON from copilot response, handling markdown fences."""
+        # Try direct parse
+        try:
+            return json.loads(raw)
+        except json.JSONDecodeError:
+            pass
+        # Strip markdown fences
+        stripped = re.sub(r'```(?:json)?\s*', '', raw).strip().rstrip('`').strip()
+        try:
+            return json.loads(stripped)
+        except json.JSONDecodeError:
+            pass
+        # Find first { ... } block
+        depth = 0
+        start = -1
+        for i, ch in enumerate(raw):
+            if ch == '{':
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0 and start >= 0:
+                    try:
+                        return json.loads(raw[start:i+1])
+                    except json.JSONDecodeError:
+                        break
+        # Find first [ ... ] block (for batch responses)
+        depth = 0
+        start = -1
+        for i, ch in enumerate(raw):
+            if ch == '[':
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == ']':
+                depth -= 1
+                if depth == 0 and start >= 0:
+                    try:
+                        return json.loads(raw[start:i+1])
+                    except json.JSONDecodeError:
+                        break
+        return None
+
+    def _spec_from_dict(self, d: Dict[str, Any]) -> C4Spec:
+        """Convert a parsed JSON dict to a C4Spec."""
+        fibers = []
+        for fb in d.get("fibers", []):
+            if isinstance(fb, dict):
+                fibers.append(FiberClause(
+                    name=fb.get("name", ""),
+                    guard=fb.get("guard", "True"),
+                    ensures=fb.get("ensures", []),
+                    returns_expr=fb.get("returns_expr"),
+                ))
+        spec = C4Spec(
+            requires=d.get("requires", []),
+            ensures=d.get("ensures", []),
+            returns_expr=d.get("returns_expr"),
+            fibers=fibers,
+            source=SpecSource.LLM,
+        )
+        spec.strength = spec.classify_strength()
+        return spec
+
+    def generate_spec(
+        self,
+        source: str,
+        name: str,
+        params: List[str],
+        static_spec: C4Spec,
+        qualname: str = "",
+        docstring: str = "",
+    ) -> C4Spec:
+        """Generate a single spec via copilot CLI."""
+        key = self._cache_key(source, qualname or name)
+        if key in self._cache:
+            self._hit_count += 1
+            return self._cache[key]
+
+        self._call_count += 1
+        prompt = f"""{_SPEC_SYSTEM}
+
+Function to specify:
+```python
+{source.strip()[:3000]}
+```
+
+Qualified name: {qualname or name}
+Parameter names: {', '.join(params)}
+{"Docstring: " + docstring[:500] if docstring else ""}
+
+Output the JSON spec object:"""
+
+        raw = self._call_copilot(prompt)
+        if not raw:
+            return static_spec
+
+        parsed = self._parse_json_from_response(raw)
+        if isinstance(parsed, dict):
+            spec = self._spec_from_dict(parsed)
+            if not spec.is_trivial:
+                self._cache[key] = spec
+                return spec
+
+        return static_spec
+
+    def generate_specs_batch(
+        self,
+        functions: List[Dict[str, Any]],
+    ) -> Dict[str, C4Spec]:
+        """Generate specs for multiple functions in one copilot call.
+
+        Args:
+            functions: List of dicts with keys: name, qualname, source, params, docstring
+
+        Returns:
+            Dict mapping qualname -> C4Spec for successfully generated specs
+        """
+        results: Dict[str, C4Spec] = {}
+        uncached: List[Dict[str, Any]] = []
+
+        for fn in functions:
+            key = self._cache_key(fn["source"], fn.get("qualname", fn["name"]))
+            if key in self._cache:
+                results[fn.get("qualname", fn["name"])] = self._cache[key]
+                self._hit_count += 1
+            else:
+                uncached.append(fn)
+
+        if not uncached:
+            return results
+
+        # Process in batches
+        for i in range(0, len(uncached), self.batch_size):
+            batch = uncached[i:i + self.batch_size]
+            batch_results = self._call_batch(batch)
+            results.update(batch_results)
+            # Save cache periodically
+            if self._cache_dir and (i + self.batch_size) % 50 == 0:
+                self.save_cache()
+
+        return results
+
+    def _call_batch(self, batch: List[Dict[str, Any]]) -> Dict[str, C4Spec]:
+        """Call copilot once for a batch of functions, fallback to individual calls."""
+        results: Dict[str, C4Spec] = {}
+
+        if len(batch) == 1:
+            fn = batch[0]
+            spec = self.generate_spec(
+                fn["source"], fn["name"],
+                fn.get("params", []),
+                C4Spec(),
+                fn.get("qualname", fn["name"]),
+                fn.get("docstring", ""),
+            )
+            if not spec.is_trivial:
+                results[fn.get("qualname", fn["name"])] = spec
+            return results
+
+        # Build batch prompt
+        fn_blocks = []
+        for idx, fn in enumerate(batch):
+            src = fn["source"].strip()[:1500]
+            doc = fn.get("docstring", "")
+            doc_line = f"\nDocstring: {doc[:200]}" if doc else ""
+            fn_blocks.append(
+                f'### Function {idx + 1}: {fn.get("qualname", fn["name"])}\n'
+                f'Parameters: {", ".join(fn.get("params", []))}{doc_line}\n'
+                f'```python\n{src}\n```\n'
+            )
+
+        prompt = f"""{_SPEC_SYSTEM}
+
+Generate specs for ALL {len(batch)} functions below.
+Output a JSON ARRAY of {len(batch)} objects, one per function, in the same order.
+Each object has keys: "name", "requires", "ensures", "returns_expr", "fibers".
+
+{"".join(fn_blocks)}
+
+Output ONLY the JSON array:"""
+
+        self._call_count += 1
+        raw = self._call_copilot(prompt)
+        if not raw:
+            # Fallback: try each individually
+            for fn in batch:
+                spec = self.generate_spec(
+                    fn["source"], fn["name"], fn.get("params", []),
+                    C4Spec(), fn.get("qualname", fn["name"]), fn.get("docstring", ""),
+                )
+                if not spec.is_trivial:
+                    results[fn.get("qualname", fn["name"])] = spec
+            return results
+
+        parsed = self._parse_json_from_response(raw)
+
+        if isinstance(parsed, list):
+            for idx, item in enumerate(parsed):
+                if idx < len(batch) and isinstance(item, dict):
+                    fn = batch[idx]
+                    spec = self._spec_from_dict(item)
+                    if not spec.is_trivial:
+                        qn = fn.get("qualname", fn["name"])
+                        key = self._cache_key(fn["source"], qn)
+                        self._cache[key] = spec
+                        results[qn] = spec
+        elif isinstance(parsed, dict):
+            # LLM returned a single object — try to match to first function
+            fn = batch[0]
+            spec = self._spec_from_dict(parsed)
+            if not spec.is_trivial:
+                qn = fn.get("qualname", fn["name"])
+                key = self._cache_key(fn["source"], qn)
+                self._cache[key] = spec
+                results[qn] = spec
+
+        # Fallback: individually call for any functions not in results
+        covered = set(results.keys())
+        for fn in batch:
+            qn = fn.get("qualname", fn["name"])
+            if qn not in covered:
+                spec = self.generate_spec(
+                    fn["source"], fn["name"], fn.get("params", []),
+                    C4Spec(), qn, fn.get("docstring", ""),
+                )
+                if not spec.is_trivial:
+                    results[qn] = spec
+
+        return results
+
+    @property
+    def stats(self) -> Dict[str, int]:
+        return {
+            "calls": self._call_count,
+            "cache_hits": self._hit_count,
+            "cached_specs": len(self._cache),
+        }
 
 
 # ═══════════════════════════════════════════════════════════════════

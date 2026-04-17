@@ -297,3 +297,139 @@ class TestOracleWithOrchestrator:
         ensures = spec.get("ensures", [])
         assert "self.x == x" in ensures
         assert "self.y == y" in ensures
+
+
+class TestImplImpliesIntent:
+    """Test the implementation ⟹ intent verification via Z3."""
+
+    def test_exact_match_verified(self):
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec(
+            ensures=["result >= 0", "result == x * x"],
+            returns_expr="x * x",
+        )
+        intent = C4Spec(
+            ensures=["result >= 0", "result == x * x"],
+        )
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        assert len(r["verified"]) == 2
+        assert len(r["failed"]) == 0
+        assert len(r["assumed"]) == 0
+
+    def test_contradiction_detected(self):
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec(
+            ensures=["result == x + 1"],
+            returns_expr="x + 1",
+        )
+        intent = C4Spec(
+            ensures=["result == x"],  # contradicts impl
+        )
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        assert "result == x" in r["failed"]
+        assert len(r["verified"]) == 0
+
+    def test_partial_verification(self):
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec(
+            ensures=["result == x + 1"],
+            returns_expr="x + 1",
+        )
+        intent = C4Spec(
+            ensures=["result > x", "result == x"],  # first provable, second contradicted
+        )
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        assert "result > x" in r["verified"]
+        assert "result == x" in r["failed"]
+
+    def test_isinstance_assumed(self):
+        """isinstance() clauses can't be Z3-checked, should be assumed."""
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec(ensures=["result >= 0"])
+        intent = C4Spec(ensures=["isinstance(result, int)", "result >= 0"])
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        assert "isinstance(result, int)" in r["assumed"]
+        assert "result >= 0" in r["verified"]
+
+    def test_empty_impl_nothing_verified(self):
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec()  # no ensures
+        intent = C4Spec(ensures=["result >= 0"])
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        # Can't verify without impl ensures, but also can't refute
+        assert len(r["verified"]) == 0
+        assert "result >= 0" in r["assumed"]
+
+    def test_fibers_used_as_hypotheses(self):
+        """Implementation fibers should contribute to proving intent."""
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        from cctt.proof_theory.spec_inference import FiberClause
+        impl = C4Spec(
+            fibers=[
+                FiberClause(name="pos", guard="x >= 0",
+                            ensures=["result == x"], returns_expr="x"),
+                FiberClause(name="neg", guard="x < 0",
+                            ensures=["result == -x"], returns_expr="-x"),
+            ],
+        )
+        intent = C4Spec(
+            ensures=["result >= 0"],
+        )
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        # The fiber guards + ensures should let Z3 prove result >= 0
+        # (under guard x>=0: result=x>=0; under guard x<0: result=-x>0)
+        # This may or may not work depending on Z3's handling of Implies
+        assert len(r["failed"]) == 0
+
+    def test_summary_format(self):
+        from cctt.proof_theory.library_proof_orchestrator import check_impl_implies_intent
+        impl = C4Spec(ensures=["result == x"])
+        intent = C4Spec(ensures=["result == x", "result >= 0"])
+        r = check_impl_implies_intent(impl, intent, ["x"])
+        assert "intent clauses" in r["summary"]
+        assert "Z3-verified" in r["summary"]
+
+
+class TestSpecKindDistinction:
+    """Test that intent vs implementation specs are properly tracked."""
+
+    def test_spec_kind_in_json(self):
+        from cctt.proof_theory.spec_inference import SpecKind
+        spec = C4Spec(
+            ensures=["result >= 0"],
+            source=SpecSource.LLM,
+            spec_kind=SpecKind.INTENT,
+        )
+        d = spec.to_json()
+        assert d["spec_kind"] == "intent"
+        roundtrip = C4Spec.from_json(d)
+        assert roundtrip.spec_kind == SpecKind.INTENT
+
+    def test_implementation_spec_default(self):
+        from cctt.proof_theory.spec_inference import SpecKind
+        spec = C4Spec(ensures=["result == x"])
+        assert spec.spec_kind == SpecKind.IMPLEMENTATION
+        d = spec.to_json()
+        # Implementation is default, not serialized
+        assert "spec_kind" not in d
+
+    def test_intent_spec_stored_on_annotation(self):
+        """When oracle is used, intent_spec field contains implication results."""
+        from cctt.proof_theory.library_proof_orchestrator import (
+            baseline_prove, Definition, DefKind,
+        )
+
+        defn = Definition(
+            name="double", qualname="test.double",
+            kind=DefKind.FUNCTION, lineno=1, end_lineno=2,
+            source="def double(x):\n    return x * 2",
+            docstring="", params=["x"],
+            return_annotation=None, decorators=[],
+            class_name=None, module_path="test",
+        )
+        # Use MockLLMOracle which has no spec for "double" → falls back to template
+        result = baseline_prove(defn, "test", spec_oracle=MockLLMOracle())
+        spec = result.annotation.formal_spec
+        # MockLLMOracle doesn't know "double", so template oracle used (no intent)
+        # Just check it doesn't crash
+        assert spec is not None

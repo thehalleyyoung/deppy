@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
-"""Step 1: Full sympy proof run via CCTT Orchestrator."""
+"""Full sympy proof run via CCTT Orchestrator.
+
+Usage:
+    # Fast baseline (no LLM, AST+template specs only):
+    PYTHONPATH=src python3 run_sympy_proof.py
+
+    # With LLM-generated intent specs (requires copilot CLI):
+    PYTHONPATH=src python3 run_sympy_proof.py --llm
+
+    # LLM on a subset (e.g. core only):
+    PYTHONPATH=src python3 run_sympy_proof.py --llm --subpackage core --max-files 20
+"""
 from __future__ import annotations
 
+import argparse
 import logging
 import json
 import sys
@@ -10,13 +22,23 @@ logging.basicConfig(level=logging.WARNING)
 
 from cctt.proof_theory.library_proof_orchestrator import Orchestrator
 
+parser = argparse.ArgumentParser(description="CCTT sympy proof runner")
+parser.add_argument("--llm", action="store_true",
+                    help="Use copilot CLI to generate LLM intent specs")
+parser.add_argument("--max-files", type=int, default=0,
+                    help="Max files to process (0 = all)")
+parser.add_argument("--subpackage", type=str, default="",
+                    help="Only process this subpackage")
+parser.add_argument("--workers", type=int, default=8)
+args = parser.parse_args()
+
 orc = Orchestrator(
     library_name="sympy",
     output_dir="examples/sympy_full_proof",
-    use_copilot=False,    # deterministic baseline prover — this IS the C4 compilation step
-    workers=8,
-    max_files=0,          # all 1532 files
-    subpackage="",        # entire sympy package
+    use_copilot=args.llm,
+    workers=args.workers,
+    max_files=args.max_files,
+    subpackage=args.subpackage,
 )
 report = orc.run()
 summary = report.summary()
