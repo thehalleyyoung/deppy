@@ -76,12 +76,12 @@ def _pre():
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9855dc70b1d785c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._a","kind":"function","src_hash":"149bbb88bae06c80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _a may be idempotent: _a(_a(x)) == _a(x)"},"spec":{"lhs":"_a(n, k, prec)","rhs":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","over":{"base":"Any"},"name":"_a_correct"},"guarantee":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._a_correct","statement":"Path(_a(x), # HINT: _a may be idempotent: _a(_a(x)) == _a(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9855dc70b1d785c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _a may be idempotent: _a(_a(x)) == _a(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._a","kind":"function","src_hash":"149bbb88bae06c80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _a may be idempotent: _a(_a(x)) == _a(x)"},"spec":{"lhs":"_a(n, k, prec)","rhs":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","over":{"base":"Any"},"name":"_a_correct"},"guarantee":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._a_correct","statement":"Path(_a(x), # HINT: _a may be idempotent: _a(_a(x)) == _a(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9855dc70b1d785c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _a may be idempotent: _a(_a(x)) == _a(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def _a(n, k, prec):
     """ Compute the inner sum in HRR formula [1]_
 

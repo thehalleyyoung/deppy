@@ -454,12 +454,12 @@ def _lucas_extrastrong_params(n):
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48cd450f1196fa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_lucas_prp","kind":"function","src_hash":"6346eb6c41e56d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lucas_prp(n)","rhs":"<unspecified:is_lucas_prp>","over":{"base":"Any"},"name":"is_lucas_prp_correct"},"guarantee":"standard lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_lucas_prp_correct","statement":"Path(is_lucas_prp(x), standard lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48cd450f1196fa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_lucas_prp","kind":"function","src_hash":"6346eb6c41e56d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lucas_prp(n)","rhs":"<unspecified:is_lucas_prp>","over":{"base":"Any"},"name":"is_lucas_prp_correct"},"guarantee":"standard lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_lucas_prp_correct","statement":"Path(is_lucas_prp(x), standard lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48cd450f1196fa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_lucas_prp(n):
     """Standard Lucas compositeness test with Selfridge parameters.  Returns
     False if n is definitely composite, and True if n is a Lucas probable

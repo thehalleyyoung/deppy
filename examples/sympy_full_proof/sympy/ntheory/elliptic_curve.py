@@ -65,25 +65,6 @@ class EllipticCurve:
 
     """
 
-# ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(a4, a6, a1), self._a1 == a1 and self._a2 == a2 and self._a3 == a3 and self._a4 == a4 and self._a6 == a6) over Any ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4 Spec [static] strength=formal                           ║
-# ║   ensures:  self._a1 == a1                                 ║
-# ║   ensures:  self._a2 == a2                                 ║
-# ║   ensures:  self._a3 == a3                                 ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → {Any | result satisfies: self._a1 ==...   ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ Trusted:                                                   ║
-# ║   lean.C4.Reduction.ReducesStar.refl                       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
-# ║   F* binding: ✗                                            ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | refl | Compiled: ✓ | bbaa3ecc80f6be98           ║
-# ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurve.__init__","kind":"method","src_hash":"c76d946c60e38939","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._a1 == a1 and self._a2 == a2 and self._a3 == a3 and self._a4 == a4 and self._a6 == a6"},"spec":{"lhs":"__init__(a4, a6, a1)","rhs":"self._a1 == a1 and self._a2 == a2 and self._a3 == a3 and self._a4 == a4 and self._a6 == a6","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._a1 == a1; self._a2 == a2; self._a3 == a3","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbaa3ecc80f6be98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._a1 == a1","self._a2 == a2","self._a3 == a3","self._a4 == a4","self._a6 == a6"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, a4, a6, a1=0, a2=0, a3=0, modulus=0):
         if modulus == 0:
             domain = QQ
@@ -167,23 +148,6 @@ class EllipticCurve:
             return True
         return self._poly.subs({self.x: x1, self.y: y1, self.z: z1}) == 0
 
-# ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), self._poly.__repr__()) over Any           ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4 Spec [static] strength=formal                           ║
-# ║   returns:  self._poly.__repr__()                          ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ Trusted:                                                   ║
-# ║   lean.C4.Reduction.ReducesStar.refl                       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
-# ║   F* binding: ✗                                            ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | refl | Compiled: ✓ | 24fbdec07d3bfaea           ║
-# ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurve.__repr__","kind":"method","src_hash":"cbee87b7deff44a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self._poly.__repr__()","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self._poly.__repr__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24fbdec07d3bfaea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._poly.__repr__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return self._poly.__repr__()
 
@@ -281,12 +245,12 @@ class EllipticCurve:
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a06697d06a38595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurve.points_x","kind":"method","src_hash":"9215de674e945cf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"points_x(x)","rhs":"<unspecified:points_x>","over":{"base":"Any"},"name":"points_x_correct"},"guarantee":"returns points on the curve for the given x-coordinate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.elliptic_curve.EllipticCurve.points_x_correct","statement":"Path(points_x(x), returns points on the curve for the given x-coordinate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a06697d06a38595","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurve.points_x","kind":"method","src_hash":"9215de674e945cf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"points_x(x)","rhs":"<unspecified:points_x>","over":{"base":"Any"},"name":"points_x_correct"},"guarantee":"returns points on the curve for the given x-coordinate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.elliptic_curve.EllipticCurve.points_x_correct","statement":"Path(points_x(x), returns points on the curve for the given x-coordinate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a06697d06a38595","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def points_x(self, x):
         """Returns points on the curve for the given x-coordinate."""
         pt = []
@@ -478,24 +442,6 @@ class EllipticCurve:
         return self._domain.to_sympy(c4**3 / self._discrim)
 
     @property
-# ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), len(self.points())) over {Any | not (self.characteristic == 0)} ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4 Spec [static] strength=formal                           ║
-# ║   requires: not (self.characteristic == 0)                 ║
-# ║   returns:  len(self.points())                             ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ order : {Any | not (self.characteristic == 0)} → Any       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ Trusted:                                                   ║
-# ║   lean.C4.Reduction.ReducesStar.refl                       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
-# ║   F* binding: ✗                                            ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f31aefec75d3145           ║
-# ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurve.order","kind":"property","src_hash":"66e8ca98402cf8ee","in":{"base":"Any","pred":"not (self.characteristic == 0)"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"len(self.points())","over":{"base":"Any","pred":"not (self.characteristic == 0)"},"name":"order_correct"},"guarantee":"returns len(self.points())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f31aefec75d3145","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.characteristic == 0)"],"returns_expr":"len(self.points())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.characteristic","self.points"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """
         Number of points in Finite field.
@@ -552,12 +498,12 @@ class EllipticCurve:
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e52ae580f2d95fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurvePoint","kind":"class","src_hash":"8adac5805d25e99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EllipticCurvePoint(*args)","rhs":"correctly constructs a EllipticCurvePoint instance","over":{"base":"Any"},"name":"EllipticCurvePoint_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'x') and hasattr(self, 'y') and hasattr(self, 'z') and hasattr(self, '_curve') and hasattr(self, '_domain')","kind":"class","induction":"structural on x, y, z, _curve"}],"methods_preserving":["__init__","__add__","__lt__","__mul__","__rmul__","__neg__","__repr__","__sub__","order"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e52ae580f2d95fe","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'x')","hasattr(self, 'y')","hasattr(self, 'z')","hasattr(self, '_curve')","hasattr(self, '_domain')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function EllipticCurvePoint not found in source"]}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurvePoint","kind":"class","src_hash":"8adac5805d25e99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EllipticCurvePoint(*args)","rhs":"correctly constructs a EllipticCurvePoint instance","over":{"base":"Any"},"name":"EllipticCurvePoint_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'x') and hasattr(self, 'y') and hasattr(self, 'z') and hasattr(self, '_curve') and hasattr(self, '_domain')","kind":"class","induction":"structural on x, y, z, _curve"}],"methods_preserving":["__init__","__add__","__lt__","__mul__","__rmul__","__neg__","__repr__","__sub__","order"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e52ae580f2d95fe","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'x')","hasattr(self, 'y')","hasattr(self, 'z')","hasattr(self, '_curve')","hasattr(self, '_domain')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function EllipticCurvePoint not found in source"]}}
 class EllipticCurvePoint:
     """
     Point of Elliptic Curve
@@ -650,12 +596,12 @@ class EllipticCurvePoint:
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9da2229f39177a52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurvePoint.__add__","kind":"method","src_hash":"b5e937dc98398830","in":{"base":"Any","pred":"hasattr(p, 'z') and hasattr(p, 'x') and hasattr(p, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(p)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(p, 'z') and hasattr(p, 'x') and hasattr(p, 'y')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9da2229f39177a52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'z')","hasattr(p, 'x')","hasattr(p, 'y')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.x","p.y","p.z","self._curve","self.point_at_infinity","self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.elliptic_curve.EllipticCurvePoint.__add__","kind":"method","src_hash":"b5e937dc98398830","in":{"base":"Any","pred":"hasattr(p, 'z') and hasattr(p, 'x') and hasattr(p, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(p)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(p, 'z') and hasattr(p, 'x') and hasattr(p, 'y')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9da2229f39177a52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'z')","hasattr(p, 'x')","hasattr(p, 'y')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.x","p.y","p.z","self._curve","self.point_at_infinity","self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, p):
         if self.z == 0:
             return p

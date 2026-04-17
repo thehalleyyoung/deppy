@@ -35,12 +35,12 @@ from sympy.utilities.misc import as_int
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88959c6e751e6463  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.symmetric_residue","kind":"function","src_hash":"a4b6c3048658a4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_residue(a, m)","rhs":"<unspecified:symmetric_residue>","over":{"base":"Any"},"name":"symmetric_residue_correct"},"guarantee":"return the residual mod m such that it is within half of the modulus","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.symmetric_residue_correct","statement":"Path(symmetric_residue(x), return the residual mod m such that it is within half of the modulus)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88959c6e751e6463","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.symmetric_residue","kind":"function","src_hash":"a4b6c3048658a4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_residue(a, m)","rhs":"<unspecified:symmetric_residue>","over":{"base":"Any"},"name":"symmetric_residue_correct"},"guarantee":"return the residual mod m such that it is within half of the modulus","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.symmetric_residue_correct","statement":"Path(symmetric_residue(x), return the residual mod m such that it is within half of the modulus)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88959c6e751e6463","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def symmetric_residue(a, m):
     """Return the residual mod m such that it is within half of the modulus.
 

@@ -33,12 +33,12 @@ but cannot be defined there without causing circular imports.
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8d445e0852bf343  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable","kind":"class","src_hash":"16b85b5caf5f9ab4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Printable(*args)","rhs":"correctly constructs a Printable instance","over":{"base":"Any"},"name":"Printable_class_invariant"},"guarantee":"correctly constructs a Printable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8d445e0852bf343","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Printable not found in source"]}}
+# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable","kind":"class","src_hash":"16b85b5caf5f9ab4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Printable(*args)","rhs":"correctly constructs a Printable instance","over":{"base":"Any"},"name":"Printable_class_invariant"},"guarantee":"correctly constructs a Printable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8d445e0852bf343","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Printable not found in source"]}}
 class Printable:
     """
     The default implementation of printing for SymPy classes.
@@ -69,12 +69,12 @@ class Printable:
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15a4da911ea2d1f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable.__str__","kind":"method","src_hash":"083e55f6a87b2883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"sstr(self, order=None)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns sstr(self, order=None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15a4da911ea2d1f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(self, order=None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
+# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable.__str__","kind":"method","src_hash":"083e55f6a87b2883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"sstr(self, order=None)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns sstr(self, order=None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15a4da911ea2d1f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(self, order=None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         from sympy.printing.str import sstr
         return sstr(self, order=None)
@@ -92,12 +92,12 @@ class Printable:
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5147c6d0091c6834           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable._repr_disabled","kind":"method","src_hash":"278cdacdb03243ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_repr_disabled()","rhs":"None","over":{"base":"Any"},"name":"_repr_disabled_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5147c6d0091c6834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
+# @cctt_verify {"v":2,"sym":"sympy.core._print_helpers.Printable._repr_disabled","kind":"method","src_hash":"278cdacdb03243ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_repr_disabled()","rhs":"None","over":{"base":"Any"},"name":"_repr_disabled_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5147c6d0091c6834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _repr_disabled(self):
         """
         No-op repr function used to disable jupyter display hooks.

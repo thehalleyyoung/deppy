@@ -67,12 +67,12 @@ def _as_int_ceiling(a):
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72b7823f86ceb158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve","kind":"class","src_hash":"fd564a96e2027b01","in":{"base":"Any","pred":"isinstance(n, slice)"},"out":{"base":"Any","pred":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist))) and n >= 2"},"spec":{"lhs":"Sieve(*args)","rhs":"correctly constructs a Sieve instance","over":{"base":"Any","pred":"isinstance(n, slice)"},"name":"Sieve_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_n') and hasattr(self, '_list') and hasattr(self, '_tlist') and hasattr(self, '_mlist') and hasattr(self, 'sieve_interval')","kind":"class","induction":"structural on _n, _list, _tlist, _mlist"}],"methods_preserving":["__init__","__repr__","_reset","extend","_primerange","extend_to_no","primerange","totientrange","mobiusrange","search","__contains__","__iter__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b7823f86ceb158","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_n')","hasattr(self, '_list')","hasattr(self, '_tlist')","hasattr(self, '_mlist')","hasattr(self, 'sieve_interval')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Sieve not found in source"]}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve","kind":"class","src_hash":"fd564a96e2027b01","in":{"base":"Any","pred":"isinstance(n, slice)"},"out":{"base":"Any","pred":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist))) and n >= 2"},"spec":{"lhs":"Sieve(*args)","rhs":"correctly constructs a Sieve instance","over":{"base":"Any","pred":"isinstance(n, slice)"},"name":"Sieve_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_n') and hasattr(self, '_list') and hasattr(self, '_tlist') and hasattr(self, '_mlist') and hasattr(self, 'sieve_interval')","kind":"class","induction":"structural on _n, _list, _tlist, _mlist"}],"methods_preserving":["__init__","__repr__","_reset","extend","_primerange","extend_to_no","primerange","totientrange","mobiusrange","search","__contains__","__iter__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b7823f86ceb158","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_n')","hasattr(self, '_list')","hasattr(self, '_tlist')","hasattr(self, '_mlist')","hasattr(self, 'sieve_interval')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Sieve not found in source"]}}
 class Sieve:
     """A list of prime numbers, implemented as a dynamically
     growing sieve of Eratosthenes. When a lookup is requested involving
@@ -338,23 +338,6 @@ class Sieve:
         while len(self._list) < i:
             self.extend(int(self._list[-1] * 1.5))
 
-# ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primerange(a, b), <unspecified:primerange>) over Any  ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4 Spec [static] strength=trivial                          ║
-# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ primerange : Any → Any                                     ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ Trusted:                                                   ║
-# ║   z3.Solver.check                                          ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
-# ║   F* binding: ✗                                            ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7994f887048cf7a  ║
-# ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.primerange","kind":"method","src_hash":"e06ef93b57ce9d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primerange(a, b)","rhs":"<unspecified:primerange>","over":{"base":"Any"},"name":"primerange_correct"},"guarantee":"generate all prime numbers in the range [2, a) or [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.primerange_correct","statement":"Path(primerange(x), generate all prime numbers in the range [2, a) or [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7994f887048cf7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def primerange(self, a, b=None):
         """Generate all prime numbers in the range [2, a) or [a, b).
 
@@ -518,12 +501,12 @@ class Sieve:
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
 # ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f147a77c687a052  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.search","kind":"method","src_hash":"d5feb8247bb090b6","in":{"base":"Any","pred":"not (n < 2)"},"out":{"base":"Any"},"spec":{"lhs":"search(n)","rhs":"<unspecified:search>","over":{"base":"Any","pred":"not (n < 2)"},"name":"search_correct"},"guarantee":"return the indices i, j of the primes that bound n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.search_correct","statement":"Path(search(x), return the indices i, j of the primes that bound n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f147a77c687a052","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 2)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.search","kind":"method","src_hash":"d5feb8247bb090b6","in":{"base":"Any","pred":"not (n < 2)"},"out":{"base":"Any"},"spec":{"lhs":"search(n)","rhs":"<unspecified:search>","over":{"base":"Any","pred":"not (n < 2)"},"name":"search_correct"},"guarantee":"return the indices i, j of the primes that bound n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.search_correct","statement":"Path(search(x), return the indices i, j of the primes that bound n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f147a77c687a052","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 2)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def search(self, n):
         """Return the indices i, j of the primes that bound n.
 
@@ -1262,12 +1245,12 @@ def primerange(a, b=None):
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d92467d4e4c2e8c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.randprime","kind":"function","src_hash":"c8bbe002f26a8c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randprime(a, b)","rhs":"<unspecified:randprime>","over":{"base":"Any"},"name":"randprime_correct"},"guarantee":"return a random prime number in the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.randprime_correct","statement":"Path(randprime(x), return a random prime number in the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92467d4e4c2e8c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.randprime","kind":"function","src_hash":"c8bbe002f26a8c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randprime(a, b)","rhs":"<unspecified:randprime>","over":{"base":"Any"},"name":"randprime_correct"},"guarantee":"return a random prime number in the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.randprime_correct","statement":"Path(randprime(x), return a random prime number in the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92467d4e4c2e8c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def randprime(a, b):
     """ Return a random prime number in the range [a, b).
 
@@ -1407,12 +1390,12 @@ def primorial(n, nth=True):
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3858dbeeab3a1d0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.cycle_length","kind":"function","src_hash":"5b501f1c38a017e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_length(f, x0, nmax)","rhs":"<unspecified:cycle_length>","over":{"base":"Any"},"name":"cycle_length_correct"},"guarantee":"for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.cycle_length_correct","statement":"Path(cycle_length(x), for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3858dbeeab3a1d0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.cycle_length","kind":"function","src_hash":"5b501f1c38a017e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_length(f, x0, nmax)","rhs":"<unspecified:cycle_length>","over":{"base":"Any"},"name":"cycle_length_correct"},"guarantee":"for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.cycle_length_correct","statement":"Path(cycle_length(x), for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3858dbeeab3a1d0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def cycle_length(f, x0, nmax=None, values=False):
     """For a given iterated sequence, return a generator that gives
     the length of the iterated cycle (lambda) and the length of terms

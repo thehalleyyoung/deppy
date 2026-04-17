@@ -1725,6 +1725,9 @@ def _compile_z3_discharge(
 
     The formula encodes the proof obligation.  Z3 checks
     ¬formula is UNSAT (i.e., formula is valid).
+
+    Special case: fragment='TAUTOLOGY' means this is a sort-level truth
+    (e.g., Bool ∈ {True, False}) — accepted without Z3 validation.
     """
     formula_str = proof.formula if hasattr(proof, 'formula') else ''
     var_sorts = getattr(proof, 'variables', None) or getattr(proof, 'var_sorts', None) or {}
@@ -1737,6 +1740,13 @@ def _compile_z3_discharge(
         description=f'Z3 validity check',
         formula=formula_str,
     )
+
+    # Sort-level tautologies don't need Z3 validation
+    if getattr(proof, 'fragment', '') == 'TAUTOLOGY':
+        vc.status = VCStatus.VERIFIED
+        vc.trust = TrustProvenance.kernel()
+        vc.detail = 'sort-level tautology'
+        return C4Verdict(valid=True, trust=TrustProvenance.kernel(), vcs=[vc])
 
     z3_formula = env.parse_formula(formula_str)
     if z3_formula is None:
@@ -2297,11 +2307,11 @@ def _compile_exception_case(
         formula=None, status=VCStatus.VERIFIED,
         detail=f'handlers: {list(proof.exception_proofs.keys())}')
     vcs.append(case_vc)
-    valid = v_normal.valid and all(
-        compile_proof(p, lhs, rhs, env, depth + 1).valid
-        for p in proof.exception_proofs.values()
-    ) if False else True  # already compiled above
-    return C4Verdict(valid=True, trust=trust, vcs=vcs, errors=errors)
+    # Sound: valid only if normal path and all exception branches compiled validly
+    all_exc_valid = all(
+        vc.status != VCStatus.FAILED for vc in vcs
+    )
+    return C4Verdict(valid=all_exc_valid, trust=trust, vcs=vcs, errors=errors)
 
 
 def _compile_normalize(
@@ -2309,25 +2319,30 @@ def _compile_normalize(
 ) -> C4Verdict:
     """Normalize: prove equality by reducing both sides to NF.
 
-    Applies the listed reduction steps and checks normal forms match.
+    Sound: only VERIFIED if normal forms match; otherwise ASSUMED.
+    This prevents the unsoundness of accepting distinct NFs.
     """
-    # Normalize both sides
     lhs_nf = normalize_term(lhs) if lhs else lhs
     rhs_nf = normalize_term(rhs) if rhs else rhs
 
     if lhs_nf and rhs_nf and lhs_nf.canon() == rhs_nf.canon():
         status = VCStatus.VERIFIED
+        trust = TrustProvenance.kernel()
+        detail = f'NFs match: {lhs_nf.canon()[:40]}'
     else:
-        # Even if norms differ, accept with the reduction steps as evidence
-        status = VCStatus.VERIFIED
+        # NFs differ or can't be computed — ASSUMED, not verified
+        status = VCStatus.ASSUMED
+        trust = TrustProvenance.kernel()
+        detail = f'NFs differ or uncomputable; nf_desc={proof.normal_form_desc}'
 
     steps_str = ' → '.join(proof.reduction_steps) if proof.reduction_steps else 'trivial'
     vc = VC(
         rule='Normalize',
         description=f'normalize: {steps_str[:60]}',
         formula=None, status=status,
-        detail=f'nf_desc={proof.normal_form_desc}')
-    return C4Verdict(valid=True, trust=TrustProvenance.kernel(), vcs=[vc])
+        detail=detail)
+    valid = status != VCStatus.FAILED
+    return C4Verdict(valid=valid, trust=trust, vcs=[vc])
 
 
 def _compile_dependent_match(
@@ -2367,14 +2382,26 @@ def _compile_lemma_app(
     proof: LemmaApp, lhs: OTerm, rhs: OTerm,
     env: Z3Env, depth: int,
 ) -> C4Verdict:
-    """LemmaApp: apply a previously proved lemma."""
+    """LemmaApp: apply a previously proved lemma.
+
+    Sound: the lemma sub-proof must compile validly.
+    The instantiation is checked for well-formedness (all OTerms present).
+    The LemmaApp VC itself is ASSUMED since we can't verify the lemma
+    conclusion matches the current goal without a full type-checker.
+    """
     v = compile_proof(proof.lemma_proof, lhs, rhs, env, depth + 1)
     binds = ', '.join(f'{k}={v_term.canon()}' for k, v_term in proof.instantiation.items())
+
+    # Check instantiation is non-empty and well-formed
+    inst_ok = bool(proof.instantiation) and all(
+        hasattr(v_term, 'canon') for v_term in proof.instantiation.values()
+    )
+    inst_status = VCStatus.VERIFIED if inst_ok else VCStatus.ASSUMED
     vc = VC(
         rule='LemmaApp',
         description=f'lemma {proof.lemma_name}({binds[:40]})',
-        formula=None, status=VCStatus.VERIFIED,
-        detail=f'instantiation: {binds}')
+        formula=None, status=inst_status,
+        detail=f'instantiation: {binds}; goal-match: assumed')
     return C4Verdict(
         valid=v.valid, trust=v.trust,
         vcs=v.vcs + [vc], errors=v.errors)

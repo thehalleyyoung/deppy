@@ -40,24 +40,6 @@ from sympy.ntheory.residue_ntheory import _sqrt_mod_prime_power
 # ╚════════════════════════════════════════════════════════════╝
 # @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial","kind":"class","src_hash":"445b131f48f62407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SievePolynomial(*args)","rhs":"correctly constructs a SievePolynomial instance","over":{"base":"Any"},"name":"SievePolynomial_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'a') and hasattr(self, 'b') and hasattr(self, 'a2') and hasattr(self, 'ab') and hasattr(self, 'b2')","kind":"class","induction":"structural on a, b, a2, ab"}],"methods_preserving":["__init__","eval_u","eval_v"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1123a03e781a7543","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'a')","hasattr(self, 'b')","hasattr(self, 'a2')","hasattr(self, 'ab')","hasattr(self, 'b2')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SievePolynomial not found in source"]}}
 class SievePolynomial:
-# ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(a, b, N), self.a == a and self.b == b) over Any ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4 Spec [static] strength=formal                           ║
-# ║   ensures:  self.a == a                                    ║
-# ║   ensures:  self.b == b                                    ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → {Any | result satisfies: self.a == a...   ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ Trusted:                                                   ║
-# ║   lean.C4.Reduction.ReducesStar.refl                       ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
-# ║   F* binding: ✗                                            ║
-# ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c80d09bbdedb949           ║
-# ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.__init__","kind":"method","src_hash":"12f1d1d2a3d6cbcb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.a == a and self.b == b"},"spec":{"lhs":"__init__(a, b, N)","rhs":"self.a == a and self.b == b","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.a == a; self.b == b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c80d09bbdedb949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.a == a","self.b == b"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, a, b, N):
         """This class denotes the sieve polynomial.
         Provide methods to compute `(a*x + b)**2 - N` and

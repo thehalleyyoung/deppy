@@ -182,12 +182,12 @@ def count_digits(n, b=10):
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
 # ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6b428c185cbab5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.is_palindromic","kind":"function","src_hash":"51a794469cc14cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(n, b)","rhs":"_palindromic(digits(n, b), 1)","over":{"base":"Any"},"name":"is_palindromic_correct"},"guarantee":"returns _palindromic(digits(n, b), 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b428c185cbab5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_palindromic(digits(n, b), 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.is_palindromic","kind":"function","src_hash":"51a794469cc14cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(n, b)","rhs":"_palindromic(digits(n, b), 1)","over":{"base":"Any"},"name":"is_palindromic_correct"},"guarantee":"returns _palindromic(digits(n, b), 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b428c185cbab5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_palindromic(digits(n, b), 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_palindromic(n, b=10):
     """return True if ``n`` is the same when read from left to right
     or right to left in the given base, ``b``.

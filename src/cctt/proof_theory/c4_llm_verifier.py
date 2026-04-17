@@ -897,7 +897,12 @@ def verify_clause_on_path(
         return "assumed", f"goal not Boolean-sorted: {goal_str}", None, None
 
     # Build the full proof formula for ProofTerm emission
-    full_formula = " and ".join(hyp_formulas) + " => " + goal_str if hyp_formulas else goal_str
+    # Use Python-style implication: not(hyps) or goal — parseable by Z3Env
+    if hyp_formulas:
+        hyps_conj = " and ".join(f"({h})" for h in hyp_formulas)
+        full_formula = f"not ({hyps_conj}) or ({goal_str})"
+    else:
+        full_formula = goal_str
 
     # ── Tactic 2: Z3Discharge (C4Strategy.Z3_DISCHARGE) ──
     # Pure Z3 check with NO axioms — this is the kernel-level tactic.

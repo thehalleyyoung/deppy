@@ -673,10 +673,17 @@ def _try_oterm_spec_check(
 
     # Direct canonical form match
     if nf_stripped.canon() == nf_p.canon():
-        # Safety: check for OUnknown in either term
+        # Safety: check for OUnknown in either term.
+        # Exception: when BOTH sides have the same canon (including unknowns),
+        # the match is still valid — spec(inputs, prog(inputs)) = eq(prog, prog)
+        # = True. The unknowns cancel out because they appear identically in
+        # both the program and the stripped spec.
         from .denotation import _contains_unknown
         if _contains_unknown(nf_p) or _contains_unknown(nf_stripped):
-            return None
+            # Only reject if the unknowns are in DIFFERENT positions
+            if nf_stripped.canon() != nf_p.canon():
+                return None
+            # Same canon with same unknowns — still valid, but require BT
         # BT confirmation: the OTerm compiler is lossy, so verify
         # that spec(inputs, program(inputs)) is True on concrete inputs.
         bt_ok = _bt_confirm_spec(source, spec_source, prog_params,
@@ -1857,9 +1864,28 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
     remaining_ms = max(100, int((_z3_deadline - time.monotonic()) * 1000))
     per_fiber_ms = max(200, remaining_ms // max(len(fiber_combos), 1))
 
+    # Vacuous proof guard: if the Z3 compiler dropped all computation
+    # (both programs compiled to the same trivial constant like NoneObj),
+    # per-fiber Z3 checking would prove None==None on every fiber — a
+    # vacuous proof that hides real differences.  Mark fibers as
+    # inconclusive instead of equivalent when this happens.
+    _z3_vacuous = False
+    if (len(secs_f) == 1 and len(secs_g) == 1
+            and secs_f[0].term.eq(secs_g[0].term)
+            and (_has_unmodeled_features(source_f) or
+                 _has_unmodeled_features(source_g))):
+        _z3_vacuous = True
+
     early_neq = False
     z3_oom = False  # track Z3 out-of-memory
     for combo in fiber_combos:
+        if _z3_vacuous:
+            # Compilation was vacuous — mark inconclusive
+            judgments[combo] = LocalJudgment(
+                fiber=combo, is_equivalent=None,
+                explanation='vacuous compilation (unmodeled features)')
+            continue
+
         if time.monotonic() > _z3_deadline:
             judgments[combo] = LocalJudgment(
                 fiber=combo, is_equivalent=None,

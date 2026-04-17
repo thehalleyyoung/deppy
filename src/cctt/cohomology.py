@@ -44,12 +44,9 @@ class CechResult:
             return False
         if self.h0 > 0 and self.h1_rank == 0 and self.unknown_fibers == 0:
             return True
-        # Partial coverage: only declare equivalence if we verified
-        # a majority of fibers (>= 50%)
-        if self.h0 > 0 and self.h1_rank == 0 and self.total_fibers > 0:
-            coverage = self.h0 / self.total_fibers
-            if coverage >= 0.5:
-                return True
+        # Partial coverage is UNSOUND: unknown fibers may harbour
+        # counterexamples.  Require full verification (0 unknown fibers)
+        # for a positive equivalence claim.
         return None
 
 
