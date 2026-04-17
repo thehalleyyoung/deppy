@@ -126,6 +126,25 @@ class ClauseVerdict(Enum):
     REJECTED = auto()      # Clause not in C4 language
 
 
+class C4Strategy(Enum):
+    """Which C4 proof strategy was used to verify a clause.
+
+    Each maps to a C4 proof term constructor:
+      Z3Discharge        — direct Z3 validity (cheapest)
+      CasesSplit          — exhaustive case analysis over branch guards
+      RefinementDescent   — fiber cover {φᵢ} + per-fiber proof + overlap
+      FiberDecomposition  — per-fiber proof, disjoint fibers
+      LibraryAxiom        — trusted builtin/library axiom injection
+      Tautology           — sort-aware trivial truth (Bool ∈ {True,False})
+    """
+    Z3_DISCHARGE = "Z3Discharge"
+    CASES_SPLIT = "CasesSplit"
+    REFINEMENT_DESCENT = "RefinementDescent"
+    FIBER_DECOMPOSITION = "FiberDecomposition"
+    LIBRARY_AXIOM = "LibraryAxiom"
+    TAUTOLOGY = "Tautology"
+
+
 @dataclass
 class ReturnPath:
     """A single return path through a function.
@@ -145,6 +164,7 @@ class ClauseResult:
     clause: str
     verdict: ClauseVerdict
     detail: str = ""
+    strategy: Optional[C4Strategy] = None  # which C4 proof strategy was used
     # Per-path breakdown (which paths verified this clause)
     path_results: List[Tuple[str, str]] = field(default_factory=list)
     # (path_guard, "verified"/"assumed"/"failed")
@@ -210,6 +230,7 @@ class C4SpecVerdict:
                     "clause": cr.clause,
                     "verdict": cr.verdict.name,
                     "detail": cr.detail,
+                    "strategy": cr.strategy.value if cr.strategy else None,
                     "path_results": cr.path_results,
                 }
                 for cr in self.clause_results
@@ -685,7 +706,15 @@ def _is_boolean_tautology(clause: str, result_sort: str) -> Optional[str]:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Core Verifier — Z3-based clause checking per path (with tactics)
+# Core Verifier — C4 proof strategies for clause checking
+#
+# Each tactic corresponds to a C4 proof term:
+#   Tautology       → sort-aware trivial truth (no proof needed)
+#   Z3Discharge     → direct Z3 validity check (cheapest real tactic)
+#   LibraryAxiom    → inject trusted builtins (abs, max, min, len)
+#                     then re-check via Z3Discharge under axioms
+#   CasesSplit      → verify per-path under branch guards (exhaustive)
+#   RefinementDescent → verify per-fiber under fiber guards + overlap
 # ═══════════════════════════════════════════════════════════════════
 
 def verify_clause_on_path(
@@ -695,16 +724,17 @@ def verify_clause_on_path(
     params: List[str],
     func_name: str = "",
     source: str = "",
-) -> Tuple[str, str]:
-    """Verify one clause on one return path via Z3 with C4 tactics.
+) -> Tuple[str, str, Optional[C4Strategy]]:
+    """Verify one clause on one return path via C4 proof strategies.
 
-    Tactics applied (in order):
-    1. Tautology detection (sort-aware)
-    2. Z3Discharge with sort inference
-    3. Builtin axiom injection (abs, max, min, len)
-    4. Direct substitution fallback
+    Strategy pipeline (ordered by C4 proof-term specificity):
+    1. Tautology — sort-aware trivial truth (Bool ∈ {True,False} etc.)
+    2. Z3Discharge — direct Z3 ¬(hyp ∧ ¬goal) check, no axioms
+    3. LibraryAxiom + Z3Discharge — inject builtin axioms then retry Z3
 
-    Returns (verdict, detail) where verdict ∈ {"verified", "assumed", "failed"}.
+    Returns (verdict, detail, strategy) where:
+        verdict  ∈ {"verified", "assumed", "failed"}
+        strategy ∈ C4Strategy or None
     """
     try:
         from cctt.proof_theory.c4_compiler import Z3Env
@@ -713,82 +743,121 @@ def verify_clause_on_path(
             unsat, sat,
         )
     except ImportError:
-        return "assumed", "Z3 not available"
+        return "assumed", "Z3 not available", None
 
     if path.is_exception:
-        return "assumed", "exception path — clause doesn't apply"
+        return "assumed", "exception path — clause doesn't apply", None
 
-    # ── Tactic 1: Sort inference ──
+    # ── Sort inference (used by all tactics below) ──
     result_sort = _infer_result_sort(func_name, source) if func_name else 'Int'
 
-    # ── Tactic 2: Tautology detection ──
+    # ── Tactic 1: Tautology (C4Strategy.TAUTOLOGY) ──
+    # Sort-aware trivial truth — e.g. Bool ∈ {True, False}
     tautology = _is_boolean_tautology(clause, result_sort)
     if tautology:
-        return "verified", f"tautology ({tautology})"
+        return "verified", f"Tautology: {tautology}", C4Strategy.TAUTOLOGY
 
-    # ── Tactic 3: Z3 with proper sorts ──
+    # ── Build Z3 environment with sort-inferred variables ──
     env = Z3Env()
     for p in params:
         p_sort = _infer_param_sort(p, func_name, source) if source else 'Int'
         env.declare_var(p, p_sort)
     env.declare_var('result', result_sort)
 
-    # ── Tactic 4: Inject builtin axioms ──
-    builtin_axioms = _inject_builtin_axioms(env)
-
     # Build hypothesis: requires ∧ path_guard ∧ (result == return_expr)
-    hyp_parts = list(builtin_axioms)
-
+    base_hyps = []
     for req in requires:
         z3_req = env.parse_formula(req)
         if z3_req is not None:
-            hyp_parts.append(z3_req)
+            base_hyps.append(z3_req)
 
     if path.guard != "True":
         z3_guard = env.parse_formula(path.guard)
         if z3_guard is not None:
-            hyp_parts.append(z3_guard)
+            base_hyps.append(z3_guard)
         else:
-            return "assumed", f"path guard unparseable: {path.guard}"
+            return "assumed", f"path guard unparseable: {path.guard}", None
 
     # Bind result to return expression
     ret_binding = env.parse_formula(f"result == ({path.return_expr})")
     if ret_binding is not None:
-        hyp_parts.append(ret_binding)
+        base_hyps.append(ret_binding)
 
     # Build goal
-    if ret_binding is not None:
-        goal_str = clause
-    else:
-        goal_str = _substitute_result(clause, path.return_expr)
-
+    goal_str = clause if ret_binding is not None else _substitute_result(clause, path.return_expr)
     goal = env.parse_formula(goal_str)
     if goal is None:
-        return "assumed", f"clause unparseable after substitution: {goal_str}"
+        return "assumed", f"clause unparseable: {goal_str}", None
 
-    # Check: hyp → goal  (i.e., ¬(hyp ∧ ¬goal) is UNSAT)
+    def _is_z3_bool(expr: Any) -> bool:
+        """Check if a Z3 expression has Boolean sort."""
+        try:
+            from z3 import BoolSort
+            return expr.sort() == BoolSort()
+        except Exception:
+            return False
+
+    # Filter hypotheses to only Boolean-sorted Z3 expressions
+    bool_hyps = [h for h in base_hyps if _is_z3_bool(h)]
+
+    if not _is_z3_bool(goal):
+        return "assumed", f"goal not Boolean-sorted: {goal_str}", None
+
+    # ── Tactic 2: Z3Discharge (C4Strategy.Z3_DISCHARGE) ──
+    # Pure Z3 check with NO axioms — this is the kernel-level tactic.
     s = Solver()
     s.set('timeout', 5000)
-    for h in hyp_parts:
+    for h in bool_hyps:
         s.add(h)
     s.add(Z3Not(goal))
     result = s.check()
 
     if result == unsat:
-        return "verified", "Z3: hypothesis → goal (with axioms)"
+        return "verified", "Z3Discharge: ¬(hyp ∧ ¬goal) UNSAT", C4Strategy.Z3_DISCHARGE
 
-    # Check if hypothesis is even satisfiable (to avoid vacuous proofs)
+    # Check if hypothesis is even satisfiable (Z3 refutation)
     s2 = Solver()
     s2.set('timeout', 3000)
-    for h in hyp_parts:
+    for h in bool_hyps:
         s2.add(h)
     s2.add(goal)
     result2 = s2.check()
-
     if result2 == unsat:
-        return "failed", "Z3: hypothesis → ¬goal (goal UNSAT under hypothesis)"
+        return "failed", "Z3Discharge: hyp → ¬goal (goal UNSAT)", C4Strategy.Z3_DISCHARGE
 
-    return "assumed", "Z3: neither proved nor disproved"
+    # ── Tactic 3: LibraryAxiom + Z3Discharge (C4Strategy.LIBRARY_AXIOM) ──
+    # Inject trusted axioms for builtins (abs, max, min, len), then retry.
+    # These are at LIBRARY_ASSUMED trust level, not KERNEL.
+    builtin_axioms = _inject_builtin_axioms(env)
+    bool_axioms = [ax for ax in builtin_axioms if _is_z3_bool(ax)]
+    if bool_axioms:
+        s3 = Solver()
+        s3.set('timeout', 5000)
+        for h in bool_hyps:
+            s3.add(h)
+        for ax in bool_axioms:
+            s3.add(ax)
+        s3.add(Z3Not(goal))
+        result3 = s3.check()
+
+        if result3 == unsat:
+            return ("verified",
+                    "LibraryAxiom(builtins) + Z3Discharge: proved with builtin axioms",
+                    C4Strategy.LIBRARY_AXIOM)
+
+        # Refutation under axioms
+        s4 = Solver()
+        s4.set('timeout', 3000)
+        for h in bool_hyps:
+            s4.add(h)
+        for ax in bool_axioms:
+            s4.add(ax)
+        s4.add(goal)
+        result4 = s4.check()
+        if result4 == unsat:
+            return "failed", "LibraryAxiom + Z3: goal UNSAT under axioms", C4Strategy.LIBRARY_AXIOM
+
+    return "assumed", "Z3: neither proved nor disproved", None
 
 
 def verify_clause(
@@ -799,10 +868,13 @@ def verify_clause(
     func_name: str = "",
     source: str = "",
 ) -> ClauseResult:
-    """Verify one clause against ALL return paths.
+    """Verify one clause against ALL return paths using C4 CasesSplit.
 
-    For each non-exception path, checks:
-        requires ∧ path_guard → clause[result := return_expr]
+    This is the C4 CasesSplit strategy: each return path is a case,
+    the clause must hold under each case, and cases must be exhaustive.
+
+    When there's a single non-exception path, this degenerates to plain
+    Z3Discharge (no case splitting needed).
 
     A clause is:
     - C4_VERIFIED if verified on ALL non-exception paths
@@ -820,29 +892,53 @@ def verify_clause(
     path_results: List[Tuple[str, str]] = []
     any_failed = False
     all_verified = True
+    strategies_used: List[C4Strategy] = []
 
     for path in non_exc_paths:
-        verdict, detail = verify_clause_on_path(
+        verdict, detail, strategy = verify_clause_on_path(
             clause, path, requires, params,
             func_name=func_name, source=source)
         path_results.append((path.guard, verdict))
+        if strategy:
+            strategies_used.append(strategy)
         if verdict == "failed":
             any_failed = True
         if verdict != "verified":
             all_verified = False
+
+    # Determine the overall C4 strategy
+    if len(non_exc_paths) > 1 and all_verified:
+        # Multiple paths all verified → CasesSplit
+        overall_strategy = C4Strategy.CASES_SPLIT
+    elif strategies_used:
+        # Single path or mixed → use the "strongest" strategy seen
+        # Priority: LIBRARY_AXIOM > Z3_DISCHARGE > TAUTOLOGY
+        if C4Strategy.LIBRARY_AXIOM in strategies_used:
+            overall_strategy = C4Strategy.LIBRARY_AXIOM
+        elif C4Strategy.Z3_DISCHARGE in strategies_used:
+            overall_strategy = C4Strategy.Z3_DISCHARGE
+        elif C4Strategy.TAUTOLOGY in strategies_used:
+            overall_strategy = C4Strategy.TAUTOLOGY
+        else:
+            overall_strategy = strategies_used[0]
+    else:
+        overall_strategy = None
 
     if any_failed:
         return ClauseResult(
             clause=clause,
             verdict=ClauseVerdict.C4_FAILED,
             detail="Z3 disproved on at least one path",
+            strategy=overall_strategy,
             path_results=path_results,
         )
     if all_verified:
+        strategy_name = overall_strategy.value if overall_strategy else "Z3"
         return ClauseResult(
             clause=clause,
             verdict=ClauseVerdict.C4_VERIFIED,
-            detail="Z3 proved on all paths",
+            detail=f"{strategy_name}: proved on all {len(non_exc_paths)} path(s)",
+            strategy=overall_strategy,
             path_results=path_results,
         )
 
@@ -850,6 +946,7 @@ def verify_clause(
         clause=clause,
         verdict=ClauseVerdict.C4_ASSUMED,
         detail="Z3 proved on some paths, undecidable on others",
+        strategy=overall_strategy,
         path_results=path_results,
     )
 
@@ -858,10 +955,13 @@ def check_path_exhaustiveness(
     paths: List[ReturnPath],
     requires: List[str],
     params: List[str],
+    func_name: str = "",
+    source: str = "",
 ) -> str:
     """Check that return paths cover all inputs satisfying requires.
 
     Checks: requires → (guard₁ ∨ guard₂ ∨ ...)
+    Uses sort inference for proper typing of guard comparisons.
 
     Returns "verified" / "failed" / "vacuous".
     """
@@ -880,7 +980,8 @@ def check_path_exhaustiveness(
 
     env = Z3Env()
     for p in params:
-        env.declare_var(p, 'Int')
+        p_sort = _infer_param_sort(p, func_name, source) if source else 'Int'
+        env.declare_var(p, p_sort)
 
     # Parse requires
     req_parts = []
@@ -977,7 +1078,11 @@ def verify_c4_spec(
         verdict.clause_results.append(result)
 
     # 5. Verify fiber clauses (per-fiber, under fiber guard)
-    for fiber in spec.get('fibers', []):
+    # This is C4's RefinementDescent: each fiber guard φᵢ defines a face,
+    # and the clause must hold on each face.
+    fibers = spec.get('fibers', [])
+    has_fibers = bool(fibers)
+    for fiber in fibers:
         fiber_guard = fiber.get('guard', 'True')
         fiber_name = fiber.get('name', '?')
 
@@ -1005,12 +1110,17 @@ def verify_c4_spec(
 
             result = verify_clause(clause, paths, fiber_requires, params,
                                   func_name=func_name, source=source)
+            # Tag with RefinementDescent strategy when fibers are present
+            if result.verdict == ClauseVerdict.C4_VERIFIED and has_fibers:
+                result.strategy = C4Strategy.REFINEMENT_DESCENT
             result.clause = f"[fiber:{fiber_name}] {result.clause}"
             verdict.clause_results.append(result)
 
-    # 6. Check path exhaustiveness
+    # 6. Check path exhaustiveness (with sort inference)
     if paths:
-        verdict.exhaustiveness = check_path_exhaustiveness(paths, requires, params)
+        verdict.exhaustiveness = check_path_exhaustiveness(
+            paths, requires, params,
+            func_name=func_name, source=source)
 
     return verdict
 

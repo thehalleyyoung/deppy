@@ -1198,7 +1198,10 @@ def _compile_cases_split(proof: CasesSplit, lhs: OTerm, rhs: OTerm,
     """
     vcs: List[VC] = []
     trust = TrustProvenance.kernel()
-    case_proofs = proof.case_proofs if hasattr(proof, 'case_proofs') else {}
+    # CasesSplit stores cases in `cases` field (terms.py), not `case_proofs`
+    case_proofs = (proof.case_proofs if hasattr(proof, 'case_proofs')
+                   else proof.cases if hasattr(proof, 'cases')
+                   else {})
 
     for case_name, case_proof in case_proofs.items():
         v = compile_proof(case_proof, lhs, rhs, env, depth + 1)

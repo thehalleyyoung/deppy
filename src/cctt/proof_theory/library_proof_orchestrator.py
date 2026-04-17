@@ -45,7 +45,7 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from cctt.proof_theory.terms import (
     OTerm, ProofTerm, var, lit, op, app, lam,
@@ -3798,7 +3798,185 @@ def _gen_json_report(report: LibraryProofReport) -> Dict[str, Any]:
 
 
 # ═════════════════════════════════════════════════════════════════
-# §15. Orchestrator Pipeline
+# §15. Dependency Topological Sort
+#
+# Build a call graph for definitions within a file, topologically
+# sort them so leaf functions (no internal deps) are proved first.
+# Proven specs of earlier functions can be used as LibraryAxioms
+# when proving later functions that call them.
+# ═════════════════════════════════════════════════════════════════
+
+class _CallCollector(ast.NodeVisitor):
+    """Collect all function/method names called in an AST subtree."""
+
+    def __init__(self) -> None:
+        self.calls: Set[str] = set()
+
+    def visit_Call(self, node: ast.Call) -> None:
+        if isinstance(node.func, ast.Name):
+            self.calls.add(node.func.id)
+        elif isinstance(node.func, ast.Attribute):
+            # self.method() → collect 'method'
+            self.calls.add(node.func.attr)
+        self.generic_visit(node)
+
+
+def build_call_graph(definitions: List[Definition]) -> Dict[str, Set[str]]:
+    """Build a call graph: for each definition, which other definitions it calls.
+
+    Only tracks calls to OTHER definitions in the same file (internal deps).
+    External calls (builtins, imports) are ignored.
+    """
+    defined_names = {d.name for d in definitions}
+    graph: Dict[str, Set[str]] = {}
+
+    for defn in definitions:
+        try:
+            tree = ast.parse(defn.source)
+        except SyntaxError:
+            graph[defn.name] = set()
+            continue
+        collector = _CallCollector()
+        collector.visit(tree)
+        # Only keep calls to other definitions in this file
+        graph[defn.name] = collector.calls & defined_names - {defn.name}
+
+    return graph
+
+
+def topological_sort_definitions(
+    definitions: List[Definition],
+    call_graph: Dict[str, Set[str]],
+) -> List[List[Definition]]:
+    """Topological sort definitions by dependency.
+
+    Returns a list of "levels" — each level contains definitions
+    that only depend on definitions in previous levels.
+    Level 0 = leaf functions (no internal deps).
+    Mutual recursion (SCCs) are grouped into the same level.
+
+    Uses Kahn's algorithm with SCC detection via Tarjan's.
+    """
+    name_to_defn = {d.name: d for d in definitions}
+    names = set(name_to_defn.keys())
+
+    # ── Tarjan's SCC ──
+    index_counter = [0]
+    stack: List[str] = []
+    on_stack: Set[str] = set()
+    indices: Dict[str, int] = {}
+    lowlinks: Dict[str, int] = {}
+    sccs: List[List[str]] = []
+
+    def strongconnect(v: str) -> None:
+        indices[v] = lowlinks[v] = index_counter[0]
+        index_counter[0] += 1
+        stack.append(v)
+        on_stack.add(v)
+
+        for w in call_graph.get(v, set()):
+            if w not in names:
+                continue
+            if w not in indices:
+                strongconnect(w)
+                lowlinks[v] = min(lowlinks[v], lowlinks[w])
+            elif w in on_stack:
+                lowlinks[v] = min(lowlinks[v], indices[w])
+
+        if lowlinks[v] == indices[v]:
+            scc: List[str] = []
+            while True:
+                w = stack.pop()
+                on_stack.discard(w)
+                scc.append(w)
+                if w == v:
+                    break
+            sccs.append(scc)
+
+    for name in names:
+        if name not in indices:
+            strongconnect(name)
+
+    # ── Build SCC DAG and do Kahn's algorithm ──
+    # Map each name to its SCC index
+    name_to_scc: Dict[str, int] = {}
+    for i, scc in enumerate(sccs):
+        for name in scc:
+            name_to_scc[name] = i
+
+    # Build DAG edges between SCCs
+    scc_deps: Dict[int, Set[int]] = {i: set() for i in range(len(sccs))}
+    for name in names:
+        my_scc = name_to_scc[name]
+        for dep in call_graph.get(name, set()):
+            if dep in name_to_scc:
+                dep_scc = name_to_scc[dep]
+                if dep_scc != my_scc:
+                    scc_deps[my_scc].add(dep_scc)
+
+    # In-degree computation
+    in_degree: Dict[int, int] = {i: 0 for i in range(len(sccs))}
+    for i, deps in scc_deps.items():
+        for d in deps:
+            in_degree[i] += 1  # wrong direction — fix below
+
+    # Re-compute: in_degree[i] = number of SCCs that depend ON i? No.
+    # in_degree[i] = number of SCCs that i depends on.
+    # Actually for Kahn's we want: in_degree[i] = how many SCCs point TO i.
+    # scc_deps[i] = SCCs that i depends on (i → dep).
+    # So reverse: who points to i = {j : i ∈ scc_deps[j]}
+    in_degree = {i: 0 for i in range(len(sccs))}
+    reverse_deps: Dict[int, Set[int]] = {i: set() for i in range(len(sccs))}
+    for i, deps in scc_deps.items():
+        for d in deps:
+            reverse_deps[d].add(i)
+            in_degree[i] += 1
+
+    # Wait — in_degree[i] should count how many edges point TO i.
+    # scc_deps[j] contains the SCCs that j depends on. So j → d for d in scc_deps[j].
+    # "Points to i" = {j : i in scc_deps[j]} means j depends on i.
+    # For Kahn's: process sources first. Source = in_degree 0 = no dependencies.
+    # in_degree[i] = |scc_deps[i]| (how many things i depends on).
+    in_degree = {i: len(scc_deps[i]) for i in range(len(sccs))}
+
+    # Kahn's: BFS by levels
+    levels: List[List[Definition]] = []
+    queue = [i for i in range(len(sccs)) if in_degree[i] == 0]
+    processed: Set[int] = set()
+
+    while queue:
+        level_defns: List[Definition] = []
+        next_queue: List[int] = []
+
+        for scc_idx in queue:
+            processed.add(scc_idx)
+            for name in sccs[scc_idx]:
+                if name in name_to_defn:
+                    level_defns.append(name_to_defn[name])
+
+        # Decrease in-degree for dependents
+        for scc_idx in queue:
+            for dependent in reverse_deps.get(scc_idx, set()):
+                in_degree[dependent] -= 1
+                if in_degree[dependent] == 0 and dependent not in processed:
+                    next_queue.append(dependent)
+
+        if level_defns:
+            levels.append(level_defns)
+        queue = next_queue
+
+    # Any remaining (cycles not caught) go last
+    remaining = [name_to_defn[n] for n in names
+                 if name_to_scc.get(n, -1) not in processed
+                 and n in name_to_defn]
+    if remaining:
+        levels.append(remaining)
+
+    return levels
+
+
+# ═════════════════════════════════════════════════════════════════
+# §16. Orchestrator Pipeline
 # ═════════════════════════════════════════════════════════════════
 
 class Orchestrator:
@@ -3915,9 +4093,18 @@ class Orchestrator:
         if not definitions:
             return FileProofReport(rel, source, [], [])
 
-        # Phase A: Batch LLM spec generation (if oracle available)
+        # ── Phase A: Dependency topological sort ──
+        # Build call graph and sort definitions so leaf functions
+        # (no internal dependencies) are proved first.
+        call_graph = build_call_graph(definitions)
+        topo_levels = topological_sort_definitions(definitions, call_graph)
+
+        logger.debug("  %s: %d defs, %d topo levels, call_graph=%s",
+                     rel, len(definitions),  len(topo_levels),
+                     {k: list(v) for k, v in call_graph.items() if v})
+
+        # ── Phase B: Batch LLM spec generation (if oracle available) ──
         if self.spec_oracle and isinstance(self.spec_oracle, CopilotSpecOracle):
-            # Gather all definitions that need LLM specs into a batch
             fn_batch = []
             for defn in definitions:
                 fn_batch.append({
@@ -3927,29 +4114,58 @@ class Orchestrator:
                     "params": [p for p in defn.params if p != 'self'][:5],
                     "docstring": defn.docstring or "",
                 })
-            # Pre-generate specs in batch (cached, so fast on repeat)
             if fn_batch:
                 self.spec_oracle.generate_specs_batch(fn_batch)
 
-        # Phase B: Baseline prove (uses cached LLM specs from Phase A)
-        results: List[ProofResult] = []
-        needs_llm: List[Tuple[int, Definition]] = []
-        for defn in definitions:
-            r = baseline_prove(defn, self.library_name, spec_oracle=self.spec_oracle)
-            results.append(r)
-            if not r.checked or r.trust == TrustLevel.ASSUMED:
-                needs_llm.append((len(results) - 1, defn))
+        # ── Phase C: Prove in topological order ──
+        # Level 0 = leaf functions (no deps on other file functions)
+        # Level 1 = functions that only call level-0 functions
+        # etc.
+        # Proven specs from earlier levels are available as trusted axioms.
+        proven_specs: Dict[str, Dict[str, Any]] = {}  # name → c4_verdict
+        result_map: Dict[str, ProofResult] = {}
+        needs_llm: List[Tuple[str, Definition]] = []
 
-        # Phase B: LLM enhancement
+        for level_idx, level_defns in enumerate(topo_levels):
+            logger.debug("    level %d: %s", level_idx,
+                         [d.name for d in level_defns])
+
+            for defn in level_defns:
+                r = baseline_prove(defn, self.library_name,
+                                   spec_oracle=self.spec_oracle)
+                result_map[defn.name] = r
+                if not r.checked or r.trust == TrustLevel.ASSUMED:
+                    needs_llm.append((defn.name, defn))
+
+                # Record proven spec for dependents to use
+                if r.checked and r.annotation and r.annotation.formal_spec:
+                    fs = r.annotation.formal_spec
+                    c4v = None
+                    intent_data = fs.get("intent_spec", {})
+                    if intent_data and isinstance(intent_data, dict):
+                        c4v = intent_data.get("c4_verdict")
+                    proven_specs[defn.name] = {
+                        "ensures": fs.get("ensures", []),
+                        "requires": fs.get("requires", []),
+                        "c4_verdict": c4v,
+                        "trust": r.trust.value if r.trust else "ASSUMED",
+                    }
+
+        # ── Phase D: LLM enhancement (for unproved definitions) ──
         if needs_llm and self.copilot:
             ctx = self._file_context(source)
-            for idx, defn in needs_llm:
-                specs = self.copilot.prove_definitions([defn], self.library_name, ctx)
+            for name, defn in needs_llm:
+                specs = self.copilot.prove_definitions(
+                    [defn], self.library_name, ctx)
                 if specs and specs[0]:
                     compiled = compile_proof(defn, specs[0], self.library_name,
                                              self.copilot, self.max_retries)
-                    if compiled.checked or not results[idx].checked:
-                        results[idx] = compiled
+                    if compiled.checked or not result_map[name].checked:
+                        result_map[name] = compiled
+
+        # Reconstruct results list in original definition order
+        results = [result_map.get(d.name, baseline_prove(d, self.library_name))
+                   for d in definitions]
 
         return FileProofReport(rel, source, definitions, results)
 

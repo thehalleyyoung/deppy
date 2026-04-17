@@ -1765,6 +1765,80 @@ def _value_to_z3_bv(term, z3_vars: dict, bw: int = 64):
     return None
 
 
+def _guard_to_z3_bv(guard, z3_vars: dict, bw: int = 64):
+    """Compile a guard OTerm to Z3 boolean expression using BitVec vars.
+
+    Used as fallback for guards containing bitwise operations
+    that Int arithmetic can't reason about.
+    """
+    if not _HAS_Z3:
+        return None
+    name = _otype(guard)
+
+    if name == 'OLit':
+        from z3 import BoolVal
+        if isinstance(guard.value, bool):
+            return BoolVal(guard.value)
+        return None
+
+    if name == 'OVar':
+        # Use the BV variable from the bv_vars dict
+        key = f'_bv_{guard.name}'
+        if key in z3_vars:
+            v = z3_vars[key]
+        else:
+            from z3 import BitVec as BV, BitVecVal
+            v = BV(key, bw)
+            z3_vars[key] = v
+        return v != 0
+
+    if name == 'OOp':
+        op = guard.name
+
+        if op in ('u_not', 'not', 'Not') and len(guard.args) == 1:
+            inner = _guard_to_z3_bv(guard.args[0], z3_vars, bw)
+            if inner is None:
+                return None
+            return Not(inner)
+
+        if len(guard.args) == 2:
+            if op in ('and', 'And'):
+                left = _guard_to_z3_bv(guard.args[0], z3_vars, bw)
+                right = _guard_to_z3_bv(guard.args[1], z3_vars, bw)
+                if left is None or right is None:
+                    return None
+                return And(left, right)
+            if op in ('or', 'Or'):
+                left = _guard_to_z3_bv(guard.args[0], z3_vars, bw)
+                right = _guard_to_z3_bv(guard.args[1], z3_vars, bw)
+                if left is None or right is None:
+                    return None
+                return Or(left, right)
+
+            # Comparisons using BV compilation
+            left = _value_to_z3_bv(guard.args[0], z3_vars, bw)
+            right = _value_to_z3_bv(guard.args[1], z3_vars, bw)
+            if left is None or right is None:
+                return None
+
+            if op in ('eq', 'Eq', '=='):
+                return left == right
+            if op in ('ne', 'NotEq', '!=', 'noteq'):
+                return left != right
+            # For ordered comparisons, use unsigned (UGT/ULT) for bit positions
+            from z3 import UGT, UGE, ULT, ULE
+            if op in ('gt', 'Gt', '>'):
+                return UGT(left, right)
+            if op in ('ge', 'GtE', '>=', 'gte'):
+                return UGE(left, right)
+            if op in ('lt', 'Lt', '<'):
+                return ULT(left, right)
+            if op in ('le', 'LtE', '<=', 'lte'):
+                return ULE(left, right)
+
+    return None
+
+
 def _opaque_z3_var(term, z3_vars: dict):
     """Create an opaque Z3 variable for a non-primitive OTerm.
 
@@ -2024,6 +2098,30 @@ def _values_agree_on_region_z3(
                 result2 = solver2.check()
                 if result2 == unsat:
                     return True
+        except Exception:
+            pass
+
+    # ── BitVec retry when Int Z3 is inconclusive ─────────────────
+    # When Int arithmetic can't reason about bitwise identities
+    # (bitand, bitor, bitxor, lshift, rshift), BitVec theory can.
+    # Only try when the expression contains bitwise ops.
+    _bw_ops = {'bitxor', 'bitor', 'bitand', 'lshift', 'rshift', 'u_invert'}
+    val_canon = val_f.canon() + val_g.canon()
+    if any(op in val_canon for op in _bw_ops):
+        try:
+            bv_vars = {}  # fresh vars for BV
+            z3_bvf = _value_to_z3_bv(val_f, bv_vars)
+            z3_bvg = _value_to_z3_bv(val_g, bv_vars)
+            if z3_bvf is not None and z3_bvg is not None:
+                bv_guard = _guard_to_z3_bv(guard, bv_vars) if hasattr(guard, 'canon') and guard.canon() != 'True' else None
+                solver_bv = Solver()
+                solver_bv.set('timeout', timeout_ms)
+                if bv_guard is not None:
+                    solver_bv.add(bv_guard)
+                solver_bv.add(z3_bvf != z3_bvg)
+                result_bv = solver_bv.check()
+                if result_bv == unsat:
+                    return True  # BitVec proved equal
         except Exception:
             pass
 
@@ -2940,6 +3038,26 @@ def cech_fold_body_descent(
                 return CechResult(h1_rank=0, equivalent=True,
                                   total_regions=1, agreed_regions=1,
                                   explanation='Z3 proved fold bodies equal (single region)')
+
+        # Try axiom path search on the body OTerms (fold body fiber)
+        # This is principled: if body_f ≡ body_g via axiom path,
+        # fold uniqueness gives fold_f ≡ fold_g.
+        try:
+            from .path_search import search_path
+            from .denotation import normalize as _normalize
+            nb_f = _normalize(body_f)
+            nb_g = _normalize(body_g)
+            path_result = search_path(nb_f, nb_g, max_depth=3, max_frontier=100)
+            if path_result.found is True:
+                ctx_f_canon = ctx_f(OLit(42)).canon()
+                ctx_g_canon = ctx_g(OLit(42)).canon()
+                if ctx_f_canon == ctx_g_canon:
+                    return CechResult(h1_rank=0, equivalent=True,
+                                      total_regions=1, agreed_regions=1,
+                                      explanation=f'axiom path proved fold bodies equal: {path_result.reason}')
+        except Exception:
+            pass
+
         return CechResult(h1_rank=1, equivalent=None,
                           explanation='fold bodies differ, Z3 inconclusive')
 
@@ -3007,6 +3125,33 @@ def cech_fold_body_descent(
             total_regions=total, empty_regions=empty,
             agreed_regions=agreed, disagreed_regions=disagreed,
             explanation=f'fold body Čech H¹={h1}: counterexample on {disagreed}/{total} regions')
+
+    # Try axiom path search on unknown regions before giving up
+    if unknown > 0 and disagreed == 0:
+        try:
+            from .path_search import search_path
+            from .denotation import normalize as _normalize
+            resolved = 0
+            for region in refined:
+                if region.agreement is not None:
+                    continue
+                nv_f = _normalize(region.value_f)
+                nv_g = _normalize(region.value_g)
+                if nv_f.canon() == nv_g.canon():
+                    region.agreement = True
+                    agreed += 1
+                    unknown -= 1
+                    resolved += 1
+                    continue
+                path_r = search_path(nv_f, nv_g, max_depth=2, max_frontier=80)
+                if path_r.found is True:
+                    region.agreement = True
+                    agreed += 1
+                    unknown -= 1
+                    resolved += 1
+            h1 = disagreed + unknown
+        except Exception:
+            pass
 
     if h1 == 0 and total > 0:
         # Bodies proven equal on all non-empty regions → fold results equal
