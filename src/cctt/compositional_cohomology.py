@@ -193,11 +193,35 @@ def align_oterms(t_f, t_g, path: Tuple = ()) -> List[Fiber]:
             body_equiv = False
             if (hasattr(t_f, 'body_fn') and hasattr(t_g, 'body_fn')
                     and t_f.body_fn is not None and t_g.body_fn is not None):
-                from .denotation import _body_fn_trustworthy
-                if (t_f.body_fn.canon() == t_g.body_fn.canon()
-                        and _body_fn_trustworthy(t_f.body_fn)
-                        and _body_fn_trustworthy(t_g.body_fn)):
+                from .denotation import _body_fn_trustworthy, normalize as _normalize
+                bf_f = t_f.body_fn
+                bf_g = t_g.body_fn
+                if (bf_f.canon() == bf_g.canon()
+                        and _body_fn_trustworthy(bf_f)
+                        and _body_fn_trustworthy(bf_g)):
                     body_equiv = True
+                elif (_body_fn_trustworthy(bf_f) and _body_fn_trustworthy(bf_g)):
+                    # Bodies differ canonically — try path search on body OTerms
+                    try:
+                        from .path_search import search_path
+                        # Alpha-normalize body params
+                        from .denotation import OLam, OVar
+                        if isinstance(bf_f, OLam) and isinstance(bf_g, OLam):
+                            if len(bf_f.params) == len(bf_g.params):
+                                cp = [f'$fold_p{i}' for i in range(len(bf_f.params))]
+                                nb_f = _normalize(_subst_in_oterm(bf_f.body,
+                                    {p: OVar(c) for p, c in zip(bf_f.params, cp)}))
+                                nb_g = _normalize(_subst_in_oterm(bf_g.body,
+                                    {p: OVar(c) for p, c in zip(bf_g.params, cp)}))
+                                if nb_f.canon() == nb_g.canon():
+                                    body_equiv = True
+                                else:
+                                    path_r = search_path(nb_f, nb_g,
+                                        max_depth=2, max_frontier=80)
+                                    if path_r.found is True:
+                                        body_equiv = True
+                    except Exception:
+                        pass
             if body_equiv:
                 # Body functions match — recurse into init and collection
                 fibers.extend(align_oterms(t_f.init, t_g.init,
@@ -256,8 +280,27 @@ def align_oterms(t_f, t_g, path: Tuple = ()) -> List[Fiber]:
 
     elif name_f == 'OFix':
         if t_f.name != t_g.name:
-            fibers.append(Fiber(path=path, term_f=t_f, term_g=t_g,
-                                locally_equivalent=False))
+            # Different fix names — alpha-normalize bodies before comparing.
+            # Fix bodies reference themselves via OVar(fix_name), so substitute
+            # a common name before structural comparison.
+            try:
+                from .denotation import OVar, normalize as _normalize
+                common = '$_fix_common_'
+                nb_f = _normalize(_subst_in_oterm(t_f.body,
+                    {t_f.name: OVar(common)}))
+                nb_g = _normalize(_subst_in_oterm(t_g.body,
+                    {t_g.name: OVar(common)}))
+                if nb_f.canon() == nb_g.canon():
+                    fibers.append(Fiber(path=path, term_f=t_f, term_g=t_g,
+                                        locally_equivalent=True))
+                else:
+                    # Alpha-normalized bodies differ — try deeper alignment
+                    child_fibers = align_oterms(nb_f, nb_g,
+                                                path + ('fix_body',))
+                    fibers.extend(child_fibers)
+            except Exception:
+                fibers.append(Fiber(path=path, term_f=t_f, term_g=t_g,
+                                    locally_equivalent=False))
         else:
             fibers.extend(align_oterms(t_f.body, t_g.body,
                                        path + ('fix_body',)))
@@ -1065,6 +1108,33 @@ def compositional_equiv(
 
         if not result.absorbed:
             obstructions.append(fiber)
+
+    # Try axiom path search on non-absorbed fibers before giving up.
+    # This bridges the gap between compositional decomposition (which
+    # identifies WHERE programs differ) and path search (which can prove
+    # equivalence of differing sub-expressions via axiom rewrites).
+    if obstructions:
+        try:
+            from .path_search import search_path
+            from .denotation import normalize as _normalize
+            resolved = []
+            for fiber in obstructions:
+                nf = _normalize(fiber.term_f)
+                ng = _normalize(fiber.term_g)
+                if nf.canon() == ng.canon():
+                    absorptions[fiber.path] = AbsorptionResult(
+                        True, 'normalized fiber forms match')
+                    resolved.append(fiber)
+                    continue
+                path_r = search_path(nf, ng, max_depth=2, max_frontier=80)
+                if path_r.found is True:
+                    absorptions[fiber.path] = AbsorptionResult(
+                        True, f'axiom path on fiber: {path_r.reason}')
+                    resolved.append(fiber)
+            for f in resolved:
+                obstructions.remove(f)
+        except Exception:
+            pass
 
     h1_rank = len(obstructions)
 

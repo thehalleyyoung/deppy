@@ -1115,6 +1115,237 @@ class LibraryTransport(ProofTerm):
         parts.append(self.source_proof.pretty(indent + 1))
         return '\n'.join(parts)
 
+
+# ═══════════════════════════════════════════════════════════════════
+# F*-style tactics — weakest precondition, effects, dependent matching
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class WeakestPrecondition(ProofTerm):
+    """Weakest precondition calculus for imperative reasoning.
+
+    Given postcondition Q and statement S, computes wp(S, Q) — the
+    weakest precondition P such that {P} S {Q}.
+
+    F*-style: wp is a predicate transformer. For sequential code:
+        wp(x := e, Q) = Q[x := e]
+        wp(S1; S2, Q) = wp(S1, wp(S2, Q))
+        wp(if b then S1 else S2, Q) = (b → wp(S1,Q)) ∧ (¬b → wp(S2,Q))
+
+    The proof obligation is: precondition → wp(body, postcondition).
+    The precondition_proof discharges this via Z3 or structural reasoning.
+    """
+    statement_desc: str           # description of the statement being analyzed
+    postcondition: str            # the target postcondition Q
+    wp_formula: str               # the computed wp(S, Q)
+    precondition_proof: ProofTerm  # proof that precondition → wp
+
+    def children(self) -> List[ProofTerm]:
+        return [self.precondition_proof]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [
+            f'{pad}wp[{self.statement_desc}]:',
+            f'{pad}  post: {self.postcondition}',
+            f'{pad}  wp: {self.wp_formula}',
+            f'{pad}  discharge:',
+            self.precondition_proof.pretty(indent + 2),
+        ]
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class EffectFrame(ProofTerm):
+    """Frame condition: proves a function only modifies declared state.
+
+    F*-style effect typing: a function annotated ST s a modifies only
+    state variables in its footprint. The frame proof shows that
+    everything NOT in the footprint is preserved.
+
+    For Python: the footprint is the set of attributes/keys that may
+    be mutated. The frame proof shows all other attributes are unchanged.
+
+    frame_vars: the set of variables/attributes that MAY change
+    preserved_proof: proof that everything else is unchanged
+    """
+    frame_vars: Tuple[str, ...]     # variables in the modification footprint
+    function_desc: str              # which function this frames
+    preserved_proof: ProofTerm      # proof that non-footprint state is unchanged
+
+    def children(self) -> List[ProofTerm]:
+        return [self.preserved_proof]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        fv = ', '.join(self.frame_vars)
+        return (f'{pad}frame[{self.function_desc}](modifies={{{fv}}}):\n'
+                f'{self.preserved_proof.pretty(indent + 1)}')
+
+
+@dataclass(frozen=True)
+class ExceptionCase(ProofTerm):
+    """Exception path case analysis.
+
+    Models try/except as a disjoint union:
+        result = normal_case ⊔ exception_case
+    with proof obligations on each branch.
+
+    Python-specific: maps try/except blocks to case analysis where
+    the discriminant is "did an exception occur?".
+    """
+    normal_proof: ProofTerm         # proof for the non-exception path
+    exception_proofs: Dict[str, ProofTerm]  # exception_type → proof for that handler
+    finally_proof: Optional[ProofTerm] = None  # proof for the finally block
+
+    def children(self) -> List[ProofTerm]:
+        kids = [self.normal_proof] + list(self.exception_proofs.values())
+        if self.finally_proof:
+            kids.append(self.finally_proof)
+        return kids
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [f'{pad}exception_case:']
+        parts.append(f'{pad}  try:')
+        parts.append(self.normal_proof.pretty(indent + 2))
+        for exc_type, proof in self.exception_proofs.items():
+            parts.append(f'{pad}  except {exc_type}:')
+            parts.append(proof.pretty(indent + 2))
+        if self.finally_proof:
+            parts.append(f'{pad}  finally:')
+            parts.append(self.finally_proof.pretty(indent + 2))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class Normalize(ProofTerm):
+    """Prove equality by normalizing both sides to a canonical form.
+
+    Applies a sequence of reduction steps (β, δ, η, arithmetic simplification)
+    and checks that the normal forms are identical.
+
+    This is the workhorse tactic for straightforward code: if both sides
+    reduce to the same thing, they're equal.
+    """
+    reduction_steps: Tuple[str, ...]  # sequence of reductions applied
+    normal_form_desc: str = ""        # description of the common normal form
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        steps = ' → '.join(self.reduction_steps) if self.reduction_steps else 'trivial'
+        return f'{pad}normalize({steps})'
+
+
+@dataclass(frozen=True)
+class DependentMatch(ProofTerm):
+    """Dependent pattern matching with index refinement.
+
+    F*-style: matching on a value of an indexed type refines the
+    type indices in each branch. This is crucial for isinstance
+    dispatch in Python — matching on isinstance(x, T) refines
+    the type of x in that branch.
+
+    discriminant_type: what we're matching on (e.g., "type(x)")
+    branches: case_label → (refined_context, proof)
+    """
+    discriminant: OTerm
+    discriminant_type: str
+    branches: Dict[str, ProofTerm]
+    exhaustiveness_proof: Optional[ProofTerm] = None
+
+    def children(self) -> List[ProofTerm]:
+        kids = list(self.branches.values())
+        if self.exhaustiveness_proof:
+            kids.append(self.exhaustiveness_proof)
+        return kids
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [f'{pad}dependent_match[{self.discriminant_type}]:']
+        for case, proof in self.branches.items():
+            parts.append(f'{pad}  | {case} →')
+            parts.append(proof.pretty(indent + 2))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class LemmaApp(ProofTerm):
+    """Apply a previously proved lemma to the current goal.
+
+    F*-style: lemma application. The lemma has already been verified;
+    this step instantiates it at specific terms.
+
+    Differs from AxiomApp: axioms are built-in; lemmas are user-proved.
+    The lemma_proof field holds the original proof for trust tracking.
+    """
+    lemma_name: str
+    instantiation: Dict[str, OTerm]
+    lemma_proof: ProofTerm  # the original proof of the lemma
+
+    def children(self) -> List[ProofTerm]:
+        return [self.lemma_proof]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        binds = ', '.join(f'{k}={v.canon()}' for k, v in self.instantiation.items())
+        return f'{pad}lemma[{self.lemma_name}]({binds})'
+
+
+@dataclass(frozen=True)
+class Unfold(ProofTerm):
+    """Unfold a definition and simplify.
+
+    Given f(x) = body, proves f(a) = body[x := a] by δ-reduction.
+    Then optionally applies further simplification via inner_proof.
+
+    More structured than bare Delta: records the function name,
+    the arguments, and allows chained simplification.
+    """
+    func_name: str
+    args: Tuple[OTerm, ...]
+    inner_proof: Optional[ProofTerm] = None  # proof after unfolding
+
+    def children(self) -> List[ProofTerm]:
+        return [self.inner_proof] if self.inner_proof else []
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        args_str = ', '.join(a.canon() for a in self.args)
+        parts = [f'{pad}unfold {self.func_name}({args_str})']
+        if self.inner_proof:
+            parts.append(self.inner_proof.pretty(indent + 1))
+        return '\n'.join(parts)
+
+
+@dataclass(frozen=True)
+class Assert(ProofTerm):
+    """Assert an intermediate fact and prove it.
+
+    F*-style assert: introduces a cut where the assertion must be
+    proved at this point, then can be used in the continuation.
+
+    Similar to Cut but specifically for intermediate assertions
+    in imperative-style proofs.
+    """
+    assertion: str              # the fact being asserted (as formula)
+    assertion_proof: ProofTerm  # proof of the assertion
+    continuation: ProofTerm     # proof that uses the assertion
+
+    def children(self) -> List[ProofTerm]:
+        return [self.assertion_proof, self.continuation]
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        parts = [
+            f'{pad}assert ({self.assertion}):',
+            self.assertion_proof.pretty(indent + 1),
+            f'{pad}in:',
+            self.continuation.pretty(indent + 1),
+        ]
+        return '\n'.join(parts)
+
+
 def subst_in_term(term: OTerm, var: str, replacement: OTerm) -> OTerm:
     """Substitute ``replacement`` for ``var`` in ``term``."""
     if isinstance(term, OVar):

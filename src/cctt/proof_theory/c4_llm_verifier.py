@@ -59,10 +59,25 @@ C4_BUILTIN_FUNCTIONS: Set[str] = {
     'abs', 'len', 'max', 'min', 'sum', 'int', 'float', 'bool',
     'round', 'divmod', 'pow', 'hash', 'id', 'ord', 'chr',
     'isinstance', 'type',
+    # Quantified predicates (uninterpreted in Z3)
+    'all_of', 'any_of', 'none_of',
+    # Ordering/sorting predicates (uninterpreted)
+    'is_sorted', 'is_permutation',
+    # Collection predicates
+    'contains', 'is_subset', 'is_disjoint',
 }
 
 # Reserved variable names
 C4_RESERVED_VARS: Set[str] = {'result', 'True', 'False', 'None'}
+
+# Type names recognized in isinstance/type specs
+C4_TYPE_NAMES: Set[str] = {
+    'int', 'float', 'str', 'bool', 'list', 'dict', 'set', 'tuple',
+    'NoneType', 'bytes', 'complex', 'frozenset',
+    # Common library types
+    'Expr', 'Symbol', 'Number', 'Integer', 'Rational', 'Matrix',
+    'Poly', 'Add', 'Mul', 'Pow', 'Function',
+}
 
 C4_GRAMMAR_DOC = """\
 C4 Spec Language — the formal grammar for specifications.
@@ -76,12 +91,16 @@ LITERALS
     Integers: 0, 1, -1, 42
     Floats: 0.0, 1.5, -3.14
     Booleans: True, False
+    None: None
 
 ARITHMETIC
     +, -, *, %, //, **
 
 COMPARISONS
     ==, !=, <, <=, >, >=
+
+NONE COMPARISONS
+    x == None, x != None (for nullability checks)
 
 BOOLEAN CONNECTIVES
     and, or, not
@@ -92,9 +111,28 @@ CONDITIONALS
 BUILT-IN FUNCTIONS (uninterpreted in Z3)
     abs(x), len(x), max(x, y), min(x, y), isinstance(x, T)
 
+QUANTIFIED PREDICATES (uninterpreted in Z3)
+    all_of(collection, pred_name) — ∀x∈collection. pred(x)
+    any_of(collection, pred_name) — ∃x∈collection. pred(x)
+    is_sorted(collection)         — collection is in sorted order
+    is_permutation(a, b)          — a is a permutation of b
+
+COLLECTION PREDICATES
+    contains(collection, element) — element ∈ collection
+    is_subset(a, b)               — a ⊆ b
+
+TYPE NAMES (for isinstance/type checks)
+    int, float, str, bool, list, dict, set, tuple, NoneType,
+    Expr, Symbol, Number, Integer, Rational, Matrix, Poly
+
 ATTRIBUTE ACCESS
     self.attr → modeled as selector function self_attr
     obj.attr  → modeled as selector function objname_attr
+
+EFFECT ANNOTATIONS (in spec metadata, not in clause formulas)
+    pure     — no side effects
+    mutating — modifies self or arguments
+    io       — performs I/O
 
 EXAMPLES OF VALID CLAUSES
     result >= 0
@@ -104,9 +142,13 @@ EXAMPLES OF VALID CLAUSES
     isinstance(result, int)
     result == max(x, y)
     result * result <= x * x
+    result != None
+    len(result) == len(x)
+    is_sorted(result)
+    isinstance(result, Expr)
 
 EXAMPLES OF INVALID CLAUSES (rejected)
-    q.is_zero is not True            ← method call, 'is not'
+    q.is_zero is not True            ← method call
     result is S.NaN                  ← library constant, 'is'
     all(result[i] <= result[i+1] ...) ← comprehension, subscript
     "returns a positive number"       ← English text
@@ -136,6 +178,12 @@ class C4Strategy(Enum):
       FiberDecomposition  — per-fiber proof, disjoint fibers
       LibraryAxiom        — trusted builtin/library axiom injection
       Tautology           — sort-aware trivial truth (Bool ∈ {True,False})
+      WeakestPrecondition — wp calculus for imperative reasoning
+      EffectFrame         — frame condition (only declared state modified)
+      ExceptionCase       — try/except as disjoint union
+      DependentMatch      — isinstance dispatch with type refinement
+      Normalize           — prove by normalization to canonical form
+      Unfold              — δ-reduce and simplify
     """
     Z3_DISCHARGE = "Z3Discharge"
     CASES_SPLIT = "CasesSplit"
@@ -143,6 +191,12 @@ class C4Strategy(Enum):
     FIBER_DECOMPOSITION = "FiberDecomposition"
     LIBRARY_AXIOM = "LibraryAxiom"
     TAUTOLOGY = "Tautology"
+    WEAKEST_PRECONDITION = "WeakestPrecondition"
+    EFFECT_FRAME = "EffectFrame"
+    EXCEPTION_CASE = "ExceptionCase"
+    DEPENDENT_MATCH = "DependentMatch"
+    NORMALIZE = "Normalize"
+    UNFOLD = "Unfold"
 
 
 @dataclass
@@ -160,7 +214,11 @@ class ReturnPath:
 
 @dataclass
 class ClauseResult:
-    """Result of verifying one spec clause."""
+    """Result of verifying one spec clause.
+
+    When verdict is C4_VERIFIED, proof_term contains the ProofTerm witness
+    and compile_verdict contains the result of compiling it through C4.
+    """
     clause: str
     verdict: ClauseVerdict
     detail: str = ""
@@ -168,6 +226,12 @@ class ClauseResult:
     # Per-path breakdown (which paths verified this clause)
     path_results: List[Tuple[str, str]] = field(default_factory=list)
     # (path_guard, "verified"/"assumed"/"failed")
+    # Proof term emitted for this clause (None if unverified)
+    proof_term: Optional[Any] = None  # ProofTerm — typed as Any to avoid circular import
+    # The goal this proof witnesses: "clause holds under function semantics"
+    proof_goal: str = ""
+    # Result of compiling the proof_term through compile_proof()
+    compile_verdict: Optional[Any] = None  # C4Verdict
 
 
 @dataclass
@@ -178,6 +242,10 @@ class C4SpecVerdict:
     clause_results: List[ClauseResult] = field(default_factory=list)
     exhaustiveness: Optional[str] = None  # "verified" / "failed" / "vacuous"
     validation_errors: List[str] = field(default_factory=list)
+    # All compiled proof terms (one per verified clause)
+    proof_terms: List[Any] = field(default_factory=list)  # List[ProofTerm]
+    # Number of proofs that compiled successfully through C4
+    n_compiled: int = 0
 
     @property
     def n_verified(self) -> int:
@@ -223,6 +291,7 @@ class C4SpecVerdict:
             "n_assumed": self.n_assumed,
             "n_failed": self.n_failed,
             "n_rejected": self.n_rejected,
+            "n_compiled": self.n_compiled,
             "all_verified": self.all_verified,
             "exhaustiveness": self.exhaustiveness,
             "clauses": [
@@ -232,6 +301,9 @@ class C4SpecVerdict:
                     "detail": cr.detail,
                     "strategy": cr.strategy.value if cr.strategy else None,
                     "path_results": cr.path_results,
+                    "has_proof_term": cr.proof_term is not None,
+                    "proof_goal": cr.proof_goal,
+                    "compiled": cr.compile_verdict is not None,
                 }
                 for cr in self.clause_results
             ],
@@ -364,6 +436,8 @@ def validate_c4_clause(
     # Allow function names
     unknown -= C4_BUILTIN_FUNCTIONS
     unknown -= collector.calls & C4_BUILTIN_FUNCTIONS
+    # Allow type names in isinstance context
+    unknown -= C4_TYPE_NAMES
 
     if unknown:
         return False, f"unknown identifiers: {unknown} (allowed: {all_allowed})"
@@ -379,6 +453,8 @@ def validate_c4_clause(
         env = Z3Env()
         for v in allowed_vars:
             env.declare_var(v, 'Int')
+        # Declare None as a special constant for comparisons
+        env.declare_var('None', 'Int')
         z3_expr = env.parse_formula(clause)
         if z3_expr is None:
             return False, "Z3Env cannot parse this clause"
@@ -724,7 +800,7 @@ def verify_clause_on_path(
     params: List[str],
     func_name: str = "",
     source: str = "",
-) -> Tuple[str, str, Optional[C4Strategy]]:
+) -> Tuple[str, str, Optional[C4Strategy], Optional[Any]]:
     """Verify one clause on one return path via C4 proof strategies.
 
     Strategy pipeline (ordered by C4 proof-term specificity):
@@ -732,62 +808,79 @@ def verify_clause_on_path(
     2. Z3Discharge — direct Z3 ¬(hyp ∧ ¬goal) check, no axioms
     3. LibraryAxiom + Z3Discharge — inject builtin axioms then retry Z3
 
-    Returns (verdict, detail, strategy) where:
-        verdict  ∈ {"verified", "assumed", "failed"}
-        strategy ∈ C4Strategy or None
+    Returns (verdict, detail, strategy, proof_term) where:
+        verdict    ∈ {"verified", "assumed", "failed"}
+        strategy   ∈ C4Strategy or None
+        proof_term ∈ ProofTerm or None (only when verified)
     """
     try:
         from cctt.proof_theory.c4_compiler import Z3Env
+        from cctt.proof_theory.terms import Z3Discharge as Z3DischargeTerm
+        from cctt.proof_theory.library_axioms import LibraryAxiom as LibAxiomTerm
+        from cctt.denotation import OVar, OLit
         from z3 import (
             Solver, And as Z3And, Not as Z3Not, Implies as Z3Implies,
             unsat, sat,
         )
     except ImportError:
-        return "assumed", "Z3 not available", None
+        return "assumed", "Z3 not available", None, None
 
     if path.is_exception:
-        return "assumed", "exception path — clause doesn't apply", None
+        return "assumed", "exception path — clause doesn't apply", None, None
 
     # ── Sort inference (used by all tactics below) ──
     result_sort = _infer_result_sort(func_name, source) if func_name else 'Int'
 
     # ── Tactic 1: Tautology (C4Strategy.TAUTOLOGY) ──
-    # Sort-aware trivial truth — e.g. Bool ∈ {True, False}
+    # Per rubber-duck review: tautologies get Z3Discharge, not Refl
     tautology = _is_boolean_tautology(clause, result_sort)
     if tautology:
-        return "verified", f"Tautology: {tautology}", C4Strategy.TAUTOLOGY
+        proof = Z3DischargeTerm(
+            formula=clause,
+            fragment='TAUTOLOGY',
+            timeout_ms=0,
+            variables={p: 'Int' for p in params},
+        )
+        return "verified", f"Tautology: {tautology}", C4Strategy.TAUTOLOGY, proof
 
     # ── Build Z3 environment with sort-inferred variables ──
     env = Z3Env()
+    var_sorts: Dict[str, str] = {}
     for p in params:
         p_sort = _infer_param_sort(p, func_name, source) if source else 'Int'
         env.declare_var(p, p_sort)
+        var_sorts[p] = p_sort
     env.declare_var('result', result_sort)
+    var_sorts['result'] = result_sort
 
     # Build hypothesis: requires ∧ path_guard ∧ (result == return_expr)
     base_hyps = []
+    hyp_formulas: List[str] = []
     for req in requires:
         z3_req = env.parse_formula(req)
         if z3_req is not None:
             base_hyps.append(z3_req)
+            hyp_formulas.append(req)
 
     if path.guard != "True":
         z3_guard = env.parse_formula(path.guard)
         if z3_guard is not None:
             base_hyps.append(z3_guard)
+            hyp_formulas.append(path.guard)
         else:
-            return "assumed", f"path guard unparseable: {path.guard}", None
+            return "assumed", f"path guard unparseable: {path.guard}", None, None
 
     # Bind result to return expression
     ret_binding = env.parse_formula(f"result == ({path.return_expr})")
     if ret_binding is not None:
         base_hyps.append(ret_binding)
+        hyp_formulas.append(f"result == ({path.return_expr})")
 
     # Build goal
     goal_str = clause if ret_binding is not None else _substitute_result(clause, path.return_expr)
     goal = env.parse_formula(goal_str)
     if goal is None:
-        return "assumed", f"clause unparseable: {goal_str}", None
+        return "assumed", f"clause unparseable: {goal_str}", None, None
 
     def _is_z3_bool(expr: Any) -> bool:
         """Check if a Z3 expression has Boolean sort."""
@@ -801,7 +894,10 @@ def verify_clause_on_path(
     bool_hyps = [h for h in base_hyps if _is_z3_bool(h)]
 
     if not _is_z3_bool(goal):
-        return "assumed", f"goal not Boolean-sorted: {goal_str}", None
+        return "assumed", f"goal not Boolean-sorted: {goal_str}", None, None
+
+    # Build the full proof formula for ProofTerm emission
+    full_formula = " and ".join(hyp_formulas) + " => " + goal_str if hyp_formulas else goal_str
 
     # ── Tactic 2: Z3Discharge (C4Strategy.Z3_DISCHARGE) ──
     # Pure Z3 check with NO axioms — this is the kernel-level tactic.
@@ -813,7 +909,13 @@ def verify_clause_on_path(
     result = s.check()
 
     if result == unsat:
-        return "verified", "Z3Discharge: ¬(hyp ∧ ¬goal) UNSAT", C4Strategy.Z3_DISCHARGE
+        proof = Z3DischargeTerm(
+            formula=full_formula,
+            fragment='QF_LIA',
+            timeout_ms=5000,
+            variables=var_sorts,
+        )
+        return "verified", "Z3Discharge: ¬(hyp ∧ ¬goal) UNSAT", C4Strategy.Z3_DISCHARGE, proof
 
     # Check if hypothesis is even satisfiable (Z3 refutation)
     s2 = Solver()
@@ -823,7 +925,7 @@ def verify_clause_on_path(
     s2.add(goal)
     result2 = s2.check()
     if result2 == unsat:
-        return "failed", "Z3Discharge: hyp → ¬goal (goal UNSAT)", C4Strategy.Z3_DISCHARGE
+        return "failed", "Z3Discharge: hyp → ¬goal (goal UNSAT)", C4Strategy.Z3_DISCHARGE, None
 
     # ── Tactic 3: LibraryAxiom + Z3Discharge (C4Strategy.LIBRARY_AXIOM) ──
     # Inject trusted axioms for builtins (abs, max, min, len), then retry.
@@ -841,9 +943,14 @@ def verify_clause_on_path(
         result3 = s3.check()
 
         if result3 == unsat:
+            proof = LibAxiomTerm(
+                library='builtins',
+                axiom_name='builtin_axioms',
+                statement=full_formula,
+            )
             return ("verified",
                     "LibraryAxiom(builtins) + Z3Discharge: proved with builtin axioms",
-                    C4Strategy.LIBRARY_AXIOM)
+                    C4Strategy.LIBRARY_AXIOM, proof)
 
         # Refutation under axioms
         s4 = Solver()
@@ -855,9 +962,9 @@ def verify_clause_on_path(
         s4.add(goal)
         result4 = s4.check()
         if result4 == unsat:
-            return "failed", "LibraryAxiom + Z3: goal UNSAT under axioms", C4Strategy.LIBRARY_AXIOM
+            return "failed", "LibraryAxiom + Z3: goal UNSAT under axioms", C4Strategy.LIBRARY_AXIOM, None
 
-    return "assumed", "Z3: neither proved nor disproved", None
+    return "assumed", "Z3: neither proved nor disproved", None, None
 
 
 def verify_clause(
@@ -880,6 +987,10 @@ def verify_clause(
     - C4_VERIFIED if verified on ALL non-exception paths
     - C4_FAILED if failed on ANY path
     - C4_ASSUMED otherwise
+
+    Now also emits ProofTerms:
+    - Single path verified → the per-path proof term
+    - Multiple paths all verified → CasesSplit wrapping per-path proofs
     """
     non_exc_paths = [p for p in paths if not p.is_exception]
     if not non_exc_paths:
@@ -893,14 +1004,17 @@ def verify_clause(
     any_failed = False
     all_verified = True
     strategies_used: List[C4Strategy] = []
+    per_path_proofs: Dict[str, Any] = {}  # guard → ProofTerm
 
     for path in non_exc_paths:
-        verdict, detail, strategy = verify_clause_on_path(
+        verdict, detail, strategy, proof_term = verify_clause_on_path(
             clause, path, requires, params,
             func_name=func_name, source=source)
         path_results.append((path.guard, verdict))
         if strategy:
             strategies_used.append(strategy)
+        if proof_term is not None:
+            per_path_proofs[path.guard] = proof_term
         if verdict == "failed":
             any_failed = True
         if verdict != "verified":
@@ -908,11 +1022,8 @@ def verify_clause(
 
     # Determine the overall C4 strategy
     if len(non_exc_paths) > 1 and all_verified:
-        # Multiple paths all verified → CasesSplit
         overall_strategy = C4Strategy.CASES_SPLIT
     elif strategies_used:
-        # Single path or mixed → use the "strongest" strategy seen
-        # Priority: LIBRARY_AXIOM > Z3_DISCHARGE > TAUTOLOGY
         if C4Strategy.LIBRARY_AXIOM in strategies_used:
             overall_strategy = C4Strategy.LIBRARY_AXIOM
         elif C4Strategy.Z3_DISCHARGE in strategies_used:
@@ -924,6 +1035,25 @@ def verify_clause(
     else:
         overall_strategy = None
 
+    # Build composite ProofTerm
+    composite_proof = None
+    if all_verified and per_path_proofs:
+        if len(per_path_proofs) == 1:
+            composite_proof = next(iter(per_path_proofs.values()))
+        else:
+            # Multiple paths → CasesSplit
+            try:
+                from cctt.proof_theory.terms import CasesSplit as CasesSplitTerm
+                from cctt.denotation import OVar
+                composite_proof = CasesSplitTerm(
+                    discriminant=OVar(f'path_guard_{func_name}'),
+                    cases=per_path_proofs,
+                )
+            except ImportError:
+                pass
+
+    proof_goal = f"∀ paths. ({' ∧ '.join(requires)} → {clause})" if requires else clause
+
     if any_failed:
         return ClauseResult(
             clause=clause,
@@ -931,6 +1061,7 @@ def verify_clause(
             detail="Z3 disproved on at least one path",
             strategy=overall_strategy,
             path_results=path_results,
+            proof_goal=proof_goal,
         )
     if all_verified:
         strategy_name = overall_strategy.value if overall_strategy else "Z3"
@@ -940,6 +1071,8 @@ def verify_clause(
             detail=f"{strategy_name}: proved on all {len(non_exc_paths)} path(s)",
             strategy=overall_strategy,
             path_results=path_results,
+            proof_term=composite_proof,
+            proof_goal=proof_goal,
         )
 
     return ClauseResult(
@@ -948,6 +1081,7 @@ def verify_clause(
         detail="Z3 proved on some paths, undecidable on others",
         strategy=overall_strategy,
         path_results=path_results,
+        proof_goal=proof_goal,
     )
 
 
@@ -1122,7 +1256,49 @@ def verify_c4_spec(
             paths, requires, params,
             func_name=func_name, source=source)
 
+    # 7. Compile emitted proof terms through C4 compiler
+    _compile_emitted_proofs(verdict)
+
     return verdict
+
+
+def _compile_emitted_proofs(verdict: C4SpecVerdict) -> None:
+    """Compile all emitted ProofTerms through the C4 proof compiler.
+
+    For each ClauseResult with a proof_term, call compile_proof() and
+    store the C4Verdict. This is the machine-checking step — it turns
+    a Z3-validated strategy into a compiled proof certificate.
+    """
+    try:
+        from cctt.proof_theory.c4_compiler import compile_proof, Z3Env
+        from cctt.denotation import OVar, OLit
+    except ImportError:
+        return
+
+    env = Z3Env()
+    compiled_count = 0
+
+    for cr in verdict.clause_results:
+        if cr.proof_term is None:
+            continue
+
+        try:
+            # The proof witnesses: clause_formula ≡ True
+            # We use OVar placeholders for lhs/rhs since Z3Discharge
+            # doesn't actually check OTerm equality
+            lhs = OVar(f'spec_{verdict.func_name}')
+            rhs = OVar(f'impl_{verdict.func_name}')
+
+            c4_result = compile_proof(cr.proof_term, lhs, rhs, env, depth=0)
+            cr.compile_verdict = c4_result
+            verdict.proof_terms.append(cr.proof_term)
+
+            if c4_result.valid:
+                compiled_count += 1
+        except Exception as e:
+            log.debug("Proof compilation failed for %s: %s", cr.clause, e)
+
+    verdict.n_compiled = compiled_count
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1139,9 +1315,9 @@ C4 expression — a Python boolean expression parseable by Z3.
 VARIABLES
   The function's parameter names (given below)
   'result' — the return value
-  Integer/float/bool literals: 0, 1, -1, 3.14, True, False
+  Integer/float/bool/None literals: 0, 1, -1, 3.14, True, False, None
 
-ARITHMETIC: +, -, *, %, //
+ARITHMETIC: +, -, *, %, //, **
 COMPARISONS: ==, !=, <, <=, >, >=
 BOOLEAN: and, or, not
 CONDITIONALS: value_if_true if condition else value_if_false
@@ -1149,31 +1325,80 @@ CONDITIONALS: value_if_true if condition else value_if_false
 BUILT-IN FUNCTIONS (these become uninterpreted Z3 functions):
   abs(x), len(x), max(x, y), min(x, y), isinstance(x, type_name)
 
+QUANTIFIED PREDICATES (uninterpreted — express intent):
+  all_of(collection, pred) — all elements satisfy predicate
+  any_of(collection, pred) — some element satisfies predicate
+  is_sorted(collection) — collection is sorted
+  is_permutation(a, b) — a is a rearrangement of b
+  contains(collection, elem) — element in collection
+  is_subset(a, b) — a is a subset of b
+
+TYPE NAMES (for isinstance):
+  int, float, str, bool, list, dict, set, tuple, NoneType
+  Expr, Symbol, Number, Integer, Rational, Matrix, Poly
+
+NONE CHECKS: x == None, x != None (NOT 'x is None')
+
 FORBIDDEN (will cause clause rejection):
   - English text or descriptions
   - Method calls like x.method() or x.is_something
   - Library constants like S.NaN, math.inf
   - Subscript access like x[0], result[i]
-  - Comprehensions like [x for x in lst]
+  - List/dict/set comprehensions
   - 'is' comparisons (use '==' instead)
-  - 'in' membership tests
+  - 'in' membership tests (use contains() instead)
   - String operations
   - Any function not in the built-in list above
 
 ## Output Format
 Return a JSON object:
 {
-  "requires": ["x > 0"],              // preconditions (C4 formulas)
-  "ensures": ["result >= 0"],          // postconditions (C4 formulas)
-  "returns_expr": "x + 1",            // exact return, or null
-  "fibers": [                          // case analysis (optional)
+  "requires": ["x > 0"],
+  "ensures": ["result >= 0"],
+  "returns_expr": "x + 1",
+  "fibers": [
     {
       "name": "case_name",
-      "guard": "x >= 0",              // C4 formula
-      "ensures": ["result == x"]       // C4 formulas
+      "guard": "x >= 0",
+      "ensures": ["result == x"]
     }
-  ]
+  ],
+  "effect": "pure"
 }
+
+## Spec Categories by Function Type
+
+### Pure arithmetic / straight-line
+  ensures: exact return expression, bounds, sign, type
+  Example: {"ensures": ["result == a + b"], "effect": "pure"}
+
+### Boolean predicates (is_*, has_*)
+  ensures: result == True/False conditions
+  fibers: case split on what makes it True vs False
+
+### Transformers (modify and return expression)
+  ensures: semantic preservation properties
+  Example: {"ensures": ["isinstance(result, Expr)"], "effect": "pure"}
+
+### Constructors (__init__)
+  ensures: initialization invariants (use self_attr for attributes)
+  Example: {"ensures": ["self_name == name"], "effect": "mutating"}
+
+### Properties (@property)
+  ensures: what the property computes
+  effect: "pure" (properties should not mutate)
+
+### Protocol methods (__add__, __mul__, __eq__)
+  ensures: algebraic laws (commutativity, associativity, identity)
+  Example: {"ensures": ["result == a + b", "isinstance(result, type(a))"], "effect": "pure"}
+
+### Complex control flow (loops, recursion)
+  ensures: high-level intent (what the function computes)
+  fibers: case split on input patterns
+
+### Side-effectful (I/O, mutation, caching)
+  ensures: postconditions on return value
+  effect: "mutating" or "io"
 
 ## Rules
 1. EVERY clause MUST parse as a valid Python expression using ONLY the \
@@ -1187,6 +1412,9 @@ idempotence, bounds, etc.)
 over parameters
 7. If a property cannot be expressed in C4, do NOT include it — only \
 include verifiable clauses
+8. Always include at least one ensures clause
+9. Use quantified predicates (all_of, is_sorted, etc.) for collection specs
+10. Prefer specific bounds/equalities over vague "result != None"
 
 ## Examples
 
@@ -1200,28 +1428,26 @@ Spec: {
 "ensures": ["result == x"]},
     {"name": "negative", "guard": "x < 0", \
 "ensures": ["result == -x"]}
-  ]
+  ],
+  "effect": "pure"
 }
 
-Function: def add(a, b): return a + b
+Function: def __init__(self, name, value=0): self.name = name; self.value = value
 Spec: {
   "requires": [],
-  "ensures": ["result == a + b"],
-  "returns_expr": "a + b",
-  "fibers": []
+  "ensures": ["self_name == name", "self_value == value"],
+  "returns_expr": null,
+  "fibers": [],
+  "effect": "mutating"
 }
 
-Function: def clamp(x, lo, hi): return max(lo, min(x, hi))
+Function: def solve(f, x0): ...  # iterative solver
 Spec: {
-  "requires": ["lo <= hi"],
-  "ensures": ["result >= lo", "result <= hi"],
+  "requires": [],
+  "ensures": ["result != None"],
   "returns_expr": null,
-  "fibers": [
-    {"name": "below", "guard": "x < lo", "ensures": ["result == lo"]},
-    {"name": "above", "guard": "x > hi", "ensures": ["result == hi"]},
-    {"name": "in_range", "guard": "x >= lo and x <= hi", \
-"ensures": ["result == x"]}
-  ]
+  "fibers": [],
+  "effect": "pure"
 }
 
 Output ONLY valid JSON. No markdown fences, no explanation.\
